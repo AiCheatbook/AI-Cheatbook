@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { supabaseAuthClient } from "@/lib/supabase/auth-client";
 
@@ -27,9 +28,52 @@ export default function AdminLayout({
   return (
     <div>
       <div className="flex items-center justify-between border-b border-white/10 bg-neutral-950 px-6 py-3">
-        <span className="text-sm text-neutral-400">
-          AI Cheatbook Admin
-        </span>
+        <div className="flex items-center gap-6">
+          <span className="text-sm text-neutral-400">
+            AI Cheatbook Admin
+          </span>
+
+          <nav className="flex items-center gap-4 text-sm">
+            <Link
+              href="/admin/news"
+              className={
+                pathname.startsWith(
+                  "/admin/news"
+                )
+                  ? "text-orange-400"
+                  : "text-neutral-400 hover:text-white"
+              }
+            >
+              News
+            </Link>
+
+            <Link
+              href="/admin/prompts"
+              className={
+                pathname.startsWith(
+                  "/admin/prompts"
+                )
+                  ? "text-orange-400"
+                  : "text-neutral-400 hover:text-white"
+              }
+            >
+              Prompt Library
+            </Link>
+
+            <Link
+              href="/admin/learning-cards"
+              className={
+                pathname.startsWith(
+                  "/admin/learning-cards"
+                )
+                  ? "text-orange-400"
+                  : "text-neutral-400 hover:text-white"
+              }
+            >
+              Learning Cards
+            </Link>
+          </nav>
+        </div>
 
         <button
           onClick={handleLogout}

@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 :root {
   --font-sans: var(--font-geist-sans);
@@ -14,4 +15,90 @@ body {
 
 body {
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+}
+
+/* Callout boxes (Note/Tip/Warning/Info) */
+
+.callout {
+  border-left-width: 4px;
+  border-radius: 0.75rem;
+  padding: 1rem 1.25rem;
+  margin: 1.5rem 0;
+}
+
+.callout::before {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.callout-note {
+  background: rgba(59, 130, 246, 0.08);
+  border-color: #3b82f6;
+}
+.callout-note::before {
+  content: "📘 Note";
+  color: #60a5fa;
+}
+
+.callout-tip {
+  background: rgba(34, 197, 94, 0.08);
+  border-color: #22c55e;
+}
+.callout-tip::before {
+  content: "💡 Tip";
+  color: #4ade80;
+}
+
+.callout-warning {
+  background: rgba(245, 158, 11, 0.08);
+  border-color: #f59e0b;
+}
+.callout-warning::before {
+  content: "⚠️ Warning";
+  color: #fbbf24;
+}
+
+.callout-info {
+  background: rgba(168, 85, 247, 0.08);
+  border-color: #a855f7;
+}
+.callout-info::before {
+  content: "ℹ️ Info";
+  color: #c084fc;
+}
+
+/* Figure image alignment */
+
+figure.image-align-left {
+  float: left;
+  margin: 0.5rem 1.5rem 1rem 0;
+  max-width: 50%;
+}
+
+figure.image-align-right {
+  float: right;
+  margin: 0.5rem 0 1rem 1.5rem;
+  max-width: 50%;
+}
+
+figure.image-align-center {
+  display: block;
+  margin: 1.5rem auto;
+  text-align: center;
+  max-width: 100%;
+}
+
+figure[data-align] img {
+  border-radius: 0.75rem;
+  max-width: 100%;
+  height: auto;
+}
+
+figure[data-align] figcaption {
+  font-size: 0.875rem;
+  color: #a1a1aa;
+  margin-top: 0.5rem;
+  text-align: center;
 }

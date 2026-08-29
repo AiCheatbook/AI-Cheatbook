@@ -3,8 +3,22 @@
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import SeoPanel from "@/components/cms/SeoPanel";
+import {
+  emptySeoFields,
+  seoFieldsToRow,
+  rowToSeoFields,
+} from "@/lib/cms/seoFields";
+import MediaPicker from "@/components/cms/MediaPicker";
+import ThumbnailPicker from "@/components/cms/ThumbnailPicker";
+import RichTextEditor from "@/components/cms/RichTextEditor";
+import {
+  emptyMediaFields,
+  mediaFieldsToRow,
+  rowToMediaFields,
+} from "@/lib/cms/mediaFields";
 
-import { supabase } from "@/lib/supabase/client";
+import { supabaseAuthClient as supabase } from "@/lib/supabase/auth-client";
 
 type BlockType =
   | "heading"
@@ -32,7 +46,9 @@ type NewsItem = {
   category: string | null;
   author: string | null;
   cover_image_url: string | null;
+  thumbnail_url?: string | null;
   is_published: boolean;
+  content_html?: string | null;
   published_at: string | null;
 };
 
@@ -224,11 +240,24 @@ export default function EditNewsPage() {
   const [author, setAuthor] = useState("");
   const [coverImage, setCoverImage] = useState("");
 
+  const [media, setMedia] = useState(
+    emptyMediaFields()
+  );
+  const [thumbnailUrl, setThumbnailUrl] =
+    useState("");
+
+  const [seo, setSeo] = useState(
+    emptySeoFields()
+  );
+
   const [isPublished, setIsPublished] =
     useState(false);
 
   const [blocks, setBlocks] =
     useState<NewsBlock[]>([]);
+
+  const [contentHtml, setContentHtml] =
+    useState("");
 
   const [loading, setLoading] =
     useState(true);
@@ -270,7 +299,20 @@ export default function EditNewsPage() {
               author,
               cover_image_url,
               is_published,
-              published_at
+              published_at,
+              meta_title,
+              meta_description,
+              meta_keywords,
+              canonical_url,
+              og_title,
+              og_description,
+              og_image_url,
+              image_alt_text,
+              is_indexed,
+              media_source,
+              media_aspect_ratio,
+              thumbnail_url,
+              content_html
             `)
             .eq("id", newsId)
             .single(),
@@ -333,7 +375,29 @@ export default function EditNewsPage() {
         setIsPublished(
           Boolean(newsData.is_published)
         );
+        setSeo(
+          rowToSeoFields(
+            newsData as unknown as Record<
+              string,
+              unknown
+            >
+          )
+        );
+        setMedia(
+          rowToMediaFields(
+            newsData as unknown as Record<
+              string,
+              unknown
+            >
+          )
+        );
+        setThumbnailUrl(
+          newsData.thumbnail_url || ""
+        );
         setBlocks(blockData);
+        setContentHtml(
+          newsData.content_html || ""
+        );
         setError("");
       } catch (err) {
         console.error(
@@ -792,6 +856,11 @@ export default function EditNewsPage() {
           finalPublished,
         published_at:
           finalPublishedAt,
+        ...seoFieldsToRow(seo),
+        ...mediaFieldsToRow(media),
+        thumbnail_url:
+          thumbnailUrl.trim() || null,
+        content_html: contentHtml,
       };
 
       console.log(
@@ -836,111 +905,6 @@ export default function EditNewsPage() {
             }`,
           ].join("\n")
         );
-      }
-
-      /*
-       * STEP 2
-       * DELETE OLD BLOCKS
-       */
-
-      console.log(
-        "STEP 2: Deleting old blocks..."
-      );
-
-      const {
-        error: deleteError,
-      } = await supabase
-        .from("news_blocks")
-        .delete()
-        .eq("news_id", newsId);
-
-      if (deleteError) {
-        console.error(
-          "NEWS BLOCK DELETE ERROR:",
-          deleteError
-        );
-
-        throw new Error(
-          [
-            "NEWS BLOCK DELETE FAILED",
-            `Code: ${
-              deleteError.code ||
-              "unknown"
-            }`,
-            `Message: ${
-              deleteError.message ||
-              "unknown"
-            }`,
-            `Details: ${
-              deleteError.details ||
-              "none"
-            }`,
-            `Hint: ${
-              deleteError.hint ||
-              "none"
-            }`,
-          ].join("\n")
-        );
-      }
-
-      /*
-       * STEP 3
-       * INSERT CURRENT BLOCKS
-       */
-
-      if (blocks.length > 0) {
-        const blockRows =
-          blocks.map(
-            (block, index) => ({
-              news_id: newsId,
-              block_type:
-                block.block_type,
-              content:
-                block.content,
-              sort_order:
-                index + 1,
-            })
-          );
-
-        console.log(
-          "STEP 3: Inserting blocks",
-          blockRows
-        );
-
-        const {
-          error: blocksError,
-        } = await supabase
-          .from("news_blocks")
-          .insert(blockRows);
-
-        if (blocksError) {
-          console.error(
-            "NEWS BLOCK INSERT ERROR:",
-            blocksError
-          );
-
-          throw new Error(
-            [
-              "NEWS BLOCK INSERT FAILED",
-              `Code: ${
-                blocksError.code ||
-                "unknown"
-              }`,
-              `Message: ${
-                blocksError.message ||
-                "unknown"
-              }`,
-              `Details: ${
-                blocksError.details ||
-                "none"
-              }`,
-              `Hint: ${
-                blocksError.hint ||
-                "none"
-              }`,
-            ].join("\n")
-          );
-        }
       }
 
       /*
@@ -1202,489 +1166,57 @@ export default function EditNewsPage() {
             {/* Cover Image */}
 
             <div>
-              <label className="mb-2 block text-sm text-zinc-300">
-                Cover Image URL
-              </label>
+              <MediaPicker
+                label="Cover Image"
+                media={media}
+                onMediaChange={setMedia}
+                url={coverImage}
+                onUrlChange={setCoverImage}
+              />
+            </div>
 
-              <input
-                value={coverImage}
-                onChange={(event) =>
-                  setCoverImage(
-                    event.target.value
-                  )
-                }
-                placeholder="https://..."
-                className="w-full rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3 text-white outline-none transition focus:border-orange-500"
+            <div>
+              <ThumbnailPicker
+                url={thumbnailUrl}
+                onUrlChange={setThumbnailUrl}
               />
             </div>
 
           </div>
         </section>
 
-        {/* Content Blocks */}
+        {/* SEO & Social Media */}
 
         <section className="mt-8">
-          <div className="mb-4">
-            <h2 className="text-xl font-semibold">
-              Content
-            </h2>
-
-            <p className="mt-1 text-sm text-zinc-500">
-              Add and arrange any number of
-              content blocks.
-            </p>
-          </div>
-
-          <div className="space-y-4">
-
-            {blocks.map(
-              (block, index) => (
-                <div
-                  key={block.id}
-                  className="rounded-2xl border border-zinc-800 bg-zinc-950 p-5"
-                >
-
-                  {/* Block Header */}
-
-                  <div className="mb-4 flex items-center justify-between gap-4">
-
-                    <p className="text-sm font-semibold text-orange-500">
-                      {blockLabel(
-                        block.block_type
-                      )}
-                    </p>
-
-                    <div className="flex items-center gap-2">
-
-                      <button
-                        type="button"
-                        onClick={() =>
-                          moveBlock(
-                            index,
-                            "up"
-                          )
-                        }
-                        disabled={
-                          index === 0 ||
-                          saving
-                        }
-                        className="rounded-lg border border-zinc-800 px-3 py-1 text-sm text-zinc-400 transition hover:border-zinc-600 hover:text-white disabled:cursor-not-allowed disabled:opacity-30"
-                      >
-                        ↑
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() =>
-                          moveBlock(
-                            index,
-                            "down"
-                          )
-                        }
-                        disabled={
-                          index ===
-                            blocks.length - 1 ||
-                          saving
-                        }
-                        className="rounded-lg border border-zinc-800 px-3 py-1 text-sm text-zinc-400 transition hover:border-zinc-600 hover:text-white disabled:cursor-not-allowed disabled:opacity-30"
-                      >
-                        ↓
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() =>
-                          removeBlock(
-                            block.id
-                          )
-                        }
-                        disabled={saving}
-                        className="rounded-lg border border-red-900/50 px-3 py-1 text-sm text-red-400 transition hover:bg-red-950/30 disabled:opacity-50"
-                      >
-                        Delete
-                      </button>
-
-                    </div>
-                  </div>
-
-                  {/* Heading */}
-
-                  {block.block_type ===
-                    "heading" && (
-                    <input
-                      value={
-                        typeof block.content
-                          .text === "string"
-                          ? block.content.text
-                          : ""
-                      }
-                      onChange={(event) =>
-                        updateBlockField(
-                          block.id,
-                          "text",
-                          event.target.value
-                        )
-                      }
-                      placeholder="Heading..."
-                      disabled={saving}
-                      className="w-full rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3 text-white outline-none focus:border-orange-500 disabled:opacity-50"
-                    />
-                  )}
-
-                  {/* Paragraph */}
-
-                  {block.block_type ===
-                    "paragraph" && (
-                    <textarea
-                      value={
-                        typeof block.content
-                          .text === "string"
-                          ? block.content.text
-                          : ""
-                      }
-                      onChange={(event) =>
-                        updateBlockField(
-                          block.id,
-                          "text",
-                          event.target.value
-                        )
-                      }
-                      rows={6}
-                      placeholder="Write paragraph..."
-                      disabled={saving}
-                      className="w-full resize-y rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3 text-white outline-none focus:border-orange-500 disabled:opacity-50"
-                    />
-                  )}
-
-                  {/* Bullet / Numbered List */}
-
-                  {(block.block_type ===
-                    "bullets" ||
-                    block.block_type ===
-                      "numbered_list") && (
-                    <div className="space-y-3">
-
-                      {(
-                        Array.isArray(
-                          block.content.items
-                        )
-                          ? block.content.items
-                          : [""]
-                      ).map(
-                        (
-                          item,
-                          itemIndex
-                        ) => (
-                          <div
-                            key={
-                              itemIndex
-                            }
-                            className="flex gap-2"
-                          >
-                            <input
-                              value={
-                                typeof item ===
-                                "string"
-                                  ? item
-                                  : ""
-                              }
-                              onChange={(
-                                event
-                              ) =>
-                                updateListItem(
-                                  block.id,
-                                  itemIndex,
-                                  event.target.value
-                                )
-                              }
-                              disabled={saving}
-                              className="flex-1 rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3 text-white outline-none focus:border-orange-500 disabled:opacity-50"
-                              placeholder={
-                                block.block_type ===
-                                "bullets"
-                                  ? "Bullet item..."
-                                  : "List item..."
-                              }
-                            />
-
-                            <button
-                              type="button"
-                              onClick={() =>
-                                removeListItem(
-                                  block.id,
-                                  itemIndex
-                                )
-                              }
-                              disabled={saving}
-                              className="rounded-xl border border-zinc-800 px-4 text-zinc-500 hover:text-red-400 disabled:opacity-50"
-                            >
-                              ×
-                            </button>
-                          </div>
-                        )
-                      )}
-
-                      <button
-                        type="button"
-                        onClick={() =>
-                          addListItem(
-                            block.id
-                          )
-                        }
-                        disabled={saving}
-                        className="text-sm font-medium text-orange-500 hover:text-orange-400 disabled:opacity-50"
-                      >
-                        + Add item
-                      </button>
-
-                    </div>
-                  )}
-
-                  {/* Image */}
-
-                  {block.block_type ===
-                    "image" && (
-                    <div className="space-y-4">
-
-                      <input
-                        value={
-                          typeof block.content
-                            .url === "string"
-                            ? block.content.url
-                            : ""
-                        }
-                        onChange={(event) =>
-                          updateBlockField(
-                            block.id,
-                            "url",
-                            event.target.value
-                          )
-                        }
-                        disabled={saving}
-                        placeholder="Image URL"
-                        className="w-full rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3 text-white outline-none focus:border-orange-500 disabled:opacity-50"
-                      />
-
-                      <input
-                        value={
-                          typeof block.content
-                            .alt === "string"
-                            ? block.content.alt
-                            : ""
-                        }
-                        onChange={(event) =>
-                          updateBlockField(
-                            block.id,
-                            "alt",
-                            event.target.value
-                          )
-                        }
-                        disabled={saving}
-                        placeholder="Alt text"
-                        className="w-full rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3 text-white outline-none focus:border-orange-500 disabled:opacity-50"
-                      />
-
-                      <input
-                        value={
-                          typeof block.content
-                            .caption === "string"
-                            ? block.content.caption
-                            : ""
-                        }
-                        onChange={(event) =>
-                          updateBlockField(
-                            block.id,
-                            "caption",
-                            event.target.value
-                          )
-                        }
-                        disabled={saving}
-                        placeholder="Caption"
-                        className="w-full rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3 text-white outline-none focus:border-orange-500 disabled:opacity-50"
-                      />
-
-                    </div>
-                  )}
-
-                  {/* Video */}
-
-                  {block.block_type ===
-                    "video" && (
-                    <div className="space-y-4">
-
-                      <input
-                        value={
-                          typeof block.content
-                            .url === "string"
-                            ? block.content.url
-                            : ""
-                        }
-                        onChange={(event) =>
-                          updateBlockField(
-                            block.id,
-                            "url",
-                            event.target.value
-                          )
-                        }
-                        disabled={saving}
-                        placeholder="Video URL"
-                        className="w-full rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3 text-white outline-none focus:border-orange-500 disabled:opacity-50"
-                      />
-
-                      <input
-                        value={
-                          typeof block.content
-                            .caption === "string"
-                            ? block.content.caption
-                            : ""
-                        }
-                        onChange={(event) =>
-                          updateBlockField(
-                            block.id,
-                            "caption",
-                            event.target.value
-                          )
-                        }
-                        disabled={saving}
-                        placeholder="Caption"
-                        className="w-full rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3 text-white outline-none focus:border-orange-500 disabled:opacity-50"
-                      />
-
-                    </div>
-                  )}
-
-                  {/* Quote */}
-
-                  {block.block_type ===
-                    "quote" && (
-                    <div className="space-y-4">
-
-                      <textarea
-                        value={
-                          typeof block.content
-                            .text === "string"
-                            ? block.content.text
-                            : ""
-                        }
-                        onChange={(event) =>
-                          updateBlockField(
-                            block.id,
-                            "text",
-                            event.target.value
-                          )
-                        }
-                        rows={4}
-                        placeholder="Quote..."
-                        disabled={saving}
-                        className="w-full resize-y rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3 text-white outline-none focus:border-orange-500 disabled:opacity-50"
-                      />
-
-                      <input
-                        value={
-                          typeof block.content
-                            .author === "string"
-                            ? block.content.author
-                            : ""
-                        }
-                        onChange={(event) =>
-                          updateBlockField(
-                            block.id,
-                            "author",
-                            event.target.value
-                          )
-                        }
-                        disabled={saving}
-                        placeholder="Quote author"
-                        className="w-full rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3 text-white outline-none focus:border-orange-500 disabled:opacity-50"
-                      />
-
-                    </div>
-                  )}
-
-                  {/* Code */}
-
-                  {block.block_type ===
-                    "code" && (
-                    <textarea
-                      value={
-                        typeof block.content
-                          .code === "string"
-                          ? block.content.code
-                          : ""
-                      }
-                      onChange={(event) =>
-                        updateBlockField(
-                          block.id,
-                          "code",
-                          event.target.value
-                        )
-                      }
-                      rows={8}
-                      placeholder="Code..."
-                      disabled={saving}
-                      className="w-full resize-y rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3 font-mono text-sm text-white outline-none focus:border-orange-500 disabled:opacity-50"
-                    />
-                  )}
-
-                  {/* Divider */}
-
-                  {block.block_type ===
-                    "divider" && (
-                    <div className="py-4">
-                      <div className="h-px bg-zinc-800" />
-                    </div>
-                  )}
-
-                </div>
-              )
-            )}
-
-          </div>
+          <SeoPanel
+            seo={seo}
+            onChange={setSeo}
+            suggestedTitle={title}
+            suggestedDescription={excerpt}
+            suggestedImageUrl={coverImage}
+          />
         </section>
 
-        {/* Add Content Block */}
+        {/* Content */}
 
-        <section className="mt-6 rounded-2xl border border-zinc-800 bg-zinc-950 p-5">
-
-          <h2 className="text-sm font-semibold">
-            Add Content Block
+        <section className="mt-8">
+          <h2 className="text-xl font-semibold">
+            Content
           </h2>
 
-          <p className="mt-1 text-xs text-zinc-500">
-            Add and arrange any number of
-            content blocks.
+          <p className="mt-1 text-sm text-zinc-500">
+            Write your article using the toolbar below — just like a word processor.
           </p>
 
-          <div className="mt-4 flex flex-wrap gap-2">
-
-            {(
-              [
-                "heading",
-                "paragraph",
-                "bullets",
-                "numbered_list",
-                "image",
-                "video",
-                "quote",
-                "divider",
-                "code",
-              ] as BlockType[]
-            ).map((type) => (
-              <button
-                key={type}
-                type="button"
-                onClick={() =>
-                  addBlock(type)
-                }
-                disabled={saving}
-                className="rounded-lg border border-zinc-800 bg-zinc-900 px-3 py-2 text-sm text-zinc-300 transition hover:border-orange-500 hover:text-white disabled:opacity-50"
-              >
-                + {blockLabel(type)}
-              </button>
-            ))}
-
+          <div className="mt-5">
+            <RichTextEditor
+              content={contentHtml}
+              onChange={setContentHtml}
+              placeholder="Start writing your article..."
+            />
           </div>
         </section>
+
 
         {/* Actions */}
 

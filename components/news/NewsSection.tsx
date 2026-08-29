@@ -10,6 +10,8 @@ type NewsItem = {
   slug: string;
   title: string;
   cover_image_url: string | null;
+  media_source: string | null;
+  thumbnail_url: string | null;
   published_at: string | null;
 };
 
@@ -33,6 +35,8 @@ export default function NewsSection() {
               slug,
               title,
               cover_image_url,
+              media_source,
+              thumbnail_url,
               published_at
             `
           )
@@ -159,6 +163,12 @@ export default function NewsSection() {
                       image={
                         item.cover_image_url ||
                         "/news/news1.jpg"
+                      }
+                      mediaSource={
+                        item.media_source
+                      }
+                      thumbnailUrl={
+                        item.thumbnail_url
                       }
                     />
 

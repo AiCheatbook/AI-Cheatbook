@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { resolveThumbnailUrl } from "@/lib/cms/mediaDisplay";
 import Link from "next/link";
 
 import SearchBar from "@/components/search/SearchBar";
@@ -518,9 +519,11 @@ export default async function SearchPage({
                             {item.media_url ? (
 
                               <Image
-                                src={
-                                  item.media_url
-                                }
+                                src={resolveThumbnailUrl(
+                                  item.thumbnail_url,
+                                  item.media_url,
+                                  item.media_source
+                                )}
                                 alt=""
                                 fill
                                 sizes="64px"
@@ -641,9 +644,11 @@ export default async function SearchPage({
                       <div className="relative aspect-4/5 w-full shrink-0 overflow-hidden rounded-xl bg-zinc-900 sm:w-44">
 
                         <Image
-                          src={
-                            selectedItem.media_url
-                          }
+                          src={resolveThumbnailUrl(
+                            selectedItem.thumbnail_url,
+                            selectedItem.media_url,
+                            selectedItem.media_source
+                          )}
                           alt={
                             selectedItem.title
                           }

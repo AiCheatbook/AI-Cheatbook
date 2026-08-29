@@ -1,6 +1,7 @@
 import Hero from "@/components/hero/Hero";
 import TrendingPrompts from "@/components/prompt/TrendingPrompts";
 import CategorySection from "@/components/categories/CategorySection";
+import LearningCardsSection from "@/components/learning-cards/LearningCardsSection";
 import NewsSection from "@/components/news/NewsSection";
 import Footer from "@/components/layout/Footer";
 
@@ -20,6 +21,10 @@ export default function Home() {
         {/* Categories */}
 
         <CategorySection />
+
+        {/* Learning Cards */}
+
+        <LearningCardsSection />
 
         {/* Latest AI News */}
 

@@ -3,7 +3,19 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { supabase } from "@/lib/supabase/client";
+import { supabaseAuthClient as supabase } from "@/lib/supabase/auth-client";
+import SeoPanel from "@/components/cms/SeoPanel";
+import {
+  emptySeoFields,
+  seoFieldsToRow,
+} from "@/lib/cms/seoFields";
+import MediaPicker from "@/components/cms/MediaPicker";
+import ThumbnailPicker from "@/components/cms/ThumbnailPicker";
+import RichTextEditor from "@/components/cms/RichTextEditor";
+import {
+  emptyMediaFields,
+  mediaFieldsToRow,
+} from "@/lib/cms/mediaFields";
 
 type BlockType =
   | "heading"
@@ -122,9 +134,20 @@ export default function CreateNewsPage() {
   const [author, setAuthor] = useState("");
   const [coverImage, setCoverImage] = useState("");
 
+  const [media, setMedia] = useState(
+    emptyMediaFields()
+  );
+  const [thumbnailUrl, setThumbnailUrl] =
+    useState("");
+
+  const [seo, setSeo] = useState(
+    emptySeoFields()
+  );
+
   const [isPublished, setIsPublished] = useState(false);
 
   const [blocks, setBlocks] = useState<NewsBlock[]>([]);
+  const [contentHtml, setContentHtml] = useState("");
 
   const [saving, setSaving] = useState(false);
 
@@ -371,6 +394,11 @@ export default function CreateNewsPage() {
             published_at: publish
               ? new Date().toISOString()
               : null,
+            ...seoFieldsToRow(seo),
+            ...mediaFieldsToRow(media),
+            thumbnail_url:
+              thumbnailUrl.trim() || null,
+            content_html: contentHtml,
           });
 
       if (newsError) {
@@ -392,65 +420,6 @@ export default function CreateNewsPage() {
             }`,
           ].join("\n")
         );
-      }
-
-      /*
-       * =====================================================
-       * CREATE CONTENT BLOCKS
-       * =====================================================
-       */
-
-      if (blocks.length > 0) {
-        const blockRows = blocks.map(
-          (block, index) => ({
-            news_id: newsId,
-            block_type:
-              block.block_type,
-            content:
-              block.content,
-            sort_order:
-              index + 1,
-          })
-        );
-
-        const {
-          error: blocksError,
-        } = await supabase
-          .from("news_blocks")
-          .insert(blockRows);
-
-        if (blocksError) {
-          /*
-           * If blocks fail, try to remove the
-           * news row that was just created.
-           */
-          await supabase
-            .from("news")
-            .delete()
-            .eq("id", newsId);
-
-          throw new Error(
-            [
-              "NEWS BLOCK INSERT FAILED",
-              `Code: ${
-                blocksError.code ||
-                "unknown"
-              }`,
-              `Message: ${
-                blocksError.message ||
-                "Unknown error"
-              }`,
-              `Details: ${
-                blocksError.details ||
-                "none"
-              }`,
-              `Hint: ${
-                blocksError.hint ||
-                "none"
-              }`,
-            ].join("\n")
-          );
-        }
       }
 
       /*
@@ -698,23 +667,20 @@ export default function CreateNewsPage() {
             {/* Cover Image */}
 
             <div>
-
-              <label className="text-sm font-medium text-zinc-300">
-                Cover Image URL
-              </label>
-
-              <input
-                type="text"
-                value={coverImage}
-                onChange={(event) =>
-                  setCoverImage(
-                    event.target.value
-                  )
-                }
-                placeholder="https://..."
-                className="mt-2 h-12 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-4 text-white outline-none transition placeholder:text-zinc-600 focus:border-orange-500"
+              <MediaPicker
+                label="Cover Image"
+                media={media}
+                onMediaChange={setMedia}
+                url={coverImage}
+                onUrlChange={setCoverImage}
               />
+            </div>
 
+            <div>
+              <ThumbnailPicker
+                url={thumbnailUrl}
+                onUrlChange={setThumbnailUrl}
+              />
             </div>
 
           </div>
@@ -722,536 +688,43 @@ export default function CreateNewsPage() {
         </section>
 
         {/* =========================
-            CONTENT BLOCKS
+            SEO & SOCIAL MEDIA
+        ========================= */}
+
+        <section className="mt-8">
+          <SeoPanel
+            seo={seo}
+            onChange={setSeo}
+            suggestedTitle={title}
+            suggestedDescription={excerpt}
+            suggestedImageUrl={coverImage}
+          />
+        </section>
+
+        {/* =========================
+            CONTENT
         ========================= */}
 
         <section className="mt-8">
 
-          <div className="flex items-center justify-between">
+          <h2 className="text-xl font-semibold">
+            Content
+          </h2>
 
-            <div>
+          <p className="mt-1 text-sm text-zinc-500">
+            Write your article using the toolbar below — just like a word processor.
+          </p>
 
-              <h2 className="text-xl font-semibold">
-                Content
-              </h2>
-
-              <p className="mt-1 text-sm text-zinc-500">
-                Add and arrange any number of content blocks.
-              </p>
-
-            </div>
-
-          </div>
-
-          {/* Blocks */}
-
-          <div className="mt-5 space-y-4">
-
-            {blocks.length === 0 && (
-              <div className="rounded-2xl border border-dashed border-zinc-800 bg-zinc-950 p-10 text-center">
-
-                <p className="text-zinc-500">
-                  No content blocks yet.
-                </p>
-
-                <p className="mt-1 text-sm text-zinc-600">
-                  Choose a block below to start writing.
-                </p>
-
-              </div>
-            )}
-
-            {blocks.map(
-              (block, index) => (
-                <div
-                  key={block.id}
-                  className="rounded-2xl border border-zinc-800 bg-zinc-950 p-5"
-                >
-
-                  {/* Block Header */}
-
-                  <div className="flex items-center justify-between gap-4">
-
-                    <span className="text-sm font-semibold text-orange-500">
-                      {blockLabel(
-                        block.block_type
-                      )}
-                    </span>
-
-                    <div className="flex items-center gap-2">
-
-                      <button
-                        type="button"
-                        onClick={() =>
-                          moveBlock(
-                            index,
-                            "up"
-                          )
-                        }
-                        disabled={
-                          index === 0
-                        }
-                        className="rounded-lg border border-zinc-800 px-2.5 py-1.5 text-xs text-zinc-400 transition hover:bg-zinc-800 disabled:cursor-not-allowed disabled:opacity-30"
-                      >
-                        ↑
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() =>
-                          moveBlock(
-                            index,
-                            "down"
-                          )
-                        }
-                        disabled={
-                          index ===
-                          blocks.length - 1
-                        }
-                        className="rounded-lg border border-zinc-800 px-2.5 py-1.5 text-xs text-zinc-400 transition hover:bg-zinc-800 disabled:cursor-not-allowed disabled:opacity-30"
-                      >
-                        ↓
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() =>
-                          removeBlock(
-                            block.id
-                          )
-                        }
-                        className="rounded-lg border border-red-900/50 px-2.5 py-1.5 text-xs text-red-400 transition hover:bg-red-950/30"
-                      >
-                        Delete
-                      </button>
-
-                    </div>
-
-                  </div>
-
-                  {/* Heading */}
-
-                  {block.block_type ===
-                    "heading" && (
-                    <input
-                      type="text"
-                      value={
-                        typeof block.content
-                          .text ===
-                        "string"
-                          ? block.content
-                              .text
-                          : ""
-                      }
-                      onChange={(
-                        event
-                      ) =>
-                        updateBlockField(
-                          block.id,
-                          "text",
-                          event.target
-                            .value
-                        )
-                      }
-                      placeholder="Section heading..."
-                      className="mt-4 h-12 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-4 text-white outline-none focus:border-orange-500"
-                    />
-                  )}
-
-                  {/* Paragraph */}
-
-                  {block.block_type ===
-                    "paragraph" && (
-                    <textarea
-                      value={
-                        typeof block.content
-                          .text ===
-                        "string"
-                          ? block.content
-                              .text
-                          : ""
-                      }
-                      onChange={(
-                        event
-                      ) =>
-                        updateBlockField(
-                          block.id,
-                          "text",
-                          event.target
-                            .value
-                        )
-                      }
-                      rows={5}
-                      placeholder="Write your paragraph..."
-                      className="mt-4 w-full resize-y rounded-xl border border-zinc-800 bg-zinc-900 p-4 leading-7 text-white outline-none focus:border-orange-500"
-                    />
-                  )}
-
-                  {/* Lists */}
-
-                  {(block.block_type ===
-                    "bullets" ||
-                    block.block_type ===
-                      "numbered_list") && (
-                    <div className="mt-4 space-y-3">
-
-                      {(
-                        Array.isArray(
-                          block.content
-                            .items
-                        )
-                          ? block.content
-                              .items
-                          : [""]
-                      ).map(
-                        (
-                          item,
-                          itemIndex
-                        ) => (
-                          <div
-                            key={
-                              itemIndex
-                            }
-                            className="flex gap-2"
-                          >
-
-                            <input
-                              type="text"
-                              value={
-                                typeof item ===
-                                "string"
-                                  ? item
-                                  : ""
-                              }
-                              onChange={(
-                                event
-                              ) =>
-                                updateListItem(
-                                  block.id,
-                                  itemIndex,
-                                  event
-                                    .target
-                                    .value
-                                )
-                              }
-                              placeholder={`List item ${
-                                itemIndex +
-                                1
-                              }`}
-                              className="h-11 flex-1 rounded-xl border border-zinc-800 bg-zinc-900 px-4 text-white outline-none focus:border-orange-500"
-                            />
-
-                            <button
-                              type="button"
-                              onClick={() =>
-                                removeListItem(
-                                  block.id,
-                                  itemIndex
-                                )
-                              }
-                              className="rounded-xl border border-zinc-800 px-3 text-zinc-500 hover:bg-zinc-800 hover:text-red-400"
-                            >
-                              ×
-                            </button>
-
-                          </div>
-                        )
-                      )}
-
-                      <button
-                        type="button"
-                        onClick={() =>
-                          addListItem(
-                            block.id
-                          )
-                        }
-                        className="text-sm font-medium text-orange-500 hover:text-orange-400"
-                      >
-                        + Add item
-                      </button>
-
-                    </div>
-                  )}
-
-                  {/* Image */}
-
-                  {block.block_type ===
-                    "image" && (
-                    <div className="mt-4 space-y-3">
-
-                      <input
-                        type="text"
-                        value={
-                          typeof block.content
-                            .url ===
-                          "string"
-                            ? block.content
-                                .url
-                            : ""
-                        }
-                        onChange={(
-                          event
-                        ) =>
-                          updateBlockField(
-                            block.id,
-                            "url",
-                            event.target
-                              .value
-                          )
-                        }
-                        placeholder="Image URL"
-                        className="h-11 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-4 text-white outline-none focus:border-orange-500"
-                      />
-
-                      <input
-                        type="text"
-                        value={
-                          typeof block.content
-                            .alt ===
-                          "string"
-                            ? block.content
-                                .alt
-                            : ""
-                        }
-                        onChange={(
-                          event
-                        ) =>
-                          updateBlockField(
-                            block.id,
-                            "alt",
-                            event.target
-                              .value
-                          )
-                        }
-                        placeholder="Alt text"
-                        className="h-11 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-4 text-white outline-none focus:border-orange-500"
-                      />
-
-                      <input
-                        type="text"
-                        value={
-                          typeof block.content
-                            .caption ===
-                          "string"
-                            ? block.content
-                                .caption
-                            : ""
-                        }
-                        onChange={(
-                          event
-                        ) =>
-                          updateBlockField(
-                            block.id,
-                            "caption",
-                            event.target
-                              .value
-                          )
-                        }
-                        placeholder="Caption (optional)"
-                        className="h-11 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-4 text-white outline-none focus:border-orange-500"
-                      />
-
-                    </div>
-                  )}
-
-                  {/* Video */}
-
-                  {block.block_type ===
-                    "video" && (
-                    <div className="mt-4 space-y-3">
-
-                      <input
-                        type="text"
-                        value={
-                          typeof block.content
-                            .url ===
-                          "string"
-                            ? block.content
-                                .url
-                            : ""
-                        }
-                        onChange={(
-                          event
-                        ) =>
-                          updateBlockField(
-                            block.id,
-                            "url",
-                            event.target
-                              .value
-                          )
-                        }
-                        placeholder="Video URL"
-                        className="h-11 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-4 text-white outline-none focus:border-orange-500"
-                      />
-
-                      <input
-                        type="text"
-                        value={
-                          typeof block.content
-                            .caption ===
-                          "string"
-                            ? block.content
-                                .caption
-                            : ""
-                        }
-                        onChange={(
-                          event
-                        ) =>
-                          updateBlockField(
-                            block.id,
-                            "caption",
-                            event.target
-                              .value
-                          )
-                        }
-                        placeholder="Caption (optional)"
-                        className="h-11 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-4 text-white outline-none focus:border-orange-500"
-                      />
-
-                    </div>
-                  )}
-
-                  {/* Quote */}
-
-                  {block.block_type ===
-                    "quote" && (
-                    <div className="mt-4 space-y-3">
-
-                      <textarea
-                        value={
-                          typeof block.content
-                            .text ===
-                          "string"
-                            ? block.content
-                                .text
-                            : ""
-                        }
-                        onChange={(
-                          event
-                        ) =>
-                          updateBlockField(
-                            block.id,
-                            "text",
-                            event.target
-                              .value
-                          )
-                        }
-                        rows={3}
-                        placeholder="Quote..."
-                        className="w-full resize-y rounded-xl border border-zinc-800 bg-zinc-900 p-4 text-white outline-none focus:border-orange-500"
-                      />
-
-                      <input
-                        type="text"
-                        value={
-                          typeof block.content
-                            .author ===
-                          "string"
-                            ? block.content
-                                .author
-                            : ""
-                        }
-                        onChange={(
-                          event
-                        ) =>
-                          updateBlockField(
-                            block.id,
-                            "author",
-                            event.target
-                              .value
-                          )
-                        }
-                        placeholder="Author (optional)"
-                        className="h-11 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-4 text-white outline-none focus:border-orange-500"
-                      />
-
-                    </div>
-                  )}
-
-                  {/* Code */}
-
-                  {block.block_type ===
-                    "code" && (
-                    <textarea
-                      value={
-                        typeof block.content
-                          .code ===
-                        "string"
-                          ? block.content
-                              .code
-                          : ""
-                      }
-                      onChange={(
-                        event
-                      ) =>
-                        updateBlockField(
-                          block.id,
-                          "code",
-                          event.target
-                            .value
-                        )
-                      }
-                      rows={8}
-                      placeholder="Paste code here..."
-                      className="mt-4 w-full resize-y rounded-xl border border-zinc-800 bg-zinc-900 p-4 font-mono text-sm text-white outline-none focus:border-orange-500"
-                    />
-                  )}
-
-                  {/* Divider */}
-
-                  {block.block_type ===
-                    "divider" && (
-                    <div className="mt-4 border-t border-zinc-800" />
-                  )}
-
-                </div>
-              )
-            )}
-
-          </div>
-
-          {/* =========================
-              ADD BLOCK
-          ========================= */}
-
-          <div className="mt-6 rounded-2xl border border-zinc-800 bg-zinc-950 p-5">
-
-            <p className="text-sm font-semibold text-zinc-300">
-              Add Content Block
-            </p>
-
-            <div className="mt-4 flex flex-wrap gap-2">
-
-              {(
-                [
-                  "heading",
-                  "paragraph",
-                  "bullets",
-                  "numbered_list",
-                  "image",
-                  "video",
-                  "quote",
-                  "divider",
-                  "code",
-                ] as BlockType[]
-              ).map((type) => (
-                <button
-                  key={type}
-                  type="button"
-                  onClick={() =>
-                    addBlock(type)
-                  }
-                  className="rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-2 text-sm text-zinc-300 transition hover:border-orange-500 hover:bg-zinc-800 hover:text-white"
-                >
-                  + {blockLabel(type)}
-                </button>
-              ))}
-
-            </div>
-
+          <div className="mt-5">
+            <RichTextEditor
+              content={contentHtml}
+              onChange={setContentHtml}
+              placeholder="Start writing your article..."
+            />
           </div>
 
         </section>
+
 
         {/* =========================
             PUBLISH

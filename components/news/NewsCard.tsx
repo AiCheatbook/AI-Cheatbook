@@ -1,22 +1,34 @@
 import Image from "next/image";
+import { resolveThumbnailUrl } from "@/lib/cms/mediaDisplay";
 
 type NewsCardProps = {
   title: string;
   image: string;
+  mediaSource?: string | null;
+  thumbnailUrl?: string | null;
 };
 
 export default function NewsCard({
   title,
   image,
+  mediaSource,
+  thumbnailUrl,
 }: NewsCardProps) {
+  const displayImage =
+    resolveThumbnailUrl(
+      thumbnailUrl,
+      image,
+      mediaSource
+    ) || "/news/news1.jpg";
+
   return (
-    <article className="group flex aspect-[4/5] flex-col overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900 transition duration-300 hover:-translate-y-1 hover:border-orange-500/50">
+    <article className="group flex flex-col overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900 transition duration-300 hover:-translate-y-1 hover:border-orange-500/50">
 
-      {/* Image */}
+      {/* Thumbnail (always 4:5) */}
 
-      <div className="relative aspect-[16/10] shrink-0 overflow-hidden">
+      <div className="relative aspect-[4/5] shrink-0 overflow-hidden">
         <Image
-          src={image}
+          src={displayImage}
           alt={title}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"

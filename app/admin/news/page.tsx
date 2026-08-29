@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabase/client";
+import { supabaseAuthClient as supabase } from "@/lib/supabase/auth-client";
 
 type NewsItem = {
   id: string;

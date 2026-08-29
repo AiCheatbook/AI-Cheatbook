@@ -59,6 +59,13 @@ export default function Navbar() {
           </Link>
 
           <Link
+            href="/learning"
+            className="transition hover:text-orange-500"
+          >
+            Learning
+          </Link>
+
+          <Link
             href="/"
             className="transition hover:text-orange-500"
           >
@@ -135,6 +142,14 @@ export default function Navbar() {
               className="rounded-xl px-4 py-3 text-zinc-300 transition hover:bg-zinc-900 hover:text-orange-500"
             >
               AI News
+            </Link>
+
+            <Link
+              href="/learning"
+              onClick={closeMenu}
+              className="rounded-xl px-4 py-3 text-zinc-300 transition hover:bg-zinc-900 hover:text-orange-500"
+            >
+              Learning
             </Link>
 
             <Link

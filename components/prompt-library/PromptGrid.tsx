@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 
 import { supabase } from "@/lib/supabase/client";
+import { resolveThumbnailUrl } from "@/lib/cms/mediaDisplay";
 
 type LibraryKeyword = {
   id: string;
@@ -28,6 +29,8 @@ type LibraryItem = {
   prompt?: string | null;
   media_type?: string | null;
   media_url?: string | null;
+  media_source?: string | null;
+  thumbnail_url?: string | null;
   ai_tools?: string[] | null;
   author_name?: string | null;
   rating?: number | null;
@@ -563,13 +566,17 @@ function LibraryDetail({
   return (
     <article className="overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900">
 
-      {/* Media */}
+      {/* Thumbnail (always 4:5) */}
 
-      {item.media_url && (
-        <div className="relative aspect-video overflow-hidden bg-black">
+      {(item.thumbnail_url || item.media_url) && (
+        <div className="relative aspect-[4/5] overflow-hidden bg-black">
 
           <Image
-            src={item.media_url}
+            src={resolveThumbnailUrl(
+              item.thumbnail_url,
+              item.media_url,
+              item.media_source
+            )}
             alt={item.title}
             fill
             className="object-cover"

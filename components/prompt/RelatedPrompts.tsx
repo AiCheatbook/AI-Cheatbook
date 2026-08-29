@@ -13,6 +13,8 @@ type RelatedPrompt = {
   description: string;
   media_type: string | null;
   media_url: string | null;
+  media_source: string | null;
+  thumbnail_url: string | null;
   ai_tools: string[];
 };
 
@@ -47,6 +49,8 @@ export default function RelatedPrompts({
             description,
             media_type,
             media_url,
+            media_source,
+            thumbnail_url,
             ai_tools
           `
         )
@@ -79,6 +83,8 @@ export default function RelatedPrompts({
           description: item.description,
           media_type: item.media_type,
           media_url: item.media_url,
+          media_source: item.media_source,
+          thumbnail_url: item.thumbnail_url,
           ai_tools: Array.isArray(item.ai_tools)
             ? item.ai_tools
             : [],
@@ -143,6 +149,8 @@ export default function RelatedPrompts({
               description={prompt.description}
               mediaType={prompt.media_type}
               mediaUrl={prompt.media_url}
+          mediaSource={prompt.media_source}
+          thumbnailUrl={prompt.thumbnail_url}
               aiTools={prompt.ai_tools}
             />
           ))}

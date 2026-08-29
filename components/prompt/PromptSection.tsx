@@ -22,6 +22,8 @@ type TrendingPrompt = {
   description: string;
   media_type: string | null;
   media_url: string | null;
+  media_source: string | null;
+  thumbnail_url: string | null;
   ai_tools: string[];
   keywords: string[];
 };
@@ -48,6 +50,8 @@ export default function PromptSection() {
             description,
             media_type,
             media_url,
+            media_source,
+            thumbnail_url,
             ai_tools,
             library_item_keywords (
               sort_order,
@@ -130,6 +134,8 @@ export default function PromptSection() {
             description: item.description || "",
             media_type: item.media_type,
             media_url: item.media_url,
+            media_source: item.media_source,
+            thumbnail_url: item.thumbnail_url,
             ai_tools: aiTools,
             keywords,
           };
@@ -194,6 +200,8 @@ export default function PromptSection() {
                     description={prompt.description}
                     mediaType={prompt.media_type}
                     mediaUrl={prompt.media_url}
+                    mediaSource={prompt.media_source}
+                    thumbnailUrl={prompt.thumbnail_url}
                     aiTools={prompt.ai_tools}
                     keywords={prompt.keywords}
                   />

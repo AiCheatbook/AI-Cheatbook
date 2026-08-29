@@ -9,6 +9,7 @@ export async function getNewsItems() {
       title,
       excerpt,
       cover_image_url,
+      media_source,
       category,
       author,
       published_at,
@@ -43,10 +44,12 @@ export async function getNewsItem(slug: string) {
       title,
       excerpt,
       cover_image_url,
+      media_source,
       category,
       author,
       published_at,
-      is_published
+      is_published,
+      content_html
     `)
     .eq("slug", slug)
     .eq("is_published", true)

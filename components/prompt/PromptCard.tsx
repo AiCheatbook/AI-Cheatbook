@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { resolveThumbnailUrl } from "@/lib/cms/mediaDisplay";
 
 type PromptCardProps = {
   slug: string;
@@ -11,6 +12,8 @@ type PromptCardProps = {
   description: string;
   mediaType?: string | null;
   mediaUrl?: string | null;
+  mediaSource?: string | null;
+  thumbnailUrl?: string | null;
   aiTools: string[];
   keywords?: string[];
 };
@@ -20,9 +23,18 @@ export default function PromptCard({
   title,
   category,
   mediaUrl,
+  mediaSource,
+  thumbnailUrl,
 }: PromptCardProps) {
+  const resolvedUrl =
+    resolveThumbnailUrl(
+      thumbnailUrl,
+      mediaUrl,
+      mediaSource
+    );
+
   const image =
-    mediaUrl ||
+    resolvedUrl ||
     (slug === "static-shot"
       ? "/concepts/static-shot.jpg"
       : "/prompts/demo.jpg");

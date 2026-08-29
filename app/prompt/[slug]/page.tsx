@@ -1,7 +1,10 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
+import type { Metadata } from "next";
 
 import { getLibraryItem } from "@/lib/supabase/library";
+import RichContentRenderer from "@/components/cms/RichContentRenderer";
+import { buildContentMetadata } from "@/lib/seo/metadata";
 
 import PromptActions from "@/components/prompt/PromptActions";
 import AddKeywordButton from "@/components/prompt/AddKeywordButton";
@@ -42,6 +45,26 @@ function getYouTubeEmbedUrl(url: string) {
   } catch {
     return url;
   }
+}
+
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
+  const { slug } = await params;
+
+  const item = await getLibraryItem(slug);
+
+  if (!item) {
+    return {
+      title: "Prompt not found",
+      robots: { index: false, follow: false },
+    };
+  }
+
+  return buildContentMetadata(
+    item as Record<string, unknown>,
+    `/prompt/${slug}`
+  );
 }
 
 export default async function PromptDetailsPage({
@@ -137,6 +160,14 @@ export default async function PromptDetailsPage({
             <p className="mt-5 max-w-3xl text-lg leading-8 text-zinc-400">
               {item.description}
             </p>
+          )}
+
+          {item.description_html && (
+            <div className="mt-6 max-w-3xl">
+              <RichContentRenderer
+                html={item.description_html}
+              />
+            </div>
           )}
 
         </div>
