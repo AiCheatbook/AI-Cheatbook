@@ -15,6 +15,11 @@ import {
   getYoutubeEmbedUrl,
 } from "@/lib/cms/mediaDisplay";
 import { buildContentMetadata } from "@/lib/seo/metadata";
+import JsonLd from "@/components/seo/JsonLd";
+import {
+  buildArticleSchema,
+  buildBreadcrumbSchema,
+} from "@/lib/seo/structuredData";
 
 type RelatedNews = {
   id: string;
@@ -100,6 +105,24 @@ export default async function NewsDetailPage({
 
   return (
     <main className="min-h-screen bg-black text-white">
+
+      <JsonLd
+        data={[
+          buildArticleSchema(
+            news as Record<string, unknown>,
+            `/news/${slug}`,
+            "Article"
+          ),
+          buildBreadcrumbSchema([
+            { name: "Home", path: "/" },
+            { name: "AI News", path: "/news" },
+            {
+              name: news.title,
+              path: `/news/${slug}`,
+            },
+          ]),
+        ]}
+      />
 
       {/* =================================
           ARTICLE HEADER

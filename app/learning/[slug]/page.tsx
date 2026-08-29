@@ -15,6 +15,11 @@ import {
   getYoutubeEmbedUrl,
 } from "@/lib/cms/mediaDisplay";
 import { buildContentMetadata } from "@/lib/seo/metadata";
+import JsonLd from "@/components/seo/JsonLd";
+import {
+  buildArticleSchema,
+  buildBreadcrumbSchema,
+} from "@/lib/seo/structuredData";
 
 type RelatedLearningCard = {
   id: string;
@@ -94,6 +99,27 @@ export default async function LearningCardDetailPage({
 
   return (
     <main className="min-h-screen bg-black text-white">
+
+      <JsonLd
+        data={[
+          buildArticleSchema(
+            card as Record<string, unknown>,
+            `/learning/${slug}`,
+            "TechArticle"
+          ),
+          buildBreadcrumbSchema([
+            { name: "Home", path: "/" },
+            {
+              name: "Learning Cards",
+              path: "/learning",
+            },
+            {
+              name: card.title,
+              path: `/learning/${slug}`,
+            },
+          ]),
+        ]}
+      />
 
       {/* =================================
           ARTICLE HEADER

@@ -5,6 +5,11 @@ import type { Metadata } from "next";
 import { getLibraryItem } from "@/lib/supabase/library";
 import RichContentRenderer from "@/components/cms/RichContentRenderer";
 import { buildContentMetadata } from "@/lib/seo/metadata";
+import JsonLd from "@/components/seo/JsonLd";
+import {
+  buildCreativeWorkSchema,
+  buildBreadcrumbSchema,
+} from "@/lib/seo/structuredData";
 
 import PromptActions from "@/components/prompt/PromptActions";
 import AddKeywordButton from "@/components/prompt/AddKeywordButton";
@@ -130,6 +135,25 @@ export default async function PromptDetailsPage({
 
   return (
     <main className="min-h-screen bg-black text-white">
+      <JsonLd
+        data={[
+          buildCreativeWorkSchema(
+            item as Record<string, unknown>,
+            `/prompt/${slug}`
+          ),
+          buildBreadcrumbSchema([
+            { name: "Home", path: "/" },
+            {
+              name: "Prompt Library",
+              path: "/search",
+            },
+            {
+              name: item.title,
+              path: `/prompt/${slug}`,
+            },
+          ]),
+        ]}
+      />
       <div className="mx-auto max-w-7xl px-6 py-12 sm:px-8 lg:px-10">
 
         {/* Header */}

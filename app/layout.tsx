@@ -6,6 +6,11 @@ import "./globals.css";
 import Navbar from "@/components/navbar/Navbar";
 import SavedKeywordsWidget from "@/components/generator/SavedKeywordsWidget";
 import { SITE_URL, SITE_NAME } from "@/lib/seo/metadata";
+import JsonLd from "@/components/seo/JsonLd";
+import {
+  buildOrganizationSchema,
+  buildWebSiteSchema,
+} from "@/lib/seo/structuredData";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -63,6 +68,13 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full bg-black font-sans">
+        <JsonLd
+          data={[
+            buildOrganizationSchema(),
+            buildWebSiteSchema(),
+          ]}
+        />
+
         <Navbar />
 
         {children}
