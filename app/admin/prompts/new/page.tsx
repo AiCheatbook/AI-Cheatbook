@@ -202,6 +202,9 @@ export default function NewPromptPage() {
             is_featured: isFeatured,
             is_trending: isTrending,
             is_published: publish,
+            published_at: publish
+              ? new Date().toISOString()
+              : null,
             ...seoFieldsToRow(seo),
             ...mediaFieldsToRow(media),
             thumbnail_url:

@@ -113,6 +113,7 @@ export default function EditPromptPage() {
   const [isFeatured, setIsFeatured] = useState(false);
   const [isTrending, setIsTrending] = useState(false);
   const [isPublished, setIsPublished] = useState(false);
+  const [originalPublishedAt, setOriginalPublishedAt] = useState<string | null>(null);
 
   const [seo, setSeo] = useState(emptySeoFields());
 
@@ -148,6 +149,7 @@ export default function EditPromptPage() {
                 is_featured,
                 is_trending,
                 is_published,
+                published_at,
                 meta_title,
                 meta_description,
                 meta_keywords,
@@ -207,6 +209,10 @@ export default function EditPromptPage() {
         setIsFeatured(Boolean(data.is_featured));
         setIsTrending(Boolean(data.is_trending));
         setIsPublished(Boolean(data.is_published));
+        setOriginalPublishedAt(
+          (data as { published_at?: string | null })
+            .published_at || null
+        );
         setSeo(
           rowToSeoFields(
             data as unknown as Record<string, unknown>
@@ -302,6 +308,10 @@ export default function EditPromptPage() {
           is_featured: isFeatured,
           is_trending: isTrending,
           is_published: publish,
+          published_at: publish
+            ? originalPublishedAt ||
+              new Date().toISOString()
+            : null,
           ...seoFieldsToRow(seo),
           ...mediaFieldsToRow(media),
           thumbnail_url: thumbnailUrl.trim() || null,
@@ -323,6 +333,12 @@ export default function EditPromptPage() {
       await saveLibraryItemKeywords(promptId, keywords);
 
       setIsPublished(publish);
+      setOriginalPublishedAt(
+        publish
+          ? originalPublishedAt ||
+            new Date().toISOString()
+          : null
+      );
       setSlug(cleanSlug);
       setError("");
 
