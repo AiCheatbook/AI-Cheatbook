@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { resolveThumbnailUrl } from "@/lib/cms/mediaDisplay";
 
 export const SITE_NAME = "AI Cheatbook";
 
@@ -36,6 +37,7 @@ type SeoRow = {
   cover_image_url?: string | null;
   thumbnail_url?: string | null;
   media_url?: string | null;
+  media_source?: string | null;
   published_at?: string | null;
   author?: string | null;
 };
@@ -104,9 +106,12 @@ export function buildContentMetadata(
 
   const ogImage = absoluteUrl(
     row.og_image_url?.trim() ||
-      row.cover_image_url ||
-      row.thumbnail_url ||
-      row.media_url
+      resolveThumbnailUrl(
+        row.thumbnail_url,
+        row.cover_image_url ||
+          row.media_url,
+        row.media_source
+      )
   );
 
   const keywords = row.meta_keywords

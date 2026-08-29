@@ -1,4 +1,5 @@
 import { SITE_NAME, SITE_URL } from "./metadata";
+import { resolveThumbnailUrl } from "@/lib/cms/mediaDisplay";
 
 type ArticleRow = {
   title?: string | null;
@@ -9,6 +10,7 @@ type ArticleRow = {
   cover_image_url?: string | null;
   thumbnail_url?: string | null;
   media_url?: string | null;
+  media_source?: string | null;
   og_image_url?: string | null;
   author?: string | null;
   published_at?: string | null;
@@ -57,9 +59,12 @@ export function buildArticleSchema(
 
   const image = absoluteUrl(
     row.og_image_url ||
-      row.cover_image_url ||
-      row.thumbnail_url ||
-      row.media_url
+      resolveThumbnailUrl(
+        row.thumbnail_url,
+        row.cover_image_url ||
+          row.media_url,
+        row.media_source
+      )
   );
 
   const url = `${SITE_URL}${path}`;
@@ -166,8 +171,11 @@ export function buildCreativeWorkSchema(
 
   const image = absoluteUrl(
     row.og_image_url ||
-      row.thumbnail_url ||
-      row.media_url
+      resolveThumbnailUrl(
+        row.thumbnail_url,
+        row.media_url,
+        row.media_source
+      )
   );
 
   return {
