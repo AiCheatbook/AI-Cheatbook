@@ -15,7 +15,14 @@ type NewsItem = {
   published_at: string | null;
 };
 
-export default function NewsSection() {
+type NewsSectionProps = {
+  headingLevel?: "h1" | "h2";
+};
+
+export default function NewsSection({
+  headingLevel = "h2",
+}: NewsSectionProps = {}) {
+  const HeadingTag = headingLevel;
   const [news, setNews] = useState<NewsItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] =
@@ -90,9 +97,9 @@ export default function NewsSection() {
             Stay Updated
           </p>
 
-          <h2 className="text-3xl font-bold leading-tight text-white sm:text-4xl">
+          <HeadingTag className="text-3xl font-bold leading-tight text-white sm:text-4xl">
             📰 Latest AI News
-          </h2>
+          </HeadingTag>
 
           <p className="mt-1 max-w-full overflow-hidden text-ellipsis whitespace-nowrap text-zinc-400">
             Keep up with the latest AI tools, models, features and updates.

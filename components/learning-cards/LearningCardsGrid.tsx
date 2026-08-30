@@ -85,9 +85,9 @@ export default function LearningCardsGrid() {
             Learn AI
           </p>
 
-          <h2 className="text-3xl font-bold leading-tight text-white sm:text-4xl">
+          <h1 className="text-3xl font-bold leading-tight text-white sm:text-4xl">
             📚 Learning Cards
-          </h2>
+          </h1>
 
           <p className="mt-1 text-zinc-400">
             Clear, structured explanations of

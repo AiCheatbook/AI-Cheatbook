@@ -55,7 +55,8 @@ export async function getLearningCardItem(
       author,
       published_at,
       is_published,
-      content_html
+      content_html,
+      related_content
     `)
     .eq("slug", slug)
     .eq("is_published", true)

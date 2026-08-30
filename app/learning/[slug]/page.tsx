@@ -8,6 +8,7 @@ import {
 } from "@/lib/supabase/learningCards";
 import LearningCardBlockRenderer from "@/components/learning-cards/LearningCardBlockRenderer";
 import RichContentRenderer from "@/components/cms/RichContentRenderer";
+import RelatedContentSection from "@/components/cms/RelatedContentSection";
 import ShareButton from "@/components/shared/ShareButton";
 import {
   resolveDisplayImageUrl,
@@ -281,6 +282,12 @@ export default async function LearningCardDetailPage({
 
             </div>
           )}
+
+          <RelatedContentSection
+            items={
+              card.related_content || []
+            }
+          />
 
         </div>
 

@@ -8,6 +8,7 @@ import {
 } from "@/lib/supabase/news";
 import NewsBlockRenderer from "@/components/news/NewsBlockRenderer";
 import RichContentRenderer from "@/components/cms/RichContentRenderer";
+import RelatedContentSection from "@/components/cms/RelatedContentSection";
 import ShareButton from "@/components/shared/ShareButton";
 import {
   resolveDisplayImageUrl,
@@ -284,6 +285,12 @@ export default async function NewsDetailPage({
 
             </div>
           )}
+
+          <RelatedContentSection
+            items={
+              news.related_content || []
+            }
+          />
 
         </div>
 

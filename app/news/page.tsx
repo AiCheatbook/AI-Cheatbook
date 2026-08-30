@@ -11,7 +11,7 @@ export const metadata = buildPageMetadata({
 export default function NewsPage() {
   return (
     <main className="min-h-screen bg-black text-white">
-      <NewsSection />
+      <NewsSection headingLevel="h1" />
     </main>
   );
 }

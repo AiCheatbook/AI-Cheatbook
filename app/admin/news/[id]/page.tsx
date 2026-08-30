@@ -12,6 +12,8 @@ import {
 import MediaPicker from "@/components/cms/MediaPicker";
 import ThumbnailPicker from "@/components/cms/ThumbnailPicker";
 import RichTextEditor from "@/components/cms/RichTextEditor";
+import RelatedContentPicker from "@/components/cms/RelatedContentPicker";
+import type { RelatedContentItem } from "@/lib/cms/relatedContent";
 import {
   emptyMediaFields,
   mediaFieldsToRow,
@@ -258,6 +260,8 @@ export default function EditNewsPage() {
 
   const [contentHtml, setContentHtml] =
     useState("");
+  const [relatedContent, setRelatedContent] =
+    useState<RelatedContentItem[]>([]);
 
   const [loading, setLoading] =
     useState(true);
@@ -312,7 +316,8 @@ export default function EditNewsPage() {
               media_source,
               media_aspect_ratio,
               thumbnail_url,
-              content_html
+              content_html,
+              related_content
             `)
             .eq("id", newsId)
             .single(),
@@ -397,6 +402,10 @@ export default function EditNewsPage() {
         setBlocks(blockData);
         setContentHtml(
           newsData.content_html || ""
+        );
+        setRelatedContent(
+          (newsData as { related_content?: RelatedContentItem[] })
+            .related_content || []
         );
         setError("");
       } catch (err) {
@@ -861,6 +870,7 @@ export default function EditNewsPage() {
         thumbnail_url:
           thumbnailUrl.trim() || null,
         content_html: contentHtml,
+        related_content: relatedContent,
       };
 
       console.log(
@@ -1215,6 +1225,16 @@ export default function EditNewsPage() {
               placeholder="Start writing your article..."
             />
           </div>
+        </section>
+
+        {/* Related Content */}
+
+        <section className="mt-8">
+          <RelatedContentPicker
+            value={relatedContent}
+            onChange={setRelatedContent}
+            excludeId={newsId}
+          />
         </section>
 
 

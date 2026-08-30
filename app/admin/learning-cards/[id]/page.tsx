@@ -12,6 +12,8 @@ import {
 import MediaPicker from "@/components/cms/MediaPicker";
 import ThumbnailPicker from "@/components/cms/ThumbnailPicker";
 import RichTextEditor from "@/components/cms/RichTextEditor";
+import RelatedContentPicker from "@/components/cms/RelatedContentPicker";
+import type { RelatedContentItem } from "@/lib/cms/relatedContent";
 import {
   emptyMediaFields,
   mediaFieldsToRow,
@@ -260,6 +262,8 @@ export default function EditLearningCardPage() {
 
   const [contentHtml, setContentHtml] =
     useState("");
+  const [relatedContent, setRelatedContent] =
+    useState<RelatedContentItem[]>([]);
 
   const [loading, setLoading] =
     useState(true);
@@ -315,7 +319,8 @@ export default function EditLearningCardPage() {
               media_source,
               media_aspect_ratio,
               thumbnail_url,
-              content_html
+              content_html,
+              related_content
             `)
             .eq("id", cardId)
             .single(),
@@ -403,6 +408,10 @@ export default function EditLearningCardPage() {
         setBlocks(blockData);
         setContentHtml(
           cardData.content_html || ""
+        );
+        setRelatedContent(
+          (cardData as { related_content?: RelatedContentItem[] })
+            .related_content || []
         );
         setError("");
       } catch (err) {
@@ -871,6 +880,7 @@ export default function EditLearningCardPage() {
         thumbnail_url:
           thumbnailUrl.trim() || null,
         content_html: contentHtml,
+        related_content: relatedContent,
       };
 
       console.log(
@@ -1244,6 +1254,16 @@ export default function EditLearningCardPage() {
               placeholder="Start writing your learning card..."
             />
           </div>
+        </section>
+
+        {/* Related Content */}
+
+        <section className="mt-8">
+          <RelatedContentPicker
+            value={relatedContent}
+            onChange={setRelatedContent}
+            excludeId={cardId}
+          />
         </section>
 
         {/* Actions */}

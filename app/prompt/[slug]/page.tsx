@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 
 import { getLibraryItem } from "@/lib/supabase/library";
 import RichContentRenderer from "@/components/cms/RichContentRenderer";
+import RelatedContentSection from "@/components/cms/RelatedContentSection";
 import { buildContentMetadata } from "@/lib/seo/metadata";
 import JsonLd from "@/components/seo/JsonLd";
 import {
@@ -508,6 +509,10 @@ export default async function PromptDetailsPage({
 
             </section>
           )}
+
+        <RelatedContentSection
+          items={item.related_content || []}
+        />
 
       </div>
     </main>

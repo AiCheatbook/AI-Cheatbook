@@ -12,6 +12,8 @@ import {
 import MediaPicker from "@/components/cms/MediaPicker";
 import ThumbnailPicker from "@/components/cms/ThumbnailPicker";
 import RichTextEditor from "@/components/cms/RichTextEditor";
+import RelatedContentPicker from "@/components/cms/RelatedContentPicker";
+import type { RelatedContentItem } from "@/lib/cms/relatedContent";
 import {
   emptyMediaFields,
   mediaFieldsToRow,
@@ -149,6 +151,9 @@ export default function CreateLearningCardPage() {
 
   const [blocks, setBlocks] = useState<LearningCardBlock[]>([]);
   const [contentHtml, setContentHtml] = useState("");
+  const [relatedContent, setRelatedContent] = useState<
+    RelatedContentItem[]
+  >([]);
 
   const [saving, setSaving] = useState(false);
 
@@ -404,6 +409,7 @@ export default function CreateLearningCardPage() {
             thumbnail_url:
               thumbnailUrl.trim() || null,
             content_html: contentHtml,
+            related_content: relatedContent,
           });
 
       if (cardError) {
@@ -751,6 +757,17 @@ export default function CreateLearningCardPage() {
             />
           </div>
 
+        </section>
+
+        {/* =========================
+            RELATED CONTENT
+        ========================= */}
+
+        <section className="mt-8">
+          <RelatedContentPicker
+            value={relatedContent}
+            onChange={setRelatedContent}
+          />
         </section>
 
         {/* =========================

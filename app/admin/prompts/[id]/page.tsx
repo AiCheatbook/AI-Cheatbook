@@ -17,6 +17,8 @@ import { saveLibraryItemKeywords } from "@/lib/cms/promptKeywords";
 import MediaPicker from "@/components/cms/MediaPicker";
 import ThumbnailPicker from "@/components/cms/ThumbnailPicker";
 import RichTextEditor from "@/components/cms/RichTextEditor";
+import RelatedContentPicker from "@/components/cms/RelatedContentPicker";
+import type { RelatedContentItem } from "@/lib/cms/relatedContent";
 import {
   emptyMediaFields,
   mediaFieldsToRow,
@@ -102,6 +104,9 @@ export default function EditPromptPage() {
   const [category, setCategory] = useState("video");
   const [description, setDescription] = useState("");
   const [descriptionHtml, setDescriptionHtml] = useState("");
+  const [relatedContent, setRelatedContent] = useState<
+    RelatedContentItem[]
+  >([]);
   const [promptText, setPromptText] = useState("");
   const [mediaUrl, setMediaUrl] = useState("");
   const [media, setMedia] = useState(emptyMediaFields());
@@ -141,6 +146,7 @@ export default function EditPromptPage() {
                 category,
                 description,
                 description_html,
+                related_content,
                 prompt,
                 media_type,
                 media_url,
@@ -201,6 +207,10 @@ export default function EditPromptPage() {
         setDescriptionHtml(
           (data as { description_html?: string | null })
             .description_html || ""
+        );
+        setRelatedContent(
+          (data as { related_content?: RelatedContentItem[] })
+            .related_content || []
         );
         setPromptText(data.prompt || "");
         setMediaUrl(data.media_url || "");
@@ -300,6 +310,7 @@ export default function EditPromptPage() {
           category,
           description: description.trim() || null,
           description_html: descriptionHtml || null,
+          related_content: relatedContent,
           prompt: promptText.trim() || null,
           media_type: deriveLegacyMediaType(media.source),
           media_url: mediaUrl.trim() || null,
@@ -538,6 +549,14 @@ export default function EditPromptPage() {
                   placeholder="Add a longer explanation, examples, or tips for this prompt..."
                 />
               </div>
+            </div>
+
+            <div>
+              <RelatedContentPicker
+                value={relatedContent}
+                onChange={setRelatedContent}
+                excludeId={promptId}
+              />
             </div>
 
             <div>
