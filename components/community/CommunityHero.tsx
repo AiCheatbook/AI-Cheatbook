@@ -81,10 +81,10 @@ export default function CommunityHero({
         </Link>
 
         <Link
-          href="/discussions/new?kind=discussion"
+          href="/community/polls/new"
           className="rounded-xl border border-zinc-700 px-6 py-3 text-sm font-semibold text-white transition hover:bg-zinc-800"
         >
-          Start a Discussion
+          Create a Poll
         </Link>
       </div>
 

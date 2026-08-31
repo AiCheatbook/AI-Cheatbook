@@ -10,20 +10,19 @@ import OTTCard, {
 } from "@/components/community/OTTCard";
 import { trendingScore, isNew } from "@/lib/community/trending";
 
-type ThreadRow = {
+type FeedItem = {
   id: string;
+  kind: CardContentKind;
   title: string;
-  body: string;
+  preview: string;
+  authorName: string;
   category: string;
-  content_kind: CardContentKind;
-  accepted_reply_id: string | null;
-  created_at: string;
-  profiles: {
-    display_name: string | null;
-    email: string | null;
-  } | null;
-  reply_count: { count: number }[];
-  vote_count: { count: number }[];
+  voteCount: number;
+  replyCount: number;
+  createdAt: string;
+  href: string;
+  isAnswered: boolean;
+  score: number;
 };
 
 const CATEGORY_LABELS: Record<
@@ -38,14 +37,16 @@ const CATEGORY_LABELS: Record<
 };
 
 export default function CommunityHubPage() {
-  const [threads, setThreads] = useState<
-    ThreadRow[]
+  const [items, setItems] = useState<
+    FeedItem[]
   >([]);
   const [loading, setLoading] =
     useState(true);
   const [filter, setFilter] =
     useState("all");
   const [memberCount, setMemberCount] =
+    useState(0);
+  const [answerCount, setAnswerCount] =
     useState(0);
 
   useEffect(() => {
@@ -54,6 +55,7 @@ export default function CommunityHubPage() {
 
       const [
         threadsResponse,
+        pollsResponse,
         membersResponse,
       ] = await Promise.all([
         supabase
@@ -67,12 +69,25 @@ export default function CommunityHubPage() {
               content_kind,
               accepted_reply_id,
               created_at,
-              profiles (
-                display_name,
-                email
-              ),
+              profiles ( display_name, email ),
               reply_count:community_replies(count),
               vote_count:community_thread_votes(count)
+            `
+          )
+          .order("created_at", {
+            ascending: false,
+          }),
+        supabase
+          .from("community_polls")
+          .select(
+            `
+              id,
+              question,
+              description,
+              category,
+              created_at,
+              profiles ( display_name, email ),
+              vote_count:community_poll_votes(count)
             `
           )
           .order("created_at", {
@@ -86,9 +101,112 @@ export default function CommunityHubPage() {
           }),
       ]);
 
-      setThreads(
+      const threadItems: FeedItem[] = (
         (threadsResponse.data ||
-          []) as unknown as ThreadRow[]
+          []) as unknown as Array<{
+          id: string;
+          title: string;
+          body: string;
+          category: string;
+          content_kind: CardContentKind;
+          accepted_reply_id: string | null;
+          created_at: string;
+          profiles: {
+            display_name: string | null;
+            email: string | null;
+          } | null;
+          reply_count: { count: number }[];
+          vote_count: { count: number }[];
+        }>
+      ).map((t) => {
+        const voteCount =
+          t.vote_count?.[0]?.count || 0;
+        const replyCount =
+          t.reply_count?.[0]?.count || 0;
+
+        return {
+          id: t.id,
+          kind: t.content_kind,
+          title: t.title,
+          preview: t.body,
+          authorName:
+            t.profiles?.display_name ||
+            t.profiles?.email ||
+            "Community Member",
+          category:
+            CATEGORY_LABELS[
+              t.category
+            ] || t.category,
+          voteCount,
+          replyCount,
+          createdAt: t.created_at,
+          href: `/discussions/${t.id}`,
+          isAnswered: Boolean(
+            t.accepted_reply_id
+          ),
+          score: trendingScore(
+            voteCount,
+            replyCount,
+            t.created_at
+          ),
+        };
+      });
+
+      const pollItems: FeedItem[] = (
+        (pollsResponse.data ||
+          []) as unknown as Array<{
+          id: string;
+          question: string;
+          description: string | null;
+          category: string;
+          created_at: string;
+          profiles: {
+            display_name: string | null;
+            email: string | null;
+          } | null;
+          vote_count: { count: number }[];
+        }>
+      ).map((p) => {
+        const voteCount =
+          p.vote_count?.[0]?.count || 0;
+
+        return {
+          id: p.id,
+          kind: "poll" as const,
+          title: p.question,
+          preview: p.description || "",
+          authorName:
+            p.profiles?.display_name ||
+            p.profiles?.email ||
+            "Community Member",
+          category:
+            CATEGORY_LABELS[
+              p.category
+            ] || p.category,
+          voteCount,
+          replyCount: 0,
+          createdAt: p.created_at,
+          href: `/community/polls/${p.id}`,
+          isAnswered: false,
+          score: trendingScore(
+            voteCount,
+            0,
+            p.created_at
+          ),
+        };
+      });
+
+      const combined = [
+        ...threadItems,
+        ...pollItems,
+      ];
+
+      setItems(combined);
+
+      setAnswerCount(
+        threadItems.filter(
+          (t) => t.isAnswered
+        ).length
       );
 
       setMemberCount(
@@ -101,32 +219,14 @@ export default function CommunityHubPage() {
     load();
   }, []);
 
-  const withStats = useMemo(
+  const filtered = useMemo(
     () =>
-      threads.map((t) => {
-        const voteCount =
-          t.vote_count?.[0]?.count || 0;
-        const replyCount =
-          t.reply_count?.[0]?.count || 0;
-
-        return {
-          ...t,
-          voteCount,
-          replyCount,
-          score: trendingScore(
-            voteCount,
-            replyCount,
-            t.created_at
-          ),
-        };
-      }),
-    [threads]
-  );
-
-  const filtered = withStats.filter(
-    (t) =>
-      filter === "all" ||
-      t.content_kind === filter
+      items.filter(
+        (item) =>
+          filter === "all" ||
+          item.kind === filter
+      ),
+    [items, filter]
   );
 
   const trending = [...filtered]
@@ -136,8 +236,8 @@ export default function CommunityHubPage() {
   const fresh = [...filtered]
     .sort(
       (a, b) =>
-        new Date(b.created_at).getTime() -
-        new Date(a.created_at).getTime()
+        new Date(b.createdAt).getTime() -
+        new Date(a.createdAt).getTime()
     )
     .slice(0, 6);
 
@@ -147,42 +247,25 @@ export default function CommunityHubPage() {
     )
     .slice(0, 6);
 
-  const totalAnswers = threads.filter(
-    (t) => t.accepted_reply_id
-  ).length;
-
-  function renderCard(
-    thread: (typeof withStats)[number]
-  ) {
+  function renderCard(item: FeedItem) {
     return (
       <OTTCard
-        key={thread.id}
-        kind={thread.content_kind}
-        title={thread.title}
-        preview={thread.body}
-        authorName={
-          thread.profiles
-            ?.display_name ||
-          thread.profiles?.email ||
-          "Community Member"
-        }
-        category={
-          CATEGORY_LABELS[
-            thread.category
-          ] || thread.category
-        }
-        voteCount={thread.voteCount}
-        replyCount={thread.replyCount}
-        createdAt={thread.created_at}
-        href={`/discussions/${thread.id}`}
-        isAnswered={Boolean(
-          thread.accepted_reply_id
-        )}
+        key={`${item.kind}-${item.id}`}
+        kind={item.kind}
+        title={item.title}
+        preview={item.preview}
+        authorName={item.authorName}
+        category={item.category}
+        voteCount={item.voteCount}
+        replyCount={item.replyCount}
+        createdAt={item.createdAt}
+        href={item.href}
+        isAnswered={item.isAnswered}
         isTrending={
-          thread.score > 0.5 &&
-          !isNew(thread.created_at)
+          item.score > 0.5 &&
+          !isNew(item.createdAt)
         }
-        isNew={isNew(thread.created_at)}
+        isNew={isNew(item.createdAt)}
       />
     );
   }
@@ -190,13 +273,13 @@ export default function CommunityHubPage() {
   function Section({
     title,
     icon,
-    items,
+    entries,
   }: {
     title: string;
     icon: string;
-    items: typeof trending;
+    entries: FeedItem[];
   }) {
-    if (!loading && items.length === 0) {
+    if (!loading && entries.length === 0) {
       return null;
     }
 
@@ -216,7 +299,7 @@ export default function CommunityHubPage() {
                   className="h-40 animate-pulse rounded-2xl border border-zinc-800 bg-zinc-900"
                 />
               ))
-            : items.map(renderCard)}
+            : entries.map(renderCard)}
         </div>
       </section>
     );
@@ -227,10 +310,8 @@ export default function CommunityHubPage() {
       <div className="mx-auto max-w-5xl">
         <CommunityHero
           memberCount={memberCount}
-          discussionCount={
-            threads.length
-          }
-          answerCount={totalAnswers}
+          discussionCount={items.length}
+          answerCount={answerCount}
         />
 
         <div className="mt-8 flex flex-wrap items-center justify-between gap-4">
@@ -269,19 +350,19 @@ export default function CommunityHubPage() {
         <Section
           title="Trending Now"
           icon="🔥"
-          items={trending}
+          entries={trending}
         />
 
         <Section
           title="Fresh Discussions"
           icon="🆕"
-          items={fresh}
+          entries={fresh}
         />
 
         <Section
           title="Most Valuable"
           icon="⭐"
-          items={mostValuable}
+          entries={mostValuable}
         />
       </div>
     </main>

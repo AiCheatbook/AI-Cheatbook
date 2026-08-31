@@ -12,6 +12,7 @@ const TYPES = [
     value: "discussion",
     label: "Discussions",
   },
+  { value: "poll", label: "Polls" },
   { value: "discovery", label: "Discoveries" },
 ];
 
