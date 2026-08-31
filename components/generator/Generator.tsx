@@ -10,6 +10,7 @@ import {
   canGenerate,
   getUsage,
   recordGeneration,
+  USAGE_LIMITS,
 } from "./usageConfig";
 
 import { getDefaultModel } from "./modelSelector";
@@ -23,6 +24,7 @@ import type {
 import type { UserPlan } from "./modelConfig";
 
 import { supabase } from "@/lib/supabase/client";
+import { supabaseAuthClient } from "@/lib/supabase/auth-client";
 
 const SAVED_KEYWORDS_STORAGE_KEY =
   "ai-cheatbook-saved-keywords";
@@ -47,6 +49,63 @@ export default function Generator() {
 
   const [aiTool, setAITool] =
     useState<AITool>("ChatGPT");
+
+  const [referenceImageMode, setReferenceImageMode] =
+    useState<
+      | "none"
+      | "upload"
+      | "one-later"
+      | "multiple-later"
+    >("none");
+
+  const [referenceImagePreview, setReferenceImagePreview] =
+    useState<string | null>(null);
+
+  const [referenceImageBase64, setReferenceImageBase64] =
+    useState<string | null>(null);
+
+  const [referenceImageMimeType, setReferenceImageMimeType] =
+    useState<string | null>(null);
+
+  function handleReferenceImageFile(
+    event: React.ChangeEvent<HTMLInputElement>
+  ) {
+    const file = event.target.files?.[0];
+
+    if (!file) {
+      return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      const result =
+        reader.result as string;
+
+      // result looks like:
+      // "data:image/png;base64,AAAA..."
+      // — only the part after the comma
+      // is the actual base64 data.
+
+      const base64 = result.split(
+        ","
+      )[1];
+
+      setReferenceImageBase64(base64);
+      setReferenceImageMimeType(
+        file.type
+      );
+      setReferenceImagePreview(result);
+    };
+
+    reader.readAsDataURL(file);
+  }
+
+  function clearReferenceImage() {
+    setReferenceImagePreview(null);
+    setReferenceImageBase64(null);
+    setReferenceImageMimeType(null);
+  }
 
   const [generatorKeywords, setGeneratorKeywords] =
     useState<GeneratorKeyword[]>([]);
@@ -75,9 +134,105 @@ export default function Generator() {
   const [modelName, setModelName] =
     useState("");
 
-  const [usage, setUsage] = useState(() =>
-    getUsage(userPlan)
-  );
+  const [usage, setUsage] = useState(() => ({
+    used: 0,
+    limit: USAGE_LIMITS[userPlan],
+    remaining: USAGE_LIMITS[userPlan],
+  }));
+
+  /*
+   * Registered users have their own,
+   * server-tracked usage (separate from the
+   * localStorage-based anonymous limit
+   * above) — this can't be spoofed by
+   * clearing browser data, since it lives
+   * in their account.
+   */
+
+  const REGISTERED_DAILY_LIMIT = 50;
+
+  const [isLoggedIn, setIsLoggedIn] =
+    useState(false);
+
+  const [registeredUsage, setRegisteredUsage] =
+    useState({
+      used: 0,
+      limit: REGISTERED_DAILY_LIMIT,
+      remaining: REGISTERED_DAILY_LIMIT,
+    });
+
+  async function refreshRegisteredUsage() {
+    const {
+      data: { user },
+    } =
+      await supabaseAuthClient.auth.getUser();
+
+    if (!user) {
+      setIsLoggedIn(false);
+      return;
+    }
+
+    setIsLoggedIn(true);
+
+    const { data } = await supabaseAuthClient
+      .from("profiles")
+      .select(
+        "real_ai_used_today, real_ai_usage_date"
+      )
+      .eq("id", user.id)
+      .single();
+
+    if (!data) {
+      return;
+    }
+
+    const today = new Date()
+      .toISOString()
+      .slice(0, 10);
+
+    const usedToday =
+      data.real_ai_usage_date === today
+        ? data.real_ai_used_today
+        : 0;
+
+    setRegisteredUsage({
+      used: usedToday,
+      limit: REGISTERED_DAILY_LIMIT,
+      remaining: Math.max(
+        0,
+        REGISTERED_DAILY_LIMIT - usedToday
+      ),
+    });
+  }
+
+  useEffect(() => {
+    refreshRegisteredUsage();
+  }, []);
+
+  /*
+   * Real usage lives in localStorage, which
+   * only exists in the browser. Reading it
+   * during the initial render would make the
+   * server and the browser's first render
+   * disagree (a hydration mismatch), so it's
+   * synced in here instead, right after the
+   * page has already loaded.
+   */
+
+  useEffect(() => {
+    setUsage(getUsage(userPlan));
+  }, [userPlan]);
+
+  /*
+   * Whichever usage actually applies to this
+   * visitor right now — their real,
+   * server-tracked account usage if logged
+   * in, or the local anonymous count if not.
+   */
+
+  const displayUsage = isLoggedIn
+    ? registeredUsage
+    : usage;
 
   const currentModel =
     getDefaultModel(userPlan);
@@ -273,7 +428,7 @@ export default function Generator() {
       return;
     }
 
-    if (!canGenerate(userPlan)) {
+    if (!isLoggedIn && !canGenerate(userPlan)) {
       setUsage(getUsage(userPlan));
 
       setGenerationError(
@@ -307,6 +462,17 @@ export default function Generator() {
             ),
             aiTool,
             plan: userPlan,
+            referenceImageMode,
+            referenceImageBase64:
+              referenceImageMode ===
+              "upload"
+                ? referenceImageBase64
+                : undefined,
+            referenceImageMimeType:
+              referenceImageMode ===
+              "upload"
+                ? referenceImageMimeType
+                : undefined,
           }),
         }
       );
@@ -340,10 +506,15 @@ export default function Generator() {
         );
       }
 
-      const updatedUsage =
-        recordGeneration(userPlan);
+      if (isLoggedIn) {
+        refreshRegisteredUsage();
+      } else {
+        const updatedUsage =
+          recordGeneration(userPlan);
 
-      setUsage(updatedUsage);
+        setUsage(updatedUsage);
+      }
+
       setGeneratedPrompt(data.prompt);
       setModelName(data.model || "");
       setGenerationError("");
@@ -444,7 +615,7 @@ export default function Generator() {
             </p>
 
             <p className="mt-1 font-semibold text-white">
-              {usage.used} / {usage.limit}
+              {displayUsage.used} / {displayUsage.limit}
             </p>
           </div>
 
@@ -458,7 +629,7 @@ export default function Generator() {
             </span>
 
             <span className="text-zinc-500">
-              {usage.remaining} remaining
+              {displayUsage.remaining} remaining
             </span>
           </div>
 
@@ -467,11 +638,11 @@ export default function Generator() {
               className="h-full rounded-full bg-orange-500 transition-all"
               style={{
                 width: `${
-                  usage.limit > 0
+                  displayUsage.limit > 0
                     ? Math.min(
                         100,
-                        (usage.used /
-                          usage.limit) *
+                        (displayUsage.used /
+                          displayUsage.limit) *
                           100
                       )
                     : 0
@@ -482,7 +653,7 @@ export default function Generator() {
 
         </div>
 
-        {usage.remaining === 0 && (
+        {displayUsage.remaining === 0 && (
           <div className="mt-5 rounded-xl border border-orange-500/30 bg-orange-500/10 p-4">
             <p className="font-semibold text-orange-400">
               Daily limit reached
@@ -490,7 +661,7 @@ export default function Generator() {
 
             <p className="mt-1 text-sm text-zinc-400">
               Free users can generate{" "}
-              {usage.limit} prompts per day.
+              {displayUsage.limit} prompts per day.
             </p>
           </div>
         )}
@@ -532,6 +703,113 @@ export default function Generator() {
           ))}
 
         </div>
+
+      </section>
+
+      {/* Reference Image */}
+
+      <section className="rounded-2xl border border-zinc-800 bg-zinc-900 p-5">
+
+        <h2 className="text-lg font-semibold text-white">
+          Reference Image{" "}
+          <span className="text-sm font-normal text-zinc-500">
+            (optional)
+          </span>
+        </h2>
+
+        <p className="mt-1 text-sm text-zinc-500">
+          For turning an image into a
+          video prompt.
+        </p>
+
+        <div className="mt-4 flex flex-wrap gap-2">
+          {(
+            [
+              {
+                value: "none",
+                label: "No reference image",
+              },
+              {
+                value: "upload",
+                label: "Upload image now",
+              },
+              {
+                value: "one-later",
+                label:
+                  "1 reference image later",
+              },
+              {
+                value: "multiple-later",
+                label:
+                  "Multiple images later",
+              },
+            ] as const
+          ).map((option) => (
+            <button
+              key={option.value}
+              type="button"
+              onClick={() => {
+                setReferenceImageMode(
+                  option.value
+                );
+
+                if (
+                  option.value !== "upload"
+                ) {
+                  clearReferenceImage();
+                }
+              }}
+              className={`rounded-full border px-4 py-2 text-sm transition ${
+                referenceImageMode ===
+                option.value
+                  ? "border-orange-500 bg-orange-500 text-white"
+                  : "border-zinc-700 bg-black text-zinc-300 hover:border-orange-500 hover:text-orange-400"
+              }`}
+            >
+              {option.label}
+            </button>
+          ))}
+        </div>
+
+        {referenceImageMode ===
+          "upload" && (
+          <div className="mt-4">
+            {referenceImagePreview ? (
+              <div className="flex items-center gap-4">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={
+                    referenceImagePreview
+                  }
+                  alt="Reference"
+                  className="h-24 w-24 rounded-xl object-cover"
+                />
+
+                <button
+                  type="button"
+                  onClick={
+                    clearReferenceImage
+                  }
+                  className="rounded-lg border border-zinc-700 px-3 py-1.5 text-xs text-white hover:bg-zinc-800"
+                >
+                  Remove
+                </button>
+              </div>
+            ) : (
+              <label className="inline-block cursor-pointer rounded-xl border border-dashed border-zinc-700 px-5 py-3 text-sm text-zinc-400 hover:border-orange-500 hover:text-orange-400">
+                Choose an image...
+                <input
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp"
+                  onChange={
+                    handleReferenceImageFile
+                  }
+                  className="sr-only"
+                />
+              </label>
+            )}
+          </div>
+        )}
 
       </section>
 
@@ -705,7 +983,7 @@ export default function Generator() {
           !task.trim() ||
           selectedKeywords.length === 0 ||
           isGenerating ||
-          usage.remaining === 0 ||
+          displayUsage.remaining === 0 ||
           isLoadingKeywords
         }
         loading={isGenerating}
@@ -753,6 +1031,9 @@ export default function Generator() {
         prompt={generatedPrompt}
         loading={isGenerating}
         error={generationError}
+        aiTool={aiTool}
+        task={task}
+        isLoggedIn={isLoggedIn}
       />
 
     </div>

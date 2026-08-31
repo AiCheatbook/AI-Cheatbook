@@ -13,6 +13,8 @@ import type {
   UserPlan,
 } from "./modelConfig";
 
+import { geminiProvider } from "./geminiProvider";
+
 export type AIProviderName =
   | "local"
   | "gemini"
@@ -20,11 +22,71 @@ export type AIProviderName =
   | "claude"
   | "advanced";
 
+export type ReferenceImageMode =
+  | "none"
+  | "upload"
+  | "one-later"
+  | "multiple-later";
+
+export type AttachmentRole =
+  | "character"
+  | "face"
+  | "clothing"
+  | "pose"
+  | "environment"
+  | "product"
+  | "composition"
+  | "style"
+  | "lighting"
+  | "other";
+
+export type ReferenceAttachment = {
+  base64: string;
+  mimeType: string;
+  role: AttachmentRole;
+};
+
+export type PromptStructureSpec = {
+  name: string;
+  fields: string[];
+};
+
 export type AIProviderRequest = {
   task: string;
   keywords: GeneratorKeyword[];
   aiTool: AITool;
   plan: UserPlan;
+
+  /*
+   * Richer, semantic fields used by the
+   * real AI path. inlineKeywords are
+   * things like camera/shot instructions
+   * that describe HOW the subject/action
+   * is captured; globalKeywords are
+   * overall style/mood qualities (Common
+   * Properties). Both are optional and
+   * fall back gracefully if not provided.
+   */
+
+  inlineKeywords?: string[];
+  globalKeywords?: string[];
+  attachments?: ReferenceAttachment[];
+
+  /*
+   * Prompt Structure is a REWRITE pass —
+   * the base prompt is generated first,
+   * then reorganized into these fields.
+   * Only ever applied when isLoggedIn is
+   * true (server-enforced, not trusted
+   * from the request alone).
+   */
+
+  structure?: PromptStructureSpec | null;
+  isLoggedIn?: boolean;
+
+  referenceImageMode?: ReferenceImageMode;
+  referenceImageBase64?: string;
+  referenceImageMimeType?: string;
 };
 
 export type AIProviderResponse = {
@@ -80,13 +142,10 @@ export const localProvider: AIProvider = {
 /*
  * Provider selection layer.
  *
- * Currently both Free and Paid users use
- * the local development provider.
- *
- * Later this can be changed to:
- *
- * Free  → Gemini/OpenAI/etc.
- * Paid  → Advanced AI provider
+ * Free  → Gemini (Google's free tier)
+ * Paid  → Gemini for now too, until a
+ *         dedicated "advanced" provider
+ *         is added later.
  */
 
 export function getAIProvider(
@@ -99,8 +158,8 @@ export function getAIProvider(
      * return advancedProvider;
      */
 
-    return localProvider;
+    return geminiProvider;
   }
 
-  return localProvider;
+  return geminiProvider;
 }

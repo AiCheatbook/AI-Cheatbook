@@ -9,6 +9,7 @@ import {
 import NewsBlockRenderer from "@/components/news/NewsBlockRenderer";
 import RichContentRenderer from "@/components/cms/RichContentRenderer";
 import RelatedContentSection from "@/components/cms/RelatedContentSection";
+import CommentSection from "@/components/comments/CommentSection";
 import ShareButton from "@/components/shared/ShareButton";
 import {
   resolveDisplayImageUrl,
@@ -290,6 +291,11 @@ export default async function NewsDetailPage({
             items={
               news.related_content || []
             }
+          />
+
+          <CommentSection
+            contentType="news"
+            contentId={news.id}
           />
 
         </div>

@@ -1,10 +1,30 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { supabaseAuthClient } from "@/lib/supabase/auth-client";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  useEffect(() => {
+    supabaseAuthClient.auth
+      .getUser()
+      .then(({ data }) =>
+        setLoggedIn(Boolean(data.user))
+      );
+
+    const {
+      data: { subscription },
+    } = supabaseAuthClient.auth.onAuthStateChange(
+      (_event, session) => {
+        setLoggedIn(Boolean(session?.user));
+      }
+    );
+
+    return () => subscription.unsubscribe();
+  }, []);
 
   function closeMenu() {
     setMenuOpen(false);
@@ -66,10 +86,17 @@ export default function Navbar() {
           </Link>
 
           <Link
-            href="/"
+            href="/community"
             className="transition hover:text-orange-500"
           >
             Community
+          </Link>
+
+          <Link
+            href="/discussions"
+            className="transition hover:text-orange-500"
+          >
+            Discussions
           </Link>
 
           <Link
@@ -85,15 +112,15 @@ export default function Navbar() {
 
         <div className="hidden items-center gap-4 md:flex">
 
-          <button
-            type="button"
+          <Link
+            href={loggedIn ? "/account" : "/login"}
             className="text-sm text-zinc-300 transition hover:text-white"
           >
-            Login
-          </button>
+            {loggedIn ? "My Account" : "Login"}
+          </Link>
 
           <Link
-            href="/generator"
+            href="/submit/prompt"
             className="rounded-xl bg-white px-5 py-2 text-sm font-medium text-black transition hover:bg-zinc-200"
           >
             Submit Prompt
@@ -161,7 +188,7 @@ export default function Navbar() {
             </Link>
 
             <Link
-              href="/"
+              href="/community"
               onClick={closeMenu}
               className="rounded-xl px-4 py-3 text-zinc-300 transition hover:bg-zinc-900 hover:text-orange-500"
             >
@@ -169,7 +196,23 @@ export default function Navbar() {
             </Link>
 
             <Link
-              href="/generator"
+              href="/discussions"
+              onClick={closeMenu}
+              className="rounded-xl px-4 py-3 text-zinc-300 transition hover:bg-zinc-900 hover:text-orange-500"
+            >
+              Discussions
+            </Link>
+
+            <Link
+              href={loggedIn ? "/account" : "/login"}
+              onClick={closeMenu}
+              className="rounded-xl px-4 py-3 text-zinc-300 transition hover:bg-zinc-900 hover:text-orange-500"
+            >
+              {loggedIn ? "My Account" : "Login"}
+            </Link>
+
+            <Link
+              href="/submit/prompt"
               onClick={closeMenu}
               className="mt-2 rounded-xl bg-white px-4 py-3 text-center text-sm font-semibold text-black transition hover:bg-zinc-200"
             >

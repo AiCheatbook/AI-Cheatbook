@@ -9,6 +9,7 @@ import {
 import LearningCardBlockRenderer from "@/components/learning-cards/LearningCardBlockRenderer";
 import RichContentRenderer from "@/components/cms/RichContentRenderer";
 import RelatedContentSection from "@/components/cms/RelatedContentSection";
+import CommentSection from "@/components/comments/CommentSection";
 import ShareButton from "@/components/shared/ShareButton";
 import {
   resolveDisplayImageUrl,
@@ -287,6 +288,11 @@ export default async function LearningCardDetailPage({
             items={
               card.related_content || []
             }
+          />
+
+          <CommentSection
+            contentType="learning_card"
+            contentId={card.id}
           />
 
         </div>

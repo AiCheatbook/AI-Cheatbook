@@ -10,7 +10,7 @@ export const USAGE_LIMITS: Record<
   UserPlan,
   number
 > = {
-  free: 5,
+  free: 3,
   paid: 100,
 };
 

@@ -5,6 +5,8 @@ import type { Metadata } from "next";
 import { getLibraryItem } from "@/lib/supabase/library";
 import RichContentRenderer from "@/components/cms/RichContentRenderer";
 import RelatedContentSection from "@/components/cms/RelatedContentSection";
+import CommentSection from "@/components/comments/CommentSection";
+import RatingSection from "@/components/prompt/RatingSection";
 import { buildContentMetadata } from "@/lib/seo/metadata";
 import JsonLd from "@/components/seo/JsonLd";
 import {
@@ -512,6 +514,15 @@ export default async function PromptDetailsPage({
 
         <RelatedContentSection
           items={item.related_content || []}
+        />
+
+        <RatingSection
+          libraryItemId={item.id}
+        />
+
+        <CommentSection
+          contentType="prompt"
+          contentId={item.id}
         />
 
       </div>

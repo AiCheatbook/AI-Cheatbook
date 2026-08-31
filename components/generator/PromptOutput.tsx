@@ -1,19 +1,29 @@
 "use client";
 
 import { useState } from "react";
+import { supabaseAuthClient } from "@/lib/supabase/auth-client";
 
 type PromptOutputProps = {
   prompt?: string;
   loading?: boolean;
   error?: string;
+  aiTool?: string;
+  task?: string;
+  isLoggedIn?: boolean;
 };
 
 export default function PromptOutput({
   prompt = "",
   loading = false,
   error,
+  aiTool,
+  task,
+  isLoggedIn = false,
 }: PromptOutputProps) {
   const [copied, setCopied] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
+  const [saveError, setSaveError] = useState("");
 
   async function handleCopy() {
     if (!prompt || loading) {
@@ -36,6 +46,63 @@ export default function PromptOutput({
     }
   }
 
+  async function handleSave() {
+    if (!prompt || saving) {
+      return;
+    }
+
+    setSaving(true);
+    setSaveError("");
+
+    try {
+      const {
+        data: { user },
+      } =
+        await supabaseAuthClient.auth.getUser();
+
+      if (!user) {
+        setSaveError(
+          "Please log in to save prompts."
+        );
+        return;
+      }
+
+      const title = (
+        task || "Saved prompt"
+      ).slice(0, 80);
+
+      const { error: insertError } =
+        await supabaseAuthClient
+          .from("saved_prompts")
+          .insert({
+            user_id: user.id,
+            title,
+            prompt_text: prompt,
+            ai_tool: aiTool || null,
+          });
+
+      if (insertError) {
+        throw new Error(
+          insertError.message
+        );
+      }
+
+      setSaved(true);
+
+      window.setTimeout(() => {
+        setSaved(false);
+      }, 2000);
+    } catch (err) {
+      setSaveError(
+        err instanceof Error
+          ? err.message
+          : "Failed to save prompt."
+      );
+    } finally {
+      setSaving(false);
+    }
+  }
+
   return (
     <section className="rounded-2xl border border-zinc-800 bg-zinc-900 p-5 sm:p-6">
 
@@ -53,16 +120,39 @@ export default function PromptOutput({
           </p>
         </div>
 
-        <button
-          type="button"
-          onClick={handleCopy}
-          disabled={!prompt || loading}
-          className="rounded-xl border border-zinc-700 px-5 py-2.5 text-sm font-semibold text-white transition hover:border-orange-500 hover:bg-orange-500/10 disabled:cursor-not-allowed disabled:opacity-40"
-        >
-          {copied ? "✓ Copied" : "Copy"}
-        </button>
+        <div className="flex gap-2">
+          {isLoggedIn && (
+            <button
+              type="button"
+              onClick={handleSave}
+              disabled={!prompt || loading || saving}
+              className="rounded-xl border border-zinc-700 px-5 py-2.5 text-sm font-semibold text-white transition hover:border-orange-500 hover:bg-orange-500/10 disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              {saved
+                ? "✓ Saved"
+                : saving
+                  ? "Saving..."
+                  : "Save"}
+            </button>
+          )}
+
+          <button
+            type="button"
+            onClick={handleCopy}
+            disabled={!prompt || loading}
+            className="rounded-xl border border-zinc-700 px-5 py-2.5 text-sm font-semibold text-white transition hover:border-orange-500 hover:bg-orange-500/10 disabled:cursor-not-allowed disabled:opacity-40"
+          >
+            {copied ? "✓ Copied" : "Copy"}
+          </button>
+        </div>
 
       </div>
+
+      {saveError && (
+        <p className="mt-3 text-sm text-red-400">
+          {saveError}
+        </p>
+      )}
 
       {/* Output */}
 

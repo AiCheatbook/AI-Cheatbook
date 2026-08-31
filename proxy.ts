@@ -65,6 +65,18 @@ export async function proxy(
     data: { user },
   } = await supabase.auth.getUser();
 
+  let isAdmin = false;
+
+  if (user) {
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("role")
+      .eq("id", user.id)
+      .single();
+
+    isAdmin = profile?.role === "admin";
+  }
+
   const isLoginPage =
     request.nextUrl.pathname ===
     "/admin/login";
@@ -74,13 +86,23 @@ export async function proxy(
       "/admin"
     );
 
-  if (isAdminRoute && !isLoginPage && !user) {
+  /*
+   * Not an admin (either not logged in at
+   * all, or logged in as a regular
+   * registered user) → send to login.
+   */
+
+  if (
+    isAdminRoute &&
+    !isLoginPage &&
+    !isAdmin
+  ) {
     return NextResponse.redirect(
       new URL("/admin/login", request.url)
     );
   }
 
-  if (isLoginPage && user) {
+  if (isLoginPage && isAdmin) {
     return NextResponse.redirect(
       new URL("/admin/news", request.url)
     );

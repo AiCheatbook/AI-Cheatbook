@@ -13,8 +13,22 @@ body {
   color: #fff;
 }
 
+/* Prompt Composer — inline keyword chips */
+
 body {
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+}
+
+.keyword-chip-inline {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(249, 115, 22, 0.15);
+  color: #fb923c;
+  border-radius: 0.375rem;
+  padding: 0.05rem 0.5rem;
+  font-weight: 600;
+  font-size: 0.95em;
+  user-select: none;
 }
 
 /* Callout boxes (Note/Tip/Warning/Info) */

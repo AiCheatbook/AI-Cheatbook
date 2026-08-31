@@ -72,6 +72,45 @@ export default function AdminLayout({
             >
               Learning Cards
             </Link>
+
+            <Link
+              href="/admin/submissions"
+              className={
+                pathname.startsWith(
+                  "/admin/submissions"
+                )
+                  ? "text-orange-400"
+                  : "text-neutral-400 hover:text-white"
+              }
+            >
+              Submissions
+            </Link>
+
+            <Link
+              href="/admin/keywords"
+              className={
+                pathname.startsWith(
+                  "/admin/keywords"
+                )
+                  ? "text-orange-400"
+                  : "text-neutral-400 hover:text-white"
+              }
+            >
+              Keywords
+            </Link>
+
+            <Link
+              href="/admin/structures"
+              className={
+                pathname.startsWith(
+                  "/admin/structures"
+                )
+                  ? "text-orange-400"
+                  : "text-neutral-400 hover:text-white"
+              }
+            >
+              Structures
+            </Link>
           </nav>
         </div>
 
