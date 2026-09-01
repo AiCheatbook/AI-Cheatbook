@@ -4,12 +4,17 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { supabaseAuthClient } from "@/lib/supabase/auth-client";
+import CommunityLayout from "@/components/community/layout/CommunityLayout";
 
 type ThreadRow = {
   id: string;
   title: string;
   body: string;
   category: string;
+  content_kind:
+    | "question"
+    | "discussion"
+    | "discovery";
   user_id: string;
   accepted_reply_id: string | null;
   created_at: string;
@@ -98,6 +103,7 @@ export default function DiscussionThreadPage() {
             title,
             body,
             category,
+            content_kind,
             user_id,
             accepted_reply_id,
             created_at,
@@ -682,7 +688,7 @@ export default function DiscussionThreadPage() {
   }
 
   return (
-    <main className="min-h-screen bg-black px-6 py-12 text-white">
+    <CommunityLayout>
       <div className="mx-auto max-w-3xl">
         <Link
           href="/discussions"
@@ -692,11 +698,33 @@ export default function DiscussionThreadPage() {
         </Link>
 
         <div className="mt-3 flex items-center gap-2">
+          {thread.content_kind ===
+            "question" && (
+            <span className="rounded-full bg-blue-500/10 px-2.5 py-1 text-xs font-semibold text-blue-400">
+              💡 QUESTION
+            </span>
+          )}
+
+          {thread.content_kind ===
+            "discovery" && (
+            <span className="rounded-full bg-purple-500/10 px-2.5 py-1 text-xs font-semibold text-purple-400">
+              🚀 DISCOVERY
+            </span>
+          )}
+
           {thread.accepted_reply_id && (
             <span className="rounded-full bg-green-500/10 px-2.5 py-1 text-xs text-green-400">
               ✓ Answered
             </span>
           )}
+
+          {thread.content_kind ===
+            "question" &&
+            !thread.accepted_reply_id && (
+              <span className="rounded-full bg-zinc-800 px-2.5 py-1 text-xs text-zinc-400">
+                Unanswered
+              </span>
+            )}
 
           <span className="rounded-full bg-zinc-800 px-2.5 py-1 text-xs text-zinc-400">
             {
@@ -753,9 +781,16 @@ export default function DiscussionThreadPage() {
 
         <h2 className="mt-8 text-lg font-semibold text-white">
           {topLevelReplies.length}{" "}
-          {topLevelReplies.length === 1
-            ? "Reply"
-            : "Replies"}
+          {thread.content_kind ===
+          "question"
+            ? topLevelReplies.length ===
+              1
+              ? "Answer"
+              : "Answers"
+            : topLevelReplies.length ===
+                1
+              ? "Reply"
+              : "Replies"}
         </h2>
 
         {currentUserId ? (
@@ -813,6 +848,6 @@ export default function DiscussionThreadPage() {
           </div>
         )}
       </div>
-    </main>
+    </CommunityLayout>
   );
 }
