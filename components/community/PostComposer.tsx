@@ -4,7 +4,12 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabaseAuthClient } from "@/lib/supabase/auth-client";
 
-type PostType = "question" | "discussion";
+type PostType =
+  | "question"
+  | "discussion"
+  | "prompt"
+  | "learning"
+  | "resource";
 
 const CATEGORIES = [
   { value: "general", label: "General" },
@@ -29,6 +34,9 @@ export default function PostComposer({
     useState<PostType>("discussion");
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
+  const [aiTool, setAiTool] = useState("");
+  const [resourceUrl, setResourceUrl] =
+    useState("");
   const [category, setCategory] =
     useState("general");
   const [submitting, setSubmitting] =
@@ -44,6 +52,16 @@ export default function PostComposer({
     if (!title.trim() || !body.trim()) {
       setError(
         "Title and details are both required."
+      );
+      return;
+    }
+
+    if (
+      postType === "resource" &&
+      !resourceUrl.trim()
+    ) {
+      setError(
+        "Please add a link for this resource."
       );
       return;
     }
@@ -87,6 +105,16 @@ export default function PostComposer({
           body: body.trim(),
           category,
           content_kind: postType,
+          ai_tool:
+            postType === "prompt" &&
+            aiTool.trim()
+              ? aiTool.trim()
+              : null,
+          resource_url:
+            postType === "resource" &&
+            resourceUrl.trim()
+              ? resourceUrl.trim()
+              : null,
         })
         .select("id")
         .single();
@@ -158,36 +186,49 @@ export default function PostComposer({
           onSubmit={handleSubmit}
           className="mt-4"
         >
-          <div className="flex gap-2">
-            <button
-              type="button"
-              onClick={() =>
-                setPostType(
-                  "discussion"
-                )
-              }
-              className={`flex-1 rounded-xl border px-3 py-2 text-sm transition ${
-                postType === "discussion"
-                  ? "border-orange-500 bg-orange-500 text-white"
-                  : "border-zinc-700 text-zinc-400"
-              }`}
-            >
-              💬 Discussion
-            </button>
-
-            <button
-              type="button"
-              onClick={() =>
-                setPostType("question")
-              }
-              className={`flex-1 rounded-xl border px-3 py-2 text-sm transition ${
-                postType === "question"
-                  ? "border-orange-500 bg-orange-500 text-white"
-                  : "border-zinc-700 text-zinc-400"
-              }`}
-            >
-              💡 Question
-            </button>
+          <div className="grid grid-cols-3 gap-2 sm:grid-cols-5">
+            {(
+              [
+                {
+                  value: "discussion",
+                  label: "💬 Discussion",
+                },
+                {
+                  value: "question",
+                  label: "💡 Question",
+                },
+                {
+                  value: "prompt",
+                  label: "✨ Prompt",
+                },
+                {
+                  value: "learning",
+                  label: "📘 Learning",
+                },
+                {
+                  value: "resource",
+                  label: "🔗 Resource",
+                },
+              ] as const
+            ).map((option) => (
+              <button
+                key={option.value}
+                type="button"
+                onClick={() =>
+                  setPostType(
+                    option.value
+                  )
+                }
+                className={`rounded-xl border px-2 py-2 text-xs transition ${
+                  postType ===
+                  option.value
+                    ? "border-orange-500 bg-orange-500 text-white"
+                    : "border-zinc-700 text-zinc-400"
+                }`}
+              >
+                {option.label}
+              </button>
+            ))}
           </div>
 
           <div className="mt-4 flex flex-wrap gap-2">
@@ -217,10 +258,44 @@ export default function PostComposer({
             placeholder={
               postType === "question"
                 ? "What's your question?"
-                : "What do you want to talk about?"
+                : postType === "prompt"
+                  ? "Name your prompt"
+                  : postType ===
+                      "resource"
+                    ? "What is this resource?"
+                    : postType ===
+                        "learning"
+                      ? "What are you explaining?"
+                      : "What do you want to talk about?"
             }
             className="mt-4 w-full rounded-xl border border-zinc-800 bg-black px-4 py-3 text-white outline-none focus:border-orange-500"
           />
+
+          {postType === "prompt" && (
+            <input
+              value={aiTool}
+              onChange={(e) =>
+                setAiTool(
+                  e.target.value
+                )
+              }
+              placeholder="Which AI tool is this for? (e.g. Midjourney, Veo)"
+              className="mt-3 w-full rounded-xl border border-zinc-800 bg-black px-4 py-3 text-white outline-none focus:border-orange-500"
+            />
+          )}
+
+          {postType === "resource" && (
+            <input
+              value={resourceUrl}
+              onChange={(e) =>
+                setResourceUrl(
+                  e.target.value
+                )
+              }
+              placeholder="Link to the article, video, or tool"
+              className="mt-3 w-full rounded-xl border border-zinc-800 bg-black px-4 py-3 text-white outline-none focus:border-orange-500"
+            />
+          )}
 
           <textarea
             value={body}
@@ -228,7 +303,14 @@ export default function PostComposer({
               setBody(e.target.value)
             }
             rows={6}
-            placeholder="Add details..."
+            placeholder={
+              postType === "prompt"
+                ? "Paste the full prompt text..."
+                : postType ===
+                    "resource"
+                  ? "What's useful about it?"
+                  : "Add details..."
+            }
             className="mt-3 w-full rounded-xl border border-zinc-800 bg-black px-4 py-3 text-white outline-none focus:border-orange-500"
           />
 

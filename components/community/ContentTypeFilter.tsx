@@ -13,6 +13,15 @@ const TYPES = [
     label: "Discussions",
   },
   { value: "poll", label: "Polls" },
+  { value: "prompt", label: "Prompts" },
+  {
+    value: "learning",
+    label: "Learning",
+  },
+  {
+    value: "resource",
+    label: "Resources",
+  },
   { value: "discovery", label: "Discoveries" },
 ];
 

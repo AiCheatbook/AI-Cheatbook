@@ -10,6 +10,9 @@ import ContentTypeFilter from "@/components/community/ContentTypeFilter";
 import DiscussionCard from "@/components/community/cards/DiscussionCard";
 import QuestionCard from "@/components/community/cards/QuestionCard";
 import PollCard from "@/components/community/cards/PollCard";
+import PromptPostCard from "@/components/community/cards/PromptPostCard";
+import LearningPostCard from "@/components/community/cards/LearningPostCard";
+import ResourcePostCard from "@/components/community/cards/ResourcePostCard";
 import PostComposer from "@/components/community/PostComposer";
 import { trendingScore } from "@/lib/community/trending";
 
@@ -17,7 +20,10 @@ type ContentKind =
   | "question"
   | "discussion"
   | "discovery"
-  | "poll";
+  | "poll"
+  | "prompt"
+  | "learning"
+  | "resource";
 
 type FeedItem = {
   id: string;
@@ -31,6 +37,8 @@ type FeedItem = {
   createdAt: string;
   isAnswered: boolean;
   score: number;
+  aiTool: string | null;
+  resourceUrl: string | null;
 };
 
 const CATEGORY_LABELS: Record<
@@ -98,6 +106,8 @@ export default function CommunityHubPage() {
             category,
             content_kind,
             accepted_reply_id,
+            ai_tool,
+            resource_url,
             created_at,
             profiles ( display_name, email )
           `
@@ -218,6 +228,8 @@ export default function CommunityHubPage() {
         category: string;
         content_kind: ContentKind;
         accepted_reply_id: string | null;
+        ai_tool: string | null;
+        resource_url: string | null;
         created_at: string;
         profiles: {
           display_name: string | null;
@@ -248,6 +260,8 @@ export default function CommunityHubPage() {
         isAnswered: Boolean(
           t.accepted_reply_id
         ),
+        aiTool: t.ai_tool,
+        resourceUrl: t.resource_url,
         score: trendingScore(
           voteCount,
           replyCount,
@@ -289,6 +303,8 @@ export default function CommunityHubPage() {
         replyCount: 0,
         createdAt: p.created_at,
         isAnswered: false,
+        aiTool: null,
+        resourceUrl: null,
         score: trendingScore(
           voteCount,
           0,
@@ -372,6 +388,55 @@ export default function CommunityHubPage() {
           voteCount={item.voteCount}
           createdAt={item.createdAt}
           isAnswered={item.isAnswered}
+        />
+      );
+    }
+
+    if (item.kind === "prompt") {
+      return (
+        <PromptPostCard
+          key={`prompt-${item.id}`}
+          id={item.id}
+          title={item.title}
+          promptText={item.preview}
+          authorName={item.authorName}
+          category={item.category}
+          aiTool={item.aiTool}
+          voteCount={item.voteCount}
+          replyCount={item.replyCount}
+          createdAt={item.createdAt}
+        />
+      );
+    }
+
+    if (item.kind === "learning") {
+      return (
+        <LearningPostCard
+          key={`learning-${item.id}`}
+          id={item.id}
+          title={item.title}
+          preview={item.preview}
+          authorName={item.authorName}
+          category={item.category}
+          replyCount={item.replyCount}
+          voteCount={item.voteCount}
+          createdAt={item.createdAt}
+        />
+      );
+    }
+
+    if (item.kind === "resource") {
+      return (
+        <ResourcePostCard
+          key={`resource-${item.id}`}
+          id={item.id}
+          title={item.title}
+          preview={item.preview}
+          authorName={item.authorName}
+          category={item.category}
+          resourceUrl={item.resourceUrl}
+          voteCount={item.voteCount}
+          replyCount={item.replyCount}
         />
       );
     }

@@ -1,0 +1,74 @@
+import Link from "next/link";
+
+type ResourcePostCardProps = {
+  id: string;
+  title: string;
+  preview: string;
+  authorName: string;
+  category: string;
+  resourceUrl: string | null;
+  voteCount: number;
+  replyCount: number;
+};
+
+function getDomain(url: string): string {
+  try {
+    return new URL(url).hostname.replace(
+      "www.",
+      ""
+    );
+  } catch {
+    return url;
+  }
+}
+
+export default function ResourcePostCard({
+  id,
+  title,
+  preview,
+  authorName,
+  category,
+  resourceUrl,
+  voteCount,
+  replyCount,
+}: ResourcePostCardProps) {
+  return (
+    <Link
+      href={`/discussions/${id}`}
+      className="block rounded-2xl border border-indigo-500/30 bg-zinc-900 p-5 transition hover:border-indigo-500/60"
+    >
+      <div className="flex items-center gap-2">
+        <span className="rounded-full bg-indigo-500/10 px-2.5 py-1 text-xs font-semibold text-indigo-400">
+          🔗 RESOURCE
+        </span>
+
+        {resourceUrl && (
+          <span className="text-xs text-zinc-500">
+            {getDomain(resourceUrl)}
+          </span>
+        )}
+      </div>
+
+      <h3 className="mt-2.5 text-lg font-semibold text-white">
+        {title}
+      </h3>
+
+      {preview && (
+        <p className="mt-1 line-clamp-2 text-sm text-zinc-400">
+          {preview}
+        </p>
+      )}
+
+      <div className="mt-3 flex items-center justify-between text-xs text-zinc-500">
+        <span>
+          Shared by {authorName} ·{" "}
+          {category}
+        </span>
+        <span>
+          ▲ {voteCount} · 💬{" "}
+          {replyCount}
+        </span>
+      </div>
+    </Link>
+  );
+}
