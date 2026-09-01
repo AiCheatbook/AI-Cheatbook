@@ -1,4 +1,5 @@
 import Link from "next/link";
+import SaveToNotebookButton from "@/components/notebook/SaveToNotebookButton";
 
 type DiscussionCardProps = {
   id: string;
@@ -71,11 +72,17 @@ export default function DiscussionCard({
         </p>
       )}
 
-      <div className="mt-3 flex items-center gap-4 text-xs text-zinc-500">
-        <span>▲ {voteCount} Helpful</span>
+      <div className="mt-3 flex items-center justify-between text-xs text-zinc-500">
         <span>
-          💬 {replyCount} Comments
+          ▲ {voteCount} Helpful · 💬{" "}
+          {replyCount} Comments
         </span>
+
+        <SaveToNotebookButton
+          contentType="community_thread"
+          contentId={id}
+          title={title}
+        />
       </div>
     </Link>
   );

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import SaveToNotebookButton from "@/components/notebook/SaveToNotebookButton";
 
 type PromptPostCardProps = {
   id: string;
@@ -95,15 +96,24 @@ export default function PromptPostCard({
       </p>
 
       <div className="mt-3 flex items-center justify-between">
-        <button
-          type="button"
-          onClick={handleCopy}
-          className="rounded-full border border-amber-500/40 px-3 py-1.5 text-xs font-semibold text-amber-400 transition hover:bg-amber-500/10"
-        >
-          {copied
-            ? "✓ Copied"
-            : "Copy Prompt"}
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={handleCopy}
+            className="rounded-full border border-amber-500/40 px-3 py-1.5 text-xs font-semibold text-amber-400 transition hover:bg-amber-500/10"
+          >
+            {copied
+              ? "✓ Copied"
+              : "Copy Prompt"}
+          </button>
+
+          <SaveToNotebookButton
+            contentType="community_thread"
+            contentId={id}
+            title={title}
+            compact
+          />
+        </div>
 
         <span className="text-xs text-zinc-500">
           {authorName} ·{" "}

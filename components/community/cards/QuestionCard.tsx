@@ -1,4 +1,5 @@
 import Link from "next/link";
+import SaveToNotebookButton from "@/components/notebook/SaveToNotebookButton";
 
 type QuestionCardProps = {
   id: string;
@@ -98,6 +99,13 @@ export default function QuestionCard({
               ? "answer"
               : "answers"}
           </span>
+
+          <SaveToNotebookButton
+            contentType="community_thread"
+            contentId={id}
+            title={title}
+            compact
+          />
         </span>
       </div>
     </Link>

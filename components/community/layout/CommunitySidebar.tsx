@@ -34,6 +34,10 @@ const NAV_SECTIONS = [
     label: "My Community",
     items: [
       {
+        href: "/notebook",
+        label: "Notebook",
+      },
+      {
         href: "/community?filter=mine",
         label: "My Posts",
       },
