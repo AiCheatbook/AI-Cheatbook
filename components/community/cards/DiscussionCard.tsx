@@ -1,5 +1,6 @@
 import Link from "next/link";
 import SaveToNotebookButton from "@/components/notebook/SaveToNotebookButton";
+import ReportButton from "@/components/moderation/ReportButton";
 
 type DiscussionCardProps = {
   id: string;
@@ -78,11 +79,18 @@ export default function DiscussionCard({
           {replyCount} Comments
         </span>
 
-        <SaveToNotebookButton
-          contentType="community_thread"
-          contentId={id}
-          title={title}
-        />
+        <div className="flex items-center gap-3">
+          <SaveToNotebookButton
+            contentType="community_thread"
+            contentId={id}
+            title={title}
+          />
+
+          <ReportButton
+            contentType="community_thread"
+            contentId={id}
+          />
+        </div>
       </div>
     </Link>
   );

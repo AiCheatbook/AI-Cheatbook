@@ -71,6 +71,7 @@ export default function DiscussionsPage() {
             vote_count:community_thread_votes(count)
           `
         )
+        .eq("is_hidden", false)
         .order("created_at", {
           ascending: false,
         });

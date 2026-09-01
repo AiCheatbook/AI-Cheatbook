@@ -112,6 +112,7 @@ export default function CommunityHubPage() {
             profiles ( display_name, email )
           `
         )
+        .eq("is_hidden", false)
         .order("created_at", {
           ascending: false,
         }),
@@ -127,6 +128,7 @@ export default function CommunityHubPage() {
             profiles ( display_name, email )
           `
         )
+        .eq("is_hidden", false)
         .order("created_at", {
           ascending: false,
         }),
