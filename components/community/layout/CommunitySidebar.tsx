@@ -9,6 +9,10 @@ const NAV_SECTIONS = [
     items: [
       { href: "/community", label: "Home" },
       {
+        href: "/community/search",
+        label: "Search",
+      },
+      {
         href: "/community?filter=trending",
         label: "Trending",
       },
