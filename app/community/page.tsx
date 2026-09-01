@@ -64,9 +64,28 @@ export default function CommunityHubPage() {
   async function loadFeed() {
     setLoading(true);
 
+    /*
+     * Fetch threads/polls without
+     * embedded nested-count syntax —
+     * that pattern failed silently in
+     * production (likely an RLS
+     * interaction on the embedded
+     * sub-select), so counts are now
+     * fetched as flat lists and tallied
+     * client-side instead, matching the
+     * pattern already proven to work on
+     * the thread detail page. Every
+     * query's error is now explicitly
+     * checked and logged instead of
+     * being silently swallowed.
+     */
+
     const [
       threadsResponse,
       pollsResponse,
+      threadVotesResponse,
+      repliesResponse,
+      pollVotesResponse,
       membersResponse,
     ] = await Promise.all([
       supabase
@@ -80,9 +99,7 @@ export default function CommunityHubPage() {
             content_kind,
             accepted_reply_id,
             created_at,
-            profiles ( display_name, email ),
-            reply_count:community_replies(count),
-            vote_count:community_thread_votes(count)
+            profiles ( display_name, email )
           `
         )
         .order("created_at", {
@@ -97,13 +114,21 @@ export default function CommunityHubPage() {
             description,
             category,
             created_at,
-            profiles ( display_name, email ),
-            vote_count:community_poll_votes(count)
+            profiles ( display_name, email )
           `
         )
         .order("created_at", {
           ascending: false,
         }),
+      supabase
+        .from("community_thread_votes")
+        .select("thread_id"),
+      supabase
+        .from("community_replies")
+        .select("thread_id"),
+      supabase
+        .from("community_poll_votes")
+        .select("poll_id"),
       supabase
         .from("profiles")
         .select("id", {
@@ -111,6 +136,78 @@ export default function CommunityHubPage() {
           head: true,
         }),
     ]);
+
+    if (threadsResponse.error) {
+      console.error(
+        "Failed to load community threads:",
+        threadsResponse.error.message
+      );
+    }
+
+    if (pollsResponse.error) {
+      console.error(
+        "Failed to load community polls:",
+        pollsResponse.error.message
+      );
+    }
+
+    if (threadVotesResponse.error) {
+      console.error(
+        "Failed to load thread votes:",
+        threadVotesResponse.error.message
+      );
+    }
+
+    if (repliesResponse.error) {
+      console.error(
+        "Failed to load replies:",
+        repliesResponse.error.message
+      );
+    }
+
+    if (pollVotesResponse.error) {
+      console.error(
+        "Failed to load poll votes:",
+        pollVotesResponse.error.message
+      );
+    }
+
+    const threadVoteCounts: Record<
+      string,
+      number
+    > = {};
+
+    for (const row of threadVotesResponse.data ||
+      []) {
+      threadVoteCounts[row.thread_id] =
+        (threadVoteCounts[
+          row.thread_id
+        ] || 0) + 1;
+    }
+
+    const replyCounts: Record<
+      string,
+      number
+    > = {};
+
+    for (const row of repliesResponse.data ||
+      []) {
+      replyCounts[row.thread_id] =
+        (replyCounts[row.thread_id] ||
+          0) + 1;
+    }
+
+    const pollVoteCounts: Record<
+      string,
+      number
+    > = {};
+
+    for (const row of pollVotesResponse.data ||
+      []) {
+      pollVoteCounts[row.poll_id] =
+        (pollVoteCounts[row.poll_id] ||
+          0) + 1;
+    }
 
     const threadItems: FeedItem[] = (
       (threadsResponse.data ||
@@ -126,14 +223,12 @@ export default function CommunityHubPage() {
           display_name: string | null;
           email: string | null;
         } | null;
-        reply_count: { count: number }[];
-        vote_count: { count: number }[];
       }>
     ).map((t) => {
       const voteCount =
-        t.vote_count?.[0]?.count || 0;
+        threadVoteCounts[t.id] || 0;
       const replyCount =
-        t.reply_count?.[0]?.count || 0;
+        replyCounts[t.id] || 0;
 
       return {
         id: t.id,
@@ -173,11 +268,10 @@ export default function CommunityHubPage() {
           display_name: string | null;
           email: string | null;
         } | null;
-        vote_count: { count: number }[];
       }>
     ).map((p) => {
       const voteCount =
-        p.vote_count?.[0]?.count || 0;
+        pollVoteCounts[p.id] || 0;
 
       return {
         id: p.id,

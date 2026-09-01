@@ -82,12 +82,20 @@ async function getOrCreateUser(persona) {
   // Check if a user with this email
   // already exists (safe to re-run).
 
-  const { data: existing } =
-    await supabase
-      .from("profiles")
-      .select("id")
-      .eq("email", persona.email)
-      .maybeSingle();
+  const {
+    data: existing,
+    error: lookupError,
+  } = await supabase
+    .from("profiles")
+    .select("id")
+    .eq("email", persona.email)
+    .maybeSingle();
+
+  if (lookupError) {
+    console.warn(
+      `Warning: couldn't check for an existing profile for ${persona.name} (${lookupError.message}). Will try to create the account; if it already exists, falling back to looking it up directly.`
+    );
+  }
 
   if (existing) {
     console.log(
@@ -109,6 +117,44 @@ async function getOrCreateUser(persona) {
     });
 
   if (error) {
+    // If the account already exists
+    // (e.g. the earlier profiles lookup
+    // failed silently due to a
+    // permissions issue), fall back to
+    // finding it directly instead of
+    // hard-failing the whole script.
+
+    if (
+      error.message
+        .toLowerCase()
+        .includes("already been registered")
+    ) {
+      const { data: listResult, error: listError } =
+        await supabase.auth.admin.listUsers();
+
+      if (listError) {
+        throw new Error(
+          `${persona.name} already exists, but couldn't look up their ID: ${listError.message}`
+        );
+      }
+
+      const match = listResult.users.find(
+        (u) => u.email === persona.email
+      );
+
+      if (!match) {
+        throw new Error(
+          `${persona.name}'s account exists but couldn't be found by email.`
+        );
+      }
+
+      console.log(
+        `Found existing account (recovered): ${persona.name}`
+      );
+
+      return match.id;
+    }
+
     throw new Error(
       `Failed to create ${persona.name}: ${error.message}`
     );

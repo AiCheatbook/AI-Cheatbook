@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import { supabase } from "@/lib/supabase/client";
 
 type Contributor = {
@@ -224,19 +223,19 @@ export default function CommunityRightSidebar() {
             )}
         </div>
 
-        <Link
-          href="/notebook"
-          className="block rounded-2xl border border-zinc-800 bg-zinc-900 p-4 transition hover:border-orange-500/50"
-        >
+        <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-4">
           <h3 className="text-sm font-semibold text-white">
             📓 Your AI Notebook
           </h3>
           <p className="mt-1 text-xs text-zinc-500">
             Save posts, prompts, and
             learning cards you want to
-            come back to.
+            come back to.{" "}
+            <span className="text-zinc-600">
+              Coming soon.
+            </span>
           </p>
-        </Link>
+        </div>
       </div>
     </aside>
   );
