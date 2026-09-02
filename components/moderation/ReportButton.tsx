@@ -100,13 +100,13 @@ export default function ReportButton({
           e.preventDefault();
           setOpen((v) => !v);
         }}
-        className="text-xs text-zinc-600 hover:text-red-400"
+        className="text-xs text-zinc-400 hover:text-red-400"
       >
         Report
       </button>
 
       {open && (
-        <div className="absolute right-0 top-6 z-30 w-64 rounded-xl border border-zinc-800 bg-zinc-900 p-3 shadow-xl">
+        <div className="absolute right-0 top-6 z-30 w-64 rounded-xl border border-zinc-200 bg-white p-3 shadow-xl">
           {submitted ? (
             <p className="text-xs text-green-400">
               Report submitted. Thank
@@ -114,7 +114,7 @@ export default function ReportButton({
             </p>
           ) : (
             <>
-              <p className="text-xs font-medium text-zinc-300">
+              <p className="text-xs font-medium text-zinc-400">
                 Why are you reporting
                 this?
               </p>
@@ -126,7 +126,7 @@ export default function ReportButton({
                     e.target.value
                   )
                 }
-                className="mt-2 w-full rounded-lg border border-zinc-800 bg-black px-2 py-1.5 text-xs text-white outline-none"
+                className="mt-2 w-full rounded-lg border border-zinc-200 bg-white px-2 py-1.5 text-xs text-zinc-900 outline-none"
               >
                 {REASONS.map((r) => (
                   <option
@@ -147,7 +147,7 @@ export default function ReportButton({
                 }
                 rows={2}
                 placeholder="Additional details (optional)"
-                className="mt-2 w-full rounded-lg border border-zinc-800 bg-black px-2 py-1.5 text-xs text-white outline-none"
+                className="mt-2 w-full rounded-lg border border-zinc-200 bg-white px-2 py-1.5 text-xs text-zinc-900 outline-none"
               />
 
               <div className="mt-2 flex gap-2">
@@ -155,7 +155,7 @@ export default function ReportButton({
                   type="button"
                   onClick={handleSubmit}
                   disabled={submitting}
-                  className="flex-1 rounded-lg bg-red-500/90 py-1.5 text-xs font-semibold text-white hover:bg-red-500 disabled:opacity-50"
+                  className="flex-1 rounded-lg bg-red-500/90 py-1.5 text-xs font-semibold text-zinc-900 hover:bg-red-500 disabled:opacity-50"
                 >
                   {submitting
                     ? "Submitting..."
@@ -167,7 +167,7 @@ export default function ReportButton({
                   onClick={() =>
                     setOpen(false)
                   }
-                  className="rounded-lg border border-zinc-700 px-3 text-xs text-zinc-400"
+                  className="rounded-lg border border-zinc-300 px-3 text-xs text-zinc-400"
                 >
                   Cancel
                 </button>

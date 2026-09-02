@@ -248,9 +248,9 @@ export default function PollDetailPage() {
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-black px-6 py-12 text-white">
+      <main className="min-h-screen bg-white px-6 py-12 text-zinc-900">
         <div className="mx-auto max-w-2xl">
-          <div className="h-64 animate-pulse rounded-2xl bg-zinc-900" />
+          <div className="h-64 animate-pulse rounded-2xl bg-white" />
         </div>
       </main>
     );
@@ -258,7 +258,7 @@ export default function PollDetailPage() {
 
   if (error && !poll) {
     return (
-      <main className="min-h-screen bg-black px-6 py-12 text-white">
+      <main className="min-h-screen bg-white px-6 py-12 text-zinc-900">
         <div className="mx-auto max-w-2xl">
           <p className="text-red-400">
             {error}
@@ -287,17 +287,17 @@ export default function PollDetailPage() {
     hasVoted || isExpired;
 
   return (
-    <main className="min-h-screen bg-black px-6 py-12 text-white">
+    <main className="min-h-screen bg-white px-6 py-12 text-zinc-900">
       <div className="mx-auto max-w-2xl">
         <Link
           href="/community"
-          className="text-sm text-zinc-500 hover:text-white"
+          className="text-sm text-zinc-400 hover:text-zinc-900"
         >
           ← Back to Community
         </Link>
 
-        <div className="mt-4 rounded-2xl border border-green-500/30 bg-zinc-900 p-6">
-          <span className="rounded-full bg-zinc-800 px-2.5 py-1 text-xs text-zinc-400">
+        <div className="mt-4 rounded-2xl border border-green-500/30 bg-white p-6">
+          <span className="rounded-full bg-zinc-100 px-2.5 py-1 text-xs text-zinc-400">
             📊 Poll
           </span>
 
@@ -311,7 +311,7 @@ export default function PollDetailPage() {
             </p>
           )}
 
-          <p className="mt-2 text-xs text-zinc-500">
+          <p className="mt-2 text-xs text-zinc-400">
             {authorName} ·{" "}
             {totalVotes}{" "}
             {totalVotes === 1
@@ -342,7 +342,7 @@ export default function PollDetailPage() {
                 return (
                   <div
                     key={option.id}
-                    className="relative overflow-hidden rounded-xl border border-zinc-800 bg-black p-3"
+                    className="relative overflow-hidden rounded-xl border border-zinc-200 bg-white p-3"
                   >
                     <div
                       className="absolute inset-y-0 left-0 bg-brand/20 transition-all duration-700"
@@ -358,7 +358,7 @@ export default function PollDetailPage() {
                             option.id
                           )
                             ? "font-semibold text-brand"
-                            : "text-zinc-200"
+                            : "text-zinc-700"
                         }
                       >
                         {
@@ -388,8 +388,8 @@ export default function PollDetailPage() {
                   }
                   className={`w-full rounded-xl border px-3 py-3 text-left text-sm transition ${
                     isSelected
-                      ? "border-brand bg-brand/10 text-white"
-                      : "border-zinc-800 bg-black text-zinc-300 hover:border-zinc-600"
+                      ? "border-brand bg-brand/10 text-zinc-900"
+                      : "border-zinc-200 bg-white text-zinc-400 hover:border-zinc-600"
                   }`}
                 >
                   {option.option_text}
@@ -412,7 +412,7 @@ export default function PollDetailPage() {
                 selected.size === 0 ||
                 submitting
               }
-              className="mt-4 w-full rounded-xl bg-brand py-2.5 text-sm font-semibold text-white transition hover:bg-brand-dark disabled:cursor-not-allowed disabled:opacity-50"
+              className="mt-4 w-full rounded-xl bg-brand py-2.5 text-sm font-semibold text-zinc-900 transition hover:bg-brand-dark disabled:cursor-not-allowed disabled:opacity-50"
             >
               {submitting
                 ? "Submitting..."

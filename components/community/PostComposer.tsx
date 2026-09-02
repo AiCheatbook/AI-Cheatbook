@@ -165,10 +165,10 @@ export default function PostComposer({
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/70 px-4 py-10">
-      <div className="w-full max-w-xl rounded-2xl border border-zinc-800 bg-zinc-950 p-6">
+    <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-white/40 px-4 py-10">
+      <div className="w-full max-w-xl rounded-2xl border border-zinc-200 bg-white p-6">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-white">
+          <h2 className="text-lg font-semibold text-zinc-900">
             Create a Post
           </h2>
 
@@ -176,7 +176,7 @@ export default function PostComposer({
             type="button"
             onClick={onClose}
             aria-label="Close"
-            className="text-zinc-500 hover:text-white"
+            className="text-zinc-400 hover:text-zinc-900"
           >
             ✕
           </button>
@@ -222,8 +222,8 @@ export default function PostComposer({
                 className={`rounded-xl border px-2 py-2 text-xs transition ${
                   postType ===
                   option.value
-                    ? "border-brand bg-brand text-white"
-                    : "border-zinc-700 text-zinc-400"
+                    ? "border-brand bg-brand text-zinc-900"
+                    : "border-zinc-300 text-zinc-400"
                 }`}
               >
                 {option.label}
@@ -242,7 +242,7 @@ export default function PostComposer({
                 className={`rounded-full border px-3 py-1 text-xs transition ${
                   category === c.value
                     ? "border-brand bg-brand/10 text-brand"
-                    : "border-zinc-700 text-zinc-500"
+                    : "border-zinc-300 text-zinc-400"
                 }`}
               >
                 {c.label}
@@ -268,7 +268,7 @@ export default function PostComposer({
                       ? "What are you explaining?"
                       : "What do you want to talk about?"
             }
-            className="mt-4 w-full rounded-xl border border-zinc-800 bg-black px-4 py-3 text-white outline-none focus:border-brand"
+            className="mt-4 w-full rounded-xl border border-zinc-200 bg-white px-4 py-3 text-zinc-900 outline-none focus:border-brand"
           />
 
           {postType === "prompt" && (
@@ -280,7 +280,7 @@ export default function PostComposer({
                 )
               }
               placeholder="Which AI tool is this for? (e.g. Midjourney, Veo)"
-              className="mt-3 w-full rounded-xl border border-zinc-800 bg-black px-4 py-3 text-white outline-none focus:border-brand"
+              className="mt-3 w-full rounded-xl border border-zinc-200 bg-white px-4 py-3 text-zinc-900 outline-none focus:border-brand"
             />
           )}
 
@@ -293,7 +293,7 @@ export default function PostComposer({
                 )
               }
               placeholder="Link to the article, video, or tool"
-              className="mt-3 w-full rounded-xl border border-zinc-800 bg-black px-4 py-3 text-white outline-none focus:border-brand"
+              className="mt-3 w-full rounded-xl border border-zinc-200 bg-white px-4 py-3 text-zinc-900 outline-none focus:border-brand"
             />
           )}
 
@@ -311,7 +311,7 @@ export default function PostComposer({
                   ? "What's useful about it?"
                   : "Add details..."
             }
-            className="mt-3 w-full rounded-xl border border-zinc-800 bg-black px-4 py-3 text-white outline-none focus:border-brand"
+            className="mt-3 w-full rounded-xl border border-zinc-200 bg-white px-4 py-3 text-zinc-900 outline-none focus:border-brand"
           />
 
           {error && (
@@ -326,7 +326,7 @@ export default function PostComposer({
           <button
             type="submit"
             disabled={submitting}
-            className="mt-4 w-full rounded-xl bg-brand py-3 font-semibold text-white transition hover:bg-brand-dark disabled:cursor-not-allowed disabled:opacity-50"
+            className="mt-4 w-full rounded-xl bg-brand py-3 font-semibold text-zinc-900 transition hover:bg-brand-dark disabled:cursor-not-allowed disabled:opacity-50"
           >
             {submitting
               ? "Posting..."

@@ -9,7 +9,7 @@ export default function CommunityLayout({
   children,
 }: CommunityLayoutProps) {
   return (
-    <main className="min-h-screen bg-black px-4 py-8 text-white sm:px-6">
+    <main className="min-h-screen bg-white px-4 py-8 text-zinc-900 sm:px-6">
       <div className="mx-auto flex max-w-7xl gap-6">
         <CommunitySidebar />
 

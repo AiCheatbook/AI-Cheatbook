@@ -23,13 +23,13 @@ export default function LearningPostCard({
   return (
     <Link
       href={`/discussions/${id}`}
-      className="block rounded-2xl border border-cyan-500/30 bg-zinc-900 p-5 transition hover:border-cyan-500/60"
+      className="block rounded-2xl border border-cyan-500/30 bg-white p-5 transition hover:border-cyan-500/60"
     >
       <span className="rounded-full bg-cyan-500/10 px-2.5 py-1 text-xs font-semibold text-cyan-400">
         📘 LEARNING
       </span>
 
-      <h3 className="mt-2.5 text-lg font-semibold text-white">
+      <h3 className="mt-2.5 text-lg font-semibold text-zinc-900">
         {title}
       </h3>
 
@@ -39,7 +39,7 @@ export default function LearningPostCard({
         </p>
       )}
 
-      <div className="mt-3 flex items-center justify-between text-xs text-zinc-500">
+      <div className="mt-3 flex items-center justify-between text-xs text-zinc-400">
         <span>
           Useful for {category} ·{" "}
           {authorName}

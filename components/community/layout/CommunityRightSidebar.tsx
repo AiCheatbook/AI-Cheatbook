@@ -123,45 +123,45 @@ export default function CommunityRightSidebar() {
   return (
     <aside className="hidden w-72 shrink-0 xl:block">
       <div className="sticky top-20 space-y-4">
-        <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-4">
-          <h3 className="text-sm font-semibold text-white">
+        <div className="rounded-2xl border border-zinc-200 bg-white p-4">
+          <h3 className="text-sm font-semibold text-zinc-900">
             Community Stats
           </h3>
 
           {loading ? (
-            <div className="mt-3 h-16 animate-pulse rounded-lg bg-zinc-800" />
+            <div className="mt-3 h-16 animate-pulse rounded-lg bg-zinc-100" />
           ) : (
             <dl className="mt-3 grid grid-cols-2 gap-3 text-center">
               <div>
-                <dt className="text-xs text-zinc-500">
+                <dt className="text-xs text-zinc-400">
                   Posts
                 </dt>
-                <dd className="text-lg font-semibold text-white">
+                <dd className="text-lg font-semibold text-zinc-900">
                   {stats?.posts || 0}
                 </dd>
               </div>
               <div>
-                <dt className="text-xs text-zinc-500">
+                <dt className="text-xs text-zinc-400">
                   Questions
                 </dt>
-                <dd className="text-lg font-semibold text-white">
+                <dd className="text-lg font-semibold text-zinc-900">
                   {stats?.questions ||
                     0}
                 </dd>
               </div>
               <div>
-                <dt className="text-xs text-zinc-500">
+                <dt className="text-xs text-zinc-400">
                   Members
                 </dt>
-                <dd className="text-lg font-semibold text-white">
+                <dd className="text-lg font-semibold text-zinc-900">
                   {stats?.members || 0}
                 </dd>
               </div>
               <div>
-                <dt className="text-xs text-zinc-500">
+                <dt className="text-xs text-zinc-400">
                   Learning Cards
                 </dt>
-                <dd className="text-lg font-semibold text-white">
+                <dd className="text-lg font-semibold text-zinc-900">
                   {stats?.learningCards ||
                     0}
                 </dd>
@@ -170,8 +170,8 @@ export default function CommunityRightSidebar() {
           )}
         </div>
 
-        <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-4">
-          <h3 className="text-sm font-semibold text-white">
+        <div className="rounded-2xl border border-zinc-200 bg-white p-4">
+          <h3 className="text-sm font-semibold text-zinc-900">
             Top Contributors
           </h3>
 
@@ -182,7 +182,7 @@ export default function CommunityRightSidebar() {
               }).map((_, i) => (
                 <div
                   key={i}
-                  className="h-8 animate-pulse rounded-lg bg-zinc-800"
+                  className="h-8 animate-pulse rounded-lg bg-zinc-100"
                 />
               ))}
             </div>
@@ -191,7 +191,7 @@ export default function CommunityRightSidebar() {
           {!loading &&
             contributors.length ===
               0 && (
-              <p className="mt-2 text-xs text-zinc-500">
+              <p className="mt-2 text-xs text-zinc-400">
                 Great conversations
                 will surface top
                 contributors here as
@@ -209,12 +209,12 @@ export default function CommunityRightSidebar() {
                         href={`/community/user/${c.id}`}
                         className="flex items-center justify-between text-sm hover:text-brand"
                       >
-                        <span className="truncate text-zinc-300">
+                        <span className="truncate text-zinc-400">
                           {c.display_name ||
                             c.email ||
                             "Community Member"}
                         </span>
-                        <span className="shrink-0 text-xs text-zinc-500">
+                        <span className="shrink-0 text-xs text-zinc-400">
                           {c.postCount}{" "}
                           posts
                         </span>
@@ -228,12 +228,12 @@ export default function CommunityRightSidebar() {
 
         <Link
           href="/notebook"
-          className="block rounded-2xl border border-zinc-800 bg-zinc-900 p-4 transition hover:border-brand/50"
+          className="block rounded-2xl border border-zinc-200 bg-white p-4 transition hover:border-brand/50"
         >
-          <h3 className="text-sm font-semibold text-white">
+          <h3 className="text-sm font-semibold text-zinc-900">
             📓 Your AI Notebook
           </h3>
-          <p className="mt-1 text-xs text-zinc-500">
+          <p className="mt-1 text-xs text-zinc-400">
             Save posts, prompts, and
             learning cards you want to
             come back to.

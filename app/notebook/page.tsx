@@ -283,10 +283,10 @@ export default function NotebookPage() {
   );
 
   return (
-    <main className="min-h-screen bg-black px-6 py-12 text-white">
+    <main className="min-h-screen bg-white px-6 py-12 text-zinc-900">
       <div className="mx-auto flex max-w-5xl gap-6">
         <aside className="hidden w-56 shrink-0 lg:block">
-          <h2 className="text-xs font-semibold uppercase tracking-wider text-zinc-600">
+          <h2 className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
             Collections
           </h2>
 
@@ -298,8 +298,8 @@ export default function NotebookPage() {
               }
               className={`block w-full rounded-lg px-3 py-2 text-left text-sm ${
                 activeCollection === "all"
-                  ? "bg-zinc-800 text-white"
-                  : "text-zinc-400 hover:bg-zinc-900"
+                  ? "bg-zinc-100 text-zinc-900"
+                  : "text-zinc-400 hover:bg-white"
               }`}
             >
               All Items
@@ -315,8 +315,8 @@ export default function NotebookPage() {
               className={`block w-full rounded-lg px-3 py-2 text-left text-sm ${
                 activeCollection ===
                 "uncategorized"
-                  ? "bg-zinc-800 text-white"
-                  : "text-zinc-400 hover:bg-zinc-900"
+                  ? "bg-zinc-100 text-zinc-900"
+                  : "text-zinc-400 hover:bg-white"
               }`}
             >
               Uncategorized
@@ -338,8 +338,8 @@ export default function NotebookPage() {
                     className={`block flex-1 rounded-lg px-3 py-2 text-left text-sm ${
                       activeCollection ===
                       collection.id
-                        ? "bg-zinc-800 text-white"
-                        : "text-zinc-400 hover:bg-zinc-900"
+                        ? "bg-zinc-100 text-zinc-900"
+                        : "text-zinc-400 hover:bg-white"
                     }`}
                   >
                     {collection.name}
@@ -352,7 +352,7 @@ export default function NotebookPage() {
                         collection.id
                       )
                     }
-                    className="hidden px-1 text-xs text-zinc-600 hover:text-red-400 group-hover:block"
+                    className="hidden px-1 text-xs text-zinc-400 hover:text-red-400 group-hover:block"
                   >
                     ✕
                   </button>
@@ -375,7 +375,7 @@ export default function NotebookPage() {
                 )
               }
               placeholder="New collection..."
-              className="w-full rounded-lg border border-zinc-800 bg-zinc-900 px-3 py-2 text-xs text-white outline-none focus:border-brand"
+              className="w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-xs text-zinc-900 outline-none focus:border-brand"
             />
           </form>
         </aside>
@@ -392,9 +392,9 @@ export default function NotebookPage() {
 
           <form
             onSubmit={handleAddNote}
-            className="mt-6 rounded-2xl border border-zinc-800 bg-zinc-900 p-4"
+            className="mt-6 rounded-2xl border border-zinc-200 bg-white p-4"
           >
-            <p className="text-sm font-medium text-zinc-300">
+            <p className="text-sm font-medium text-zinc-400">
               Add a note
             </p>
 
@@ -406,7 +406,7 @@ export default function NotebookPage() {
                 )
               }
               placeholder="Title (optional)"
-              className="mt-2 w-full rounded-lg border border-zinc-800 bg-black px-3 py-2 text-sm text-white outline-none focus:border-brand"
+              className="mt-2 w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 outline-none focus:border-brand"
             />
 
             <textarea
@@ -418,7 +418,7 @@ export default function NotebookPage() {
               }
               rows={2}
               placeholder="Write something..."
-              className="mt-2 w-full rounded-lg border border-zinc-800 bg-black px-3 py-2 text-sm text-white outline-none focus:border-brand"
+              className="mt-2 w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 outline-none focus:border-brand"
             />
 
             <button
@@ -427,7 +427,7 @@ export default function NotebookPage() {
                 !newNoteText.trim() ||
                 addingNote
               }
-              className="mt-2 rounded-lg bg-brand px-4 py-1.5 text-xs font-semibold text-white hover:bg-brand-dark disabled:opacity-50"
+              className="mt-2 rounded-lg bg-brand px-4 py-1.5 text-xs font-semibold text-zinc-900 hover:bg-brand-dark disabled:opacity-50"
             >
               {addingNote
                 ? "Saving..."
@@ -442,7 +442,7 @@ export default function NotebookPage() {
               }).map((_, i) => (
                 <div
                   key={i}
-                  className="h-16 animate-pulse rounded-xl bg-zinc-900"
+                  className="h-16 animate-pulse rounded-xl bg-white"
                 />
               ))}
             </div>
@@ -451,11 +451,11 @@ export default function NotebookPage() {
           {!loading &&
             filteredItems.length ===
               0 && (
-              <div className="mt-6 rounded-2xl border border-zinc-800 bg-zinc-900 p-8 text-center">
+              <div className="mt-6 rounded-2xl border border-zinc-200 bg-white p-8 text-center">
                 <p className="text-zinc-400">
                   No saved content.
                 </p>
-                <p className="mt-1 text-sm text-zinc-600">
+                <p className="mt-1 text-sm text-zinc-400">
                   Save useful ideas to
                   your AI Notebook from
                   anywhere on the site.
@@ -474,7 +474,7 @@ export default function NotebookPage() {
                     const content = (
                       <div className="flex items-start justify-between gap-3">
                         <div className="min-w-0">
-                          <span className="rounded-full bg-zinc-800 px-2 py-0.5 text-xs text-zinc-500">
+                          <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-xs text-zinc-400">
                             {
                               TYPE_LABELS[
                                 item
@@ -483,7 +483,7 @@ export default function NotebookPage() {
                             }
                           </span>
 
-                          <h3 className="mt-1.5 truncate font-medium text-white">
+                          <h3 className="mt-1.5 truncate font-medium text-zinc-900">
                             {item.title}
                           </h3>
 
@@ -506,7 +506,7 @@ export default function NotebookPage() {
                               item.id
                             );
                           }}
-                          className="shrink-0 text-xs text-zinc-600 hover:text-red-400"
+                          className="shrink-0 text-xs text-zinc-400 hover:text-red-400"
                         >
                           Remove
                         </button>
@@ -517,14 +517,14 @@ export default function NotebookPage() {
                       <Link
                         key={item.id}
                         href={href}
-                        className="block rounded-2xl border border-zinc-800 bg-zinc-900 p-4 transition hover:border-brand/40"
+                        className="block rounded-2xl border border-zinc-200 bg-white p-4 transition hover:border-brand/40"
                       >
                         {content}
                       </Link>
                     ) : (
                       <div
                         key={item.id}
-                        className="rounded-2xl border border-zinc-800 bg-zinc-900 p-4"
+                        className="rounded-2xl border border-zinc-200 bg-white p-4"
                       >
                         {content}
                       </div>

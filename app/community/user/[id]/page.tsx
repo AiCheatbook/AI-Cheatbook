@@ -218,7 +218,7 @@ export default function UserProfilePage() {
   if (loading) {
     return (
       <CommunityLayout>
-        <div className="h-40 animate-pulse rounded-2xl bg-zinc-900" />
+        <div className="h-40 animate-pulse rounded-2xl bg-white" />
       </CommunityLayout>
     );
   }
@@ -242,7 +242,7 @@ export default function UserProfilePage() {
 
   return (
     <CommunityLayout>
-      <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6">
+      <div className="rounded-2xl border border-zinc-200 bg-white p-6">
         <div className="flex items-center gap-4">
           {profile.avatar_url ? (
             // eslint-disable-next-line @next/next/no-img-element
@@ -258,7 +258,7 @@ export default function UserProfilePage() {
           )}
 
           <div>
-            <h1 className="text-xl font-bold text-white">
+            <h1 className="text-xl font-bold text-zinc-900">
               {name}
             </h1>
 
@@ -266,7 +266,7 @@ export default function UserProfilePage() {
               <span className="rounded-full bg-brand/10 px-2.5 py-1 text-xs font-semibold text-brand">
                 🏅 {badge}
               </span>
-              <span className="text-xs text-zinc-500">
+              <span className="text-xs text-zinc-400">
                 {reputation} reputation
               </span>
             </div>
@@ -285,14 +285,14 @@ export default function UserProfilePage() {
                 }
                 rows={2}
                 placeholder="Write a short bio..."
-                className="w-full rounded-lg border border-zinc-800 bg-black px-3 py-2 text-sm text-white outline-none focus:border-brand"
+                className="w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 outline-none focus:border-brand"
               />
               <div className="mt-2 flex gap-2">
                 <button
                   type="button"
                   onClick={handleSaveBio}
                   disabled={savingBio}
-                  className="rounded-lg bg-brand px-3 py-1.5 text-xs font-semibold text-white hover:bg-brand-dark"
+                  className="rounded-lg bg-brand px-3 py-1.5 text-xs font-semibold text-zinc-900 hover:bg-brand-dark"
                 >
                   {savingBio
                     ? "Saving..."
@@ -303,7 +303,7 @@ export default function UserProfilePage() {
                   onClick={() =>
                     setEditingBio(false)
                   }
-                  className="rounded-lg border border-zinc-700 px-3 py-1.5 text-xs text-zinc-400"
+                  className="rounded-lg border border-zinc-300 px-3 py-1.5 text-xs text-zinc-400"
                 >
                   Cancel
                 </button>
@@ -336,12 +336,12 @@ export default function UserProfilePage() {
         </div>
       </div>
 
-      <h2 className="mt-6 text-lg font-semibold text-white">
+      <h2 className="mt-6 text-lg font-semibold text-zinc-900">
         Posts ({threads.length})
       </h2>
 
       {threads.length === 0 ? (
-        <p className="mt-3 text-sm text-zinc-500">
+        <p className="mt-3 text-sm text-zinc-400">
           No posts yet.
         </p>
       ) : (
@@ -350,14 +350,14 @@ export default function UserProfilePage() {
             <Link
               key={thread.id}
               href={`/discussions/${thread.id}`}
-              className="flex items-center gap-2 rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3 transition hover:border-brand/40"
+              className="flex items-center gap-2 rounded-xl border border-zinc-200 bg-white px-4 py-3 transition hover:border-brand/40"
             >
               <span>
                 {CONTENT_KIND_ICON[
                   thread.content_kind
                 ] || "💬"}
               </span>
-              <span className="text-sm text-white">
+              <span className="text-sm text-zinc-900">
                 {thread.title}
               </span>
             </Link>

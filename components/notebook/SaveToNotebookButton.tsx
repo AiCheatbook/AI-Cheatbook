@@ -219,7 +219,7 @@ export default function SaveToNotebookButton({
         className={`rounded-full border px-3 py-1.5 text-xs font-medium transition ${
           saved
             ? "border-brand bg-brand/10 text-brand"
-            : "border-zinc-700 text-zinc-400 hover:border-zinc-500 hover:text-white"
+            : "border-zinc-300 text-zinc-400 hover:border-zinc-500 hover:text-zinc-900"
         } ${compact ? "px-2 py-1" : ""}`}
       >
         {saved
@@ -233,7 +233,7 @@ export default function SaveToNotebookButton({
             e.preventDefault();
             e.stopPropagation();
           }}
-          className="absolute right-0 top-9 z-30 w-56 rounded-xl border border-zinc-800 bg-zinc-900 p-3 shadow-xl"
+          className="absolute right-0 top-9 z-30 w-56 rounded-xl border border-zinc-200 bg-white p-3 shadow-xl"
         >
           <p className="text-xs font-medium text-zinc-400">
             Save to...
@@ -245,7 +245,7 @@ export default function SaveToNotebookButton({
             onClick={() =>
               handleSave(null)
             }
-            className="mt-2 block w-full rounded-lg px-2 py-1.5 text-left text-xs text-zinc-300 hover:bg-zinc-800"
+            className="mt-2 block w-full rounded-lg px-2 py-1.5 text-left text-xs text-zinc-400 hover:bg-zinc-100"
           >
             Uncategorized
           </button>
@@ -261,14 +261,14 @@ export default function SaveToNotebookButton({
                     collection.id
                   )
                 }
-                className="block w-full rounded-lg px-2 py-1.5 text-left text-xs text-zinc-300 hover:bg-zinc-800"
+                className="block w-full rounded-lg px-2 py-1.5 text-left text-xs text-zinc-400 hover:bg-zinc-100"
               >
                 {collection.name}
               </button>
             )
           )}
 
-          <div className="mt-2 flex gap-1 border-t border-zinc-800 pt-2">
+          <div className="mt-2 flex gap-1 border-t border-zinc-200 pt-2">
             <input
               value={newCollectionName}
               onChange={(e) =>
@@ -277,7 +277,7 @@ export default function SaveToNotebookButton({
                 )
               }
               placeholder="New collection..."
-              className="min-w-0 flex-1 rounded-lg border border-zinc-800 bg-black px-2 py-1 text-xs text-white outline-none"
+              className="min-w-0 flex-1 rounded-lg border border-zinc-200 bg-white px-2 py-1 text-xs text-zinc-900 outline-none"
             />
 
             <button
@@ -289,7 +289,7 @@ export default function SaveToNotebookButton({
                 !newCollectionName.trim() ||
                 saving
               }
-              className="rounded-lg bg-brand px-2 py-1 text-xs font-semibold text-white disabled:opacity-50"
+              className="rounded-lg bg-brand px-2 py-1 text-xs font-semibold text-zinc-900 disabled:opacity-50"
             >
               +
             </button>
@@ -300,7 +300,7 @@ export default function SaveToNotebookButton({
             onClick={() =>
               setPickerOpen(false)
             }
-            className="mt-2 w-full text-center text-xs text-zinc-600 hover:text-white"
+            className="mt-2 w-full text-center text-xs text-zinc-400 hover:text-zinc-900"
           >
             Cancel
           </button>

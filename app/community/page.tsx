@@ -484,7 +484,7 @@ export default function CommunityHubPage() {
         <div className="flex gap-2">
           <Link
             href="/community/shared-prompts"
-            className="rounded-xl border border-zinc-700 px-4 py-2 text-sm text-zinc-300 hover:bg-zinc-800"
+            className="rounded-xl border border-zinc-300 px-4 py-2 text-sm text-zinc-400 hover:bg-zinc-100"
           >
             Shared Prompts
           </Link>
@@ -494,7 +494,7 @@ export default function CommunityHubPage() {
             onClick={() =>
               setComposerOpen(true)
             }
-            className="rounded-xl bg-brand px-4 py-2 text-sm font-semibold text-white hover:bg-brand-dark"
+            className="rounded-xl bg-brand px-4 py-2 text-sm font-semibold text-zinc-900 hover:bg-brand-dark"
           >
             + Create
           </button>
@@ -507,14 +507,14 @@ export default function CommunityHubPage() {
             (_, i) => (
               <div
                 key={i}
-                className="h-32 animate-pulse rounded-2xl border border-zinc-800 bg-zinc-900"
+                className="h-32 animate-pulse rounded-2xl border border-zinc-200 bg-white"
               />
             )
           )}
 
         {!loading &&
           sorted.length === 0 && (
-            <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-10 text-center">
+            <div className="rounded-2xl border border-zinc-200 bg-white p-10 text-center">
               <p className="text-zinc-400">
                 Nothing here yet — be the
                 first to post.

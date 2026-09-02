@@ -211,7 +211,7 @@ export default function AdminReportsPage() {
   }
 
   return (
-    <main className="min-h-screen bg-black px-6 py-12 text-white">
+    <main className="min-h-screen bg-white px-6 py-12 text-zinc-900">
       <div className="mx-auto max-w-4xl">
         <h1 className="text-2xl font-bold">
           Content Reports
@@ -225,8 +225,8 @@ export default function AdminReportsPage() {
             }
             className={`rounded-full border px-4 py-1.5 text-sm ${
               filter === "pending"
-                ? "border-brand bg-brand text-white"
-                : "border-zinc-700 text-zinc-400"
+                ? "border-brand bg-brand text-zinc-900"
+                : "border-zinc-300 text-zinc-400"
             }`}
           >
             Pending
@@ -238,8 +238,8 @@ export default function AdminReportsPage() {
             }
             className={`rounded-full border px-4 py-1.5 text-sm ${
               filter === "all"
-                ? "border-brand bg-brand text-white"
-                : "border-zinc-700 text-zinc-400"
+                ? "border-brand bg-brand text-zinc-900"
+                : "border-zinc-300 text-zinc-400"
             }`}
           >
             All
@@ -253,7 +253,7 @@ export default function AdminReportsPage() {
             }).map((_, i) => (
               <div
                 key={i}
-                className="h-24 animate-pulse rounded-2xl bg-zinc-900"
+                className="h-24 animate-pulse rounded-2xl bg-white"
               />
             ))}
           </div>
@@ -261,7 +261,7 @@ export default function AdminReportsPage() {
 
         {!loading &&
           reports.length === 0 && (
-            <p className="mt-6 text-sm text-zinc-500">
+            <p className="mt-6 text-sm text-zinc-400">
               No{" "}
               {filter === "pending"
                 ? "pending "
@@ -276,10 +276,10 @@ export default function AdminReportsPage() {
               {reports.map((report) => (
                 <div
                   key={report.id}
-                  className="rounded-2xl border border-zinc-800 bg-zinc-900 p-4"
+                  className="rounded-2xl border border-zinc-200 bg-white p-4"
                 >
                   <div className="flex items-center gap-2">
-                    <span className="rounded-full bg-zinc-800 px-2.5 py-1 text-xs text-zinc-400">
+                    <span className="rounded-full bg-zinc-100 px-2.5 py-1 text-xs text-zinc-400">
                       {
                         CONTENT_TYPE_LABEL[
                           report
@@ -300,7 +300,7 @@ export default function AdminReportsPage() {
                           : report.status ===
                               "reviewed"
                             ? "bg-green-500/10 text-green-400"
-                            : "bg-zinc-800 text-zinc-500"
+                            : "bg-zinc-100 text-zinc-400"
                       }`}
                     >
                       {report.status}
@@ -313,7 +313,7 @@ export default function AdminReportsPage() {
                     </p>
                   )}
 
-                  <p className="mt-2 text-xs text-zinc-600">
+                  <p className="mt-2 text-xs text-zinc-400">
                     Reported by{" "}
                     {report.profiles
                       ?.display_name ||
@@ -332,7 +332,7 @@ export default function AdminReportsPage() {
                         report
                       )}
                       target="_blank"
-                      className="rounded-lg border border-zinc-700 px-3 py-1.5 text-xs text-white hover:bg-zinc-800"
+                      className="rounded-lg border border-zinc-300 px-3 py-1.5 text-xs text-zinc-900 hover:bg-zinc-100"
                     >
                       View Content
                     </Link>
@@ -371,7 +371,7 @@ export default function AdminReportsPage() {
                               report
                             )
                           }
-                          className="rounded-lg border border-zinc-700 px-3 py-1.5 text-xs text-zinc-400 hover:bg-zinc-800"
+                          className="rounded-lg border border-zinc-300 px-3 py-1.5 text-xs text-zinc-400 hover:bg-zinc-100"
                         >
                           Dismiss
                         </button>

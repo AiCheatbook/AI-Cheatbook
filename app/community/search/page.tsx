@@ -317,7 +317,7 @@ function CommunitySearchContent() {
 
   return (
     <CommunityLayout>
-      <h1 className="text-2xl font-bold text-white">
+      <h1 className="text-2xl font-bold text-zinc-900">
         Search Community
       </h1>
 
@@ -331,7 +331,7 @@ function CommunitySearchContent() {
             setQuery(e.target.value)
           }
           placeholder="Search questions, discussions, prompts, polls..."
-          className="w-full rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3 text-white outline-none focus:border-brand"
+          className="w-full rounded-xl border border-zinc-200 bg-white px-4 py-3 text-zinc-900 outline-none focus:border-brand"
         />
       </form>
 
@@ -341,7 +341,7 @@ function CommunitySearchContent() {
             (_, i) => (
               <div
                 key={i}
-                className="h-28 animate-pulse rounded-2xl border border-zinc-800 bg-zinc-900"
+                className="h-28 animate-pulse rounded-2xl border border-zinc-200 bg-white"
               />
             )
           )}
@@ -349,7 +349,7 @@ function CommunitySearchContent() {
         {!loading &&
           searched &&
           results.length === 0 && (
-            <p className="text-sm text-zinc-500">
+            <p className="text-sm text-zinc-400">
               No results for
               &quot;{initialQuery}&quot;.
             </p>
@@ -357,7 +357,7 @@ function CommunitySearchContent() {
 
         {!loading &&
           !searched && (
-            <p className="text-sm text-zinc-500">
+            <p className="text-sm text-zinc-400">
               Search across Questions,
               Discussions, Prompts,
               Polls, Learning, and

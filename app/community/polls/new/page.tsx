@@ -202,10 +202,10 @@ export default function NewPollPage() {
   }
 
   const inputClass =
-    "mt-2 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3 text-white outline-none transition focus:border-brand";
+    "mt-2 w-full rounded-xl border border-zinc-200 bg-white px-4 py-3 text-zinc-900 outline-none transition focus:border-brand";
 
   return (
-    <main className="min-h-screen bg-black px-6 py-16 text-white">
+    <main className="min-h-screen bg-white px-6 py-16 text-zinc-900">
       <form
         onSubmit={handleSubmit}
         className="mx-auto max-w-2xl"
@@ -221,7 +221,7 @@ export default function NewPollPage() {
         )}
 
         <div className="mt-6">
-          <label className="text-sm font-medium text-zinc-300">
+          <label className="text-sm font-medium text-zinc-400">
             Category
           </label>
           <div className="mt-2 flex flex-wrap gap-2">
@@ -234,8 +234,8 @@ export default function NewPollPage() {
                 }
                 className={`rounded-full border px-3.5 py-1.5 text-sm transition ${
                   category === c.value
-                    ? "border-brand bg-brand text-white"
-                    : "border-zinc-700 text-zinc-400 hover:border-zinc-500"
+                    ? "border-brand bg-brand text-zinc-900"
+                    : "border-zinc-300 text-zinc-400 hover:border-zinc-500"
                 }`}
               >
                 {c.label}
@@ -245,7 +245,7 @@ export default function NewPollPage() {
         </div>
 
         <div className="mt-5">
-          <label className="text-sm font-medium text-zinc-300">
+          <label className="text-sm font-medium text-zinc-400">
             Question
           </label>
           <input
@@ -259,9 +259,9 @@ export default function NewPollPage() {
         </div>
 
         <div className="mt-5">
-          <label className="text-sm font-medium text-zinc-300">
+          <label className="text-sm font-medium text-zinc-400">
             Description{" "}
-            <span className="text-zinc-600">
+            <span className="text-zinc-400">
               (optional)
             </span>
           </label>
@@ -278,9 +278,9 @@ export default function NewPollPage() {
         </div>
 
         <div className="mt-5">
-          <label className="text-sm font-medium text-zinc-300">
+          <label className="text-sm font-medium text-zinc-400">
             Options{" "}
-            <span className="text-zinc-600">
+            <span className="text-zinc-400">
               (2-6)
             </span>
           </label>
@@ -300,7 +300,7 @@ export default function NewPollPage() {
                     )
                   }
                   placeholder={`Option ${i + 1}`}
-                  className="flex-1 rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-2.5 text-white outline-none focus:border-brand"
+                  className="flex-1 rounded-xl border border-zinc-200 bg-white px-4 py-2.5 text-zinc-900 outline-none focus:border-brand"
                 />
 
                 {options.length > 2 && (
@@ -309,7 +309,7 @@ export default function NewPollPage() {
                     onClick={() =>
                       removeOption(i)
                     }
-                    className="rounded-xl border border-zinc-800 px-3 text-zinc-500 hover:text-red-400"
+                    className="rounded-xl border border-zinc-200 px-3 text-zinc-400 hover:text-red-400"
                   >
                     ✕
                   </button>
@@ -331,7 +331,7 @@ export default function NewPollPage() {
 
         <div className="mt-5 grid gap-5 sm:grid-cols-2">
           <div>
-            <label className="text-sm font-medium text-zinc-300">
+            <label className="text-sm font-medium text-zinc-400">
               Mode
             </label>
             <div className="mt-2 flex gap-2">
@@ -342,8 +342,8 @@ export default function NewPollPage() {
                 }
                 className={`flex-1 rounded-xl border px-3 py-2 text-sm transition ${
                   !multipleChoice
-                    ? "border-brand bg-brand text-white"
-                    : "border-zinc-700 text-zinc-400"
+                    ? "border-brand bg-brand text-zinc-900"
+                    : "border-zinc-300 text-zinc-400"
                 }`}
               >
                 Single Choice
@@ -355,8 +355,8 @@ export default function NewPollPage() {
                 }
                 className={`flex-1 rounded-xl border px-3 py-2 text-sm transition ${
                   multipleChoice
-                    ? "border-brand bg-brand text-white"
-                    : "border-zinc-700 text-zinc-400"
+                    ? "border-brand bg-brand text-zinc-900"
+                    : "border-zinc-300 text-zinc-400"
                 }`}
               >
                 Multiple Choice
@@ -365,7 +365,7 @@ export default function NewPollPage() {
           </div>
 
           <div>
-            <label className="text-sm font-medium text-zinc-300">
+            <label className="text-sm font-medium text-zinc-400">
               Expires
             </label>
             <select
@@ -396,7 +396,7 @@ export default function NewPollPage() {
         <button
           type="submit"
           disabled={submitting}
-          className="mt-6 w-full rounded-xl bg-brand py-3 font-semibold text-white transition hover:bg-brand-dark disabled:opacity-50"
+          className="mt-6 w-full rounded-xl bg-brand py-3 font-semibold text-zinc-900 transition hover:bg-brand-dark disabled:opacity-50"
         >
           {submitting
             ? "Creating..."

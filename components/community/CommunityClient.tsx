@@ -136,18 +136,18 @@ export default function CommunityClient() {
   ]);
 
   return (
-    <main className="min-h-screen bg-black">
+    <main className="min-h-screen bg-white">
 
       {/* Hero */}
 
-      <section className="border-b border-zinc-900 bg-black px-6 py-20 sm:py-24">
+      <section className="border-b border-zinc-900 bg-white px-6 py-20 sm:py-24">
         <div className="mx-auto max-w-6xl text-center">
 
           <p className="text-sm font-semibold uppercase tracking-wider text-brand">
             Community
           </p>
 
-          <h1 className="mt-4 text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl">
+          <h1 className="mt-4 text-4xl font-bold tracking-tight text-zinc-900 sm:text-5xl md:text-6xl">
             AI Creator Community
           </h1>
 
@@ -161,14 +161,14 @@ export default function CommunityClient() {
 
             <a
               href="#community-prompts"
-              className="rounded-xl bg-brand px-6 py-3 text-sm font-semibold text-white transition hover:bg-brand-dark"
+              className="rounded-xl bg-brand px-6 py-3 text-sm font-semibold text-zinc-900 transition hover:bg-brand-dark"
             >
               Explore Prompts
             </a>
 
             <Link
               href="/generator"
-              className="rounded-xl border border-zinc-700 px-6 py-3 text-sm font-semibold text-zinc-300 transition hover:border-brand hover:text-brand"
+              className="rounded-xl border border-zinc-300 px-6 py-3 text-sm font-semibold text-zinc-400 transition hover:border-brand hover:text-brand"
             >
               Create a Prompt
             </Link>
@@ -182,7 +182,7 @@ export default function CommunityClient() {
 
       <section
         id="community-prompts"
-        className="bg-zinc-950 px-6 py-16 sm:py-20"
+        className="bg-white px-6 py-16 sm:py-20"
       >
         <div className="mx-auto max-w-7xl">
 
@@ -195,7 +195,7 @@ export default function CommunityClient() {
                 Community Library
               </p>
 
-              <h2 className="mt-2 text-3xl font-bold text-white sm:text-4xl">
+              <h2 className="mt-2 text-3xl font-bold text-zinc-900 sm:text-4xl">
                 Community Prompts
               </h2>
 
@@ -205,7 +205,7 @@ export default function CommunityClient() {
               </p>
             </div>
 
-            <div className="text-sm text-zinc-500">
+            <div className="text-sm text-zinc-400">
               {filteredPrompts.length}{" "}
               {filteredPrompts.length === 1
                 ? "prompt"
@@ -229,10 +229,10 @@ export default function CommunityClient() {
                 }
                 placeholder="Search community prompts..."
                 aria-label="Search community prompts"
-                className="w-full rounded-2xl border border-zinc-800 bg-zinc-900 px-5 py-4 pl-12 text-white outline-none transition placeholder:text-zinc-500 focus:border-brand"
+                className="w-full rounded-2xl border border-zinc-200 bg-white px-5 py-4 pl-12 text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-brand"
               />
 
-              <span className="pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 text-zinc-500">
+              <span className="pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 text-zinc-400">
                 🔍
               </span>
 
@@ -250,8 +250,8 @@ export default function CommunityClient() {
               }
               className={`rounded-full border px-4 py-2 text-sm font-medium transition ${
                 !selectedTool
-                  ? "border-brand bg-brand text-white"
-                  : "border-zinc-800 bg-zinc-900 text-zinc-400 hover:border-zinc-600 hover:text-white"
+                  ? "border-brand bg-brand text-zinc-900"
+                  : "border-zinc-200 bg-white text-zinc-400 hover:border-zinc-600 hover:text-zinc-900"
               }`}
             >
               All
@@ -266,8 +266,8 @@ export default function CommunityClient() {
                 }
                 className={`rounded-full border px-4 py-2 text-sm font-medium transition ${
                   selectedTool === tool
-                    ? "border-brand bg-brand text-white"
-                    : "border-zinc-800 bg-zinc-900 text-zinc-400 hover:border-zinc-600 hover:text-white"
+                    ? "border-brand bg-brand text-zinc-900"
+                    : "border-zinc-200 bg-white text-zinc-400 hover:border-zinc-600 hover:text-zinc-900"
                 }`}
               >
                 {tool}
@@ -286,7 +286,7 @@ export default function CommunityClient() {
               }).map((_, index) => (
                 <div
                   key={index}
-                  className="h-80 animate-pulse rounded-2xl border border-zinc-800 bg-zinc-900"
+                  className="h-80 animate-pulse rounded-2xl border border-zinc-200 bg-white"
                 />
               ))}
 
@@ -329,13 +329,13 @@ export default function CommunityClient() {
           {!loading &&
             !error &&
             filteredPrompts.length === 0 && (
-              <div className="rounded-3xl border border-zinc-800 bg-zinc-900/50 px-6 py-16 text-center">
+              <div className="rounded-3xl border border-zinc-200 bg-white/50 px-6 py-16 text-center">
 
                 <div className="text-5xl">
                   🔍
                 </div>
 
-                <h3 className="mt-5 text-2xl font-semibold text-white">
+                <h3 className="mt-5 text-2xl font-semibold text-zinc-900">
                   No prompts found
                 </h3>
 
@@ -350,7 +350,7 @@ export default function CommunityClient() {
                     setSearch("");
                     setSelectedTool("");
                   }}
-                  className="mt-6 rounded-xl border border-zinc-700 px-5 py-3 text-sm font-semibold text-zinc-300 transition hover:border-brand hover:text-brand"
+                  className="mt-6 rounded-xl border border-zinc-300 px-5 py-3 text-sm font-semibold text-zinc-400 transition hover:border-brand hover:text-brand"
                 >
                   Clear Filters
                 </button>
@@ -363,14 +363,14 @@ export default function CommunityClient() {
 
       {/* CTA */}
 
-      <section className="border-t border-zinc-900 bg-black px-6 py-20">
-        <div className="mx-auto max-w-4xl rounded-3xl border border-zinc-800 bg-zinc-950 px-6 py-12 text-center sm:px-12">
+      <section className="border-t border-zinc-900 bg-white px-6 py-20">
+        <div className="mx-auto max-w-4xl rounded-3xl border border-zinc-200 bg-white px-6 py-12 text-center sm:px-12">
 
           <p className="text-sm font-semibold uppercase tracking-wider text-brand">
             Share Your Work
           </p>
 
-          <h2 className="mt-3 text-3xl font-bold text-white sm:text-4xl">
+          <h2 className="mt-3 text-3xl font-bold text-zinc-900 sm:text-4xl">
             Have a prompt that actually works?
           </h2>
 
@@ -382,7 +382,7 @@ export default function CommunityClient() {
 
           <Link
             href="/generator"
-            className="mt-7 inline-flex rounded-xl bg-brand px-6 py-3 text-sm font-semibold text-white transition hover:bg-brand-dark"
+            className="mt-7 inline-flex rounded-xl bg-brand px-6 py-3 text-sm font-semibold text-zinc-900 transition hover:bg-brand-dark"
           >
             Create Your Prompt
           </Link>
@@ -405,11 +405,11 @@ function CommunityPromptCard({
   prompt: CommunityPrompt;
 }) {
   return (
-    <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900 transition duration-300 hover:-translate-y-1 hover:border-brand">
+    <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-white transition duration-300 hover:-translate-y-1 hover:border-brand">
 
       {/* Card Header */}
 
-      <div className="flex items-center justify-between border-b border-zinc-800 px-5 py-4">
+      <div className="flex items-center justify-between border-b border-zinc-200 px-5 py-4">
 
         <div className="flex flex-wrap gap-2">
 
@@ -420,7 +420,7 @@ function CommunityPromptCard({
           )}
 
           {prompt.category && (
-            <span className="rounded-full border border-zinc-700 px-3 py-1 text-xs text-zinc-500">
+            <span className="rounded-full border border-zinc-300 px-3 py-1 text-xs text-zinc-400">
               {prompt.category}
             </span>
           )}
@@ -442,7 +442,7 @@ function CommunityPromptCard({
 
       <div className="flex flex-1 flex-col p-5">
 
-        <h3 className="text-xl font-semibold text-white transition group-hover:text-brand">
+        <h3 className="text-xl font-semibold text-zinc-900 transition group-hover:text-brand">
           {prompt.title}
         </h3>
 
@@ -454,7 +454,7 @@ function CommunityPromptCard({
 
         {/* Prompt Preview */}
 
-        <div className="mt-5 rounded-xl border border-zinc-800 bg-black p-4">
+        <div className="mt-5 rounded-xl border border-zinc-200 bg-white p-4">
 
           <p className="line-clamp-4 whitespace-pre-line text-sm leading-6 text-zinc-400">
             {prompt.prompt}
@@ -469,11 +469,11 @@ function CommunityPromptCard({
           <div className="flex items-center justify-between">
 
             <div>
-              <p className="text-xs text-zinc-600">
+              <p className="text-xs text-zinc-400">
                 Created by
               </p>
 
-              <p className="mt-1 text-sm font-medium text-zinc-300">
+              <p className="mt-1 text-sm font-medium text-zinc-400">
                 {prompt.author_name}
               </p>
             </div>
@@ -497,7 +497,7 @@ function CommunityPromptCard({
                   prompt.prompt
                 )
               }
-              className="w-full rounded-xl border border-zinc-700 px-4 py-3 text-sm font-semibold text-zinc-300 transition hover:border-brand hover:text-brand"
+              className="w-full rounded-xl border border-zinc-300 px-4 py-3 text-sm font-semibold text-zinc-400 transition hover:border-brand hover:text-brand"
             >
               Copy Prompt
             </button>

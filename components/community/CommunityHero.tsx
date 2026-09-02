@@ -61,8 +61,8 @@ export default function CommunityHero({
   const answers = useCountUp(answerCount);
 
   return (
-    <section className="rounded-3xl border border-zinc-800 bg-gradient-to-b from-zinc-900 to-black p-8 text-center sm:p-12">
-      <h1 className="text-3xl font-bold text-white sm:text-4xl">
+    <section className="rounded-3xl border border-zinc-200 bg-gradient-to-b from-zinc-900 to-black p-8 text-center sm:p-12">
+      <h1 className="text-3xl font-bold text-zinc-900 sm:text-4xl">
         The AI Community, Built by
         People Who Actually Use AI.
       </h1>
@@ -75,34 +75,34 @@ export default function CommunityHero({
       <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
         <Link
           href="/discussions/new?kind=question"
-          className="rounded-xl bg-brand px-6 py-3 text-sm font-semibold text-white transition hover:bg-brand-dark"
+          className="rounded-xl bg-brand px-6 py-3 text-sm font-semibold text-zinc-900 transition hover:bg-brand-dark"
         >
           Ask a Question
         </Link>
 
         <Link
           href="/community/polls/new"
-          className="rounded-xl border border-zinc-700 px-6 py-3 text-sm font-semibold text-white transition hover:bg-zinc-800"
+          className="rounded-xl border border-zinc-300 px-6 py-3 text-sm font-semibold text-zinc-900 transition hover:bg-zinc-100"
         >
           Create a Poll
         </Link>
       </div>
 
-      <div className="mt-8 flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm text-zinc-500">
+      <div className="mt-8 flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm text-zinc-400">
         <span>
-          <strong className="text-white">
+          <strong className="text-zinc-900">
             {formatCount(members)}
           </strong>{" "}
           Members
         </span>
         <span>
-          <strong className="text-white">
+          <strong className="text-zinc-900">
             {formatCount(discussions)}
           </strong>{" "}
           Discussions
         </span>
         <span>
-          <strong className="text-white">
+          <strong className="text-zinc-900">
             {formatCount(answers)}
           </strong>{" "}
           Answers

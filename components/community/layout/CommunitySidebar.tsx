@@ -55,7 +55,7 @@ export default function CommunitySidebar() {
           (section, i) => (
             <div key={i}>
               {section.label && (
-                <p className="mb-2 px-3 text-xs font-semibold uppercase tracking-wider text-zinc-600">
+                <p className="mb-2 px-3 text-xs font-semibold uppercase tracking-wider text-zinc-400">
                   {section.label}
                 </p>
               )}
@@ -71,8 +71,8 @@ export default function CommunitySidebar() {
                         item.href.split(
                           "?"
                         )[0]
-                          ? "bg-zinc-800 text-white"
-                          : "text-zinc-400 hover:bg-zinc-900 hover:text-white"
+                          ? "bg-zinc-100 text-zinc-900"
+                          : "text-zinc-400 hover:bg-white hover:text-zinc-900"
                       }`}
                     >
                       {item.label}

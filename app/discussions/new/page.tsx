@@ -150,10 +150,10 @@ function NewDiscussionPageContent() {
   }
 
   const inputClass =
-    "mt-2 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3 text-white outline-none transition focus:border-brand";
+    "mt-2 w-full rounded-xl border border-zinc-200 bg-white px-4 py-3 text-zinc-900 outline-none transition focus:border-brand";
 
   return (
-    <main className="min-h-screen bg-black px-6 py-16 text-white">
+    <main className="min-h-screen bg-white px-6 py-16 text-zinc-900">
       <form
         onSubmit={handleSubmit}
         className="mx-auto max-w-2xl"
@@ -173,7 +173,7 @@ function NewDiscussionPageContent() {
         )}
 
         <div className="mt-6">
-          <label className="text-sm font-medium text-zinc-300">
+          <label className="text-sm font-medium text-zinc-400">
             Type
           </label>
           <div className="mt-2 flex flex-wrap gap-2">
@@ -186,8 +186,8 @@ function NewDiscussionPageContent() {
                 }
                 className={`rounded-full border px-3.5 py-1.5 text-sm transition ${
                   contentKind === k.value
-                    ? "border-brand bg-brand text-white"
-                    : "border-zinc-700 text-zinc-400 hover:border-zinc-500"
+                    ? "border-brand bg-brand text-zinc-900"
+                    : "border-zinc-300 text-zinc-400 hover:border-zinc-500"
                 }`}
               >
                 {k.label}
@@ -197,7 +197,7 @@ function NewDiscussionPageContent() {
         </div>
 
         <div className="mt-5">
-          <label className="text-sm font-medium text-zinc-300">
+          <label className="text-sm font-medium text-zinc-400">
             Category
           </label>
           <div className="mt-2 flex flex-wrap gap-2">
@@ -210,8 +210,8 @@ function NewDiscussionPageContent() {
                 }
                 className={`rounded-full border px-3.5 py-1.5 text-sm transition ${
                   category === c.value
-                    ? "border-brand bg-brand text-white"
-                    : "border-zinc-700 text-zinc-400 hover:border-zinc-500"
+                    ? "border-brand bg-brand text-zinc-900"
+                    : "border-zinc-300 text-zinc-400 hover:border-zinc-500"
                 }`}
               >
                 {c.label}
@@ -221,7 +221,7 @@ function NewDiscussionPageContent() {
         </div>
 
         <div className="mt-5">
-          <label className="text-sm font-medium text-zinc-300">
+          <label className="text-sm font-medium text-zinc-400">
             Title
           </label>
           <input
@@ -235,7 +235,7 @@ function NewDiscussionPageContent() {
         </div>
 
         <div className="mt-5">
-          <label className="text-sm font-medium text-zinc-300">
+          <label className="text-sm font-medium text-zinc-400">
             Details
           </label>
           <textarea
@@ -252,7 +252,7 @@ function NewDiscussionPageContent() {
         <button
           type="submit"
           disabled={submitting}
-          className="mt-6 w-full rounded-xl bg-brand py-3 font-semibold text-white transition hover:bg-brand-dark disabled:opacity-50"
+          className="mt-6 w-full rounded-xl bg-brand py-3 font-semibold text-zinc-900 transition hover:bg-brand-dark disabled:opacity-50"
         >
           {submitting
             ? "Posting..."

@@ -47,7 +47,7 @@ export default function QuestionCard({
   return (
     <Link
       href={`/discussions/${id}`}
-      className={`block rounded-2xl border bg-zinc-900 p-5 transition ${
+      className={`block rounded-2xl border bg-white p-5 transition ${
         isAnswered
           ? "border-green-600/40 hover:border-green-500/60"
           : "border-blue-500/30 hover:border-blue-500/60"
@@ -62,7 +62,7 @@ export default function QuestionCard({
           className={`rounded-full px-2.5 py-1 text-xs ${
             isAnswered
               ? "bg-green-500/10 text-green-400"
-              : "bg-zinc-800 text-zinc-400"
+              : "bg-zinc-100 text-zinc-400"
           }`}
         >
           {isAnswered
@@ -70,12 +70,12 @@ export default function QuestionCard({
             : "Unanswered"}
         </span>
 
-        <span className="text-xs text-zinc-600">
+        <span className="text-xs text-zinc-400">
           {category}
         </span>
       </div>
 
-      <h3 className="mt-2.5 text-lg font-semibold text-white">
+      <h3 className="mt-2.5 text-lg font-semibold text-zinc-900">
         {title}
       </h3>
 
@@ -85,7 +85,7 @@ export default function QuestionCard({
         </p>
       )}
 
-      <div className="mt-3 flex items-center justify-between text-xs text-zinc-500">
+      <div className="mt-3 flex items-center justify-between text-xs text-zinc-400">
         <span>
           Asked by {authorName} ·{" "}
           {timeAgo(createdAt)}

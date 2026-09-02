@@ -95,7 +95,7 @@ export default function DiscussionsPage() {
   }, [category]);
 
   return (
-    <main className="min-h-screen bg-black px-6 py-12 text-white">
+    <main className="min-h-screen bg-white px-6 py-12 text-zinc-900">
       <div className="mx-auto max-w-3xl">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
@@ -111,7 +111,7 @@ export default function DiscussionsPage() {
 
           <Link
             href="/discussions/new"
-            className="rounded-xl bg-brand px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-dark"
+            className="rounded-xl bg-brand px-5 py-2.5 text-sm font-semibold text-zinc-900 hover:bg-brand-dark"
           >
             + New Discussion
           </Link>
@@ -127,8 +127,8 @@ export default function DiscussionsPage() {
               }
               className={`rounded-full border px-3.5 py-1.5 text-sm transition ${
                 category === c.value
-                  ? "border-brand bg-brand text-white"
-                  : "border-zinc-700 text-zinc-400 hover:border-zinc-500 hover:text-white"
+                  ? "border-brand bg-brand text-zinc-900"
+                  : "border-zinc-300 text-zinc-400 hover:border-zinc-500 hover:text-zinc-900"
               }`}
             >
               {c.label}
@@ -143,7 +143,7 @@ export default function DiscussionsPage() {
             }).map((_, i) => (
               <div
                 key={i}
-                className="h-20 animate-pulse rounded-2xl border border-zinc-800 bg-zinc-900"
+                className="h-20 animate-pulse rounded-2xl border border-zinc-200 bg-white"
               />
             ))}
           </div>
@@ -151,7 +151,7 @@ export default function DiscussionsPage() {
 
         {!loading &&
           threads.length === 0 && (
-            <div className="mt-10 rounded-2xl border border-zinc-800 bg-zinc-900 p-8 text-center">
+            <div className="mt-10 rounded-2xl border border-zinc-200 bg-white p-8 text-center">
               <p className="text-zinc-400">
                 No discussions yet — be
                 the first to start one.
@@ -182,7 +182,7 @@ export default function DiscussionsPage() {
                   <Link
                     key={thread.id}
                     href={`/discussions/${thread.id}`}
-                    className="flex items-center justify-between gap-4 rounded-2xl border border-zinc-800 bg-zinc-900 p-4 transition hover:border-brand/50"
+                    className="flex items-center justify-between gap-4 rounded-2xl border border-zinc-200 bg-white p-4 transition hover:border-brand/50"
                   >
                     <div className="min-w-0">
                       <div className="flex items-center gap-2">
@@ -192,7 +192,7 @@ export default function DiscussionsPage() {
                           </span>
                         )}
 
-                        <span className="rounded-full bg-zinc-800 px-2 py-0.5 text-xs text-zinc-400">
+                        <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-xs text-zinc-400">
                           {
                             CATEGORIES.find(
                               (c) =>
@@ -203,11 +203,11 @@ export default function DiscussionsPage() {
                         </span>
                       </div>
 
-                      <h2 className="mt-1.5 truncate font-medium text-white">
+                      <h2 className="mt-1.5 truncate font-medium text-zinc-900">
                         {thread.title}
                       </h2>
 
-                      <p className="mt-1 text-xs text-zinc-500">
+                      <p className="mt-1 text-xs text-zinc-400">
                         {authorName} ·{" "}
                         {new Date(
                           thread.created_at
@@ -215,15 +215,15 @@ export default function DiscussionsPage() {
                       </p>
                     </div>
 
-                    <div className="flex shrink-0 gap-4 text-center text-xs text-zinc-500">
+                    <div className="flex shrink-0 gap-4 text-center text-xs text-zinc-400">
                       <div>
-                        <p className="text-base font-semibold text-white">
+                        <p className="text-base font-semibold text-zinc-900">
                           {voteCount}
                         </p>
                         votes
                       </div>
                       <div>
-                        <p className="text-base font-semibold text-white">
+                        <p className="text-base font-semibold text-zinc-900">
                           {replyCount}
                         </p>
                         replies
