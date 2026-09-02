@@ -204,19 +204,21 @@ export default function CommunityRightSidebar() {
               <ul className="mt-3 space-y-2.5">
                 {contributors.map(
                   (c) => (
-                    <li
-                      key={c.id}
-                      className="flex items-center justify-between text-sm"
-                    >
-                      <span className="truncate text-zinc-300">
-                        {c.display_name ||
-                          c.email ||
-                          "Community Member"}
-                      </span>
-                      <span className="shrink-0 text-xs text-zinc-500">
-                        {c.postCount}{" "}
-                        posts
-                      </span>
+                    <li key={c.id}>
+                      <Link
+                        href={`/community/user/${c.id}`}
+                        className="flex items-center justify-between text-sm hover:text-orange-400"
+                      >
+                        <span className="truncate text-zinc-300">
+                          {c.display_name ||
+                            c.email ||
+                            "Community Member"}
+                        </span>
+                        <span className="shrink-0 text-xs text-zinc-500">
+                          {c.postCount}{" "}
+                          posts
+                        </span>
+                      </Link>
                     </li>
                   )
                 )}
