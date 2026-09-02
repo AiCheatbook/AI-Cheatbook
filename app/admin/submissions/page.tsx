@@ -333,7 +333,7 @@ export default function AdminSubmissionsPage() {
   return (
     <main className="min-h-screen bg-black px-6 py-10 text-white">
       <div className="mx-auto max-w-4xl">
-        <p className="text-sm font-semibold uppercase tracking-wider text-orange-500">
+        <p className="text-sm font-semibold uppercase tracking-wider text-brand">
           Admin
         </p>
 
@@ -353,7 +353,7 @@ export default function AdminSubmissionsPage() {
             onClick={() => setTab("prompts")}
             className={`border-b-2 px-1 pb-3 text-sm font-medium ${
               tab === "prompts"
-                ? "border-orange-500 text-white"
+                ? "border-brand text-white"
                 : "border-transparent text-zinc-500 hover:text-zinc-300"
             }`}
           >
@@ -367,7 +367,7 @@ export default function AdminSubmissionsPage() {
             }
             className={`border-b-2 px-1 pb-3 text-sm font-medium ${
               tab === "learning-cards"
-                ? "border-orange-500 text-white"
+                ? "border-brand text-white"
                 : "border-transparent text-zinc-500 hover:text-zinc-300"
             }`}
           >

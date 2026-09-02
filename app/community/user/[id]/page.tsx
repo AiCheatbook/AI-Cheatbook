@@ -252,7 +252,7 @@ export default function UserProfilePage() {
               className="h-16 w-16 rounded-full object-cover"
             />
           ) : (
-            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-orange-500/20 text-2xl font-bold text-orange-400">
+            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-brand/20 text-2xl font-bold text-brand">
               {name.charAt(0).toUpperCase()}
             </div>
           )}
@@ -263,7 +263,7 @@ export default function UserProfilePage() {
             </h1>
 
             <div className="mt-1 flex items-center gap-2">
-              <span className="rounded-full bg-orange-500/10 px-2.5 py-1 text-xs font-semibold text-orange-400">
+              <span className="rounded-full bg-brand/10 px-2.5 py-1 text-xs font-semibold text-brand">
                 🏅 {badge}
               </span>
               <span className="text-xs text-zinc-500">
@@ -285,14 +285,14 @@ export default function UserProfilePage() {
                 }
                 rows={2}
                 placeholder="Write a short bio..."
-                className="w-full rounded-lg border border-zinc-800 bg-black px-3 py-2 text-sm text-white outline-none focus:border-orange-500"
+                className="w-full rounded-lg border border-zinc-800 bg-black px-3 py-2 text-sm text-white outline-none focus:border-brand"
               />
               <div className="mt-2 flex gap-2">
                 <button
                   type="button"
                   onClick={handleSaveBio}
                   disabled={savingBio}
-                  className="rounded-lg bg-orange-500 px-3 py-1.5 text-xs font-semibold text-white hover:bg-orange-600"
+                  className="rounded-lg bg-brand px-3 py-1.5 text-xs font-semibold text-white hover:bg-brand-dark"
                 >
                   {savingBio
                     ? "Saving..."
@@ -324,7 +324,7 @@ export default function UserProfilePage() {
                   onClick={() =>
                     setEditingBio(true)
                   }
-                  className="mt-1 text-xs text-orange-500 hover:text-orange-400"
+                  className="mt-1 text-xs text-brand hover:text-brand"
                 >
                   {profile.bio
                     ? "Edit bio"
@@ -350,7 +350,7 @@ export default function UserProfilePage() {
             <Link
               key={thread.id}
               href={`/discussions/${thread.id}`}
-              className="flex items-center gap-2 rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3 transition hover:border-orange-500/40"
+              className="flex items-center gap-2 rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3 transition hover:border-brand/40"
             >
               <span>
                 {CONTENT_KIND_ICON[

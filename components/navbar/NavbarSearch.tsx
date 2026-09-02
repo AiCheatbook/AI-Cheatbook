@@ -27,9 +27,19 @@ const SOURCE_ICON: Record<string, string> = {
   Poll: "📊",
 };
 
-export default function HeroSearch() {
+/*
+ * The site's global search, now living in
+ * the navbar as a compact toggle instead of
+ * a permanent hero element — same real
+ * search logic as before (library, news,
+ * learning, community threads, polls), just
+ * a different entry point.
+ */
+
+export default function NavbarSearch() {
   const router = useRouter();
 
+  const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<
     SearchResult[]
@@ -38,21 +48,19 @@ export default function HeroSearch() {
   const [showSuggestions, setShowSuggestions] =
     useState(false);
 
-  const searchRef =
+  const containerRef =
     useRef<HTMLDivElement>(null);
+  const inputRef =
+    useRef<HTMLInputElement>(null);
 
-  /*
-   * Global search — real functionality
-   * across every publicly searchable
-   * content type on the site, not just
-   * the Prompt Library. Each source is
-   * queried in parallel and results are
-   * merged, each clearly labeled by
-   * where it came from.
-   */
+  useEffect(() => {
+    if (open) {
+      inputRef.current?.focus();
+    }
+  }, [open]);
+
   useEffect(() => {
     const trimmedQuery = query.trim();
-
     let cancelled = false;
 
     const timer = window.setTimeout(async () => {
@@ -138,13 +146,10 @@ export default function HeroSearch() {
           merged.push({
             id: `library-${item.id}`,
             title: item.title,
-            description:
-              item.description,
+            description: item.description,
             href: `/prompt/${item.slug}`,
             sourceLabel: "AI Library",
-            icon: SOURCE_ICON[
-              "AI Library"
-            ],
+            icon: SOURCE_ICON["AI Library"],
           });
         }
 
@@ -165,8 +170,7 @@ export default function HeroSearch() {
           merged.push({
             id: `learning-${item.id}`,
             title: item.title,
-            description:
-              item.summary,
+            description: item.summary,
             href: `/learning/${item.slug}`,
             sourceLabel: "Learning",
             icon: SOURCE_ICON["Learning"],
@@ -176,8 +180,7 @@ export default function HeroSearch() {
         for (const item of threadsResponse.data ||
           []) {
           const label =
-            item.content_kind ===
-            "question"
+            item.content_kind === "question"
               ? "Discussion"
               : "Community";
 
@@ -211,7 +214,6 @@ export default function HeroSearch() {
             "Global search error:",
             error
           );
-
           setResults([]);
         }
       } finally {
@@ -232,12 +234,13 @@ export default function HeroSearch() {
       event: MouseEvent
     ) {
       if (
-        searchRef.current &&
-        !searchRef.current.contains(
+        containerRef.current &&
+        !containerRef.current.contains(
           event.target as Node
         )
       ) {
         setShowSuggestions(false);
+        setOpen(false);
       }
     }
 
@@ -246,32 +249,25 @@ export default function HeroSearch() {
       handleOutsideClick
     );
 
-    return () => {
+    return () =>
       document.removeEventListener(
         "mousedown",
         handleOutsideClick
       );
-    };
   }, []);
 
   function handleSubmit(
     event: FormEvent<HTMLFormElement>
   ) {
     event.preventDefault();
-
     const trimmedQuery = query.trim();
-
     setShowSuggestions(false);
-
-    if (!trimmedQuery) {
-      router.push("/search");
-      return;
-    }
+    setOpen(false);
 
     router.push(
-      `/search?q=${encodeURIComponent(
-        trimmedQuery
-      )}`
+      trimmedQuery
+        ? `/search?q=${encodeURIComponent(trimmedQuery)}`
+        : "/search"
     );
   }
 
@@ -279,85 +275,71 @@ export default function HeroSearch() {
     item: SearchResult
   ) {
     setShowSuggestions(false);
-    setQuery(item.title);
+    setOpen(false);
+    setQuery("");
     router.push(item.href);
   }
 
-  function handleViewAll() {
-    const trimmedQuery = query.trim();
+  const shouldShowDropdown =
+    showSuggestions && query.trim().length > 0;
 
-    setShowSuggestions(false);
-
-    if (!trimmedQuery) {
-      router.push("/search");
-      return;
-    }
-
-    router.push(
-      `/search?q=${encodeURIComponent(
-        trimmedQuery
-      )}`
+  if (!open) {
+    return (
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+        aria-label="Search AI Cheatbook"
+        className="flex h-10 w-10 items-center justify-center rounded-xl border border-zinc-200 text-zinc-500 transition hover:border-brand hover:text-brand"
+      >
+        🔍
+      </button>
     );
   }
 
-  const shouldShowDropdown =
-    showSuggestions &&
-    query.trim().length > 0;
-
   return (
     <div
-      ref={searchRef}
-      className="relative w-full"
+      ref={containerRef}
+      className="relative"
     >
-      <form
-        onSubmit={handleSubmit}
-        className="w-full"
-      >
-        <div className="flex w-full flex-col gap-3 sm:flex-row">
-          <div className="relative flex-1">
-            <span
-              aria-hidden="true"
-              className="pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 text-lg text-zinc-500"
-            >
-              🔍
-            </span>
-
-            <input
-              type="text"
-              value={query}
-              onChange={(event) => {
-                setQuery(event.target.value);
-                setShowSuggestions(true);
-              }}
-              onFocus={() => {
-                if (query.trim()) {
-                  setShowSuggestions(true);
-                }
-              }}
-              placeholder="Search AI Cheatbook..."
-              aria-label="Search AI Cheatbook"
-              aria-autocomplete="list"
-              className="h-14 w-full rounded-xl border border-zinc-800 bg-zinc-900 pl-12 pr-5 text-white outline-none transition placeholder:text-zinc-500 focus:border-brand focus:ring-1 focus:ring-brand/30"
-            />
-
-            {loading && (
-              <div className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2">
-                <div className="h-4 w-4 animate-spin rounded-full border-2 border-zinc-600 border-t-brand" />
-              </div>
-            )}
-          </div>
+      <form onSubmit={handleSubmit}>
+        <div className="flex items-center">
+          <input
+            ref={inputRef}
+            type="text"
+            value={query}
+            onChange={(e) => {
+              setQuery(e.target.value);
+              setShowSuggestions(true);
+            }}
+            placeholder="Search AI Cheatbook..."
+            aria-label="Search AI Cheatbook"
+            className="h-10 w-56 rounded-l-xl border border-r-0 border-zinc-200 bg-white pl-4 pr-2 text-sm text-zinc-900 outline-none placeholder:text-zinc-400 focus:border-brand sm:w-72"
+          />
 
           <button
             type="submit"
-            className="h-14 rounded-xl bg-brand px-7 font-semibold text-white transition hover:bg-brand-dark active:scale-[0.98]"
+            className="h-10 rounded-r-xl border border-zinc-200 bg-brand px-3 text-sm font-semibold text-white transition hover:bg-brand-dark"
           >
-            Search
+            {loading ? "…" : "Search"}
+          </button>
+
+          <button
+            type="button"
+            onClick={() => {
+              setOpen(false);
+              setQuery("");
+              setShowSuggestions(false);
+            }}
+            aria-label="Close search"
+            className="ml-2 text-sm text-zinc-400 hover:text-zinc-700"
+          >
+            ✕
           </button>
         </div>
       </form>
 
       {shouldShowDropdown && (
-        <div className="absolute left-0 right-0 top-[calc(100%+12px)] z-50 overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-950 shadow-2xl shadow-black/50">
+        <div className="absolute right-0 top-[calc(100%+10px)] z-50 w-80 overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-2xl sm:w-96">
           {loading && results.length === 0 && (
             <div className="px-5 py-6 text-sm text-zinc-500">
               Searching AI Cheatbook...
@@ -365,83 +347,39 @@ export default function HeroSearch() {
           )}
 
           {!loading && results.length > 0 && (
-            <div>
-              <div className="max-h-96 overflow-y-auto">
-                {results.map((item) => (
-                  <button
-                    key={item.id}
-                    type="button"
-                    onClick={() =>
-                      handleSuggestionClick(
-                        item
-                      )
-                    }
-                    className="flex w-full items-start gap-4 border-b border-zinc-800/70 px-5 py-4 text-left transition last:border-b-0 hover:bg-zinc-900"
-                  >
-                    <div className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-zinc-700 bg-zinc-900 text-sm">
-                      {item.icon}
-                    </div>
+            <div className="max-h-96 overflow-y-auto">
+              {results.map((item) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() =>
+                    handleSuggestionClick(item)
+                  }
+                  className="flex w-full items-start gap-3 border-b border-zinc-100 px-4 py-3 text-left transition last:border-b-0 hover:bg-brand-light"
+                >
+                  <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-zinc-200 bg-zinc-50 text-sm">
+                    {item.icon}
+                  </div>
 
-                    <div className="min-w-0 flex-1">
-                      <div className="flex items-center gap-2">
-                        <p className="truncate font-medium text-white">
-                          {item.title}
-                        </p>
-                      </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate text-sm font-medium text-zinc-900">
+                      {item.title}
+                    </p>
 
-                      <span className="mt-0.5 inline-block rounded-full bg-zinc-800 px-2 py-0.5 text-[11px] font-medium uppercase tracking-wide text-brand">
-                        {item.sourceLabel}
-                      </span>
-
-                      {item.description && (
-                        <p className="mt-1.5 line-clamp-1 text-xs text-zinc-500">
-                          {item.description}
-                        </p>
-                      )}
-                    </div>
-
-                    <span className="mt-1 text-zinc-600">
-                      →
+                    <span className="mt-0.5 inline-block rounded-full bg-brand-light px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-brand-dark">
+                      {item.sourceLabel}
                     </span>
-                  </button>
-                ))}
-              </div>
-
-              <button
-                type="button"
-                onClick={handleViewAll}
-                className="w-full border-t border-zinc-800 bg-zinc-900/50 px-5 py-3.5 text-center text-sm font-medium text-brand transition hover:bg-zinc-900 hover:text-brand"
-              >
-                View all results →
-              </button>
+                  </div>
+                </button>
+              ))}
             </div>
           )}
 
-          {!loading &&
-            results.length === 0 && (
-              <div className="px-5 py-7 text-center">
-                <div className="text-2xl">
-                  🔎
-                </div>
-
-                <p className="mt-2 text-sm font-medium text-white">
-                  No results found
-                </p>
-
-                <p className="mt-1 text-xs text-zinc-500">
-                  Try a different search
-                  term.
-                </p>
-
-                <button
-                  type="button"
-                  onClick={handleViewAll}
-                  className="mt-4 text-sm font-medium text-brand hover:text-brand"
-                >
-                  Search the full library →
-                </button>
-              </div>
-            )}
+          {!loading && results.length === 0 && (
+            <div className="px-5 py-6 text-center text-sm text-zinc-500">
+              No results found.
+            </div>
+          )}
         </div>
       )}
     </div>

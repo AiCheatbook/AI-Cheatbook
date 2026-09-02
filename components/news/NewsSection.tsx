@@ -93,7 +93,7 @@ export default function NewsSection({
 
         <div className="mb-5">
 
-          <p className="mb-0 whitespace-nowrap text-sm font-semibold uppercase tracking-wider text-orange-500">
+          <p className="mb-0 whitespace-nowrap text-sm font-semibold uppercase tracking-wider text-brand">
             Stay Updated
           </p>
 

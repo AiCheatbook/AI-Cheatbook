@@ -72,7 +72,7 @@ export default function RichTextEditor({
       Link.configure({
         openOnClick: false,
         HTMLAttributes: {
-          class: "text-orange-500 underline",
+          class: "text-brand underline",
         },
       }),
       FigureImage,
@@ -99,7 +99,7 @@ export default function RichTextEditor({
     editorProps: {
       attributes: {
         class:
-          "prose prose-invert max-w-none min-h-[300px] rounded-b-xl border border-t-0 border-zinc-800 bg-zinc-900 px-4 py-4 outline-none focus:border-orange-500",
+          "prose prose-invert max-w-none min-h-[300px] rounded-b-xl border border-t-0 border-zinc-800 bg-zinc-900 px-4 py-4 outline-none focus:border-brand",
       },
     },
     onUpdate: ({ editor }) => {
@@ -255,7 +255,7 @@ export default function RichTextEditor({
   const buttonClass = (active: boolean) =>
     `rounded-md px-2.5 py-1.5 text-sm transition ${
       active
-        ? "bg-orange-500 text-white"
+        ? "bg-brand text-white"
         : "text-zinc-300 hover:bg-zinc-800"
     }`;
 

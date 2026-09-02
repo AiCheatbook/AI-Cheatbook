@@ -207,7 +207,7 @@ export default function CommunityRightSidebar() {
                     <li key={c.id}>
                       <Link
                         href={`/community/user/${c.id}`}
-                        className="flex items-center justify-between text-sm hover:text-orange-400"
+                        className="flex items-center justify-between text-sm hover:text-brand"
                       >
                         <span className="truncate text-zinc-300">
                           {c.display_name ||
@@ -228,7 +228,7 @@ export default function CommunityRightSidebar() {
 
         <Link
           href="/notebook"
-          className="block rounded-2xl border border-zinc-800 bg-zinc-900 p-4 transition hover:border-orange-500/50"
+          className="block rounded-2xl border border-zinc-800 bg-zinc-900 p-4 transition hover:border-brand/50"
         >
           <h3 className="text-sm font-semibold text-white">
             📓 Your AI Notebook

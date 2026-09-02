@@ -48,7 +48,7 @@ export default function StructurePopover({
     return (
       <div
         title="Log in to use Prompt Structures"
-        className="flex items-center gap-1.5 rounded-full border border-zinc-800 px-3 py-1.5 text-xs text-zinc-600"
+        className="flex items-center gap-1.5 rounded-full border border-zinc-200 px-3 py-1.5 text-xs text-zinc-400"
       >
         🔒 Structure
       </div>
@@ -62,8 +62,8 @@ export default function StructurePopover({
         onClick={() => setOpen((v) => !v)}
         className={`rounded-full border px-3 py-1.5 text-xs transition ${
           selected
-            ? "border-orange-500 bg-orange-500/10 text-orange-400"
-            : "border-zinc-700 text-zinc-400 hover:border-zinc-500 hover:text-white"
+            ? "border-brand bg-brand/10 text-brand"
+            : "border-zinc-300 text-zinc-400 hover:border-zinc-500 hover:text-zinc-900"
         }`}
       >
         {selected
@@ -72,14 +72,14 @@ export default function StructurePopover({
       </button>
 
       {open && (
-        <div className="absolute bottom-9 left-0 z-30 w-52 overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900 shadow-xl">
+        <div className="absolute bottom-9 left-0 z-30 w-52 overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-xl">
           <button
             type="button"
             onClick={() => {
               onChange(null);
               setOpen(false);
             }}
-            className="block w-full px-3 py-2 text-left text-xs text-zinc-400 hover:bg-zinc-800"
+            className="block w-full px-3 py-2 text-left text-xs text-zinc-400 hover:bg-zinc-100"
           >
             None
           </button>
@@ -95,7 +95,7 @@ export default function StructurePopover({
                 });
                 setOpen(false);
               }}
-              className="block w-full border-t border-zinc-800 px-3 py-2 text-left text-xs text-zinc-300 hover:bg-zinc-800"
+              className="block w-full border-t border-zinc-200 px-3 py-2 text-left text-xs text-zinc-400 hover:bg-zinc-100"
             >
               {s.name}
             </button>

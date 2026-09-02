@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { supabaseAuthClient } from "@/lib/supabase/auth-client";
+import NavbarSearch from "./NavbarSearch";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -55,7 +56,7 @@ export default function Navbar() {
         <Link
           href="/"
           onClick={handleLogoClick}
-          className="text-xl font-bold text-zinc-900 transition hover:text-orange-500"
+          className="text-xl font-bold text-zinc-900 transition hover:text-brand"
         >
           AI Cheatbook
         </Link>
@@ -66,42 +67,42 @@ export default function Navbar() {
 
           <Link
             href="/search"
-            className="transition hover:text-orange-500"
+            className="transition hover:text-brand"
           >
             AI Library
           </Link>
 
           <Link
             href="/news"
-            className="transition hover:text-orange-500"
+            className="transition hover:text-brand"
           >
             AI News
           </Link>
 
           <Link
             href="/learning"
-            className="transition hover:text-orange-500"
+            className="transition hover:text-brand"
           >
             Learning
           </Link>
 
           <Link
             href="/community"
-            className="transition hover:text-orange-500"
+            className="transition hover:text-brand"
           >
             Community
           </Link>
 
           <Link
             href="/discussions"
-            className="transition hover:text-orange-500"
+            className="transition hover:text-brand"
           >
             Discussions
           </Link>
 
           <Link
             href="/generator"
-            className="transition hover:text-orange-500"
+            className="transition hover:text-brand"
           >
             Prompt Generator
           </Link>
@@ -112,6 +113,8 @@ export default function Navbar() {
 
         <div className="hidden items-center gap-4 md:flex">
 
+          <NavbarSearch />
+
           <Link
             href={loggedIn ? "/account" : "/login"}
             className="text-sm text-zinc-600 transition hover:text-zinc-900"
@@ -121,7 +124,7 @@ export default function Navbar() {
 
           <Link
             href="/submit/prompt"
-            className="rounded-xl bg-orange-500 px-5 py-2 text-sm font-medium text-white transition hover:bg-orange-600"
+            className="rounded-xl bg-brand px-5 py-2 text-sm font-medium text-white transition hover:bg-brand-dark"
           >
             Submit Prompt
           </Link>
@@ -135,7 +138,7 @@ export default function Navbar() {
           onClick={() =>
             setMenuOpen((current) => !current)
           }
-          className="flex h-10 w-10 items-center justify-center rounded-xl border border-zinc-300 text-zinc-600 transition hover:border-orange-500 hover:text-zinc-900 md:hidden"
+          className="flex h-10 w-10 items-center justify-center rounded-xl border border-zinc-300 text-zinc-600 transition hover:border-brand hover:text-zinc-900 md:hidden"
           aria-label={
             menuOpen
               ? "Close navigation menu"
@@ -153,20 +156,23 @@ export default function Navbar() {
       {menuOpen && (
         <div className="border-t border-zinc-200 bg-white px-6 py-4 md:hidden">
 
+          <div className="mb-3">
+            <NavbarSearch />
+          </div>
+
           <nav className="flex flex-col gap-2">
 
             <Link
               href="/search"
               onClick={closeMenu}
-              className="rounded-xl px-4 py-3 text-zinc-600 transition hover:bg-zinc-100 hover:text-orange-500"
-            >
-              AI Cheatbook Library
+              className="rounded-xl px-4 py-3 text-zinc-600 transition hover:bg-zinc-100 hover:text-brand"
+            >              AI Cheatbook Library
             </Link>
 
             <Link
               href="/news"
               onClick={closeMenu}
-              className="rounded-xl px-4 py-3 text-zinc-600 transition hover:bg-zinc-100 hover:text-orange-500"
+              className="rounded-xl px-4 py-3 text-zinc-600 transition hover:bg-zinc-100 hover:text-brand"
             >
               AI News
             </Link>
@@ -174,7 +180,7 @@ export default function Navbar() {
             <Link
               href="/learning"
               onClick={closeMenu}
-              className="rounded-xl px-4 py-3 text-zinc-600 transition hover:bg-zinc-100 hover:text-orange-500"
+              className="rounded-xl px-4 py-3 text-zinc-600 transition hover:bg-zinc-100 hover:text-brand"
             >
               Learning
             </Link>
@@ -182,7 +188,7 @@ export default function Navbar() {
             <Link
               href="/generator"
               onClick={closeMenu}
-              className="rounded-xl px-4 py-3 text-zinc-600 transition hover:bg-zinc-100 hover:text-orange-500"
+              className="rounded-xl px-4 py-3 text-zinc-600 transition hover:bg-zinc-100 hover:text-brand"
             >
               Generator
             </Link>
@@ -190,7 +196,7 @@ export default function Navbar() {
             <Link
               href="/community"
               onClick={closeMenu}
-              className="rounded-xl px-4 py-3 text-zinc-600 transition hover:bg-zinc-100 hover:text-orange-500"
+              className="rounded-xl px-4 py-3 text-zinc-600 transition hover:bg-zinc-100 hover:text-brand"
             >
               Community
             </Link>
@@ -198,7 +204,7 @@ export default function Navbar() {
             <Link
               href="/discussions"
               onClick={closeMenu}
-              className="rounded-xl px-4 py-3 text-zinc-600 transition hover:bg-zinc-100 hover:text-orange-500"
+              className="rounded-xl px-4 py-3 text-zinc-600 transition hover:bg-zinc-100 hover:text-brand"
             >
               Discussions
             </Link>
@@ -206,7 +212,7 @@ export default function Navbar() {
             <Link
               href={loggedIn ? "/account" : "/login"}
               onClick={closeMenu}
-              className="rounded-xl px-4 py-3 text-zinc-600 transition hover:bg-zinc-100 hover:text-orange-500"
+              className="rounded-xl px-4 py-3 text-zinc-600 transition hover:bg-zinc-100 hover:text-brand"
             >
               {loggedIn ? "My Account" : "Login"}
             </Link>

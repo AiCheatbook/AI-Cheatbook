@@ -1042,7 +1042,7 @@ export default function EditNewsPage() {
           </Link>
 
           <div className="mt-5">
-            <p className="text-sm font-semibold uppercase tracking-wider text-orange-500">
+            <p className="text-sm font-semibold uppercase tracking-wider text-brand">
               Admin / News
             </p>
 
@@ -1094,7 +1094,7 @@ export default function EditNewsPage() {
                     event.target.value
                   )
                 }
-                className="w-full rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3 text-white outline-none transition focus:border-orange-500"
+                className="w-full rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3 text-white outline-none transition focus:border-brand"
               />
             </div>
 
@@ -1112,7 +1112,7 @@ export default function EditNewsPage() {
                     event.target.value
                   )
                 }
-                className="w-full rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3 text-white outline-none transition focus:border-orange-500"
+                className="w-full rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3 text-white outline-none transition focus:border-brand"
               />
             </div>
 
@@ -1132,7 +1132,7 @@ export default function EditNewsPage() {
                       event.target.value
                     )
                   }
-                  className="w-full rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3 text-white outline-none transition focus:border-orange-500"
+                  className="w-full rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3 text-white outline-none transition focus:border-brand"
                 />
               </div>
 
@@ -1148,7 +1148,7 @@ export default function EditNewsPage() {
                       event.target.value
                     )
                   }
-                  className="w-full rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3 text-white outline-none transition focus:border-orange-500"
+                  className="w-full rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3 text-white outline-none transition focus:border-brand"
                 />
               </div>
 
@@ -1169,7 +1169,7 @@ export default function EditNewsPage() {
                   )
                 }
                 rows={4}
-                className="w-full resize-y rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3 text-white outline-none transition focus:border-orange-500"
+                className="w-full resize-y rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3 text-white outline-none transition focus:border-brand"
               />
             </div>
 
@@ -1255,7 +1255,7 @@ export default function EditNewsPage() {
                   )
                 }
                 disabled={saving}
-                className="h-4 w-4 accent-orange-500"
+                className="h-4 w-4 accent-brand"
               />
 
               Published
@@ -1279,7 +1279,7 @@ export default function EditNewsPage() {
                 type="button"
                 onClick={handlePreview}
                 disabled={saving}
-                className="rounded-xl border border-orange-500/50 bg-orange-500/10 px-5 py-3 text-sm font-semibold text-orange-400 transition hover:bg-orange-500/20 disabled:cursor-not-allowed disabled:opacity-50"
+                className="rounded-xl border border-brand/50 bg-brand/10 px-5 py-3 text-sm font-semibold text-brand transition hover:bg-brand/20 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 Preview
               </button>
@@ -1323,7 +1323,7 @@ export default function EditNewsPage() {
                   onClick={() =>
                     handleSave(true)
                   }
-                  className="rounded-xl bg-orange-500 px-5 py-3 text-sm font-semibold text-black transition hover:bg-orange-400 disabled:cursor-not-allowed disabled:opacity-50"
+                  className="rounded-xl bg-brand px-5 py-3 text-sm font-semibold text-black transition hover:bg-brand disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   {saving
                     ? "Publishing..."
@@ -1340,7 +1340,7 @@ export default function EditNewsPage() {
                   onClick={() =>
                     handleSave(true)
                   }
-                  className="rounded-xl border border-orange-500/50 px-5 py-3 text-sm font-semibold text-orange-400 transition hover:bg-orange-500/10 disabled:cursor-not-allowed disabled:opacity-50"
+                  className="rounded-xl border border-brand/50 px-5 py-3 text-sm font-semibold text-brand transition hover:bg-brand/10 disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   {saving
                     ? "Updating..."

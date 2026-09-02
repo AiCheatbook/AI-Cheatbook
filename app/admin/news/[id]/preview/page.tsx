@@ -148,7 +148,7 @@ export default function NewsPreviewPage() {
 
             <Link
               href={editorUrl}
-              className="mt-6 inline-flex rounded-xl bg-orange-500 px-5 py-3 text-sm font-semibold text-black transition hover:bg-orange-400"
+              className="mt-6 inline-flex rounded-xl bg-brand px-5 py-3 text-sm font-semibold text-black transition hover:bg-brand"
             >
               Back to Editor
             </Link>
@@ -177,13 +177,13 @@ export default function NewsPreviewPage() {
           PREVIEW BAR
       =================================================== */}
 
-      <div className="sticky top-0 z-50 border-b border-orange-500/30 bg-zinc-950/95 px-6 py-3 backdrop-blur">
+      <div className="sticky top-0 z-50 border-b border-brand/30 bg-zinc-950/95 px-6 py-3 backdrop-blur">
 
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4">
 
           <div className="flex items-center gap-3">
 
-            <span className="rounded-full bg-orange-500 px-3 py-1 text-xs font-bold text-black">
+            <span className="rounded-full bg-brand px-3 py-1 text-xs font-bold text-black">
               PREVIEW
             </span>
 
@@ -213,7 +213,7 @@ export default function NewsPreviewPage() {
         {/* CATEGORY */}
 
         {news.category && (
-          <p className="text-sm font-semibold uppercase tracking-wider text-orange-500">
+          <p className="text-sm font-semibold uppercase tracking-wider text-brand">
             {news.category}
           </p>
         )}
@@ -646,7 +646,7 @@ function PreviewBlock({
     }
 
     return (
-      <blockquote className="border-l-2 border-orange-500 pl-5">
+      <blockquote className="border-l-2 border-brand pl-5">
 
         <p className="text-lg italic leading-8 text-zinc-200">
           “{text}”

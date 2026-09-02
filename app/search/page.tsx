@@ -397,7 +397,7 @@ export default async function SearchPage({
 
         <header className="mb-8">
 
-          <p className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-orange-500">
+          <p className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-brand">
             AI Cheatbook
           </p>
 
@@ -464,7 +464,7 @@ export default async function SearchPage({
               {query && (
                 <Link
                   href={getClearSearchUrl()}
-                  className="rounded-lg border border-zinc-700 px-3 py-1.5 text-xs font-medium text-zinc-400 transition hover:border-orange-500 hover:text-orange-400"
+                  className="rounded-lg border border-zinc-700 px-3 py-1.5 text-xs font-medium text-zinc-400 transition hover:border-brand hover:text-brand"
                 >
                   Clear Search
                 </Link>
@@ -505,7 +505,7 @@ export default async function SearchPage({
                         )}
                         className={`group block border-b border-zinc-900 px-5 py-4 transition ${
                           isSelected
-                            ? "border-l-2 border-l-orange-500 bg-orange-500/10"
+                            ? "border-l-2 border-l-brand bg-brand/10"
                             : "border-l-2 border-l-transparent hover:bg-zinc-900"
                         }`}
                       >
@@ -548,7 +548,7 @@ export default async function SearchPage({
                             <h3
                               className={`truncate text-sm font-semibold transition ${
                                 isSelected
-                                  ? "text-orange-400"
+                                  ? "text-brand"
                                   : "text-zinc-200 group-hover:text-white"
                               }`}
                             >
@@ -611,7 +611,7 @@ export default async function SearchPage({
                     {query && (
                       <Link
                         href={getClearSearchUrl()}
-                        className="mt-5 inline-flex rounded-lg bg-orange-500 px-4 py-2 text-xs font-semibold text-white transition hover:bg-orange-600"
+                        className="mt-5 inline-flex rounded-lg bg-brand px-4 py-2 text-xs font-semibold text-white transition hover:bg-brand-dark"
                       >
                         Clear Search
                       </Link>
@@ -669,7 +669,7 @@ export default async function SearchPage({
                       <div className="flex flex-wrap gap-2">
 
                         {selectedItem.category && (
-                          <span className="rounded-full bg-orange-500/10 px-3 py-1 text-xs font-medium text-orange-400">
+                          <span className="rounded-full bg-brand/10 px-3 py-1 text-xs font-medium text-brand">
                             {
                               selectedItem.category
                             }
@@ -766,7 +766,7 @@ export default async function SearchPage({
                                 href={`/search?q=${encodeURIComponent(
                                   keyword
                                 )}`}
-                                className="py-1.5 text-xs text-zinc-300 transition hover:text-orange-400"
+                                className="py-1.5 text-xs text-zinc-300 transition hover:text-brand"
                               >
                                 {keyword}
                               </Link>
@@ -806,7 +806,7 @@ export default async function SearchPage({
                               href={`/search?tool=${encodeURIComponent(
                                 tool
                               )}`}
-                              className="rounded-lg border border-zinc-800 bg-zinc-900 px-3 py-2 text-xs text-zinc-300 transition hover:border-orange-500 hover:text-orange-400"
+                              className="rounded-lg border border-zinc-800 bg-zinc-900 px-3 py-2 text-xs text-zinc-300 transition hover:border-brand hover:text-brand"
                             >
                               {tool}
                             </Link>
@@ -840,14 +840,14 @@ export default async function SearchPage({
 
                     <Link
                       href={detailsUrl}
-                      className="rounded-xl bg-orange-500 px-5 py-3 text-center text-sm font-semibold text-white transition hover:bg-orange-600"
+                      className="rounded-xl bg-brand px-5 py-3 text-center text-sm font-semibold text-white transition hover:bg-brand-dark"
                     >
                       Open Full Details →
                     </Link>
 
                     <Link
                       href={detailsUrl}
-                      className="rounded-xl border border-zinc-700 px-5 py-3 text-center text-sm font-semibold text-zinc-300 transition hover:border-orange-500 hover:text-orange-400"
+                      className="rounded-xl border border-zinc-700 px-5 py-3 text-center text-sm font-semibold text-zinc-300 transition hover:border-brand hover:text-brand"
                     >
                       View Prompt
                     </Link>
@@ -881,7 +881,7 @@ export default async function SearchPage({
                     {query && results.length === 0 && (
                       <Link
                         href={getClearSearchUrl()}
-                        className="mt-5 inline-flex rounded-xl bg-orange-500 px-5 py-3 text-sm font-semibold text-white transition hover:bg-orange-600"
+                        className="mt-5 inline-flex rounded-xl bg-brand px-5 py-3 text-sm font-semibold text-white transition hover:bg-brand-dark"
                       >
                         Clear Search
                       </Link>

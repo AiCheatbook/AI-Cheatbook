@@ -297,7 +297,7 @@ export default function PromptGrid() {
       {/* Header */}
 
       <div className="mb-8">
-        <p className="text-sm font-semibold uppercase tracking-wider text-orange-500">
+        <p className="text-sm font-semibold uppercase tracking-wider text-brand">
           Explore the Library
         </p>
 
@@ -326,7 +326,7 @@ export default function PromptGrid() {
               )
             }
             placeholder="Search prompts, concepts, keywords..."
-            className="w-full rounded-2xl border border-zinc-800 bg-zinc-900 px-5 py-4 pl-12 text-white outline-none transition placeholder:text-zinc-500 focus:border-orange-500"
+            className="w-full rounded-2xl border border-zinc-800 bg-zinc-900 px-5 py-4 pl-12 text-white outline-none transition placeholder:text-zinc-500 focus:border-brand"
           />
 
           <span className="pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 text-zinc-500">
@@ -355,7 +355,7 @@ export default function PromptGrid() {
               }
               className={`rounded-full border px-4 py-2 text-sm font-medium transition ${
                 active
-                  ? "border-orange-500 bg-orange-500 text-white"
+                  ? "border-brand bg-brand text-white"
                   : "border-zinc-800 bg-zinc-900 text-zinc-400 hover:border-zinc-600 hover:text-white"
               }`}
             >
@@ -443,7 +443,7 @@ export default function PromptGrid() {
                           }
                           className={`w-full border-b border-zinc-800 px-5 py-4 text-left transition ${
                             active
-                              ? "bg-orange-500/10"
+                              ? "bg-brand/10"
                               : "hover:bg-zinc-800/60"
                           }`}
                         >
@@ -453,7 +453,7 @@ export default function PromptGrid() {
                             <div
                               className={`mt-1 h-2.5 w-2.5 shrink-0 rounded-full ${
                                 active
-                                  ? "bg-orange-500"
+                                  ? "bg-brand"
                                   : "bg-zinc-700"
                               }`}
                             />
@@ -463,7 +463,7 @@ export default function PromptGrid() {
                               <p
                                 className={`truncate font-medium ${
                                   active
-                                    ? "text-orange-400"
+                                    ? "text-brand"
                                     : "text-white"
                                 }`}
                               >
@@ -594,7 +594,7 @@ function LibraryDetail({
 
         <div className="flex flex-wrap gap-2">
 
-          <span className="rounded-full border border-orange-500/30 bg-orange-500/10 px-3 py-1 text-xs font-medium text-orange-400">
+          <span className="rounded-full border border-brand/30 bg-brand/10 px-3 py-1 text-xs font-medium text-brand">
             {item.type ||
               "Content"}
           </span>
@@ -764,7 +764,7 @@ function LibraryDetail({
 
           <Link
             href={`/prompt/${item.slug}`}
-            className="rounded-xl bg-orange-500 px-5 py-3 text-sm font-semibold text-white transition hover:bg-orange-600"
+            className="rounded-xl bg-brand px-5 py-3 text-sm font-semibold text-white transition hover:bg-brand-dark"
           >
             Open Full Details
           </Link>

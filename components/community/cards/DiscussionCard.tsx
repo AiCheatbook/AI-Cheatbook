@@ -46,10 +46,10 @@ export default function DiscussionCard({
   return (
     <Link
       href={`/discussions/${id}`}
-      className="block rounded-2xl border border-zinc-800 bg-zinc-900 p-5 transition hover:border-orange-500/40"
+      className="block rounded-2xl border border-zinc-800 bg-zinc-900 p-5 transition hover:border-brand/40"
     >
       <div className="flex items-center gap-2 text-xs text-zinc-500">
-        <span className="flex h-6 w-6 items-center justify-center rounded-full bg-orange-500/20 font-bold text-orange-400">
+        <span className="flex h-6 w-6 items-center justify-center rounded-full bg-brand/20 font-bold text-brand">
           {authorName
             .charAt(0)
             .toUpperCase()}

@@ -135,7 +135,7 @@ function LoginPageContent() {
   }
 
   const inputClass =
-    "w-full rounded-full border border-zinc-800 bg-zinc-900 px-5 py-3 text-white placeholder:text-zinc-500 outline-none focus:border-orange-500";
+    "w-full rounded-full border border-zinc-800 bg-zinc-900 px-5 py-3 text-white placeholder:text-zinc-500 outline-none focus:border-brand";
 
   return (
     <main className="flex min-h-screen items-center justify-center bg-black px-4 py-16">
@@ -188,7 +188,7 @@ function LoginPageContent() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full rounded-full bg-orange-500 py-3 font-semibold text-white transition hover:bg-orange-600 disabled:opacity-50"
+              className="w-full rounded-full bg-brand py-3 font-semibold text-white transition hover:bg-brand-dark disabled:opacity-50"
             >
               {loading
                 ? "Sending..."
@@ -238,7 +238,7 @@ function LoginPageContent() {
                 onClick={() =>
                   setMode("magic-link")
                 }
-                className="text-orange-500 hover:text-orange-400"
+                className="text-brand hover:text-brand"
               >
                 Use magic link instead
               </button>
@@ -252,7 +252,7 @@ function LoginPageContent() {
                       : "signup"
                   )
                 }
-                className="text-orange-500 hover:text-orange-400"
+                className="text-brand hover:text-brand"
               >
                 {mode === "signup"
                   ? "Log in"
@@ -263,7 +263,7 @@ function LoginPageContent() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full rounded-full bg-orange-500 py-3 font-semibold text-white transition hover:bg-orange-600 disabled:opacity-50"
+              className="w-full rounded-full bg-brand py-3 font-semibold text-white transition hover:bg-brand-dark disabled:opacity-50"
             >
               {loading
                 ? "Please wait..."

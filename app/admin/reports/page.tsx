@@ -225,7 +225,7 @@ export default function AdminReportsPage() {
             }
             className={`rounded-full border px-4 py-1.5 text-sm ${
               filter === "pending"
-                ? "border-orange-500 bg-orange-500 text-white"
+                ? "border-brand bg-brand text-white"
                 : "border-zinc-700 text-zinc-400"
             }`}
           >
@@ -238,7 +238,7 @@ export default function AdminReportsPage() {
             }
             className={`rounded-full border px-4 py-1.5 text-sm ${
               filter === "all"
-                ? "border-orange-500 bg-orange-500 text-white"
+                ? "border-brand bg-brand text-white"
                 : "border-zinc-700 text-zinc-400"
             }`}
           >

@@ -166,7 +166,7 @@ export default async function PromptDetailsPage({
           <div className="flex flex-wrap gap-2">
 
             {item.type && (
-              <span className="inline-flex items-center rounded-full border border-orange-500/30 bg-orange-500/10 px-4 py-2 text-sm font-medium capitalize text-orange-400">
+              <span className="inline-flex items-center rounded-full border border-brand/30 bg-brand/10 px-4 py-2 text-sm font-medium capitalize text-brand">
                 {item.type}
               </span>
             )}
@@ -429,7 +429,7 @@ export default async function PromptDetailsPage({
 
             <div className="flex items-center gap-4 rounded-2xl border border-zinc-800 bg-zinc-900 p-5">
 
-              <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-orange-500 text-2xl font-bold text-white">
+              <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-brand text-2xl font-bold text-white">
                 {item.author_name
                   .charAt(0)
                   .toUpperCase()}
@@ -496,7 +496,7 @@ export default async function PromptDetailsPage({
                         </p>
 
                         {comment.comment_type && (
-                          <p className="mt-2 text-sm capitalize text-orange-500">
+                          <p className="mt-2 text-sm capitalize text-brand">
                             {comment.comment_type}
                           </p>
                         )}

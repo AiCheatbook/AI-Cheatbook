@@ -375,7 +375,7 @@ export default function NotebookPage() {
                 )
               }
               placeholder="New collection..."
-              className="w-full rounded-lg border border-zinc-800 bg-zinc-900 px-3 py-2 text-xs text-white outline-none focus:border-orange-500"
+              className="w-full rounded-lg border border-zinc-800 bg-zinc-900 px-3 py-2 text-xs text-white outline-none focus:border-brand"
             />
           </form>
         </aside>
@@ -406,7 +406,7 @@ export default function NotebookPage() {
                 )
               }
               placeholder="Title (optional)"
-              className="mt-2 w-full rounded-lg border border-zinc-800 bg-black px-3 py-2 text-sm text-white outline-none focus:border-orange-500"
+              className="mt-2 w-full rounded-lg border border-zinc-800 bg-black px-3 py-2 text-sm text-white outline-none focus:border-brand"
             />
 
             <textarea
@@ -418,7 +418,7 @@ export default function NotebookPage() {
               }
               rows={2}
               placeholder="Write something..."
-              className="mt-2 w-full rounded-lg border border-zinc-800 bg-black px-3 py-2 text-sm text-white outline-none focus:border-orange-500"
+              className="mt-2 w-full rounded-lg border border-zinc-800 bg-black px-3 py-2 text-sm text-white outline-none focus:border-brand"
             />
 
             <button
@@ -427,7 +427,7 @@ export default function NotebookPage() {
                 !newNoteText.trim() ||
                 addingNote
               }
-              className="mt-2 rounded-lg bg-orange-500 px-4 py-1.5 text-xs font-semibold text-white hover:bg-orange-600 disabled:opacity-50"
+              className="mt-2 rounded-lg bg-brand px-4 py-1.5 text-xs font-semibold text-white hover:bg-brand-dark disabled:opacity-50"
             >
               {addingNote
                 ? "Saving..."
@@ -517,7 +517,7 @@ export default function NotebookPage() {
                       <Link
                         key={item.id}
                         href={href}
-                        className="block rounded-2xl border border-zinc-800 bg-zinc-900 p-4 transition hover:border-orange-500/40"
+                        className="block rounded-2xl border border-zinc-800 bg-zinc-900 p-4 transition hover:border-brand/40"
                       >
                         {content}
                       </Link>

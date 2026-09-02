@@ -245,7 +245,7 @@ function NewsBlock({
     }
 
     return (
-      <blockquote className="border-l-4 border-orange-500 pl-6">
+      <blockquote className="border-l-4 border-brand pl-6">
         <p className="text-xl italic leading-8 text-zinc-200">
           “{text}”
         </p>

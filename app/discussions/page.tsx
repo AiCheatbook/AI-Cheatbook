@@ -111,7 +111,7 @@ export default function DiscussionsPage() {
 
           <Link
             href="/discussions/new"
-            className="rounded-xl bg-orange-500 px-5 py-2.5 text-sm font-semibold text-white hover:bg-orange-600"
+            className="rounded-xl bg-brand px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-dark"
           >
             + New Discussion
           </Link>
@@ -127,7 +127,7 @@ export default function DiscussionsPage() {
               }
               className={`rounded-full border px-3.5 py-1.5 text-sm transition ${
                 category === c.value
-                  ? "border-orange-500 bg-orange-500 text-white"
+                  ? "border-brand bg-brand text-white"
                   : "border-zinc-700 text-zinc-400 hover:border-zinc-500 hover:text-white"
               }`}
             >
@@ -182,7 +182,7 @@ export default function DiscussionsPage() {
                   <Link
                     key={thread.id}
                     href={`/discussions/${thread.id}`}
-                    className="flex items-center justify-between gap-4 rounded-2xl border border-zinc-800 bg-zinc-900 p-4 transition hover:border-orange-500/50"
+                    className="flex items-center justify-between gap-4 rounded-2xl border border-zinc-800 bg-zinc-900 p-4 transition hover:border-brand/50"
                   >
                     <div className="min-w-0">
                       <div className="flex items-center gap-2">

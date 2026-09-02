@@ -107,7 +107,7 @@ export default function RelatedPrompts({
       {/* Header */}
 
       <div className="mb-8">
-        <p className="text-sm font-semibold uppercase tracking-wider text-orange-500">
+        <p className="text-sm font-semibold uppercase tracking-wider text-brand">
           You May Also Like
         </p>
 

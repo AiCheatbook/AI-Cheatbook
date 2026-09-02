@@ -52,7 +52,7 @@ export default function AddKeywordButton({
     <button
       type="button"
       onClick={addKeyword}
-      className="flex h-7 w-7 items-center justify-center rounded-full text-lg text-orange-500 transition hover:bg-orange-500 hover:text-white"
+      className="flex h-7 w-7 items-center justify-center rounded-full text-lg text-brand transition hover:bg-brand hover:text-white"
       aria-label={`Add ${keyword} to Prompt Builder`}
       title={`Add ${keyword} to Prompt Builder`}
     >

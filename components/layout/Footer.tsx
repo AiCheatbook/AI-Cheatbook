@@ -11,7 +11,7 @@ export default function Footer() {
         <div>
           <Link
             href="/"
-            className="text-2xl font-bold text-zinc-900 transition hover:text-orange-500"
+            className="text-2xl font-bold text-zinc-900 transition hover:text-brand"
           >
             AI Cheatbook
           </Link>
@@ -28,28 +28,28 @@ export default function Footer() {
 
           <Link
             href="/search"
-            className="transition hover:text-orange-500"
+            className="transition hover:text-brand"
           >
             Browse Prompts
           </Link>
 
           <Link
             href="/generator"
-            className="transition hover:text-orange-500"
+            className="transition hover:text-brand"
           >
             Generator
           </Link>
 
           <Link
             href="/news"
-            className="transition hover:text-orange-500"
+            className="transition hover:text-brand"
           >
             AI News
           </Link>
 
           <Link
             href="/community"
-            className="transition hover:text-orange-500"
+            className="transition hover:text-brand"
           >
             Community
           </Link>

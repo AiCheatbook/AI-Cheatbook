@@ -450,7 +450,7 @@ export default function CommentSection({
                 className="h-7 w-7 rounded-full object-cover"
               />
             ) : (
-              <div className="flex h-7 w-7 items-center justify-center rounded-full bg-orange-500/20 text-xs font-bold text-orange-400">
+              <div className="flex h-7 w-7 items-center justify-center rounded-full bg-brand/20 text-xs font-bold text-brand">
                 {authorName
                   .charAt(0)
                   .toUpperCase()}
@@ -499,7 +499,7 @@ export default function CommentSection({
               }
               className={`rounded-full px-2.5 py-1 text-xs transition ${
                 mine
-                  ? "bg-orange-500/15 text-orange-400"
+                  ? "bg-brand/15 text-brand"
                   : "bg-zinc-800 text-zinc-400 hover:text-white"
               }`}
             >
@@ -572,7 +572,7 @@ export default function CommentSection({
                 )
               }
               placeholder="Write a reply..."
-              className="flex-1 rounded-lg border border-zinc-800 bg-black px-3 py-1.5 text-sm text-white outline-none focus:border-orange-500"
+              className="flex-1 rounded-lg border border-zinc-800 bg-black px-3 py-1.5 text-sm text-white outline-none focus:border-brand"
             />
 
             <button
@@ -585,7 +585,7 @@ export default function CommentSection({
               disabled={
                 !replyText.trim()
               }
-              className="rounded-lg bg-orange-500 px-3 py-1.5 text-xs font-semibold text-white hover:bg-orange-600 disabled:opacity-50"
+              className="rounded-lg bg-brand px-3 py-1.5 text-xs font-semibold text-white hover:bg-brand-dark disabled:opacity-50"
             >
               Reply
             </button>
@@ -623,7 +623,7 @@ export default function CommentSection({
             }
             rows={3}
             placeholder="Share your thoughts..."
-            className="w-full rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3 text-sm text-white placeholder:text-zinc-500 outline-none focus:border-orange-500"
+            className="w-full rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3 text-sm text-white placeholder:text-zinc-500 outline-none focus:border-brand"
           />
 
           {error && (
@@ -638,7 +638,7 @@ export default function CommentSection({
               posting ||
               !newComment.trim()
             }
-            className="mt-2 rounded-xl bg-orange-500 px-5 py-2 text-sm font-semibold text-white transition hover:bg-orange-600 disabled:opacity-50"
+            className="mt-2 rounded-xl bg-brand px-5 py-2 text-sm font-semibold text-white transition hover:bg-brand-dark disabled:opacity-50"
           >
             {posting
               ? "Posting..."
@@ -649,7 +649,7 @@ export default function CommentSection({
         <p className="mt-4 rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3 text-sm text-zinc-400">
           <a
             href="/login"
-            className="text-orange-500 hover:text-orange-400"
+            className="text-brand hover:text-brand"
           >
             Log in
           </a>{" "}

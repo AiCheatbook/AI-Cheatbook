@@ -206,7 +206,7 @@ export default function MainGenerator() {
             }
             rows={3}
             placeholder="e.g. A warrior walking through a burning village. Type a technical term like 'camera' to find related keywords..."
-            className="w-full rounded-xl border border-zinc-800 bg-black px-4 py-3 text-white outline-none transition focus:border-orange-500"
+            className="w-full rounded-xl border border-zinc-800 bg-black px-4 py-3 text-white outline-none transition focus:border-brand"
           />
 
           {discoveryOpen && (
@@ -249,8 +249,8 @@ export default function MainGenerator() {
               }
               className={`rounded-full border px-4 py-2 text-sm transition ${
                 aiTool === tool
-                  ? "border-orange-500 bg-orange-500 text-white"
-                  : "border-zinc-700 bg-black text-zinc-300 hover:border-orange-500 hover:text-orange-400"
+                  ? "border-brand bg-brand text-white"
+                  : "border-zinc-700 bg-black text-zinc-300 hover:border-brand hover:text-brand"
               }`}
             >
               {tool}
@@ -323,7 +323,7 @@ export default function MainGenerator() {
 
         <div className="mt-2 h-2 overflow-hidden rounded-full bg-zinc-800">
           <div
-            className="h-full rounded-full bg-orange-500 transition-all"
+            className="h-full rounded-full bg-brand transition-all"
             style={{
               width: `${
                 usage.limit > 0
@@ -340,7 +340,7 @@ export default function MainGenerator() {
         </div>
 
         {limitNotice && (
-          <p className="mt-3 text-sm text-orange-400">
+          <p className="mt-3 text-sm text-brand">
             You&apos;ve reached today&apos;s
             limit.{" "}
             {!isLoggedIn &&
@@ -355,7 +355,7 @@ export default function MainGenerator() {
             !task.trim() ||
             status === "generating"
           }
-          className="mt-4 w-full rounded-xl bg-orange-500 py-3.5 font-semibold text-white transition hover:bg-orange-600 disabled:cursor-not-allowed disabled:opacity-50"
+          className="mt-4 w-full rounded-xl bg-brand py-3.5 font-semibold text-white transition hover:bg-brand-dark disabled:cursor-not-allowed disabled:opacity-50"
         >
           {status === "generating"
             ? "Generating..."

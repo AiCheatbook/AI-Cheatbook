@@ -34,7 +34,7 @@ function Stars({
           key={n}
           className={
             n <= value
-              ? "text-orange-400"
+              ? "text-brand"
               : "text-zinc-700"
           }
         >
@@ -272,8 +272,8 @@ export default function RatingSection({
                   n <=
                   (hoverRating ||
                     myRating)
-                    ? "text-orange-400"
-                    : "text-zinc-700 hover:text-orange-300"
+                    ? "text-brand"
+                    : "text-zinc-700 hover:text-brand"
                 }
               >
                 ★
@@ -294,7 +294,7 @@ export default function RatingSection({
             }
             rows={2}
             placeholder="Write a review (optional)..."
-            className="mt-3 w-full rounded-lg border border-zinc-800 bg-zinc-900 px-3 py-2 text-sm text-white placeholder:text-zinc-500 outline-none focus:border-orange-500"
+            className="mt-3 w-full rounded-lg border border-zinc-800 bg-zinc-900 px-3 py-2 text-sm text-white placeholder:text-zinc-500 outline-none focus:border-brand"
           />
 
           {error && (
@@ -307,7 +307,7 @@ export default function RatingSection({
         <p className="mt-4 rounded-xl border border-zinc-800 bg-black px-4 py-3 text-sm text-zinc-400">
           <a
             href="/login"
-            className="text-orange-500 hover:text-orange-400"
+            className="text-brand hover:text-brand"
           >
             Log in
           </a>{" "}

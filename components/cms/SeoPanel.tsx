@@ -61,7 +61,7 @@ export default function SeoPanel({
   }
 
   const inputClass =
-    "w-full rounded-lg border border-zinc-800 bg-zinc-900 px-3 py-2 text-sm text-white placeholder:text-zinc-500 outline-none focus:border-orange-500";
+    "w-full rounded-lg border border-zinc-800 bg-zinc-900 px-3 py-2 text-sm text-white placeholder:text-zinc-500 outline-none focus:border-brand";
 
   const labelClass =
     "mb-1 block text-xs font-medium text-zinc-400";
@@ -77,7 +77,7 @@ export default function SeoPanel({
         <button
           type="button"
           onClick={handleAutoFill}
-          className="rounded-md border border-orange-500/40 px-3 py-1.5 text-xs font-medium text-orange-400 hover:bg-orange-500/10"
+          className="rounded-md border border-brand/40 px-3 py-1.5 text-xs font-medium text-brand hover:bg-brand/10"
         >
           Auto-fill from content
         </button>
@@ -90,7 +90,7 @@ export default function SeoPanel({
           onClick={() => setTab("seo")}
           className={`border-b-2 px-1 py-2 text-sm ${
             tab === "seo"
-              ? "border-orange-500 text-white"
+              ? "border-brand text-white"
               : "border-transparent text-zinc-500 hover:text-zinc-300"
           }`}
         >
@@ -102,7 +102,7 @@ export default function SeoPanel({
           onClick={() => setTab("social")}
           className={`border-b-2 px-1 py-2 text-sm ${
             tab === "social"
-              ? "border-orange-500 text-white"
+              ? "border-brand text-white"
               : "border-transparent text-zinc-500 hover:text-zinc-300"
           }`}
         >

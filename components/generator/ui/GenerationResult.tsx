@@ -94,13 +94,13 @@ export default function GenerationResult({
   }
 
   return (
-    <section className="rounded-2xl border border-zinc-800 bg-zinc-900 p-5 sm:p-6">
+    <section className="rounded-2xl border border-zinc-200 bg-white p-5 sm:p-6">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-white">
+          <h2 className="text-2xl font-bold text-zinc-900">
             Generated Prompt
           </h2>
-          <p className="mt-1 text-sm text-zinc-500">
+          <p className="mt-1 text-sm text-zinc-400">
             Your ready-to-use AI prompt
           </p>
         </div>
@@ -113,7 +113,7 @@ export default function GenerationResult({
                   type="button"
                   onClick={onSave}
                   disabled={saving}
-                  className="rounded-xl border border-zinc-700 px-5 py-2.5 text-sm font-semibold text-white transition hover:border-orange-500 hover:bg-orange-500/10 disabled:cursor-not-allowed disabled:opacity-40"
+                  className="rounded-xl border border-zinc-300 px-5 py-2.5 text-sm font-semibold text-zinc-900 transition hover:border-brand hover:bg-brand/10 disabled:cursor-not-allowed disabled:opacity-40"
                 >
                   {saved
                     ? "✓ Saved"
@@ -126,7 +126,7 @@ export default function GenerationResult({
               <button
                 type="button"
                 onClick={handleCopy}
-                className="rounded-xl border border-zinc-700 px-5 py-2.5 text-sm font-semibold text-white transition hover:border-orange-500 hover:bg-orange-500/10"
+                className="rounded-xl border border-zinc-300 px-5 py-2.5 text-sm font-semibold text-zinc-900 transition hover:border-brand hover:bg-brand/10"
               >
                 {copied
                   ? "✓ Copied"
@@ -136,7 +136,7 @@ export default function GenerationResult({
           )}
       </div>
 
-      <div className="mt-6 rounded-2xl border border-zinc-800 bg-black p-5 sm:p-6">
+      <div className="mt-6 rounded-2xl border border-zinc-200 bg-white p-5 sm:p-6">
         {status === "generating" && (
           <div
             aria-live="polite"
@@ -144,9 +144,9 @@ export default function GenerationResult({
             className="space-y-4"
           >
             <div className="flex items-center gap-3">
-              <div className="h-4 w-4 animate-spin rounded-full border-2 border-orange-500 border-t-transparent" />
+              <div className="h-4 w-4 animate-spin rounded-full border-2 border-brand border-t-transparent" />
 
-              <p className="text-sm font-medium text-zinc-300">
+              <p className="text-sm font-medium text-zinc-400">
                 {
                   messages[
                     messageIndex
@@ -156,9 +156,9 @@ export default function GenerationResult({
             </div>
 
             <div className="space-y-3">
-              <div className="h-4 w-3/4 animate-pulse rounded bg-zinc-800" />
-              <div className="h-4 w-full animate-pulse rounded bg-zinc-800" />
-              <div className="h-4 w-5/6 animate-pulse rounded bg-zinc-800" />
+              <div className="h-4 w-3/4 animate-pulse rounded bg-zinc-100" />
+              <div className="h-4 w-full animate-pulse rounded bg-zinc-100" />
+              <div className="h-4 w-5/6 animate-pulse rounded bg-zinc-100" />
             </div>
           </div>
         )}
@@ -188,13 +188,13 @@ export default function GenerationResult({
         {status === "success" &&
           result && (
             <div>
-              <pre className="whitespace-pre-wrap wrap-break-word font-sans text-sm leading-7 text-zinc-300 sm:text-base">
+              <pre className="whitespace-pre-wrap wrap-break-word font-sans text-sm leading-7 text-zinc-400 sm:text-base">
                 {result.prompt}
               </pre>
 
               {result.provider ===
                 "local" && (
-                <p className="mt-4 text-xs text-zinc-600">
+                <p className="mt-4 text-xs text-zinc-400">
                   Generated with the
                   built-in generator.
                 </p>
@@ -204,11 +204,11 @@ export default function GenerationResult({
 
         {status === "idle" && (
           <div className="py-10 text-center">
-            <p className="text-zinc-500">
+            <p className="text-zinc-400">
               Your generated prompt will
               appear here.
             </p>
-            <p className="mt-2 text-sm text-zinc-600">
+            <p className="mt-2 text-sm text-zinc-400">
               Select keywords and click
               Generate Prompt.
             </p>

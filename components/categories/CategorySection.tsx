@@ -81,7 +81,7 @@ export default function CategorySection() {
 
         <div className="mb-7">
 
-          <p className="text-sm font-semibold uppercase tracking-wider text-orange-500">
+          <p className="text-sm font-semibold uppercase tracking-wider text-brand">
             Explore the Library
           </p>
 
@@ -124,18 +124,18 @@ export default function CategorySection() {
                 href={`/search?category=${encodeURIComponent(
                   category.name
                 )}`}
-                className="group flex aspect-[4/5] flex-col justify-between rounded-2xl border border-zinc-800 bg-zinc-900 p-5 transition duration-300 hover:-translate-y-1 hover:border-orange-500 hover:bg-zinc-800"
+                className="group flex aspect-[4/5] flex-col justify-between rounded-2xl border border-zinc-800 bg-zinc-900 p-5 transition duration-300 hover:-translate-y-1 hover:border-brand hover:bg-zinc-800"
               >
 
                 {/* Top */}
 
                 <div className="flex items-start justify-between gap-3">
 
-                  <h3 className="font-semibold text-white transition group-hover:text-orange-400">
+                  <h3 className="font-semibold text-white transition group-hover:text-brand">
                     {category.name}
                   </h3>
 
-                  <span className="shrink-0 rounded-full bg-zinc-800 px-2.5 py-1 text-xs text-zinc-400 transition group-hover:bg-orange-500/20 group-hover:text-orange-400">
+                  <span className="shrink-0 rounded-full bg-zinc-800 px-2.5 py-1 text-xs text-zinc-400 transition group-hover:bg-brand/20 group-hover:text-brand">
                     {category.count}
                   </span>
 

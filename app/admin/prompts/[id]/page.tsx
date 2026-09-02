@@ -405,10 +405,10 @@ export default function EditPromptPage() {
   }
 
   const inputClass =
-    "mt-2 h-12 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-4 text-white outline-none transition placeholder:text-zinc-600 focus:border-orange-500";
+    "mt-2 h-12 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-4 text-white outline-none transition placeholder:text-zinc-600 focus:border-brand";
 
   const textareaClass =
-    "mt-2 w-full resize-y rounded-xl border border-zinc-800 bg-zinc-900 p-4 text-white outline-none transition placeholder:text-zinc-600 focus:border-orange-500";
+    "mt-2 w-full resize-y rounded-xl border border-zinc-800 bg-zinc-900 p-4 text-white outline-none transition placeholder:text-zinc-600 focus:border-brand";
 
   if (loading) {
     return (
@@ -616,7 +616,7 @@ export default function EditPromptPage() {
                   onClick={() => toggleAiTool(tool)}
                   className={`rounded-full border px-4 py-2 text-sm transition ${
                     selected
-                      ? "border-orange-500 bg-orange-500/15 text-orange-300"
+                      ? "border-brand bg-brand/15 text-brand"
                       : "border-zinc-800 text-zinc-400 hover:border-zinc-600"
                   }`}
                 >
@@ -686,7 +686,7 @@ export default function EditPromptPage() {
               type="button"
               disabled={saving}
               onClick={() => handleSubmit(true)}
-              className="rounded-xl bg-orange-500 px-5 py-3 text-sm font-semibold text-white transition hover:bg-orange-600 disabled:opacity-50"
+              className="rounded-xl bg-brand px-5 py-3 text-sm font-semibold text-white transition hover:bg-brand-dark disabled:opacity-50"
             >
               {saving ? "Saving..." : "Publish"}
             </button>

@@ -45,7 +45,7 @@ export default function RichContentRenderer({
       )}
 
       <div
-        className="prose prose-invert max-w-none prose-headings:scroll-mt-24 prose-headings:text-white prose-a:text-orange-500 prose-blockquote:border-orange-500 prose-code:text-orange-300"
+        className="prose prose-invert max-w-none prose-headings:scroll-mt-24 prose-headings:text-white prose-a:text-brand prose-blockquote:border-brand prose-code:text-brand"
         dangerouslySetInnerHTML={{
           __html: safeHtml,
         }}

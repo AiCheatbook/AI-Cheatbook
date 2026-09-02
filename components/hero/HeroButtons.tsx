@@ -8,7 +8,7 @@ export default function HeroButtons() {
 
       <Link
         href="/search"
-        className="rounded-xl bg-orange-500 px-6 py-3 font-medium text-white transition duration-200 hover:bg-orange-600"
+        className="rounded-xl bg-brand px-6 py-3 font-medium text-white transition duration-200 hover:bg-brand-dark"
       >
         Browse Prompts
       </Link>

@@ -275,7 +275,7 @@ export default function MigrateContentPage() {
           type="button"
           disabled={running}
           onClick={runMigration}
-          className="mt-6 rounded-xl bg-orange-500 px-5 py-3 text-sm font-semibold text-white transition hover:bg-orange-600 disabled:opacity-50"
+          className="mt-6 rounded-xl bg-brand px-5 py-3 text-sm font-semibold text-white transition hover:bg-brand-dark disabled:opacity-50"
         >
           {running
             ? "Migrating..."

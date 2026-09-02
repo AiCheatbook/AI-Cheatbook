@@ -19,8 +19,8 @@ export default function KeywordChip({
       aria-pressed={selected}
       className={`rounded-full border px-4 py-2 text-sm transition ${
         selected
-          ? "border-orange-500 bg-orange-500 text-white"
-          : "border-zinc-700 bg-zinc-900 text-zinc-300 hover:border-orange-500 hover:text-orange-400"
+          ? "border-brand bg-brand text-white"
+          : "border-zinc-700 bg-zinc-900 text-zinc-300 hover:border-brand hover:text-brand"
       }`}
     >
       {selected ? "✓ " : ""}

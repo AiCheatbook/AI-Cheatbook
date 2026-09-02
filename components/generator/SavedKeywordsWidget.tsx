@@ -195,7 +195,7 @@ export default function SavedKeywordsWidget() {
                 onClick={() =>
                   setOpen(false)
                 }
-                className="flex-1 rounded-xl bg-orange-500 px-3 py-3 text-center text-sm font-semibold text-white transition hover:bg-orange-600"
+                className="flex-1 rounded-xl bg-brand px-3 py-3 text-center text-sm font-semibold text-white transition hover:bg-brand-dark"
               >
                 Generator →
               </Link>
@@ -214,12 +214,12 @@ export default function SavedKeywordsWidget() {
         onClick={() =>
           setOpen((current) => !current)
         }
-        className="flex items-center gap-3 rounded-2xl border border-zinc-700 bg-zinc-950 px-4 py-3 shadow-xl transition hover:border-orange-500"
+        className="flex items-center gap-3 rounded-2xl border border-zinc-700 bg-zinc-950 px-4 py-3 shadow-xl transition hover:border-brand"
         aria-expanded={open}
         aria-label="Toggle saved keywords"
       >
 
-        <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-orange-500 text-lg">
+        <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand text-lg">
           💾
         </span>
 

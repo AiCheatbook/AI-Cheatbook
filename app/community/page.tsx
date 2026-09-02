@@ -494,7 +494,7 @@ export default function CommunityHubPage() {
             onClick={() =>
               setComposerOpen(true)
             }
-            className="rounded-xl bg-orange-500 px-4 py-2 text-sm font-semibold text-white hover:bg-orange-600"
+            className="rounded-xl bg-brand px-4 py-2 text-sm font-semibold text-white hover:bg-brand-dark"
           >
             + Create
           </button>

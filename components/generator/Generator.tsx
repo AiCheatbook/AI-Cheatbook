@@ -604,7 +604,7 @@ export default function Generator() {
               Current Model
             </p>
 
-            <p className="mt-1 font-semibold text-orange-400">
+            <p className="mt-1 font-semibold text-brand">
               {currentModel.name}
             </p>
           </div>
@@ -635,7 +635,7 @@ export default function Generator() {
 
           <div className="h-2 overflow-hidden rounded-full bg-zinc-800">
             <div
-              className="h-full rounded-full bg-orange-500 transition-all"
+              className="h-full rounded-full bg-brand transition-all"
               style={{
                 width: `${
                   displayUsage.limit > 0
@@ -654,8 +654,8 @@ export default function Generator() {
         </div>
 
         {displayUsage.remaining === 0 && (
-          <div className="mt-5 rounded-xl border border-orange-500/30 bg-orange-500/10 p-4">
-            <p className="font-semibold text-orange-400">
+          <div className="mt-5 rounded-xl border border-brand/30 bg-brand/10 p-4">
+            <p className="font-semibold text-brand">
               Daily limit reached
             </p>
 
@@ -694,8 +694,8 @@ export default function Generator() {
               }}
               className={`rounded-full border px-4 py-2 text-sm transition ${
                 aiTool === tool
-                  ? "border-orange-500 bg-orange-500 text-white"
-                  : "border-zinc-700 bg-black text-zinc-300 hover:border-orange-500 hover:text-orange-400"
+                  ? "border-brand bg-brand text-white"
+                  : "border-zinc-700 bg-black text-zinc-300 hover:border-brand hover:text-brand"
               }`}
             >
               {tool}
@@ -762,8 +762,8 @@ export default function Generator() {
               className={`rounded-full border px-4 py-2 text-sm transition ${
                 referenceImageMode ===
                 option.value
-                  ? "border-orange-500 bg-orange-500 text-white"
-                  : "border-zinc-700 bg-black text-zinc-300 hover:border-orange-500 hover:text-orange-400"
+                  ? "border-brand bg-brand text-white"
+                  : "border-zinc-700 bg-black text-zinc-300 hover:border-brand hover:text-brand"
               }`}
             >
               {option.label}
@@ -796,7 +796,7 @@ export default function Generator() {
                 </button>
               </div>
             ) : (
-              <label className="inline-block cursor-pointer rounded-xl border border-dashed border-zinc-700 px-5 py-3 text-sm text-zinc-400 hover:border-orange-500 hover:text-orange-400">
+              <label className="inline-block cursor-pointer rounded-xl border border-dashed border-zinc-700 px-5 py-3 text-sm text-zinc-400 hover:border-brand hover:text-brand">
                 Choose an image...
                 <input
                   type="file"
@@ -837,7 +837,7 @@ export default function Generator() {
           }}
           placeholder="Example: Create a YouTube video about AI tools for beginners..."
           rows={4}
-          className="mt-4 w-full resize-none rounded-xl border border-zinc-700 bg-black px-4 py-3 text-sm text-white outline-none transition placeholder:text-zinc-600 focus:border-orange-500"
+          className="mt-4 w-full resize-none rounded-xl border border-zinc-700 bg-black px-4 py-3 text-sm text-white outline-none transition placeholder:text-zinc-600 focus:border-brand"
         />
 
       </section>
@@ -885,7 +885,7 @@ export default function Generator() {
 
       {/* Selected Keywords */}
 
-      <section className="rounded-2xl border border-orange-500/30 bg-orange-500/5 p-5">
+      <section className="rounded-2xl border border-brand/30 bg-brand/5 p-5">
 
         <div className="flex items-center justify-between gap-4">
 
@@ -903,7 +903,7 @@ export default function Generator() {
             <button
               type="button"
               onClick={clearSelection}
-              className="text-sm text-zinc-400 transition hover:text-orange-400"
+              className="text-sm text-zinc-400 transition hover:text-brand"
             >
               Clear Selection
             </button>
@@ -923,7 +923,7 @@ export default function Generator() {
               .map((keyword) => (
                 <span
                   key={keyword.id}
-                  className="rounded-full bg-orange-500 px-3 py-1.5 text-sm text-white"
+                  className="rounded-full bg-brand px-3 py-1.5 text-sm text-white"
                 >
                   {keyword.label}
                 </span>

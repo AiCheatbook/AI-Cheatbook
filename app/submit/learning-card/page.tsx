@@ -134,7 +134,7 @@ export default function SubmitLearningCardPage() {
 
             <Link
               href="/learning"
-              className="rounded-xl bg-orange-500 px-5 py-2.5 text-sm font-semibold text-white hover:bg-orange-600"
+              className="rounded-xl bg-brand px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-dark"
             >
               Browse Learning Cards
             </Link>
@@ -145,7 +145,7 @@ export default function SubmitLearningCardPage() {
   }
 
   const inputClass =
-    "mt-2 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3 text-white outline-none transition focus:border-orange-500";
+    "mt-2 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3 text-white outline-none transition focus:border-brand";
 
   return (
     <main className="min-h-screen bg-black px-6 py-16 text-white">
@@ -254,7 +254,7 @@ export default function SubmitLearningCardPage() {
           type="button"
           onClick={handleSubmit}
           disabled={submitting}
-          className="mt-8 w-full rounded-xl bg-orange-500 py-3 font-semibold text-white transition hover:bg-orange-600 disabled:opacity-50"
+          className="mt-8 w-full rounded-xl bg-brand py-3 font-semibold text-white transition hover:bg-brand-dark disabled:opacity-50"
         >
           {submitting
             ? "Submitting..."

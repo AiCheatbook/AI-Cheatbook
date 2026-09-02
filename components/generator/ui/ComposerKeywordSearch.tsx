@@ -141,8 +141,8 @@ export default function ComposerKeywordSearch({
   }
 
   return (
-    <div className="absolute z-30 mt-2 w-full overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900 shadow-xl">
-      <p className="bg-zinc-950 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-orange-500">
+    <div className="absolute z-30 mt-2 w-full overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-xl">
+      <p className="bg-white px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-brand">
         Inline Keywords
       </p>
 
@@ -157,13 +157,13 @@ export default function ComposerKeywordSearch({
                 breadcrumbFor(keyword),
             })
           }
-          className="flex w-full items-center justify-between border-b border-zinc-800 px-4 py-2.5 text-left text-sm last:border-b-0 hover:bg-zinc-800"
+          className="flex w-full items-center justify-between border-b border-zinc-200 px-4 py-2.5 text-left text-sm last:border-b-0 hover:bg-zinc-100"
         >
-          <span className="truncate text-zinc-300">
+          <span className="truncate text-zinc-400">
             {breadcrumbFor(keyword)}
           </span>
 
-          <span className="ml-3 shrink-0 rounded-full bg-orange-500/10 px-2 py-0.5 text-xs text-orange-400">
+          <span className="ml-3 shrink-0 rounded-full bg-brand/10 px-2 py-0.5 text-xs text-brand">
             Insert
           </span>
         </button>

@@ -28,7 +28,7 @@ export default function AuthorCard({
 
         {/* Avatar */}
 
-        <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-orange-500 text-2xl font-bold text-white">
+        <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-brand text-2xl font-bold text-white">
           {name.charAt(0).toUpperCase()}
         </div>
 

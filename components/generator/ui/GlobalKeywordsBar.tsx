@@ -82,12 +82,12 @@ export default function GlobalKeywordsBar({
   }
 
   return (
-    <div className="mt-3 rounded-2xl border border-zinc-800 bg-zinc-900/60 p-4">
-      <p className="text-xs font-semibold uppercase tracking-wider text-zinc-500">
+    <div className="mt-3 rounded-2xl border border-zinc-200 bg-zinc-50 p-4">
+      <p className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
         Global Keywords
       </p>
 
-      <p className="mt-1 text-xs text-zinc-600">
+      <p className="mt-1 text-xs text-zinc-400">
         Applied to the whole generated
         prompt — never inserted into the
         sentence.
@@ -97,7 +97,7 @@ export default function GlobalKeywordsBar({
         {selected.map((keyword) => (
           <span
             key={keyword}
-            className="flex items-center gap-1.5 rounded-full bg-orange-500/10 px-2.5 py-1 text-xs text-orange-300"
+            className="flex items-center gap-1.5 rounded-full bg-brand/10 px-2.5 py-1 text-xs text-brand"
           >
             {keyword}
             <button
@@ -106,7 +106,7 @@ export default function GlobalKeywordsBar({
                 onRemove(keyword)
               }
               aria-label={`Remove ${keyword}`}
-              className="text-orange-400/70 hover:text-white"
+              className="text-brand/70 hover:text-zinc-900"
             >
               ×
             </button>
@@ -119,13 +119,13 @@ export default function GlobalKeywordsBar({
             onClick={() =>
               setPickerOpen((v) => !v)
             }
-            className="rounded-full border border-dashed border-zinc-700 px-3 py-1 text-xs text-zinc-400 hover:border-orange-500 hover:text-orange-400"
+            className="rounded-full border border-dashed border-zinc-300 px-3 py-1 text-xs text-zinc-400 hover:border-brand hover:text-brand"
           >
             + Add
           </button>
 
           {pickerOpen && (
-            <div className="absolute left-0 top-8 z-30 w-64 overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900 shadow-xl">
+            <div className="absolute left-0 top-8 z-30 w-64 overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-xl">
               <input
                 autoFocus
                 value={query}
@@ -135,12 +135,12 @@ export default function GlobalKeywordsBar({
                   )
                 }
                 placeholder="Search global keywords..."
-                className="w-full border-b border-zinc-800 bg-black px-3 py-2 text-xs text-white outline-none"
+                className="w-full border-b border-zinc-200 bg-white px-3 py-2 text-xs text-zinc-900 outline-none"
               />
 
               <div className="max-h-48 overflow-y-auto">
                 {!loaded && (
-                  <p className="px-3 py-2 text-xs text-zinc-600">
+                  <p className="px-3 py-2 text-xs text-zinc-400">
                     Loading...
                   </p>
                 )}
@@ -148,7 +148,7 @@ export default function GlobalKeywordsBar({
                 {loaded &&
                   matches.length ===
                     0 && (
-                    <p className="px-3 py-2 text-xs text-zinc-600">
+                    <p className="px-3 py-2 text-xs text-zinc-400">
                       No matches.
                     </p>
                   )}
@@ -160,7 +160,7 @@ export default function GlobalKeywordsBar({
                     onClick={() =>
                       handlePick(k.label)
                     }
-                    className="block w-full px-3 py-2 text-left text-xs text-zinc-300 hover:bg-zinc-800"
+                    className="block w-full px-3 py-2 text-left text-xs text-zinc-400 hover:bg-zinc-100"
                   >
                     {k.label}
                   </button>

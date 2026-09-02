@@ -124,8 +124,8 @@ export default function AttachmentPopover({
         className={`flex h-9 min-w-9 items-center justify-center rounded-full border px-2 text-lg transition ${
           attachments.length > 0 ||
           mode !== "none"
-            ? "border-orange-500 bg-orange-500/10 text-orange-400"
-            : "border-zinc-700 text-zinc-400 hover:border-zinc-500 hover:text-white"
+            ? "border-brand bg-brand/10 text-brand"
+            : "border-zinc-300 text-zinc-400 hover:border-zinc-500 hover:text-zinc-900"
         }`}
         aria-label="Add attachment"
       >
@@ -139,7 +139,7 @@ export default function AttachmentPopover({
       </button>
 
       {open && (
-        <div className="absolute bottom-12 left-0 z-30 w-72 rounded-xl border border-zinc-800 bg-zinc-900 p-3 shadow-xl">
+        <div className="absolute bottom-12 left-0 z-30 w-72 rounded-xl border border-zinc-200 bg-white p-3 shadow-xl">
           <p className="text-xs font-medium text-zinc-400">
             Reference images
           </p>
@@ -159,8 +159,8 @@ export default function AttachmentPopover({
                 onClick={() => onModeChange(option.value)}
                 className={`rounded-full border px-2.5 py-1 text-xs transition ${
                   mode === option.value
-                    ? "border-orange-500 bg-orange-500/10 text-orange-400"
-                    : "border-zinc-700 text-zinc-400 hover:border-zinc-500"
+                    ? "border-brand bg-brand/10 text-brand"
+                    : "border-zinc-300 text-zinc-400 hover:border-zinc-500"
                 }`}
               >
                 {option.label}
@@ -177,7 +177,7 @@ export default function AttachmentPopover({
                     e.target.value as AttachmentRole
                   )
                 }
-                className="mt-3 w-full rounded-lg border border-zinc-800 bg-black px-2 py-1.5 text-xs text-white outline-none"
+                className="mt-3 w-full rounded-lg border border-zinc-200 bg-white px-2 py-1.5 text-xs text-zinc-900 outline-none"
               >
                 {ROLE_OPTIONS.map((role) => (
                   <option key={role.value} value={role.value}>
@@ -186,7 +186,7 @@ export default function AttachmentPopover({
                 ))}
               </select>
 
-              <label className="mt-2 block cursor-pointer rounded-lg border border-dashed border-zinc-700 px-3 py-2 text-center text-xs text-zinc-400 hover:border-orange-500 hover:text-orange-400">
+              <label className="mt-2 block cursor-pointer rounded-lg border border-dashed border-zinc-300 px-3 py-2 text-center text-xs text-zinc-400 hover:border-brand hover:text-brand">
                 Choose image...
                 <input
                   type="file"
@@ -205,7 +205,7 @@ export default function AttachmentPopover({
           )}
 
           {attachments.length > 0 && (
-            <div className="mt-3 space-y-1.5 border-t border-zinc-800 pt-2">
+            <div className="mt-3 space-y-1.5 border-t border-zinc-200 pt-2">
               {attachments.map((a) => (
                 <div
                   key={a.id}
@@ -234,7 +234,7 @@ export default function AttachmentPopover({
                     onClick={() =>
                       onRemove(a.id)
                     }
-                    className="shrink-0 text-xs text-zinc-600 hover:text-red-400"
+                    className="shrink-0 text-xs text-zinc-400 hover:text-red-400"
                   >
                     ✕
                   </button>
@@ -246,7 +246,7 @@ export default function AttachmentPopover({
           <button
             type="button"
             onClick={() => setOpen(false)}
-            className="mt-3 w-full rounded-lg bg-zinc-800 py-1.5 text-xs font-medium text-white hover:bg-zinc-700"
+            className="mt-3 w-full rounded-lg bg-zinc-100 py-1.5 text-xs font-medium text-zinc-900 hover:bg-zinc-200"
           >
             Done
           </button>

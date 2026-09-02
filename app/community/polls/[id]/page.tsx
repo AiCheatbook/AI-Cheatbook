@@ -265,7 +265,7 @@ export default function PollDetailPage() {
           </p>
           <Link
             href="/community"
-            className="mt-4 inline-block text-orange-500 hover:text-orange-400"
+            className="mt-4 inline-block text-brand hover:text-brand"
           >
             ← Back to Community
           </Link>
@@ -345,7 +345,7 @@ export default function PollDetailPage() {
                     className="relative overflow-hidden rounded-xl border border-zinc-800 bg-black p-3"
                   >
                     <div
-                      className="absolute inset-y-0 left-0 bg-orange-500/20 transition-all duration-700"
+                      className="absolute inset-y-0 left-0 bg-brand/20 transition-all duration-700"
                       style={{
                         width: `${percent}%`,
                       }}
@@ -357,7 +357,7 @@ export default function PollDetailPage() {
                           myVotes.has(
                             option.id
                           )
-                            ? "font-semibold text-orange-400"
+                            ? "font-semibold text-brand"
                             : "text-zinc-200"
                         }
                       >
@@ -388,7 +388,7 @@ export default function PollDetailPage() {
                   }
                   className={`w-full rounded-xl border px-3 py-3 text-left text-sm transition ${
                     isSelected
-                      ? "border-orange-500 bg-orange-500/10 text-white"
+                      ? "border-brand bg-brand/10 text-white"
                       : "border-zinc-800 bg-black text-zinc-300 hover:border-zinc-600"
                   }`}
                 >
@@ -412,7 +412,7 @@ export default function PollDetailPage() {
                 selected.size === 0 ||
                 submitting
               }
-              className="mt-4 w-full rounded-xl bg-orange-500 py-2.5 text-sm font-semibold text-white transition hover:bg-orange-600 disabled:cursor-not-allowed disabled:opacity-50"
+              className="mt-4 w-full rounded-xl bg-brand py-2.5 text-sm font-semibold text-white transition hover:bg-brand-dark disabled:cursor-not-allowed disabled:opacity-50"
             >
               {submitting
                 ? "Submitting..."

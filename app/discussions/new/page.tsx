@@ -150,7 +150,7 @@ function NewDiscussionPageContent() {
   }
 
   const inputClass =
-    "mt-2 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3 text-white outline-none transition focus:border-orange-500";
+    "mt-2 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3 text-white outline-none transition focus:border-brand";
 
   return (
     <main className="min-h-screen bg-black px-6 py-16 text-white">
@@ -186,7 +186,7 @@ function NewDiscussionPageContent() {
                 }
                 className={`rounded-full border px-3.5 py-1.5 text-sm transition ${
                   contentKind === k.value
-                    ? "border-orange-500 bg-orange-500 text-white"
+                    ? "border-brand bg-brand text-white"
                     : "border-zinc-700 text-zinc-400 hover:border-zinc-500"
                 }`}
               >
@@ -210,7 +210,7 @@ function NewDiscussionPageContent() {
                 }
                 className={`rounded-full border px-3.5 py-1.5 text-sm transition ${
                   category === c.value
-                    ? "border-orange-500 bg-orange-500 text-white"
+                    ? "border-brand bg-brand text-white"
                     : "border-zinc-700 text-zinc-400 hover:border-zinc-500"
                 }`}
               >
@@ -252,7 +252,7 @@ function NewDiscussionPageContent() {
         <button
           type="submit"
           disabled={submitting}
-          className="mt-6 w-full rounded-xl bg-orange-500 py-3 font-semibold text-white transition hover:bg-orange-600 disabled:opacity-50"
+          className="mt-6 w-full rounded-xl bg-brand py-3 font-semibold text-white transition hover:bg-brand-dark disabled:opacity-50"
         >
           {submitting
             ? "Posting..."

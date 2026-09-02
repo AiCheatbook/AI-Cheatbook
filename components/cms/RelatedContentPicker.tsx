@@ -148,7 +148,7 @@ export default function RelatedContentPicker({
           }}
           onFocus={() => setOpen(true)}
           placeholder="Search by title..."
-          className="w-full rounded-lg border border-zinc-800 bg-zinc-900 px-3 py-2 text-sm text-white placeholder:text-zinc-500 outline-none focus:border-orange-500"
+          className="w-full rounded-lg border border-zinc-800 bg-zinc-900 px-3 py-2 text-sm text-white placeholder:text-zinc-500 outline-none focus:border-brand"
         />
 
         {open &&

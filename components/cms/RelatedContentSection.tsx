@@ -27,7 +27,7 @@ export default function RelatedContentSection({
           <Link
             key={`${item.type}-${item.id}`}
             href={relatedContentHref(item)}
-            className="group flex items-center justify-between rounded-xl border border-zinc-800 bg-zinc-950 px-4 py-3 transition hover:border-orange-500/50"
+            className="group flex items-center justify-between rounded-xl border border-zinc-800 bg-zinc-950 px-4 py-3 transition hover:border-brand/50"
           >
             <span className="truncate text-sm font-medium text-zinc-200 group-hover:text-white">
               {item.title}

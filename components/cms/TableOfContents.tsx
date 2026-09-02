@@ -13,7 +13,7 @@ export default function TableOfContents({
 
   return (
     <nav className="mb-8 rounded-xl border border-zinc-800 bg-zinc-950 p-5">
-      <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-orange-500">
+      <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-brand">
         On this page
       </p>
 
@@ -28,7 +28,7 @@ export default function TableOfContents({
           >
             <a
               href={`#${heading.id}`}
-              className="text-zinc-400 transition hover:text-orange-400"
+              className="text-zinc-400 transition hover:text-brand"
             >
               {heading.text}
             </a>

@@ -155,7 +155,7 @@ export default function AdminNewsPage() {
         <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
 
           <div>
-            <p className="text-sm font-semibold uppercase tracking-wider text-orange-500">
+            <p className="text-sm font-semibold uppercase tracking-wider text-brand">
               Admin
             </p>
 
@@ -170,7 +170,7 @@ export default function AdminNewsPage() {
 
           <Link
             href="/admin/news/new"
-            className="inline-flex h-11 items-center justify-center rounded-xl bg-orange-500 px-5 text-sm font-semibold text-white transition hover:bg-orange-600"
+            className="inline-flex h-11 items-center justify-center rounded-xl bg-brand px-5 text-sm font-semibold text-white transition hover:bg-brand-dark"
           >
             + Create News
           </Link>
@@ -241,7 +241,7 @@ export default function AdminNewsPage() {
 
               <Link
                 href="/admin/news/new"
-                className="mt-5 inline-flex rounded-xl bg-orange-500 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-orange-600"
+                className="mt-5 inline-flex rounded-xl bg-brand px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-dark"
               >
                 Create News
               </Link>
@@ -354,7 +354,7 @@ export default function AdminNewsPage() {
 
                       <Link
                         href={`/admin/news/${item.id}`}
-                        className="text-sm font-medium text-orange-500 transition hover:text-orange-400"
+                        className="text-sm font-medium text-brand transition hover:text-brand"
                       >
                         Edit
                       </Link>

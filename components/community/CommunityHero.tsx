@@ -75,7 +75,7 @@ export default function CommunityHero({
       <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
         <Link
           href="/discussions/new?kind=question"
-          className="rounded-xl bg-orange-500 px-6 py-3 text-sm font-semibold text-white transition hover:bg-orange-600"
+          className="rounded-xl bg-brand px-6 py-3 text-sm font-semibold text-white transition hover:bg-brand-dark"
         >
           Ask a Question
         </Link>

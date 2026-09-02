@@ -243,7 +243,7 @@ export default function SavedPromptsPage() {
                   )
                 }
                 placeholder="e.g. My favorite Midjourney prompt"
-                className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-black px-3 py-2 text-sm text-white outline-none focus:border-orange-500"
+                className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-black px-3 py-2 text-sm text-white outline-none focus:border-brand"
               />
             </div>
 
@@ -260,7 +260,7 @@ export default function SavedPromptsPage() {
                 }
                 rows={4}
                 placeholder="Paste or type any prompt you want to save..."
-                className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-black px-3 py-2 text-sm text-white outline-none focus:border-orange-500"
+                className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-black px-3 py-2 text-sm text-white outline-none focus:border-brand"
               />
             </div>
 
@@ -279,7 +279,7 @@ export default function SavedPromptsPage() {
                   )
                 }
                 placeholder="e.g. Midjourney"
-                className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-black px-3 py-2 text-sm text-white outline-none focus:border-orange-500"
+                className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-black px-3 py-2 text-sm text-white outline-none focus:border-brand"
               />
             </div>
 
@@ -292,7 +292,7 @@ export default function SavedPromptsPage() {
             <button
               type="submit"
               disabled={adding}
-              className="mt-4 rounded-xl bg-orange-500 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-orange-600 disabled:opacity-50"
+              className="mt-4 rounded-xl bg-brand px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-dark disabled:opacity-50"
             >
               {adding
                 ? "Saving..."
@@ -332,7 +332,7 @@ export default function SavedPromptsPage() {
 
               <Link
                 href="/generator"
-                className="mt-4 inline-block rounded-xl bg-orange-500 px-5 py-2.5 text-sm font-semibold text-white hover:bg-orange-600"
+                className="mt-4 inline-block rounded-xl bg-brand px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-dark"
               >
                 Go to Generator
               </Link>

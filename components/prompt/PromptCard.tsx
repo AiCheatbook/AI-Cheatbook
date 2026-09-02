@@ -44,7 +44,7 @@ export default function PromptCard({
       href={`/prompt/${slug}`}
       className="group block"
     >
-      <article className="overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900 transition duration-300 hover:-translate-y-1 hover:border-orange-500 hover:shadow-2xl hover:shadow-orange-500/10">
+      <article className="overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900 transition duration-300 hover:-translate-y-1 hover:border-brand hover:shadow-2xl hover:shadow-brand/10">
 
         {/* Image */}
 
@@ -74,7 +74,7 @@ export default function PromptCard({
 
         <div className="p-4">
 
-          <h3 className="line-clamp-2 text-lg font-semibold text-white transition duration-200 group-hover:text-orange-400">
+          <h3 className="line-clamp-2 text-lg font-semibold text-white transition duration-200 group-hover:text-brand">
             {title}
           </h3>
 

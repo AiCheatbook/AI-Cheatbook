@@ -142,7 +142,7 @@ export default function AccountPage() {
               className="mx-auto h-20 w-20 rounded-full object-cover"
             />
           ) : (
-            <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-orange-500/20 text-2xl font-bold text-orange-400">
+            <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-brand/20 text-2xl font-bold text-brand">
               {(
                 profile.display_name ||
                 profile.email ||
@@ -164,7 +164,7 @@ export default function AccountPage() {
         </div>
 
         <div className="mt-4 rounded-2xl border border-zinc-800 bg-zinc-950 p-6">
-          <p className="text-sm font-semibold uppercase tracking-wider text-orange-500">
+          <p className="text-sm font-semibold uppercase tracking-wider text-brand">
             Real AI Usage Today
           </p>
 

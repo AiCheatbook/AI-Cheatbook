@@ -126,7 +126,7 @@ export default function PromptOutput({
               type="button"
               onClick={handleSave}
               disabled={!prompt || loading || saving}
-              className="rounded-xl border border-zinc-700 px-5 py-2.5 text-sm font-semibold text-white transition hover:border-orange-500 hover:bg-orange-500/10 disabled:cursor-not-allowed disabled:opacity-40"
+              className="rounded-xl border border-zinc-700 px-5 py-2.5 text-sm font-semibold text-white transition hover:border-brand hover:bg-brand/10 disabled:cursor-not-allowed disabled:opacity-40"
             >
               {saved
                 ? "✓ Saved"
@@ -140,7 +140,7 @@ export default function PromptOutput({
             type="button"
             onClick={handleCopy}
             disabled={!prompt || loading}
-            className="rounded-xl border border-zinc-700 px-5 py-2.5 text-sm font-semibold text-white transition hover:border-orange-500 hover:bg-orange-500/10 disabled:cursor-not-allowed disabled:opacity-40"
+            className="rounded-xl border border-zinc-700 px-5 py-2.5 text-sm font-semibold text-white transition hover:border-brand hover:bg-brand/10 disabled:cursor-not-allowed disabled:opacity-40"
           >
             {copied ? "✓ Copied" : "Copy"}
           </button>

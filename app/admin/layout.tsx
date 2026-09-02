@@ -40,7 +40,7 @@ export default function AdminLayout({
                 pathname.startsWith(
                   "/admin/news"
                 )
-                  ? "text-orange-400"
+                  ? "text-brand"
                   : "text-neutral-400 hover:text-white"
               }
             >
@@ -53,7 +53,7 @@ export default function AdminLayout({
                 pathname.startsWith(
                   "/admin/prompts"
                 )
-                  ? "text-orange-400"
+                  ? "text-brand"
                   : "text-neutral-400 hover:text-white"
               }
             >
@@ -66,7 +66,7 @@ export default function AdminLayout({
                 pathname.startsWith(
                   "/admin/learning-cards"
                 )
-                  ? "text-orange-400"
+                  ? "text-brand"
                   : "text-neutral-400 hover:text-white"
               }
             >
@@ -79,7 +79,7 @@ export default function AdminLayout({
                 pathname.startsWith(
                   "/admin/submissions"
                 )
-                  ? "text-orange-400"
+                  ? "text-brand"
                   : "text-neutral-400 hover:text-white"
               }
             >
@@ -92,7 +92,7 @@ export default function AdminLayout({
                 pathname.startsWith(
                   "/admin/keywords"
                 )
-                  ? "text-orange-400"
+                  ? "text-brand"
                   : "text-neutral-400 hover:text-white"
               }
             >
@@ -105,7 +105,7 @@ export default function AdminLayout({
                 pathname.startsWith(
                   "/admin/structures"
                 )
-                  ? "text-orange-400"
+                  ? "text-brand"
                   : "text-neutral-400 hover:text-white"
               }
             >

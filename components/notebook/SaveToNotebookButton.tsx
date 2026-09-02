@@ -218,7 +218,7 @@ export default function SaveToNotebookButton({
         }}
         className={`rounded-full border px-3 py-1.5 text-xs font-medium transition ${
           saved
-            ? "border-orange-500 bg-orange-500/10 text-orange-400"
+            ? "border-brand bg-brand/10 text-brand"
             : "border-zinc-700 text-zinc-400 hover:border-zinc-500 hover:text-white"
         } ${compact ? "px-2 py-1" : ""}`}
       >
@@ -289,7 +289,7 @@ export default function SaveToNotebookButton({
                 !newCollectionName.trim() ||
                 saving
               }
-              className="rounded-lg bg-orange-500 px-2 py-1 text-xs font-semibold text-white disabled:opacity-50"
+              className="rounded-lg bg-brand px-2 py-1 text-xs font-semibold text-white disabled:opacity-50"
             >
               +
             </button>

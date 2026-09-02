@@ -149,7 +149,7 @@ export default async function NewsDetailPage({
           <div className="mt-10">
 
             {news.category && (
-              <span className="inline-flex rounded-full border border-orange-500/20 bg-orange-500/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-orange-400">
+              <span className="inline-flex rounded-full border border-brand/20 bg-brand/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-brand">
                 {news.category}
               </span>
             )}
@@ -177,7 +177,7 @@ export default async function NewsDetailPage({
             {news.author && (
               <div className="flex items-center gap-2">
 
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-orange-500/10 text-xs font-bold text-orange-400">
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-brand/10 text-xs font-bold text-brand">
                   {news.author
                     .charAt(0)
                     .toUpperCase()}
@@ -315,7 +315,7 @@ export default async function NewsDetailPage({
 
               <div>
 
-                <p className="text-xs font-semibold uppercase tracking-widest text-orange-500">
+                <p className="text-xs font-semibold uppercase tracking-widest text-brand">
                   Keep Reading
                 </p>
 
@@ -373,14 +373,14 @@ export default async function NewsDetailPage({
                     <div className="p-5">
 
                       {item.category && (
-                        <p className="text-xs font-semibold uppercase tracking-wider text-orange-500">
+                        <p className="text-xs font-semibold uppercase tracking-wider text-brand">
                           {
                             item.category
                           }
                         </p>
                       )}
 
-                      <h3 className="mt-2 line-clamp-2 text-lg font-semibold leading-snug text-white transition group-hover:text-orange-400">
+                      <h3 className="mt-2 line-clamp-2 text-lg font-semibold leading-snug text-white transition group-hover:text-brand">
                         {item.title}
                       </h3>
 

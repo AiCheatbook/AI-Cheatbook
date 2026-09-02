@@ -159,14 +159,14 @@ export default function SearchBar() {
           placeholder="Search prompts, keywords, concepts, AI tools..."
           aria-label="Search AI Cheatbook Library"
           autoComplete="off"
-          className="h-14 w-full rounded-2xl border border-zinc-800 bg-zinc-900/80 pl-14 pr-32 text-white outline-none placeholder:text-zinc-500 transition focus:border-orange-500 focus:bg-zinc-900"
+          className="h-14 w-full rounded-2xl border border-zinc-800 bg-zinc-900/80 pl-14 pr-32 text-white outline-none placeholder:text-zinc-500 transition focus:border-brand focus:bg-zinc-900"
         />
 
         {/* Search Button */}
 
         <button
           type="submit"
-          className="absolute right-2 top-2 h-10 rounded-xl bg-orange-500 px-5 text-sm font-semibold text-white transition hover:bg-orange-600"
+          className="absolute right-2 top-2 h-10 rounded-xl bg-brand px-5 text-sm font-semibold text-white transition hover:bg-brand-dark"
         >
           Search
         </button>

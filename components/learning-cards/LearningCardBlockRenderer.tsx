@@ -2,9 +2,11 @@
 
 import Image from "next/image";
 
-type LearningCardBlock = {
+type LearningCardBlock = {
+
   id: string;
-  learning_card_id: string;
+  learning_card_id: string;
+
   block_type: string;
   sort_order: number;
   content: Record<string, unknown>;
@@ -245,7 +247,7 @@ function LearningCardBlockItem({
     }
 
     return (
-      <blockquote className="border-l-4 border-orange-500 pl-6">
+      <blockquote className="border-l-4 border-brand pl-6">
         <p className="text-xl italic leading-8 text-zinc-200">
           “{text}”
         </p>

@@ -222,7 +222,7 @@ export default function PostComposer({
                 className={`rounded-xl border px-2 py-2 text-xs transition ${
                   postType ===
                   option.value
-                    ? "border-orange-500 bg-orange-500 text-white"
+                    ? "border-brand bg-brand text-white"
                     : "border-zinc-700 text-zinc-400"
                 }`}
               >
@@ -241,7 +241,7 @@ export default function PostComposer({
                 }
                 className={`rounded-full border px-3 py-1 text-xs transition ${
                   category === c.value
-                    ? "border-orange-500 bg-orange-500/10 text-orange-400"
+                    ? "border-brand bg-brand/10 text-brand"
                     : "border-zinc-700 text-zinc-500"
                 }`}
               >
@@ -268,7 +268,7 @@ export default function PostComposer({
                       ? "What are you explaining?"
                       : "What do you want to talk about?"
             }
-            className="mt-4 w-full rounded-xl border border-zinc-800 bg-black px-4 py-3 text-white outline-none focus:border-orange-500"
+            className="mt-4 w-full rounded-xl border border-zinc-800 bg-black px-4 py-3 text-white outline-none focus:border-brand"
           />
 
           {postType === "prompt" && (
@@ -280,7 +280,7 @@ export default function PostComposer({
                 )
               }
               placeholder="Which AI tool is this for? (e.g. Midjourney, Veo)"
-              className="mt-3 w-full rounded-xl border border-zinc-800 bg-black px-4 py-3 text-white outline-none focus:border-orange-500"
+              className="mt-3 w-full rounded-xl border border-zinc-800 bg-black px-4 py-3 text-white outline-none focus:border-brand"
             />
           )}
 
@@ -293,7 +293,7 @@ export default function PostComposer({
                 )
               }
               placeholder="Link to the article, video, or tool"
-              className="mt-3 w-full rounded-xl border border-zinc-800 bg-black px-4 py-3 text-white outline-none focus:border-orange-500"
+              className="mt-3 w-full rounded-xl border border-zinc-800 bg-black px-4 py-3 text-white outline-none focus:border-brand"
             />
           )}
 
@@ -311,7 +311,7 @@ export default function PostComposer({
                   ? "What's useful about it?"
                   : "Add details..."
             }
-            className="mt-3 w-full rounded-xl border border-zinc-800 bg-black px-4 py-3 text-white outline-none focus:border-orange-500"
+            className="mt-3 w-full rounded-xl border border-zinc-800 bg-black px-4 py-3 text-white outline-none focus:border-brand"
           />
 
           {error && (
@@ -326,7 +326,7 @@ export default function PostComposer({
           <button
             type="submit"
             disabled={submitting}
-            className="mt-4 w-full rounded-xl bg-orange-500 py-3 font-semibold text-white transition hover:bg-orange-600 disabled:cursor-not-allowed disabled:opacity-50"
+            className="mt-4 w-full rounded-xl bg-brand py-3 font-semibold text-white transition hover:bg-brand-dark disabled:cursor-not-allowed disabled:opacity-50"
           >
             {submitting
               ? "Posting..."

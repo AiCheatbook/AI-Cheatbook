@@ -22,7 +22,7 @@ export default function ThumbnailPicker({
     useState("");
 
   const inputClass =
-    "w-full rounded-lg border border-zinc-800 bg-zinc-900 px-3 py-2 text-sm text-white placeholder:text-zinc-500 outline-none focus:border-orange-500";
+    "w-full rounded-lg border border-zinc-800 bg-zinc-900 px-3 py-2 text-sm text-white placeholder:text-zinc-500 outline-none focus:border-brand";
 
   const labelClass =
     "mb-1 block text-xs font-medium text-zinc-400";
@@ -158,7 +158,7 @@ export default function ThumbnailPicker({
           </div>
 
           <div className="flex gap-2">
-            <label className="flex-1 cursor-pointer rounded-lg bg-orange-500 px-3 py-2 text-center text-xs font-medium text-white hover:bg-orange-600">
+            <label className="flex-1 cursor-pointer rounded-lg bg-brand px-3 py-2 text-center text-xs font-medium text-white hover:bg-brand-dark">
               Upload to Hostinger
               <input
                 type="file"

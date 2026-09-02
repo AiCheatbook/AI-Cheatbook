@@ -136,7 +136,7 @@ export default function PromptComposer({
     editorProps: {
       attributes: {
         class:
-          "min-h-[56px] text-lg text-white outline-none",
+          "min-h-[56px] text-lg text-zinc-900 outline-none",
       },
     },
   });
@@ -325,7 +325,7 @@ export default function PromptComposer({
       }
     >
       {!compact && (
-        <h1 className="text-center text-2xl font-semibold text-white sm:text-3xl">
+        <h1 className="text-center text-2xl font-semibold text-zinc-900 sm:text-3xl">
           What do you want to create?
         </h1>
       )}
@@ -343,13 +343,13 @@ export default function PromptComposer({
             onClick={() =>
               setTypeMenuOpen((v) => !v)
             }
-            className="rounded-full border border-zinc-700 bg-zinc-900 px-4 py-1.5 text-sm text-zinc-300 transition hover:border-orange-500 hover:text-orange-400"
+            className="rounded-full border border-zinc-300 bg-white px-4 py-1.5 text-sm text-zinc-400 transition hover:border-brand hover:text-brand"
           >
             {promptType.label} ▾
           </button>
 
           {typeMenuOpen && (
-            <div className="absolute left-1/2 z-30 mt-2 w-48 -translate-x-1/2 overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900 shadow-xl">
+            <div className="absolute left-1/2 z-30 mt-2 w-48 -translate-x-1/2 overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-xl">
               {PROMPT_TYPES.map(
                 (type) => (
                   <button
@@ -363,7 +363,7 @@ export default function PromptComposer({
                         false
                       );
                     }}
-                    className="block w-full px-4 py-2 text-left text-sm text-zinc-300 hover:bg-zinc-800"
+                    className="block w-full px-4 py-2 text-left text-sm text-zinc-400 hover:bg-zinc-100"
                   >
                     {type.label}
                   </button>
@@ -374,7 +374,7 @@ export default function PromptComposer({
         </div>
       </div>
 
-      <div className="mt-4 rounded-3xl border border-zinc-800 bg-zinc-900 p-5 shadow-lg">
+      <div className="mt-4 rounded-3xl border border-zinc-200 bg-white p-5 shadow-lg">
         <div className="relative">
           <EditorContent editor={editor} />
 
@@ -388,7 +388,7 @@ export default function PromptComposer({
           )}
         </div>
 
-        <div className="mt-4 flex items-center justify-between border-t border-zinc-800 pt-3">
+        <div className="mt-4 flex items-center justify-between border-t border-zinc-200 pt-3">
           <div className="flex items-center gap-2">
             <AttachmentPopover
               attachments={attachments}
@@ -441,7 +441,7 @@ export default function PromptComposer({
                   ? "Using Real AI (Gemini) — click to switch to the free built-in generator"
                   : "Using the free built-in generator — click to switch to Real AI"
               }
-              className="rounded-full border border-zinc-700 px-3 py-1.5 text-xs text-zinc-400 transition hover:border-zinc-500 hover:text-white"
+              className="rounded-full border border-zinc-300 px-3 py-1.5 text-xs text-zinc-400 transition hover:border-zinc-500 hover:text-zinc-900"
             >
               {generationMode ===
               "real-ai"
@@ -456,7 +456,7 @@ export default function PromptComposer({
                 !taskText.trim() ||
                 status === "generating"
               }
-              className="flex h-10 w-10 items-center justify-center rounded-full bg-orange-500 text-white transition hover:bg-orange-600 disabled:cursor-not-allowed disabled:opacity-40"
+              className="flex h-10 w-10 items-center justify-center rounded-full bg-brand text-zinc-900 transition hover:bg-brand-dark disabled:cursor-not-allowed disabled:opacity-40"
               aria-label="Generate prompt"
           >
             {status === "generating"
@@ -473,7 +473,7 @@ export default function PromptComposer({
         onRemove={removeGlobalKeyword}
       />
 
-      <p className="mt-2 text-center text-xs text-zinc-600">
+      <p className="mt-2 text-center text-xs text-zinc-400">
         {usage.remaining} generations
         remaining today
         {!isLoggedIn &&
@@ -481,7 +481,7 @@ export default function PromptComposer({
       </p>
 
       {limitNotice && (
-        <p className="mt-2 text-center text-sm text-orange-400">
+        <p className="mt-2 text-center text-sm text-brand">
           You&apos;ve reached today&apos;s
           limit.
         </p>

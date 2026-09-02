@@ -476,7 +476,7 @@ export default function DiscussionThreadPage() {
           </p>
           <Link
             href="/discussions"
-            className="mt-4 inline-block text-orange-500 hover:text-orange-400"
+            className="mt-4 inline-block text-brand hover:text-brand"
           >
             ← Back to Discussions
           </Link>
@@ -556,7 +556,7 @@ export default function DiscussionThreadPage() {
                 className="h-6 w-6 rounded-full object-cover"
               />
             ) : (
-              <div className="flex h-6 w-6 items-center justify-center rounded-full bg-orange-500/20 text-xs font-bold text-orange-400">
+              <div className="flex h-6 w-6 items-center justify-center rounded-full bg-brand/20 text-xs font-bold text-brand">
                 {replyAuthor
                   .charAt(0)
                   .toUpperCase()}
@@ -601,7 +601,7 @@ export default function DiscussionThreadPage() {
             }
             className={`rounded-full px-2.5 py-1 text-xs transition ${
               myReplyVotes.has(reply.id)
-                ? "bg-orange-500/15 text-orange-400"
+                ? "bg-brand/15 text-brand"
                 : "bg-zinc-800 text-zinc-400 hover:text-white"
             }`}
           >
@@ -657,7 +657,7 @@ export default function DiscussionThreadPage() {
                 )
               }
               placeholder="Write a reply..."
-              className="flex-1 rounded-lg border border-zinc-800 bg-black px-3 py-1.5 text-sm text-white outline-none focus:border-orange-500"
+              className="flex-1 rounded-lg border border-zinc-800 bg-black px-3 py-1.5 text-sm text-white outline-none focus:border-brand"
             />
 
             <button
@@ -671,7 +671,7 @@ export default function DiscussionThreadPage() {
                 !nestedReplyText.trim() ||
                 posting
               }
-              className="rounded-lg bg-orange-500 px-3 py-1.5 text-xs font-semibold text-white hover:bg-orange-600 disabled:opacity-50"
+              className="rounded-lg bg-brand px-3 py-1.5 text-xs font-semibold text-white hover:bg-brand-dark disabled:opacity-50"
             >
               Reply
             </button>
@@ -768,7 +768,7 @@ export default function DiscussionThreadPage() {
             onClick={handleThreadVote}
             className={`mt-4 rounded-full px-3 py-1.5 text-sm transition ${
               myThreadVote
-                ? "bg-orange-500/15 text-orange-400"
+                ? "bg-brand/15 text-brand"
                 : "bg-zinc-800 text-zinc-400 hover:text-white"
             }`}
           >
@@ -804,7 +804,7 @@ export default function DiscussionThreadPage() {
               }
               rows={3}
               placeholder="Write a reply..."
-              className="w-full rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3 text-sm text-white placeholder:text-zinc-500 outline-none focus:border-orange-500"
+              className="w-full rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3 text-sm text-white placeholder:text-zinc-500 outline-none focus:border-brand"
             />
 
             <button
@@ -816,7 +816,7 @@ export default function DiscussionThreadPage() {
                 !newReply.trim() ||
                 posting
               }
-              className="mt-2 rounded-xl bg-orange-500 px-5 py-2 text-sm font-semibold text-white transition hover:bg-orange-600 disabled:opacity-50"
+              className="mt-2 rounded-xl bg-brand px-5 py-2 text-sm font-semibold text-white transition hover:bg-brand-dark disabled:opacity-50"
             >
               {posting
                 ? "Posting..."
@@ -827,7 +827,7 @@ export default function DiscussionThreadPage() {
           <p className="mt-4 rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3 text-sm text-zinc-400">
             <Link
               href="/login"
-              className="text-orange-500 hover:text-orange-400"
+              className="text-brand hover:text-brand"
             >
               Log in
             </Link>{" "}

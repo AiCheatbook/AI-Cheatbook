@@ -60,8 +60,8 @@ export default function ReferenceImagePicker({
             }}
             className={`rounded-full border px-3.5 py-1.5 text-xs font-medium transition ${
               mode === option.value
-                ? "border-orange-500 bg-orange-500 text-white"
-                : "border-zinc-700 bg-black text-zinc-400 hover:border-orange-500 hover:text-orange-400"
+                ? "border-brand bg-brand text-white"
+                : "border-zinc-700 bg-black text-zinc-400 hover:border-brand hover:text-brand"
             }`}
           >
             {option.label}
@@ -93,7 +93,7 @@ export default function ReferenceImagePicker({
               </button>
             </div>
           ) : (
-            <label className="inline-block cursor-pointer rounded-xl border border-dashed border-zinc-700 px-4 py-2.5 text-xs text-zinc-400 hover:border-orange-500 hover:text-orange-400">
+            <label className="inline-block cursor-pointer rounded-xl border border-dashed border-zinc-700 px-4 py-2.5 text-xs text-zinc-400 hover:border-brand hover:text-brand">
               Choose an image...
               <input
                 type="file"

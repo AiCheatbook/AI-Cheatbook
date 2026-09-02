@@ -510,7 +510,7 @@ export default function CreateNewsPage() {
 
           <div className="mt-5">
 
-            <p className="text-sm font-semibold uppercase tracking-wider text-orange-500">
+            <p className="text-sm font-semibold uppercase tracking-wider text-brand">
               Admin / News
             </p>
 
@@ -573,7 +573,7 @@ export default function CreateNewsPage() {
                   )
                 }
                 placeholder="OpenAI launches a new AI model"
-                className="mt-2 h-12 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-4 text-white outline-none transition placeholder:text-zinc-600 focus:border-orange-500"
+                className="mt-2 h-12 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-4 text-white outline-none transition placeholder:text-zinc-600 focus:border-brand"
               />
 
             </div>
@@ -597,7 +597,7 @@ export default function CreateNewsPage() {
                   )
                 }
                 placeholder="openai-launches-new-ai-model"
-                className="mt-2 h-12 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-4 text-white outline-none transition placeholder:text-zinc-600 focus:border-orange-500"
+                className="mt-2 h-12 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-4 text-white outline-none transition placeholder:text-zinc-600 focus:border-brand"
               />
 
             </div>
@@ -621,7 +621,7 @@ export default function CreateNewsPage() {
                     )
                   }
                   placeholder="AI Models"
-                  className="mt-2 h-12 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-4 text-white outline-none transition placeholder:text-zinc-600 focus:border-orange-500"
+                  className="mt-2 h-12 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-4 text-white outline-none transition placeholder:text-zinc-600 focus:border-brand"
                 />
 
               </div>
@@ -641,7 +641,7 @@ export default function CreateNewsPage() {
                     )
                   }
                   placeholder="AI Cheatbook"
-                  className="mt-2 h-12 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-4 text-white outline-none transition placeholder:text-zinc-600 focus:border-orange-500"
+                  className="mt-2 h-12 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-4 text-white outline-none transition placeholder:text-zinc-600 focus:border-brand"
                 />
 
               </div>
@@ -665,7 +665,7 @@ export default function CreateNewsPage() {
                 }
                 rows={3}
                 placeholder="Short description of the news article..."
-                className="mt-2 w-full resize-y rounded-xl border border-zinc-800 bg-zinc-900 p-4 text-white outline-none transition placeholder:text-zinc-600 focus:border-orange-500"
+                className="mt-2 w-full resize-y rounded-xl border border-zinc-800 bg-zinc-900 p-4 text-white outline-none transition placeholder:text-zinc-600 focus:border-brand"
               />
 
             </div>
@@ -759,7 +759,7 @@ export default function CreateNewsPage() {
                   event.target.checked
                 )
               }
-              className="h-4 w-4 accent-orange-500"
+              className="h-4 w-4 accent-brand"
             />
 
             <span className="text-sm text-zinc-300">
@@ -796,7 +796,7 @@ export default function CreateNewsPage() {
               onClick={() =>
                 handleSubmit(true)
               }
-              className="rounded-xl bg-orange-500 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-orange-600 disabled:cursor-not-allowed disabled:opacity-50"
+              className="rounded-xl bg-brand px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-dark disabled:cursor-not-allowed disabled:opacity-50"
             >
               {saving
                 ? "Publishing..."

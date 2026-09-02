@@ -130,12 +130,12 @@ export default function AdminStructuresPage() {
   }
 
   const inputClass =
-    "mt-2 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3 text-white outline-none transition focus:border-orange-500";
+    "mt-2 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3 text-white outline-none transition focus:border-brand";
 
   return (
     <main className="min-h-screen bg-black px-6 py-10 text-white">
       <div className="mx-auto max-w-2xl">
-        <p className="text-sm font-semibold uppercase tracking-wider text-orange-500">
+        <p className="text-sm font-semibold uppercase tracking-wider text-brand">
           Admin
         </p>
 
@@ -219,7 +219,7 @@ export default function AdminStructuresPage() {
           <button
             type="submit"
             disabled={saving}
-            className="mt-5 rounded-xl bg-orange-500 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-orange-600 disabled:opacity-50"
+            className="mt-5 rounded-xl bg-brand px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-dark disabled:opacity-50"
           >
             {saving
               ? "Saving..."

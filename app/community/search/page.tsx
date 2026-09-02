@@ -331,7 +331,7 @@ function CommunitySearchContent() {
             setQuery(e.target.value)
           }
           placeholder="Search questions, discussions, prompts, polls..."
-          className="w-full rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3 text-white outline-none focus:border-orange-500"
+          className="w-full rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3 text-white outline-none focus:border-brand"
         />
       </form>
 

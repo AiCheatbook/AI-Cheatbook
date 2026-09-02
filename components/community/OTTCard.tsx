@@ -40,7 +40,7 @@ const KIND_META: Record<
     label: "Discussion",
     icon: "💬",
     accent:
-      "border-orange-500/30 hover:border-orange-500/60",
+      "border-brand/30 hover:border-brand/60",
   },
   discovery: {
     label: "Discovery",
@@ -115,7 +115,7 @@ export default function OTTCard({
         </span>
 
         {isTrending && (
-          <span className="rounded-full bg-orange-500/10 px-2.5 py-1 text-xs text-orange-400">
+          <span className="rounded-full bg-brand/10 px-2.5 py-1 text-xs text-brand">
             🔥 Trending
           </span>
         )}
@@ -133,7 +133,7 @@ export default function OTTCard({
         )}
       </div>
 
-      <h3 className="mt-3 text-lg font-semibold text-white transition group-hover:text-orange-400">
+      <h3 className="mt-3 text-lg font-semibold text-white transition group-hover:text-brand">
         {title}
       </h3>
 

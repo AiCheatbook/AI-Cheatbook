@@ -153,7 +153,7 @@ export default function SearchFilters({
               })}
               className={`shrink-0 rounded-xl px-4 py-2 text-sm font-medium transition ${
                 isSelected
-                  ? "bg-orange-500 text-white shadow-lg shadow-orange-500/10"
+                  ? "bg-brand text-white shadow-lg shadow-brand/10"
                   : "border border-zinc-800 bg-zinc-900/60 text-zinc-400 hover:border-zinc-700 hover:bg-zinc-800 hover:text-white"
               }`}
             >
@@ -200,7 +200,7 @@ export default function SearchFilters({
               })}
               className={`block rounded-lg px-3 py-2 text-sm transition ${
                 !selectedTool
-                  ? "bg-orange-500/10 text-orange-400"
+                  ? "bg-brand/10 text-brand"
                   : "text-zinc-400 hover:bg-zinc-900 hover:text-white"
               }`}
             >
@@ -215,7 +215,7 @@ export default function SearchFilters({
                 })}
                 className={`block rounded-lg px-3 py-2 text-sm transition ${
                   selectedTool === tool
-                    ? "bg-orange-500/10 text-orange-400"
+                    ? "bg-brand/10 text-brand"
                     : "text-zinc-400 hover:bg-zinc-900 hover:text-white"
                 }`}
               >
@@ -259,7 +259,7 @@ export default function SearchFilters({
               })}
               className={`block rounded-lg px-3 py-2 text-sm transition ${
                 !selectedCategory
-                  ? "bg-orange-500/10 text-orange-400"
+                  ? "bg-brand/10 text-brand"
                   : "text-zinc-400 hover:bg-zinc-900 hover:text-white"
               }`}
             >
@@ -275,7 +275,7 @@ export default function SearchFilters({
                 className={`block rounded-lg px-3 py-2 text-sm transition ${
                   selectedCategory ===
                   category
-                    ? "bg-orange-500/10 text-orange-400"
+                    ? "bg-brand/10 text-brand"
                     : "text-zinc-400 hover:bg-zinc-900 hover:text-white"
                 }`}
               >
@@ -292,7 +292,7 @@ export default function SearchFilters({
             href={createUrl({
               clearAll: true,
             })}
-            className="flex shrink-0 items-center justify-center rounded-xl border border-zinc-800 px-4 py-3 text-sm font-medium text-zinc-400 transition hover:border-orange-500 hover:text-orange-400"
+            className="flex shrink-0 items-center justify-center rounded-xl border border-zinc-800 px-4 py-3 text-sm font-medium text-zinc-400 transition hover:border-brand hover:text-brand"
           >
             Clear Filters
           </Link>
@@ -315,7 +315,7 @@ export default function SearchFilters({
               href={createUrl({
                 tool: "",
               })}
-              className="rounded-full border border-orange-500/30 bg-orange-500/10 px-3 py-1 text-xs text-orange-400 transition hover:bg-orange-500/20"
+              className="rounded-full border border-brand/30 bg-brand/10 px-3 py-1 text-xs text-brand transition hover:bg-brand/20"
             >
               Tool: {selectedTool} ×
             </Link>
@@ -326,7 +326,7 @@ export default function SearchFilters({
               href={createUrl({
                 category: "",
               })}
-              className="rounded-full border border-orange-500/30 bg-orange-500/10 px-3 py-1 text-xs text-orange-400 transition hover:bg-orange-500/20"
+              className="rounded-full border border-brand/30 bg-brand/10 px-3 py-1 text-xs text-brand transition hover:bg-brand/20"
             >
               Category:{" "}
               {selectedCategory} ×
@@ -338,7 +338,7 @@ export default function SearchFilters({
               href={createUrl({
                 type: "all",
               })}
-              className="rounded-full border border-orange-500/30 bg-orange-500/10 px-3 py-1 text-xs capitalize text-orange-400 transition hover:bg-orange-500/20"
+              className="rounded-full border border-brand/30 bg-brand/10 px-3 py-1 text-xs capitalize text-brand transition hover:bg-brand/20"
             >
               Type: {selectedType} ×
             </Link>

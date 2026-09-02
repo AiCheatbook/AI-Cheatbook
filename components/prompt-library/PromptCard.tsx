@@ -100,7 +100,7 @@ export default function PromptCard({
       : "/prompts/demo.jpg");
 
   return (
-    <article className="group overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900 transition duration-300 hover:-translate-y-1 hover:border-orange-500">
+    <article className="group overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900 transition duration-300 hover:-translate-y-1 hover:border-brand">
 
       {/* Image */}
 
@@ -126,7 +126,7 @@ export default function PromptCard({
 
         <div className="flex items-center justify-between gap-3">
 
-          <span className="rounded-full bg-orange-500/20 px-3 py-1 text-xs font-medium text-orange-400">
+          <span className="rounded-full bg-brand/20 px-3 py-1 text-xs font-medium text-brand">
             {aiTools?.[0] || "AI"}
           </span>
 
@@ -139,7 +139,7 @@ export default function PromptCard({
         {/* Title */}
 
         <Link href={`/prompt/${slug}`}>
-          <h3 className="mt-4 text-xl font-semibold text-white transition hover:text-orange-400">
+          <h3 className="mt-4 text-xl font-semibold text-white transition hover:text-brand">
             {title}
           </h3>
         </Link>
@@ -198,7 +198,7 @@ export default function PromptCard({
           type="button"
           onClick={handleAddKeywords}
           disabled={keywords.length === 0}
-          className="mt-5 w-full rounded-xl bg-orange-500 px-4 py-3 text-sm font-semibold text-white transition hover:bg-orange-600 disabled:cursor-not-allowed disabled:opacity-40"
+          className="mt-5 w-full rounded-xl bg-brand px-4 py-3 text-sm font-semibold text-white transition hover:bg-brand-dark disabled:cursor-not-allowed disabled:opacity-40"
         >
           {added
             ? "✓ Keywords Added"
@@ -209,7 +209,7 @@ export default function PromptCard({
 
         <Link
           href={`/prompt/${slug}`}
-          className="mt-2 block w-full rounded-xl border border-zinc-700 px-4 py-3 text-center text-sm font-semibold text-zinc-300 transition hover:border-orange-500 hover:text-orange-400"
+          className="mt-2 block w-full rounded-xl border border-zinc-700 px-4 py-3 text-center text-sm font-semibold text-zinc-300 transition hover:border-brand hover:text-brand"
         >
           View Prompt →
         </Link>

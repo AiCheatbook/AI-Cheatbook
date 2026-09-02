@@ -156,7 +156,7 @@ export default function TrendingPrompts() {
 
           {/* Section Label */}
 
-          <p className="mb-0 whitespace-nowrap text-sm font-semibold uppercase tracking-wider text-orange-500">
+          <p className="mb-0 whitespace-nowrap text-sm font-semibold uppercase tracking-wider text-brand">
             Popular Right Now
           </p>
 

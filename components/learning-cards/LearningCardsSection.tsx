@@ -111,7 +111,7 @@ export default function LearningCardsSection() {
 
           <Link
             href="/learning"
-            className="hidden shrink-0 text-sm font-medium text-orange-500 transition hover:text-orange-600 sm:block"
+            className="hidden shrink-0 text-sm font-medium text-brand transition hover:text-brand-dark sm:block"
           >
             View All →
           </Link>
@@ -185,7 +185,7 @@ export default function LearningCardsSection() {
             <div className="mt-5 sm:hidden">
               <Link
                 href="/learning"
-                className="block rounded-xl border border-zinc-200 py-3 text-center text-sm font-medium text-orange-500"
+                className="block rounded-xl border border-zinc-200 py-3 text-center text-sm font-medium text-brand"
               >
                 View All Learning Cards →
               </Link>

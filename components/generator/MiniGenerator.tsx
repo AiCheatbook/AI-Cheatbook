@@ -24,7 +24,7 @@ export default function MiniGenerator() {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="fixed bottom-6 right-6 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-orange-500 text-2xl text-white shadow-lg shadow-orange-500/30 transition hover:bg-orange-600"
+        className="fixed bottom-6 right-6 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-brand text-2xl text-zinc-900 shadow-lg shadow-brand/30 transition hover:bg-brand-dark"
         aria-label="Open Quick Prompt Builder"
       >
         ✨
@@ -33,9 +33,9 @@ export default function MiniGenerator() {
   }
 
   return (
-    <div className="fixed bottom-6 right-6 z-40 w-[92vw] max-w-md rounded-2xl border border-zinc-800 bg-zinc-950 shadow-2xl sm:w-[26rem]">
-      <div className="flex items-center justify-between border-b border-zinc-800 px-4 py-3">
-        <h2 className="text-sm font-semibold text-white">
+    <div className="fixed bottom-6 right-6 z-40 w-[92vw] max-w-md rounded-2xl border border-zinc-200 bg-white shadow-2xl sm:w-[26rem]">
+      <div className="flex items-center justify-between border-b border-zinc-200 px-4 py-3">
+        <h2 className="text-sm font-semibold text-zinc-900">
           Quick Prompt Builder
         </h2>
 
@@ -43,7 +43,7 @@ export default function MiniGenerator() {
           type="button"
           onClick={() => setOpen(false)}
           aria-label="Close"
-          className="text-zinc-500 hover:text-white"
+          className="text-zinc-400 hover:text-zinc-900"
         >
           ✕
         </button>
