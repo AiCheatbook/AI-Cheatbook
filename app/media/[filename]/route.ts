@@ -2,6 +2,18 @@ import { NextResponse } from "next/server";
 import { readFile } from "fs/promises";
 import path from "path";
 
+/*
+ * Serves files that were uploaded via
+ * /api/upload — those are saved to
+ * storage/uploads/ (deliberately outside
+ * public/ so a git deploy never touches
+ * them), but nothing was ever actually
+ * serving that folder at the /media/ URL
+ * the upload route promises. This route is
+ * that missing piece — every uploaded
+ * image has been 404ing until now.
+ */
+
 const UPLOAD_DIR = path.join(
   process.cwd(),
   "storage",
@@ -33,34 +45,35 @@ export async function GET(
 
   /*
    * Reject anything that isn't a plain
-   * filename we generated ourselves
-   * (blocks path traversal attempts like
-   * "../../secret-file").
+   * filename — no path traversal (e.g.
+   * "../../../etc/passwd") allowed.
    */
 
   if (
-    !/^[a-f0-9-]+\.[a-z]+$/i.test(
-      filename
-    )
+    !filename ||
+    filename.includes("/") ||
+    filename.includes("..") ||
+    filename.includes("\\")
   ) {
-    return new NextResponse(
-      "Not found",
-      { status: 404 }
+    return NextResponse.json(
+      { error: "Invalid filename." },
+      { status: 400 }
     );
   }
 
   const extension = filename
     .split(".")
-    .pop()!
-    .toLowerCase();
+    .pop()
+    ?.toLowerCase();
 
-  const contentType =
-    CONTENT_TYPES[extension];
+  const contentType = extension
+    ? CONTENT_TYPES[extension]
+    : undefined;
 
   if (!contentType) {
-    return new NextResponse(
-      "Not found",
-      { status: 404 }
+    return NextResponse.json(
+      { error: "Unsupported file type." },
+      { status: 400 }
     );
   }
 
@@ -85,8 +98,8 @@ export async function GET(
       }
     );
   } catch {
-    return new NextResponse(
-      "Not found",
+    return NextResponse.json(
+      { error: "File not found." },
       { status: 404 }
     );
   }
