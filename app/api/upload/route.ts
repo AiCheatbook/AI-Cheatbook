@@ -115,6 +115,16 @@ export async function POST(
 
     await writeFile(filePath, buffer);
 
+    console.log(
+      "Upload succeeded.",
+      "\nSaved to:",
+      filePath,
+      "\nprocess.cwd():",
+      process.cwd(),
+      "\nPublic URL returned:",
+      `/media/${filename}`
+    );
+
     return NextResponse.json({
       success: true,
       url: `/media/${filename}`,

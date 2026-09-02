@@ -77,12 +77,12 @@ export async function GET(
     );
   }
 
-  try {
-    const filePath = path.join(
-      UPLOAD_DIR,
-      filename
-    );
+  const filePath = path.join(
+    UPLOAD_DIR,
+    filename
+  );
 
+  try {
     const fileBuffer = await readFile(
       filePath
     );
@@ -97,7 +97,29 @@ export async function GET(
         },
       }
     );
-  } catch {
+  } catch (err) {
+    /*
+     * Logged with full detail server-side
+     * — a generic 404 can mean several
+     * different things (file genuinely
+     * missing, permissions issue, wrong
+     * resolved path on this specific
+     * hosting setup) and this makes it
+     * possible to tell which.
+     */
+
+    console.error(
+      "Failed to serve uploaded file.",
+      "\nRequested filename:",
+      filename,
+      "\nResolved path:",
+      filePath,
+      "\nprocess.cwd():",
+      process.cwd(),
+      "\nError:",
+      err
+    );
+
     return NextResponse.json(
       { error: "File not found." },
       { status: 404 }
