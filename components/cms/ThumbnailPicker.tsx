@@ -27,7 +27,7 @@ export default function ThumbnailPicker({
   const labelClass =
     "mb-1 block text-xs font-medium text-zinc-600";
 
-  async function handleHostingerUpload(
+  async function handleLegacyDiskUpload(
     file: File
   ) {
     setUploading(true);
@@ -126,7 +126,7 @@ export default function ThumbnailPicker({
 
     if (file) {
       setFileName(file.name);
-      handleHostingerUpload(file);
+      handleSupabaseUpload(file);
     }
   }
 
@@ -197,7 +197,7 @@ export default function ThumbnailPicker({
                   setFileName(
                     file.name
                   );
-                  handleHostingerUpload(
+                  handleSupabaseUpload(
                     file
                   );
                 }
@@ -232,8 +232,8 @@ export default function ThumbnailPicker({
 
           <details className="text-xs">
             <summary className="cursor-pointer text-zinc-600 hover:text-zinc-900">
-              More options (paste URL,
-              upload to Supabase instead)
+              More options (paste a URL
+              instead)
             </summary>
 
             <div className="mt-3 space-y-3">
@@ -252,34 +252,6 @@ export default function ThumbnailPicker({
                   className={inputClass}
                 />
               </div>
-
-              <label className="block cursor-pointer rounded-lg border border-zinc-300 px-3 py-2 text-center text-xs font-medium text-zinc-900 hover:bg-zinc-100">
-                Upload to Supabase
-                instead
-                <input
-                  type="file"
-                  accept="image/jpeg,image/png,image/webp,image/gif"
-                  onChange={(e) => {
-                    const file =
-                      e.target
-                        .files?.[0];
-
-                    if (file) {
-                      setFileName(
-                        file.name
-                      );
-                      handleSupabaseUpload(
-                        file
-                      );
-                    }
-
-                    e.target.value =
-                      "";
-                  }}
-                  disabled={uploading}
-                  className="sr-only"
-                />
-              </label>
             </div>
           </details>
 
