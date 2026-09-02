@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { supabaseAuthClient } from "@/lib/supabase/auth-client";
 import NavbarSearch from "./NavbarSearch";
+import NotificationBell from "./NotificationBell";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -114,6 +115,8 @@ export default function Navbar() {
         <div className="hidden items-center gap-4 md:flex">
 
           <NavbarSearch />
+
+          <NotificationBell />
 
           <Link
             href={loggedIn ? "/account" : "/login"}

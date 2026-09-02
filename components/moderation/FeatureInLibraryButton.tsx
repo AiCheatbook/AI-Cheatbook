@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { supabaseAuthClient } from "@/lib/supabase/auth-client";
+import { createNotification } from "@/lib/notifications/createNotification";
 
 type FeatureInLibraryButtonProps = {
   threadId: string;
@@ -121,6 +122,28 @@ export default function FeatureInLibraryButton({
         throw new Error(
           updateError.message
         );
+      }
+
+      const { data: currentUser } =
+        await supabaseAuthClient.auth.getUser();
+
+      const { data: thread } =
+        await supabaseAuthClient
+          .from("community_threads")
+          .select("user_id")
+          .eq("id", threadId)
+          .single();
+
+      if (thread) {
+        await createNotification({
+          userId: thread.user_id,
+          actorId:
+            currentUser.user?.id ||
+            null,
+          type: "featured_in_library",
+          message: `Your prompt "${title}" was featured in the Prompt Library!`,
+          link: `/discussions/${threadId}`,
+        });
       }
 
       setFeatured(true);

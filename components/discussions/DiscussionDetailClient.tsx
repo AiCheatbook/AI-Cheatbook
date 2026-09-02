@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { supabaseAuthClient } from "@/lib/supabase/auth-client";
+import { createNotification } from "@/lib/notifications/createNotification";
 import CommunityLayout from "@/components/community/layout/CommunityLayout";
 
 type ThreadRow = {
@@ -370,8 +371,34 @@ export default function DiscussionDetailClient() {
       if (parentReplyId) {
         setNestedReplyText("");
         setReplyingTo(null);
+
+        const parentReply = replies.find(
+          (r) => r.id === parentReplyId
+        );
+
+        if (parentReply) {
+          await createNotification({
+            userId:
+              parentReply.user_id,
+            actorId: currentUserId,
+            type: "reply",
+            message:
+              "Someone replied to your comment.",
+            link: `/discussions/${threadId}`,
+          });
+        }
       } else {
         setNewReply("");
+
+        if (thread) {
+          await createNotification({
+            userId: thread.user_id,
+            actorId: currentUserId,
+            type: "reply",
+            message: `Someone replied to "${thread.title}".`,
+            link: `/discussions/${threadId}`,
+          });
+        }
       }
 
       await loadThread();
@@ -413,6 +440,23 @@ export default function DiscussionDetailClient() {
             }
           : current
       );
+
+      if (newAcceptedId) {
+        const acceptedReply = replies.find(
+          (r) => r.id === newAcceptedId
+        );
+
+        if (acceptedReply) {
+          await createNotification({
+            userId:
+              acceptedReply.user_id,
+            actorId: currentUserId,
+            type: "answer_accepted",
+            message: `Your answer was accepted on "${thread.title}".`,
+            link: `/discussions/${threadId}`,
+          });
+        }
+      }
     }
   }
 
