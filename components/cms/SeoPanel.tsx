@@ -61,10 +61,10 @@ export default function SeoPanel({
   }
 
   const inputClass =
-    "w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 outline-none focus:border-brand";
+    "w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-600 outline-none focus:border-brand";
 
   const labelClass =
-    "mb-1 block text-xs font-medium text-zinc-400";
+    "mb-1 block text-xs font-medium text-zinc-600";
 
   return (
     <div className="rounded-xl border border-zinc-200 bg-white">
@@ -91,7 +91,7 @@ export default function SeoPanel({
           className={`border-b-2 px-1 py-2 text-sm ${
             tab === "seo"
               ? "border-brand text-zinc-900"
-              : "border-transparent text-zinc-400 hover:text-zinc-400"
+              : "border-transparent text-zinc-600 hover:text-zinc-600"
           }`}
         >
           SEO
@@ -103,7 +103,7 @@ export default function SeoPanel({
           className={`border-b-2 px-1 py-2 text-sm ${
             tab === "social"
               ? "border-brand text-zinc-900"
-              : "border-transparent text-zinc-400 hover:text-zinc-400"
+              : "border-transparent text-zinc-600 hover:text-zinc-600"
           }`}
         >
           Social Media
@@ -155,7 +155,7 @@ export default function SeoPanel({
           <div>
             <label className={labelClass}>
               Meta Keywords{" "}
-              <span className="text-zinc-400">
+              <span className="text-zinc-600">
                 (comma separated, optional)
               </span>
             </label>
@@ -192,7 +192,7 @@ export default function SeoPanel({
           <div>
             <label className={labelClass}>
               Canonical URL{" "}
-              <span className="text-zinc-400">
+              <span className="text-zinc-600">
                 (optional)
               </span>
             </label>
@@ -209,7 +209,7 @@ export default function SeoPanel({
             />
           </div>
 
-          <label className="flex items-center gap-2 text-sm text-zinc-400">
+          <label className="flex items-center gap-2 text-sm text-zinc-600">
             <input
               type="checkbox"
               checked={!seo.isIndexed}

@@ -102,7 +102,7 @@ export default function LearningCardsSection() {
               Learn AI
             </h2>
 
-            <p className="mt-1 text-zinc-500">
+            <p className="mt-1 text-zinc-600">
               Clear, structured explanations
               of AI concepts, tools, and
               techniques.
@@ -140,7 +140,7 @@ export default function LearningCardsSection() {
               Unable to load learning cards
             </p>
 
-            <p className="mt-3 break-words text-sm text-zinc-500">
+            <p className="mt-3 break-words text-sm text-zinc-600">
               {errorMessage}
             </p>
           </div>

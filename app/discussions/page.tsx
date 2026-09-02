@@ -102,7 +102,7 @@ export default function DiscussionsPage() {
             <h1 className="text-3xl font-bold">
               Discussions
             </h1>
-            <p className="mt-1 text-zinc-400">
+            <p className="mt-1 text-zinc-600">
               Ask questions, share
               feedback, and talk with the
               community.
@@ -128,7 +128,7 @@ export default function DiscussionsPage() {
               className={`rounded-full border px-3.5 py-1.5 text-sm transition ${
                 category === c.value
                   ? "border-brand bg-brand text-zinc-900"
-                  : "border-zinc-300 text-zinc-400 hover:border-zinc-500 hover:text-zinc-900"
+                  : "border-zinc-300 text-zinc-600 hover:border-zinc-500 hover:text-zinc-900"
               }`}
             >
               {c.label}
@@ -152,7 +152,7 @@ export default function DiscussionsPage() {
         {!loading &&
           threads.length === 0 && (
             <div className="mt-10 rounded-2xl border border-zinc-200 bg-white p-8 text-center">
-              <p className="text-zinc-400">
+              <p className="text-zinc-600">
                 No discussions yet — be
                 the first to start one.
               </p>
@@ -192,7 +192,7 @@ export default function DiscussionsPage() {
                           </span>
                         )}
 
-                        <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-xs text-zinc-400">
+                        <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-xs text-zinc-600">
                           {
                             CATEGORIES.find(
                               (c) =>
@@ -207,7 +207,7 @@ export default function DiscussionsPage() {
                         {thread.title}
                       </h2>
 
-                      <p className="mt-1 text-xs text-zinc-400">
+                      <p className="mt-1 text-xs text-zinc-600">
                         {authorName} ·{" "}
                         {new Date(
                           thread.created_at
@@ -215,7 +215,7 @@ export default function DiscussionsPage() {
                       </p>
                     </div>
 
-                    <div className="flex shrink-0 gap-4 text-center text-xs text-zinc-400">
+                    <div className="flex shrink-0 gap-4 text-center text-xs text-zinc-600">
                       <div>
                         <p className="text-base font-semibold text-zinc-900">
                           {voteCount}

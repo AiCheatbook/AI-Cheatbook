@@ -62,7 +62,7 @@ export default function QuestionCard({
           className={`rounded-full px-2.5 py-1 text-xs ${
             isAnswered
               ? "bg-green-500/10 text-green-400"
-              : "bg-zinc-100 text-zinc-400"
+              : "bg-zinc-100 text-zinc-600"
           }`}
         >
           {isAnswered
@@ -70,7 +70,7 @@ export default function QuestionCard({
             : "Unanswered"}
         </span>
 
-        <span className="text-xs text-zinc-400">
+        <span className="text-xs text-zinc-600">
           {category}
         </span>
       </div>
@@ -80,12 +80,12 @@ export default function QuestionCard({
       </h3>
 
       {preview && (
-        <p className="mt-1 line-clamp-2 text-sm text-zinc-400">
+        <p className="mt-1 line-clamp-2 text-sm text-zinc-600">
           {preview}
         </p>
       )}
 
-      <div className="mt-3 flex items-center justify-between text-xs text-zinc-400">
+      <div className="mt-3 flex items-center justify-between text-xs text-zinc-600">
         <span>
           Asked by {authorName} ·{" "}
           {timeAgo(createdAt)}

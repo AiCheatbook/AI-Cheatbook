@@ -101,7 +101,7 @@ export default function NewsSection({
             📰 Latest AI News
           </HeadingTag>
 
-          <p className="mt-1 max-w-full overflow-hidden text-ellipsis whitespace-nowrap text-zinc-500">
+          <p className="mt-1 max-w-full overflow-hidden text-ellipsis whitespace-nowrap text-zinc-600">
             Keep up with the latest AI tools, models, features and updates.
           </p>
 
@@ -138,7 +138,7 @@ export default function NewsSection({
                 Unable to load AI news
               </p>
 
-              <p className="mt-3 break-words text-sm text-zinc-500">
+              <p className="mt-3 break-words text-sm text-zinc-600">
                 {errorMessage}
               </p>
 
@@ -196,7 +196,7 @@ export default function NewsSection({
           news.length === 0 && (
             <div className="rounded-2xl border border-zinc-200 bg-zinc-50 p-10 text-center">
 
-              <p className="text-zinc-500">
+              <p className="text-zinc-600">
                 No AI news available yet.
               </p>
 

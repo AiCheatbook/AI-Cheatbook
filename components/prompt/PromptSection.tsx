@@ -163,7 +163,7 @@ export default function PromptSection() {
             🔥 Trending Prompts
           </h2>
 
-          <p className="mt-3 max-w-2xl text-zinc-400">
+          <p className="mt-3 max-w-2xl text-zinc-600">
             Discover some of the most useful prompts
             from the AI Cheatbook library.
           </p>
@@ -215,7 +215,7 @@ export default function PromptSection() {
         {!loading &&
           trendingPrompts.length === 0 && (
             <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-12 text-center">
-              <p className="text-zinc-400">
+              <p className="text-zinc-600">
                 No trending prompts available yet.
               </p>
             </div>

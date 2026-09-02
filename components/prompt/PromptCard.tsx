@@ -79,7 +79,7 @@ export default function PromptCard({
           </h3>
 
           {category && (
-            <p className="mt-2 text-sm text-zinc-500">
+            <p className="mt-2 text-sm text-zinc-600">
               {category}
             </p>
           )}

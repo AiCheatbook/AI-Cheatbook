@@ -100,7 +100,7 @@ export default function ReportButton({
           e.preventDefault();
           setOpen((v) => !v);
         }}
-        className="text-xs text-zinc-400 hover:text-red-400"
+        className="text-xs text-zinc-600 hover:text-red-400"
       >
         Report
       </button>
@@ -114,7 +114,7 @@ export default function ReportButton({
             </p>
           ) : (
             <>
-              <p className="text-xs font-medium text-zinc-400">
+              <p className="text-xs font-medium text-zinc-600">
                 Why are you reporting
                 this?
               </p>
@@ -167,7 +167,7 @@ export default function ReportButton({
                   onClick={() =>
                     setOpen(false)
                   }
-                  className="rounded-lg border border-zinc-300 px-3 text-xs text-zinc-400"
+                  className="rounded-lg border border-zinc-300 px-3 text-xs text-zinc-600"
                 >
                   Cancel
                 </button>

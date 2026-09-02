@@ -343,7 +343,7 @@ export default function PromptComposer({
             onClick={() =>
               setTypeMenuOpen((v) => !v)
             }
-            className="rounded-full border border-zinc-300 bg-white px-4 py-1.5 text-sm text-zinc-400 transition hover:border-brand hover:text-brand"
+            className="rounded-full border border-zinc-300 bg-white px-4 py-1.5 text-sm text-zinc-600 transition hover:border-brand hover:text-brand"
           >
             {promptType.label} ▾
           </button>
@@ -363,7 +363,7 @@ export default function PromptComposer({
                         false
                       );
                     }}
-                    className="block w-full px-4 py-2 text-left text-sm text-zinc-400 hover:bg-zinc-100"
+                    className="block w-full px-4 py-2 text-left text-sm text-zinc-600 hover:bg-zinc-100"
                   >
                     {type.label}
                   </button>
@@ -441,7 +441,7 @@ export default function PromptComposer({
                   ? "Using Real AI (Gemini) — click to switch to the free built-in generator"
                   : "Using the free built-in generator — click to switch to Real AI"
               }
-              className="rounded-full border border-zinc-300 px-3 py-1.5 text-xs text-zinc-400 transition hover:border-zinc-500 hover:text-zinc-900"
+              className="rounded-full border border-zinc-300 px-3 py-1.5 text-xs text-zinc-600 transition hover:border-zinc-500 hover:text-zinc-900"
             >
               {generationMode ===
               "real-ai"
@@ -473,7 +473,7 @@ export default function PromptComposer({
         onRemove={removeGlobalKeyword}
       />
 
-      <p className="mt-2 text-center text-xs text-zinc-400">
+      <p className="mt-2 text-center text-xs text-zinc-600">
         {usage.remaining} generations
         remaining today
         {!isLoggedIn &&

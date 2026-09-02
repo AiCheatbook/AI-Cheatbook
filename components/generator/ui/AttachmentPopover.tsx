@@ -125,7 +125,7 @@ export default function AttachmentPopover({
           attachments.length > 0 ||
           mode !== "none"
             ? "border-brand bg-brand/10 text-brand"
-            : "border-zinc-300 text-zinc-400 hover:border-zinc-500 hover:text-zinc-900"
+            : "border-zinc-300 text-zinc-600 hover:border-zinc-500 hover:text-zinc-900"
         }`}
         aria-label="Add attachment"
       >
@@ -140,7 +140,7 @@ export default function AttachmentPopover({
 
       {open && (
         <div className="absolute bottom-12 left-0 z-30 w-72 rounded-xl border border-zinc-200 bg-white p-3 shadow-xl">
-          <p className="text-xs font-medium text-zinc-400">
+          <p className="text-xs font-medium text-zinc-600">
             Reference images
           </p>
 
@@ -160,7 +160,7 @@ export default function AttachmentPopover({
                 className={`rounded-full border px-2.5 py-1 text-xs transition ${
                   mode === option.value
                     ? "border-brand bg-brand/10 text-brand"
-                    : "border-zinc-300 text-zinc-400 hover:border-zinc-500"
+                    : "border-zinc-300 text-zinc-600 hover:border-zinc-500"
                 }`}
               >
                 {option.label}
@@ -186,7 +186,7 @@ export default function AttachmentPopover({
                 ))}
               </select>
 
-              <label className="mt-2 block cursor-pointer rounded-lg border border-dashed border-zinc-300 px-3 py-2 text-center text-xs text-zinc-400 hover:border-brand hover:text-brand">
+              <label className="mt-2 block cursor-pointer rounded-lg border border-dashed border-zinc-300 px-3 py-2 text-center text-xs text-zinc-600 hover:border-brand hover:text-brand">
                 Choose image...
                 <input
                   type="file"
@@ -218,7 +218,7 @@ export default function AttachmentPopover({
                       alt=""
                       className="h-6 w-6 shrink-0 rounded object-cover"
                     />
-                    <span className="truncate text-xs text-zinc-400">
+                    <span className="truncate text-xs text-zinc-600">
                       {
                         ROLE_OPTIONS.find(
                           (r) =>
@@ -234,7 +234,7 @@ export default function AttachmentPopover({
                     onClick={() =>
                       onRemove(a.id)
                     }
-                    className="shrink-0 text-xs text-zinc-400 hover:text-red-400"
+                    className="shrink-0 text-xs text-zinc-600 hover:text-red-400"
                   >
                     ✕
                   </button>

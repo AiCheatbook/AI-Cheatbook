@@ -503,7 +503,7 @@ export default function CreateNewsPage() {
 
           <Link
             href="/admin/news"
-            className="text-sm text-zinc-400 transition hover:text-zinc-900"
+            className="text-sm text-zinc-600 transition hover:text-zinc-900"
           >
             ← Back to News
           </Link>
@@ -518,7 +518,7 @@ export default function CreateNewsPage() {
               Create News
             </h1>
 
-            <p className="mt-2 text-zinc-400">
+            <p className="mt-2 text-zinc-600">
               Create an article using flexible content blocks.
             </p>
 
@@ -560,7 +560,7 @@ export default function CreateNewsPage() {
 
             <div>
 
-              <label className="text-sm font-medium text-zinc-400">
+              <label className="text-sm font-medium text-zinc-600">
                 Title
               </label>
 
@@ -573,7 +573,7 @@ export default function CreateNewsPage() {
                   )
                 }
                 placeholder="OpenAI launches a new AI model"
-                className="mt-2 h-12 w-full rounded-xl border border-zinc-200 bg-white px-4 text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-brand"
+                className="mt-2 h-12 w-full rounded-xl border border-zinc-200 bg-white px-4 text-zinc-900 outline-none transition placeholder:text-zinc-600 focus:border-brand"
               />
 
             </div>
@@ -582,7 +582,7 @@ export default function CreateNewsPage() {
 
             <div>
 
-              <label className="text-sm font-medium text-zinc-400">
+              <label className="text-sm font-medium text-zinc-600">
                 Slug
               </label>
 
@@ -597,7 +597,7 @@ export default function CreateNewsPage() {
                   )
                 }
                 placeholder="openai-launches-new-ai-model"
-                className="mt-2 h-12 w-full rounded-xl border border-zinc-200 bg-white px-4 text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-brand"
+                className="mt-2 h-12 w-full rounded-xl border border-zinc-200 bg-white px-4 text-zinc-900 outline-none transition placeholder:text-zinc-600 focus:border-brand"
               />
 
             </div>
@@ -608,7 +608,7 @@ export default function CreateNewsPage() {
 
               <div>
 
-                <label className="text-sm font-medium text-zinc-400">
+                <label className="text-sm font-medium text-zinc-600">
                   Category
                 </label>
 
@@ -621,14 +621,14 @@ export default function CreateNewsPage() {
                     )
                   }
                   placeholder="AI Models"
-                  className="mt-2 h-12 w-full rounded-xl border border-zinc-200 bg-white px-4 text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-brand"
+                  className="mt-2 h-12 w-full rounded-xl border border-zinc-200 bg-white px-4 text-zinc-900 outline-none transition placeholder:text-zinc-600 focus:border-brand"
                 />
 
               </div>
 
               <div>
 
-                <label className="text-sm font-medium text-zinc-400">
+                <label className="text-sm font-medium text-zinc-600">
                   Author
                 </label>
 
@@ -641,7 +641,7 @@ export default function CreateNewsPage() {
                     )
                   }
                   placeholder="AI Cheatbook"
-                  className="mt-2 h-12 w-full rounded-xl border border-zinc-200 bg-white px-4 text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-brand"
+                  className="mt-2 h-12 w-full rounded-xl border border-zinc-200 bg-white px-4 text-zinc-900 outline-none transition placeholder:text-zinc-600 focus:border-brand"
                 />
 
               </div>
@@ -652,7 +652,7 @@ export default function CreateNewsPage() {
 
             <div>
 
-              <label className="text-sm font-medium text-zinc-400">
+              <label className="text-sm font-medium text-zinc-600">
                 Excerpt
               </label>
 
@@ -665,7 +665,7 @@ export default function CreateNewsPage() {
                 }
                 rows={3}
                 placeholder="Short description of the news article..."
-                className="mt-2 w-full resize-y rounded-xl border border-zinc-200 bg-white p-4 text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-brand"
+                className="mt-2 w-full resize-y rounded-xl border border-zinc-200 bg-white p-4 text-zinc-900 outline-none transition placeholder:text-zinc-600 focus:border-brand"
               />
 
             </div>
@@ -717,7 +717,7 @@ export default function CreateNewsPage() {
             Content
           </h2>
 
-          <p className="mt-1 text-sm text-zinc-400">
+          <p className="mt-1 text-sm text-zinc-600">
             Write your article using the toolbar below — just like a word processor.
           </p>
 
@@ -762,7 +762,7 @@ export default function CreateNewsPage() {
               className="h-4 w-4 accent-brand"
             />
 
-            <span className="text-sm text-zinc-400">
+            <span className="text-sm text-zinc-600">
               Publish immediately
             </span>
 
@@ -772,7 +772,7 @@ export default function CreateNewsPage() {
 
             <Link
               href="/admin/news"
-              className="rounded-xl border border-zinc-200 px-5 py-2.5 text-sm font-medium text-zinc-400 transition hover:bg-white hover:text-zinc-900"
+              className="rounded-xl border border-zinc-200 px-5 py-2.5 text-sm font-medium text-zinc-600 transition hover:bg-white hover:text-zinc-900"
             >
               Cancel
             </Link>

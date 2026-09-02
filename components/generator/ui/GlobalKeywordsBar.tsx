@@ -83,11 +83,11 @@ export default function GlobalKeywordsBar({
 
   return (
     <div className="mt-3 rounded-2xl border border-zinc-200 bg-zinc-50 p-4">
-      <p className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
+      <p className="text-xs font-semibold uppercase tracking-wider text-zinc-600">
         Global Keywords
       </p>
 
-      <p className="mt-1 text-xs text-zinc-400">
+      <p className="mt-1 text-xs text-zinc-600">
         Applied to the whole generated
         prompt — never inserted into the
         sentence.
@@ -119,7 +119,7 @@ export default function GlobalKeywordsBar({
             onClick={() =>
               setPickerOpen((v) => !v)
             }
-            className="rounded-full border border-dashed border-zinc-300 px-3 py-1 text-xs text-zinc-400 hover:border-brand hover:text-brand"
+            className="rounded-full border border-dashed border-zinc-300 px-3 py-1 text-xs text-zinc-600 hover:border-brand hover:text-brand"
           >
             + Add
           </button>
@@ -140,7 +140,7 @@ export default function GlobalKeywordsBar({
 
               <div className="max-h-48 overflow-y-auto">
                 {!loaded && (
-                  <p className="px-3 py-2 text-xs text-zinc-400">
+                  <p className="px-3 py-2 text-xs text-zinc-600">
                     Loading...
                   </p>
                 )}
@@ -148,7 +148,7 @@ export default function GlobalKeywordsBar({
                 {loaded &&
                   matches.length ===
                     0 && (
-                    <p className="px-3 py-2 text-xs text-zinc-400">
+                    <p className="px-3 py-2 text-xs text-zinc-600">
                       No matches.
                     </p>
                   )}
@@ -160,7 +160,7 @@ export default function GlobalKeywordsBar({
                     onClick={() =>
                       handlePick(k.label)
                     }
-                    className="block w-full px-3 py-2 text-left text-xs text-zinc-400 hover:bg-zinc-100"
+                    className="block w-full px-3 py-2 text-left text-xs text-zinc-600 hover:bg-zinc-100"
                   >
                     {k.label}
                   </button>

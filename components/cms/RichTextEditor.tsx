@@ -256,7 +256,7 @@ export default function RichTextEditor({
     `rounded-md px-2.5 py-1.5 text-sm transition ${
       active
         ? "bg-brand text-zinc-900"
-        : "text-zinc-400 hover:bg-zinc-100"
+        : "text-zinc-600 hover:bg-zinc-100"
     }`;
 
   return (

@@ -137,7 +137,7 @@ export default function AdminKeywordsPage() {
               {parent.label}
             </span>
             {parent.category && (
-              <span className="ml-2 text-xs text-zinc-400">
+              <span className="ml-2 text-xs text-zinc-600">
                 {parent.category}
               </span>
             )}
@@ -200,7 +200,7 @@ export default function AdminKeywordsPage() {
                 ? "bg-brand/15 text-brand"
                 : parent.placement ===
                     "global"
-                  ? "bg-zinc-100 text-zinc-400"
+                  ? "bg-zinc-100 text-zinc-600"
                   : "bg-blue-500/15 text-blue-400"
             }`}
           >
@@ -232,7 +232,7 @@ export default function AdminKeywordsPage() {
           Keyword Hierarchy
         </h1>
 
-        <p className="mt-2 text-zinc-400">
+        <p className="mt-2 text-zinc-600">
           Organize keywords into a tree
           (e.g. Camera → Camera Movement →
           Dolly Shot) by picking a parent
@@ -246,7 +246,7 @@ export default function AdminKeywordsPage() {
           (inserted directly into the
           sentence — camera/shot
           instructions),{" "}
-          <span className="text-zinc-400">
+          <span className="text-zinc-600">
             Global
           </span>{" "}
           (shown in the &quot;Global
@@ -275,7 +275,7 @@ export default function AdminKeywordsPage() {
         {!loading &&
           !error &&
           keywords.length === 0 && (
-            <p className="mt-8 text-center text-zinc-400">
+            <p className="mt-8 text-center text-zinc-600">
               No keywords yet.
             </p>
           )}

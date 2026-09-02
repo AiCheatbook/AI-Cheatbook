@@ -291,13 +291,13 @@ export default function PollDetailPage() {
       <div className="mx-auto max-w-2xl">
         <Link
           href="/community"
-          className="text-sm text-zinc-400 hover:text-zinc-900"
+          className="text-sm text-zinc-600 hover:text-zinc-900"
         >
           ← Back to Community
         </Link>
 
         <div className="mt-4 rounded-2xl border border-green-500/30 bg-white p-6">
-          <span className="rounded-full bg-zinc-100 px-2.5 py-1 text-xs text-zinc-400">
+          <span className="rounded-full bg-zinc-100 px-2.5 py-1 text-xs text-zinc-600">
             📊 Poll
           </span>
 
@@ -306,12 +306,12 @@ export default function PollDetailPage() {
           </h1>
 
           {poll.description && (
-            <p className="mt-1 text-sm text-zinc-400">
+            <p className="mt-1 text-sm text-zinc-600">
               {poll.description}
             </p>
           )}
 
-          <p className="mt-2 text-xs text-zinc-400">
+          <p className="mt-2 text-xs text-zinc-600">
             {authorName} ·{" "}
             {totalVotes}{" "}
             {totalVotes === 1
@@ -368,7 +368,7 @@ export default function PollDetailPage() {
                           option.id
                         ) && "✓"}
                       </span>
-                      <span className="text-zinc-400">
+                      <span className="text-zinc-600">
                         {percent}% (
                         {count})
                       </span>
@@ -389,7 +389,7 @@ export default function PollDetailPage() {
                   className={`w-full rounded-xl border px-3 py-3 text-left text-sm transition ${
                     isSelected
                       ? "border-brand bg-brand/10 text-zinc-900"
-                      : "border-zinc-200 bg-white text-zinc-400 hover:border-zinc-600"
+                      : "border-zinc-200 bg-white text-zinc-600 hover:border-zinc-600"
                   }`}
                 >
                   {option.option_text}

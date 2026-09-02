@@ -176,7 +176,7 @@ export default function PostComposer({
             type="button"
             onClick={onClose}
             aria-label="Close"
-            className="text-zinc-400 hover:text-zinc-900"
+            className="text-zinc-600 hover:text-zinc-900"
           >
             ✕
           </button>
@@ -223,7 +223,7 @@ export default function PostComposer({
                   postType ===
                   option.value
                     ? "border-brand bg-brand text-zinc-900"
-                    : "border-zinc-300 text-zinc-400"
+                    : "border-zinc-300 text-zinc-600"
                 }`}
               >
                 {option.label}
@@ -242,7 +242,7 @@ export default function PostComposer({
                 className={`rounded-full border px-3 py-1 text-xs transition ${
                   category === c.value
                     ? "border-brand bg-brand/10 text-brand"
-                    : "border-zinc-300 text-zinc-400"
+                    : "border-zinc-300 text-zinc-600"
                 }`}
               >
                 {c.label}

@@ -405,7 +405,7 @@ export default async function SearchPage({
             AI Library
           </h1>
 
-          <p className="mt-2 max-w-2xl text-sm text-zinc-400 sm:text-base">
+          <p className="mt-2 max-w-2xl text-sm text-zinc-600 sm:text-base">
             Browse prompts, concepts and
             techniques from one unified AI library.
           </p>
@@ -444,7 +444,7 @@ export default async function SearchPage({
                 Library
               </h2>
 
-              <p className="mt-1 text-xs text-zinc-400">
+              <p className="mt-1 text-xs text-zinc-600">
                 {results.length}{" "}
                 {results.length === 1
                   ? "item"
@@ -456,7 +456,7 @@ export default async function SearchPage({
             <div className="flex items-center gap-2">
 
               {query && (
-                <div className="hidden rounded-full border border-zinc-200 bg-white px-3 py-1.5 text-xs text-zinc-400 sm:block">
+                <div className="hidden rounded-full border border-zinc-200 bg-white px-3 py-1.5 text-xs text-zinc-600 sm:block">
                   Search: &quot;{q}&quot;
                 </div>
               )}
@@ -464,7 +464,7 @@ export default async function SearchPage({
               {query && (
                 <Link
                   href={getClearSearchUrl()}
-                  className="rounded-lg border border-zinc-300 px-3 py-1.5 text-xs font-medium text-zinc-400 transition hover:border-brand hover:text-brand"
+                  className="rounded-lg border border-zinc-300 px-3 py-1.5 text-xs font-medium text-zinc-600 transition hover:border-brand hover:text-brand"
                 >
                   Clear Search
                 </Link>
@@ -533,7 +533,7 @@ export default async function SearchPage({
 
                             ) : (
 
-                              <div className="flex h-full w-full items-center justify-center text-xs text-zinc-400">
+                              <div className="flex h-full w-full items-center justify-center text-xs text-zinc-600">
                                 AI
                               </div>
 
@@ -555,13 +555,13 @@ export default async function SearchPage({
                               {item.title}
                             </h3>
 
-                            <p className="mt-1 truncate text-xs text-zinc-400">
+                            <p className="mt-1 truncate text-xs text-zinc-600">
                               {item.category ||
                                 "AI Prompt"}
                             </p>
 
                             {itemTools[0] && (
-                              <p className="mt-1 truncate text-[11px] text-zinc-400">
+                              <p className="mt-1 truncate text-[11px] text-zinc-600">
                                 {itemTools[0]}
                               </p>
                             )}
@@ -593,16 +593,16 @@ export default async function SearchPage({
                     </p>
 
                     {query ? (
-                      <p className="mt-2 text-xs leading-5 text-zinc-400">
+                      <p className="mt-2 text-xs leading-5 text-zinc-600">
                         We couldn&apos;t find anything
                         matching{" "}
-                        <span className="text-zinc-400">
+                        <span className="text-zinc-600">
                           &quot;{q}&quot;
                         </span>
                         .
                       </p>
                     ) : (
-                      <p className="mt-2 text-xs leading-5 text-zinc-400">
+                      <p className="mt-2 text-xs leading-5 text-zinc-600">
                         No library items match
                         your current filters.
                       </p>
@@ -677,7 +677,7 @@ export default async function SearchPage({
                         )}
 
                         {selectedItem.type && (
-                          <span className="rounded-full border border-zinc-200 px-3 py-1 text-xs text-zinc-400">
+                          <span className="rounded-full border border-zinc-200 px-3 py-1 text-xs text-zinc-600">
                             {
                               selectedItem.type
                             }
@@ -691,7 +691,7 @@ export default async function SearchPage({
                       </h2>
 
                       {selectedItem.description && (
-                        <p className="mt-3 text-sm leading-6 text-zinc-400">
+                        <p className="mt-3 text-sm leading-6 text-zinc-600">
                           {
                             selectedItem.description
                           }
@@ -710,11 +710,11 @@ export default async function SearchPage({
 
                       <div className="mb-3 flex items-center justify-between">
 
-                        <p className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
+                        <p className="text-xs font-semibold uppercase tracking-wider text-zinc-600">
                           Prompt
                         </p>
 
-                        <span className="text-xs text-zinc-400">
+                        <span className="text-xs text-zinc-600">
                           Ready to use
                         </span>
 
@@ -722,7 +722,7 @@ export default async function SearchPage({
 
                       <div className="rounded-xl border border-zinc-200 bg-white p-5">
 
-                        <pre className="max-h-80 overflow-auto whitespace-pre-wrap wrap-break-word font-mono text-sm leading-6 text-zinc-400">
+                        <pre className="max-h-80 overflow-auto whitespace-pre-wrap wrap-break-word font-mono text-sm leading-6 text-zinc-600">
                           {
                             selectedItem.prompt
                           }
@@ -742,11 +742,11 @@ export default async function SearchPage({
 
                       <div className="mb-3 flex items-center justify-between gap-4">
 
-                        <p className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
+                        <p className="text-xs font-semibold uppercase tracking-wider text-zinc-600">
                           Keywords
                         </p>
 
-                        <span className="text-[11px] text-zinc-400">
+                        <span className="text-[11px] text-zinc-600">
                           Add to Generator
                         </span>
 
@@ -766,7 +766,7 @@ export default async function SearchPage({
                                 href={`/search?q=${encodeURIComponent(
                                   keyword
                                 )}`}
-                                className="py-1.5 text-xs text-zinc-400 transition hover:text-brand"
+                                className="py-1.5 text-xs text-zinc-600 transition hover:text-brand"
                               >
                                 {keyword}
                               </Link>
@@ -792,7 +792,7 @@ export default async function SearchPage({
 
                     <div className="mt-7">
 
-                      <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-zinc-400">
+                      <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-zinc-600">
                         Works With
                       </p>
 
@@ -806,7 +806,7 @@ export default async function SearchPage({
                               href={`/search?tool=${encodeURIComponent(
                                 tool
                               )}`}
-                              className="rounded-lg border border-zinc-200 bg-white px-3 py-2 text-xs text-zinc-400 transition hover:border-brand hover:text-brand"
+                              className="rounded-lg border border-zinc-200 bg-white px-3 py-2 text-xs text-zinc-600 transition hover:border-brand hover:text-brand"
                             >
                               {tool}
                             </Link>
@@ -824,11 +824,11 @@ export default async function SearchPage({
 
                   <div className="mt-8 border-t border-zinc-200 pt-6">
 
-                    <p className="text-xs text-zinc-400">
+                    <p className="text-xs text-zinc-600">
                       Created by
                     </p>
 
-                    <p className="mt-1 text-sm text-zinc-400">
+                    <p className="mt-1 text-sm text-zinc-600">
                       AI Cheatbook
                     </p>
 
@@ -847,7 +847,7 @@ export default async function SearchPage({
 
                     <Link
                       href={detailsUrl}
-                      className="rounded-xl border border-zinc-300 px-5 py-3 text-center text-sm font-semibold text-zinc-400 transition hover:border-brand hover:text-brand"
+                      className="rounded-xl border border-zinc-300 px-5 py-3 text-center text-sm font-semibold text-zinc-600 transition hover:border-brand hover:text-brand"
                     >
                       View Prompt
                     </Link>
@@ -872,7 +872,7 @@ export default async function SearchPage({
                       Explore the AI Library
                     </h2>
 
-                    <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-zinc-400">
+                    <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-zinc-600">
                       Search for a prompt,
                       concept, keyword or AI
                       tool to explore the library.

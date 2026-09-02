@@ -161,7 +161,7 @@ export default function SubmitPromptPage() {
             Submitted for review!
           </h1>
 
-          <p className="mt-3 text-sm text-zinc-400">
+          <p className="mt-3 text-sm text-zinc-600">
             Thanks — our team will review
             your prompt before it goes
             live on the site.
@@ -200,7 +200,7 @@ export default function SubmitPromptPage() {
           Submit a Prompt
         </h1>
 
-        <p className="mt-2 text-sm text-zinc-400">
+        <p className="mt-2 text-sm text-zinc-600">
           Share a prompt with the community.
           It'll be reviewed before
           publishing.
@@ -213,7 +213,7 @@ export default function SubmitPromptPage() {
         )}
 
         <div className="mt-6">
-          <label className="text-sm font-medium text-zinc-400">
+          <label className="text-sm font-medium text-zinc-600">
             Title
           </label>
           <input
@@ -227,9 +227,9 @@ export default function SubmitPromptPage() {
         </div>
 
         <div className="mt-5">
-          <label className="text-sm font-medium text-zinc-400">
+          <label className="text-sm font-medium text-zinc-600">
             Description{" "}
-            <span className="text-zinc-400">
+            <span className="text-zinc-600">
               (optional)
             </span>
           </label>
@@ -247,7 +247,7 @@ export default function SubmitPromptPage() {
         </div>
 
         <div className="mt-5">
-          <label className="text-sm font-medium text-zinc-400">
+          <label className="text-sm font-medium text-zinc-600">
             Prompt Content
           </label>
           <textarea
@@ -265,7 +265,7 @@ export default function SubmitPromptPage() {
 
         <div className="mt-5 grid gap-5 sm:grid-cols-2">
           <div>
-            <label className="text-sm font-medium text-zinc-400">
+            <label className="text-sm font-medium text-zinc-600">
               Category
             </label>
             <select
@@ -289,7 +289,7 @@ export default function SubmitPromptPage() {
           </div>
 
           <div>
-            <label className="text-sm font-medium text-zinc-400">
+            <label className="text-sm font-medium text-zinc-600">
               Type
             </label>
             <select
@@ -312,7 +312,7 @@ export default function SubmitPromptPage() {
         </div>
 
         <div className="mt-5">
-          <label className="text-sm font-medium text-zinc-400">
+          <label className="text-sm font-medium text-zinc-600">
             AI Tools
           </label>
 
@@ -336,7 +336,7 @@ export default function SubmitPromptPage() {
                     className={`rounded-full border px-4 py-2 text-sm transition ${
                       selected
                         ? "border-brand bg-brand/15 text-brand"
-                        : "border-zinc-200 text-zinc-400 hover:border-zinc-600"
+                        : "border-zinc-200 text-zinc-600 hover:border-zinc-600"
                     }`}
                   >
                     {tool}

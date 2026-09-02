@@ -143,7 +143,7 @@ export default function AdminStructuresPage() {
           Prompt Structures
         </h1>
 
-        <p className="mt-2 text-zinc-400">
+        <p className="mt-2 text-zinc-600">
           Reusable templates selectable in
           the Prompt Generator (e.g.
           Filmmaking, Audio, Email).
@@ -166,7 +166,7 @@ export default function AdminStructuresPage() {
           </h2>
 
           <div className="mt-4">
-            <label className="text-sm font-medium text-zinc-400">
+            <label className="text-sm font-medium text-zinc-600">
               Name
             </label>
             <input
@@ -180,9 +180,9 @@ export default function AdminStructuresPage() {
           </div>
 
           <div className="mt-4">
-            <label className="text-sm font-medium text-zinc-400">
+            <label className="text-sm font-medium text-zinc-600">
               Description{" "}
-              <span className="text-zinc-400">
+              <span className="text-zinc-600">
                 (optional)
               </span>
             </label>
@@ -198,9 +198,9 @@ export default function AdminStructuresPage() {
           </div>
 
           <div className="mt-4">
-            <label className="text-sm font-medium text-zinc-400">
+            <label className="text-sm font-medium text-zinc-600">
               Fields{" "}
-              <span className="text-zinc-400">
+              <span className="text-zinc-600">
                 (comma separated, in order)
               </span>
             </label>
@@ -247,14 +247,14 @@ export default function AdminStructuresPage() {
                         </h3>
 
                         {structure.description && (
-                          <p className="mt-1 text-sm text-zinc-400">
+                          <p className="mt-1 text-sm text-zinc-600">
                             {
                               structure.description
                             }
                           </p>
                         )}
 
-                        <p className="mt-2 text-xs text-zinc-400">
+                        <p className="mt-2 text-xs text-zinc-600">
                           {structure.fields.join(
                             " → "
                           )}
@@ -268,7 +268,7 @@ export default function AdminStructuresPage() {
                             structure.id
                           )
                         }
-                        className="shrink-0 text-xs text-zinc-400 hover:text-red-400"
+                        className="shrink-0 text-xs text-zinc-600 hover:text-red-400"
                       >
                         Delete
                       </button>

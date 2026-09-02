@@ -341,7 +341,7 @@ export default function AdminSubmissionsPage() {
           Submissions
         </h1>
 
-        <p className="mt-2 text-zinc-400">
+        <p className="mt-2 text-zinc-600">
           Review content submitted by
           registered users before it goes
           live.
@@ -354,7 +354,7 @@ export default function AdminSubmissionsPage() {
             className={`border-b-2 px-1 pb-3 text-sm font-medium ${
               tab === "prompts"
                 ? "border-brand text-zinc-900"
-                : "border-transparent text-zinc-400 hover:text-zinc-400"
+                : "border-transparent text-zinc-600 hover:text-zinc-600"
             }`}
           >
             Prompts ({prompts.length})
@@ -368,7 +368,7 @@ export default function AdminSubmissionsPage() {
             className={`border-b-2 px-1 pb-3 text-sm font-medium ${
               tab === "learning-cards"
                 ? "border-brand text-zinc-900"
-                : "border-transparent text-zinc-400 hover:text-zinc-400"
+                : "border-transparent text-zinc-600 hover:text-zinc-600"
             }`}
           >
             Learning Cards (
@@ -400,7 +400,7 @@ export default function AdminSubmissionsPage() {
         {!loading &&
           tab === "prompts" &&
           prompts.length === 0 && (
-            <p className="mt-8 text-center text-zinc-400">
+            <p className="mt-8 text-center text-zinc-600">
               No pending prompt
               submissions.
             </p>
@@ -418,7 +418,7 @@ export default function AdminSubmissionsPage() {
                     {item.title}
                   </h2>
 
-                  <p className="mt-1 text-xs text-zinc-400">
+                  <p className="mt-1 text-xs text-zinc-600">
                     {item.type} ·{" "}
                     {item.category}
                     {item.ai_tools &&
@@ -428,12 +428,12 @@ export default function AdminSubmissionsPage() {
                   </p>
 
                   {item.description && (
-                    <p className="mt-2 text-sm text-zinc-400">
+                    <p className="mt-2 text-sm text-zinc-600">
                       {item.description}
                     </p>
                   )}
 
-                  <p className="mt-3 whitespace-pre-wrap rounded-xl bg-white p-3 text-sm text-zinc-400">
+                  <p className="mt-3 whitespace-pre-wrap rounded-xl bg-white p-3 text-sm text-zinc-600">
                     {item.prompt_text}
                   </p>
 
@@ -478,7 +478,7 @@ export default function AdminSubmissionsPage() {
         {!loading &&
           tab === "learning-cards" &&
           learningCards.length === 0 && (
-            <p className="mt-8 text-center text-zinc-400">
+            <p className="mt-8 text-center text-zinc-600">
               No pending learning card
               submissions.
             </p>
@@ -497,7 +497,7 @@ export default function AdminSubmissionsPage() {
                       {item.title}
                     </h2>
 
-                    <p className="mt-1 text-xs text-zinc-400">
+                    <p className="mt-1 text-xs text-zinc-600">
                       {item.category}
                       {item.tags &&
                         item.tags
@@ -506,7 +506,7 @@ export default function AdminSubmissionsPage() {
                     </p>
 
                     {item.summary && (
-                      <p className="mt-2 text-sm text-zinc-400">
+                      <p className="mt-2 text-sm text-zinc-600">
                         {item.summary}
                       </p>
                     )}

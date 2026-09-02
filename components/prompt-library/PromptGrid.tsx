@@ -305,7 +305,7 @@ export default function PromptGrid() {
           AI Cheatbook Library
         </h2>
 
-        <p className="mt-3 max-w-2xl text-zinc-400">
+        <p className="mt-3 max-w-2xl text-zinc-600">
           Browse prompts, concepts and
           techniques from one unified
           AI library.
@@ -326,10 +326,10 @@ export default function PromptGrid() {
               )
             }
             placeholder="Search prompts, concepts, keywords..."
-            className="w-full rounded-2xl border border-zinc-800 bg-zinc-900 px-5 py-4 pl-12 text-white outline-none transition placeholder:text-zinc-500 focus:border-brand"
+            className="w-full rounded-2xl border border-zinc-800 bg-zinc-900 px-5 py-4 pl-12 text-white outline-none transition placeholder:text-zinc-600 focus:border-brand"
           />
 
-          <span className="pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 text-zinc-500">
+          <span className="pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 text-zinc-600">
             🔍
           </span>
 
@@ -356,7 +356,7 @@ export default function PromptGrid() {
               className={`rounded-full border px-4 py-2 text-sm font-medium transition ${
                 active
                   ? "border-brand bg-brand text-white"
-                  : "border-zinc-800 bg-zinc-900 text-zinc-400 hover:border-zinc-600 hover:text-white"
+                  : "border-zinc-800 bg-zinc-900 text-zinc-600 hover:border-zinc-600 hover:text-white"
               }`}
             >
               {filter}
@@ -370,7 +370,7 @@ export default function PromptGrid() {
 
       {loading && (
         <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-12 text-center">
-          <p className="text-zinc-400">
+          <p className="text-zinc-600">
             Loading library...
           </p>
         </div>
@@ -407,7 +407,7 @@ export default function PromptGrid() {
                     Library
                   </h3>
 
-                  <span className="text-xs text-zinc-500">
+                  <span className="text-xs text-zinc-600">
                     {filteredItems.length}
                   </span>
 
@@ -470,7 +470,7 @@ export default function PromptGrid() {
                                 {item.title}
                               </p>
 
-                              <p className="mt-1 text-xs text-zinc-500">
+                              <p className="mt-1 text-xs text-zinc-600">
                                 {item.type ||
                                   "Content"}
                                 {" • "}
@@ -488,7 +488,7 @@ export default function PromptGrid() {
                 ) : (
                   <div className="p-8 text-center">
 
-                    <p className="text-sm text-zinc-500">
+                    <p className="text-sm text-zinc-600">
                       No library items
                       found.
                     </p>
@@ -513,7 +513,7 @@ export default function PromptGrid() {
               ) : (
                 <div className="flexmin-h-125 items-center justify-center rounded-2xl border border-zinc-800 bg-zinc-900">
 
-                  <p className="text-zinc-500">
+                  <p className="text-zinc-600">
                     Select an item from
                     the library.
                   </p>
@@ -533,7 +533,7 @@ export default function PromptGrid() {
         items.length === 0 && (
           <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-12 text-center">
 
-            <p className="text-zinc-400">
+            <p className="text-zinc-600">
               No library items
               available yet.
             </p>
@@ -599,7 +599,7 @@ function LibraryDetail({
               "Content"}
           </span>
 
-          <span className="rounded-full border border-zinc-700 bg-zinc-950 px-3 py-1 text-xs text-zinc-400">
+          <span className="rounded-full border border-zinc-700 bg-zinc-950 px-3 py-1 text-xs text-zinc-600">
             {contentType}
           </span>
 
@@ -614,7 +614,7 @@ function LibraryDetail({
         {/* Description */}
 
         {item.description && (
-          <p className="mt-4 leading-7 text-zinc-400">
+          <p className="mt-4 leading-7 text-zinc-600">
             {item.description}
           </p>
         )}
@@ -630,7 +630,7 @@ function LibraryDetail({
                 Prompt
               </h4>
 
-              <span className="text-xs text-zinc-500">
+              <span className="text-xs text-zinc-600">
                 Ready to use
               </span>
 
@@ -706,7 +706,7 @@ function LibraryDetail({
         {item.author_name && (
           <div className="mt-7 border-t border-zinc-800 pt-6">
 
-            <p className="text-xs text-zinc-500">
+            <p className="text-xs text-zinc-600">
               Created by
             </p>
 
@@ -727,7 +727,7 @@ function LibraryDetail({
             {item.rating != null && (
               <div>
 
-                <p className="text-xs text-zinc-500">
+                <p className="text-xs text-zinc-600">
                   Rating
                 </p>
 
@@ -743,7 +743,7 @@ function LibraryDetail({
                 null) && (
               <div>
 
-                <p className="text-xs text-zinc-500">
+                <p className="text-xs text-zinc-600">
                   Reviews
                 </p>
 

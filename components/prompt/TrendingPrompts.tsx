@@ -168,7 +168,7 @@ export default function TrendingPrompts() {
 
           {/* Description */}
 
-          <p className="mt-1 whitespace-nowrap overflow-hidden text-ellipsis text-zinc-400">
+          <p className="mt-1 whitespace-nowrap overflow-hidden text-ellipsis text-zinc-600">
             Explore popular AI prompts created for writing, marketing, content creation and more.
           </p>
 
@@ -223,7 +223,7 @@ export default function TrendingPrompts() {
         {!loading &&
           trendingPrompts.length === 0 && (
             <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-12 text-center">
-              <p className="text-zinc-400">
+              <p className="text-zinc-600">
                 No trending prompts available yet.
               </p>
             </div>

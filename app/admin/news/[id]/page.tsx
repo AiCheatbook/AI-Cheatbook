@@ -1004,7 +1004,7 @@ export default function EditNewsPage() {
         <div className="mx-auto max-w-5xl">
           <Link
             href="/admin/news"
-            className="text-sm text-zinc-400 hover:text-zinc-900"
+            className="text-sm text-zinc-600 hover:text-zinc-900"
           >
             ← Back to News
           </Link>
@@ -1036,7 +1036,7 @@ export default function EditNewsPage() {
         <div className="mb-8">
           <Link
             href="/admin/news"
-            className="text-sm text-zinc-400 transition hover:text-zinc-900"
+            className="text-sm text-zinc-600 transition hover:text-zinc-900"
           >
             ← Back to News
           </Link>
@@ -1050,7 +1050,7 @@ export default function EditNewsPage() {
               Edit News
             </h1>
 
-            <p className="mt-2 text-zinc-400">
+            <p className="mt-2 text-zinc-600">
               Edit the article and manage its
               content blocks.
             </p>
@@ -1083,7 +1083,7 @@ export default function EditNewsPage() {
             {/* Title */}
 
             <div>
-              <label className="mb-2 block text-sm text-zinc-400">
+              <label className="mb-2 block text-sm text-zinc-600">
                 Title
               </label>
 
@@ -1101,7 +1101,7 @@ export default function EditNewsPage() {
             {/* Slug */}
 
             <div>
-              <label className="mb-2 block text-sm text-zinc-400">
+              <label className="mb-2 block text-sm text-zinc-600">
                 Slug
               </label>
 
@@ -1121,7 +1121,7 @@ export default function EditNewsPage() {
             <div className="grid gap-5 md:grid-cols-2">
 
               <div>
-                <label className="mb-2 block text-sm text-zinc-400">
+                <label className="mb-2 block text-sm text-zinc-600">
                   Category
                 </label>
 
@@ -1137,7 +1137,7 @@ export default function EditNewsPage() {
               </div>
 
               <div>
-                <label className="mb-2 block text-sm text-zinc-400">
+                <label className="mb-2 block text-sm text-zinc-600">
                   Author
                 </label>
 
@@ -1157,7 +1157,7 @@ export default function EditNewsPage() {
             {/* Excerpt */}
 
             <div>
-              <label className="mb-2 block text-sm text-zinc-400">
+              <label className="mb-2 block text-sm text-zinc-600">
                 Excerpt
               </label>
 
@@ -1214,7 +1214,7 @@ export default function EditNewsPage() {
             Content
           </h2>
 
-          <p className="mt-1 text-sm text-zinc-400">
+          <p className="mt-1 text-sm text-zinc-600">
             Write your article using the toolbar below — just like a word processor.
           </p>
 
@@ -1244,7 +1244,7 @@ export default function EditNewsPage() {
 
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
 
-            <label className="flex items-center gap-3 text-sm text-zinc-400">
+            <label className="flex items-center gap-3 text-sm text-zinc-600">
 
               <input
                 type="checkbox"
@@ -1268,7 +1268,7 @@ export default function EditNewsPage() {
 
               <Link
                 href="/admin/news"
-                className="rounded-xl border border-zinc-200 px-5 py-3 text-sm text-zinc-400 transition hover:border-zinc-600 hover:text-zinc-900"
+                className="rounded-xl border border-zinc-200 px-5 py-3 text-sm text-zinc-600 transition hover:border-zinc-600 hover:text-zinc-900"
               >
                 Cancel
               </Link>

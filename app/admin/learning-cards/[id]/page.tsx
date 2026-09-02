@@ -1014,7 +1014,7 @@ export default function EditLearningCardPage() {
         <div className="mx-auto max-w-5xl">
           <Link
             href="/admin/card"
-            className="text-sm text-zinc-400 hover:text-zinc-900"
+            className="text-sm text-zinc-600 hover:text-zinc-900"
           >
             ← Back to Learning Cards
           </Link>
@@ -1046,7 +1046,7 @@ export default function EditLearningCardPage() {
         <div className="mb-8">
           <Link
             href="/admin/card"
-            className="text-sm text-zinc-400 transition hover:text-zinc-900"
+            className="text-sm text-zinc-600 transition hover:text-zinc-900"
           >
             ← Back to Learning Cards
           </Link>
@@ -1060,7 +1060,7 @@ export default function EditLearningCardPage() {
               Edit Learning Card
             </h1>
 
-            <p className="mt-2 text-zinc-400">
+            <p className="mt-2 text-zinc-600">
               Edit the article and manage its
               content blocks.
             </p>
@@ -1093,7 +1093,7 @@ export default function EditLearningCardPage() {
             {/* Title */}
 
             <div>
-              <label className="mb-2 block text-sm text-zinc-400">
+              <label className="mb-2 block text-sm text-zinc-600">
                 Title
               </label>
 
@@ -1111,7 +1111,7 @@ export default function EditLearningCardPage() {
             {/* Slug */}
 
             <div>
-              <label className="mb-2 block text-sm text-zinc-400">
+              <label className="mb-2 block text-sm text-zinc-600">
                 Slug
               </label>
 
@@ -1131,7 +1131,7 @@ export default function EditLearningCardPage() {
             <div className="grid gap-5 md:grid-cols-2">
 
               <div>
-                <label className="mb-2 block text-sm text-zinc-400">
+                <label className="mb-2 block text-sm text-zinc-600">
                   Category
                 </label>
 
@@ -1147,7 +1147,7 @@ export default function EditLearningCardPage() {
               </div>
 
               <div>
-                <label className="mb-2 block text-sm text-zinc-400">
+                <label className="mb-2 block text-sm text-zinc-600">
                   Author
                 </label>
 
@@ -1167,9 +1167,9 @@ export default function EditLearningCardPage() {
             {/* Tags */}
 
             <div>
-              <label className="mb-2 block text-sm text-zinc-400">
+              <label className="mb-2 block text-sm text-zinc-600">
                 Tags{" "}
-                <span className="text-zinc-400">
+                <span className="text-zinc-600">
                   (comma separated)
                 </span>
               </label>
@@ -1186,7 +1186,7 @@ export default function EditLearningCardPage() {
             {/* Summary */}
 
             <div>
-              <label className="mb-2 block text-sm text-zinc-400">
+              <label className="mb-2 block text-sm text-zinc-600">
                 Summary
               </label>
 
@@ -1243,7 +1243,7 @@ export default function EditLearningCardPage() {
             Content
           </h2>
 
-          <p className="mt-1 text-sm text-zinc-400">
+          <p className="mt-1 text-sm text-zinc-600">
             Write your article using the toolbar below — just like a word processor.
           </p>
 
@@ -1272,7 +1272,7 @@ export default function EditLearningCardPage() {
 
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
 
-            <label className="flex items-center gap-3 text-sm text-zinc-400">
+            <label className="flex items-center gap-3 text-sm text-zinc-600">
 
               <input
                 type="checkbox"
@@ -1296,7 +1296,7 @@ export default function EditLearningCardPage() {
 
               <Link
                 href="/admin/card"
-                className="rounded-xl border border-zinc-200 px-5 py-3 text-sm text-zinc-400 transition hover:border-zinc-600 hover:text-zinc-900"
+                className="rounded-xl border border-zinc-200 px-5 py-3 text-sm text-zinc-600 transition hover:border-zinc-600 hover:text-zinc-900"
               >
                 Cancel
               </Link>

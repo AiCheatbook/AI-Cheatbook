@@ -22,10 +22,10 @@ export default function ThumbnailPicker({
     useState("");
 
   const inputClass =
-    "w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 outline-none focus:border-brand";
+    "w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-600 outline-none focus:border-brand";
 
   const labelClass =
-    "mb-1 block text-xs font-medium text-zinc-400";
+    "mb-1 block text-xs font-medium text-zinc-600";
 
   async function handleHostingerUpload(
     file: File
@@ -116,7 +116,7 @@ export default function ThumbnailPicker({
         {label}
       </h3>
 
-      <p className="mt-1 text-xs text-zinc-400">
+      <p className="mt-1 text-xs text-zinc-600">
         Shown everywhere this content
         appears as a card (always 4:5).
         Optional — if left blank, a
@@ -134,7 +134,7 @@ export default function ThumbnailPicker({
               className="h-full w-full object-cover"
             />
           ) : (
-            <span className="px-2 text-center text-[10px] text-zinc-400">
+            <span className="px-2 text-center text-[10px] text-zinc-600">
               Auto
             </span>
           )}
@@ -200,7 +200,7 @@ export default function ThumbnailPicker({
           </div>
 
           {uploading && (
-            <p className="text-xs text-zinc-400">
+            <p className="text-xs text-zinc-600">
               Uploading...
             </p>
           )}

@@ -461,7 +461,7 @@ export default function CommentSection({
               {authorName}
             </span>
 
-            <span className="text-xs text-zinc-400">
+            <span className="text-xs text-zinc-600">
               {new Date(
                 comment.created_at
               ).toLocaleDateString()}
@@ -474,14 +474,14 @@ export default function CommentSection({
               onClick={() =>
                 handleDelete(comment.id)
               }
-              className="text-xs text-zinc-400 hover:text-red-400"
+              className="text-xs text-zinc-600 hover:text-red-400"
             >
               Delete
             </button>
           )}
         </div>
 
-        <p className="mt-2 text-sm text-zinc-400">
+        <p className="mt-2 text-sm text-zinc-600">
           {comment.comment_text}
         </p>
 
@@ -500,7 +500,7 @@ export default function CommentSection({
               className={`rounded-full px-2.5 py-1 text-xs transition ${
                 mine
                   ? "bg-brand/15 text-brand"
-                  : "bg-zinc-100 text-zinc-400 hover:text-zinc-900"
+                  : "bg-zinc-100 text-zinc-600 hover:text-zinc-900"
               }`}
             >
               {mine
@@ -555,7 +555,7 @@ export default function CommentSection({
                       : comment.id
                   )
                 }
-                className="text-xs text-zinc-400 hover:text-zinc-900"
+                className="text-xs text-zinc-600 hover:text-zinc-900"
               >
                 Reply
               </button>
@@ -623,7 +623,7 @@ export default function CommentSection({
             }
             rows={3}
             placeholder="Share your thoughts..."
-            className="w-full rounded-xl border border-zinc-200 bg-white px-4 py-3 text-sm text-zinc-900 placeholder:text-zinc-400 outline-none focus:border-brand"
+            className="w-full rounded-xl border border-zinc-200 bg-white px-4 py-3 text-sm text-zinc-900 placeholder:text-zinc-600 outline-none focus:border-brand"
           />
 
           {error && (
@@ -646,7 +646,7 @@ export default function CommentSection({
           </button>
         </form>
       ) : (
-        <p className="mt-4 rounded-xl border border-zinc-200 bg-white px-4 py-3 text-sm text-zinc-400">
+        <p className="mt-4 rounded-xl border border-zinc-200 bg-white px-4 py-3 text-sm text-zinc-600">
           <a
             href="/login"
             className="text-brand hover:text-brand"
@@ -672,7 +672,7 @@ export default function CommentSection({
 
       {!loading &&
         topLevel.length === 0 && (
-          <p className="mt-6 text-sm text-zinc-400">
+          <p className="mt-6 text-sm text-zinc-600">
             No comments yet — be the
             first to share your thoughts.
           </p>

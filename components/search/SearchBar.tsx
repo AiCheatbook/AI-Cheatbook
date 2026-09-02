@@ -131,7 +131,7 @@ export default function SearchBar() {
 
         <svg
           aria-hidden="true"
-          className="pointer-events-none absolute left-5 top-1/2 h-5 w-5 -translate-y-1/2 text-zinc-400"
+          className="pointer-events-none absolute left-5 top-1/2 h-5 w-5 -translate-y-1/2 text-zinc-600"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -159,7 +159,7 @@ export default function SearchBar() {
           placeholder="Search prompts, keywords, concepts, AI tools..."
           aria-label="Search AI Cheatbook Library"
           autoComplete="off"
-          className="h-14 w-full rounded-2xl border border-zinc-200 bg-white/80 pl-14 pr-32 text-zinc-900 outline-none placeholder:text-zinc-400 transition focus:border-brand focus:bg-white"
+          className="h-14 w-full rounded-2xl border border-zinc-200 bg-white/80 pl-14 pr-32 text-zinc-900 outline-none placeholder:text-zinc-600 transition focus:border-brand focus:bg-white"
         />
 
         {/* Search Button */}

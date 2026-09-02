@@ -16,7 +16,7 @@ export default function Footer() {
             AI Cheatbook
           </Link>
 
-          <p className="mt-2 max-w-sm text-zinc-500">
+          <p className="mt-2 max-w-sm text-zinc-600">
             Verified AI Prompts for Creators &
             Developers
           </p>
@@ -24,7 +24,7 @@ export default function Footer() {
 
         {/* Links */}
 
-        <nav className="flex flex-wrap gap-x-6 gap-y-3 text-sm text-zinc-500">
+        <nav className="flex flex-wrap gap-x-6 gap-y-3 text-sm text-zinc-600">
 
           <Link
             href="/search"
@@ -60,7 +60,7 @@ export default function Footer() {
 
       {/* Copyright */}
 
-      <div className="border-t border-zinc-200 px-6 py-6 text-center text-sm text-zinc-400">
+      <div className="border-t border-zinc-200 px-6 py-6 text-center text-sm text-zinc-600">
         © 2026 AI Cheatbook. All rights reserved.
       </div>
 

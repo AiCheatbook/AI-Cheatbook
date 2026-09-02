@@ -151,7 +151,7 @@ export default function CommunityClient() {
             AI Creator Community
           </h1>
 
-          <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-zinc-400">
+          <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-zinc-600">
             Discover prompts shared by creators,
             explore useful AI workflows and learn
             what actually works.
@@ -168,7 +168,7 @@ export default function CommunityClient() {
 
             <Link
               href="/generator"
-              className="rounded-xl border border-zinc-300 px-6 py-3 text-sm font-semibold text-zinc-400 transition hover:border-brand hover:text-brand"
+              className="rounded-xl border border-zinc-300 px-6 py-3 text-sm font-semibold text-zinc-600 transition hover:border-brand hover:text-brand"
             >
               Create a Prompt
             </Link>
@@ -199,13 +199,13 @@ export default function CommunityClient() {
                 Community Prompts
               </h2>
 
-              <p className="mt-3 max-w-2xl text-zinc-400">
+              <p className="mt-3 max-w-2xl text-zinc-600">
                 Explore prompts shared by the AI
                 Cheatbook community.
               </p>
             </div>
 
-            <div className="text-sm text-zinc-400">
+            <div className="text-sm text-zinc-600">
               {filteredPrompts.length}{" "}
               {filteredPrompts.length === 1
                 ? "prompt"
@@ -229,10 +229,10 @@ export default function CommunityClient() {
                 }
                 placeholder="Search community prompts..."
                 aria-label="Search community prompts"
-                className="w-full rounded-2xl border border-zinc-200 bg-white px-5 py-4 pl-12 text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-brand"
+                className="w-full rounded-2xl border border-zinc-200 bg-white px-5 py-4 pl-12 text-zinc-900 outline-none transition placeholder:text-zinc-600 focus:border-brand"
               />
 
-              <span className="pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 text-zinc-400">
+              <span className="pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 text-zinc-600">
                 🔍
               </span>
 
@@ -251,7 +251,7 @@ export default function CommunityClient() {
               className={`rounded-full border px-4 py-2 text-sm font-medium transition ${
                 !selectedTool
                   ? "border-brand bg-brand text-zinc-900"
-                  : "border-zinc-200 bg-white text-zinc-400 hover:border-zinc-600 hover:text-zinc-900"
+                  : "border-zinc-200 bg-white text-zinc-600 hover:border-zinc-600 hover:text-zinc-900"
               }`}
             >
               All
@@ -267,7 +267,7 @@ export default function CommunityClient() {
                 className={`rounded-full border px-4 py-2 text-sm font-medium transition ${
                   selectedTool === tool
                     ? "border-brand bg-brand text-zinc-900"
-                    : "border-zinc-200 bg-white text-zinc-400 hover:border-zinc-600 hover:text-zinc-900"
+                    : "border-zinc-200 bg-white text-zinc-600 hover:border-zinc-600 hover:text-zinc-900"
                 }`}
               >
                 {tool}
@@ -339,7 +339,7 @@ export default function CommunityClient() {
                   No prompts found
                 </h3>
 
-                <p className="mx-auto mt-3 max-w-md text-zinc-400">
+                <p className="mx-auto mt-3 max-w-md text-zinc-600">
                   Try another search term or
                   select a different AI tool.
                 </p>
@@ -350,7 +350,7 @@ export default function CommunityClient() {
                     setSearch("");
                     setSelectedTool("");
                   }}
-                  className="mt-6 rounded-xl border border-zinc-300 px-5 py-3 text-sm font-semibold text-zinc-400 transition hover:border-brand hover:text-brand"
+                  className="mt-6 rounded-xl border border-zinc-300 px-5 py-3 text-sm font-semibold text-zinc-600 transition hover:border-brand hover:text-brand"
                 >
                   Clear Filters
                 </button>
@@ -374,7 +374,7 @@ export default function CommunityClient() {
             Have a prompt that actually works?
           </h2>
 
-          <p className="mx-auto mt-4 max-w-2xl text-zinc-400">
+          <p className="mx-auto mt-4 max-w-2xl text-zinc-600">
             Share your workflow with the community
             and help other creators get better results
             from AI.
@@ -420,7 +420,7 @@ function CommunityPromptCard({
           )}
 
           {prompt.category && (
-            <span className="rounded-full border border-zinc-300 px-3 py-1 text-xs text-zinc-400">
+            <span className="rounded-full border border-zinc-300 px-3 py-1 text-xs text-zinc-600">
               {prompt.category}
             </span>
           )}
@@ -447,7 +447,7 @@ function CommunityPromptCard({
         </h3>
 
         {prompt.description && (
-          <p className="mt-3 line-clamp-3 text-sm leading-6 text-zinc-400">
+          <p className="mt-3 line-clamp-3 text-sm leading-6 text-zinc-600">
             {prompt.description}
           </p>
         )}
@@ -456,7 +456,7 @@ function CommunityPromptCard({
 
         <div className="mt-5 rounded-xl border border-zinc-200 bg-white p-4">
 
-          <p className="line-clamp-4 whitespace-pre-line text-sm leading-6 text-zinc-400">
+          <p className="line-clamp-4 whitespace-pre-line text-sm leading-6 text-zinc-600">
             {prompt.prompt}
           </p>
 
@@ -469,11 +469,11 @@ function CommunityPromptCard({
           <div className="flex items-center justify-between">
 
             <div>
-              <p className="text-xs text-zinc-400">
+              <p className="text-xs text-zinc-600">
                 Created by
               </p>
 
-              <p className="mt-1 text-sm font-medium text-zinc-400">
+              <p className="mt-1 text-sm font-medium text-zinc-600">
                 {prompt.author_name}
               </p>
             </div>
@@ -497,7 +497,7 @@ function CommunityPromptCard({
                   prompt.prompt
                 )
               }
-              className="w-full rounded-xl border border-zinc-300 px-4 py-3 text-sm font-semibold text-zinc-400 transition hover:border-brand hover:text-brand"
+              className="w-full rounded-xl border border-zinc-300 px-4 py-3 text-sm font-semibold text-zinc-600 transition hover:border-brand hover:text-brand"
             >
               Copy Prompt
             </button>

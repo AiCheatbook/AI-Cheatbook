@@ -226,7 +226,7 @@ export default function AdminReportsPage() {
             className={`rounded-full border px-4 py-1.5 text-sm ${
               filter === "pending"
                 ? "border-brand bg-brand text-zinc-900"
-                : "border-zinc-300 text-zinc-400"
+                : "border-zinc-300 text-zinc-600"
             }`}
           >
             Pending
@@ -239,7 +239,7 @@ export default function AdminReportsPage() {
             className={`rounded-full border px-4 py-1.5 text-sm ${
               filter === "all"
                 ? "border-brand bg-brand text-zinc-900"
-                : "border-zinc-300 text-zinc-400"
+                : "border-zinc-300 text-zinc-600"
             }`}
           >
             All
@@ -261,7 +261,7 @@ export default function AdminReportsPage() {
 
         {!loading &&
           reports.length === 0 && (
-            <p className="mt-6 text-sm text-zinc-400">
+            <p className="mt-6 text-sm text-zinc-600">
               No{" "}
               {filter === "pending"
                 ? "pending "
@@ -279,7 +279,7 @@ export default function AdminReportsPage() {
                   className="rounded-2xl border border-zinc-200 bg-white p-4"
                 >
                   <div className="flex items-center gap-2">
-                    <span className="rounded-full bg-zinc-100 px-2.5 py-1 text-xs text-zinc-400">
+                    <span className="rounded-full bg-zinc-100 px-2.5 py-1 text-xs text-zinc-600">
                       {
                         CONTENT_TYPE_LABEL[
                           report
@@ -300,7 +300,7 @@ export default function AdminReportsPage() {
                           : report.status ===
                               "reviewed"
                             ? "bg-green-500/10 text-green-400"
-                            : "bg-zinc-100 text-zinc-400"
+                            : "bg-zinc-100 text-zinc-600"
                       }`}
                     >
                       {report.status}
@@ -308,12 +308,12 @@ export default function AdminReportsPage() {
                   </div>
 
                   {report.details && (
-                    <p className="mt-2 text-sm text-zinc-400">
+                    <p className="mt-2 text-sm text-zinc-600">
                       {report.details}
                     </p>
                   )}
 
-                  <p className="mt-2 text-xs text-zinc-400">
+                  <p className="mt-2 text-xs text-zinc-600">
                     Reported by{" "}
                     {report.profiles
                       ?.display_name ||
@@ -371,7 +371,7 @@ export default function AdminReportsPage() {
                               report
                             )
                           }
-                          className="rounded-lg border border-zinc-300 px-3 py-1.5 text-xs text-zinc-400 hover:bg-zinc-100"
+                          className="rounded-lg border border-zinc-300 px-3 py-1.5 text-xs text-zinc-600 hover:bg-zinc-100"
                         >
                           Dismiss
                         </button>

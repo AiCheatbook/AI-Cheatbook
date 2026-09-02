@@ -154,7 +154,7 @@ export default function SearchFilters({
               className={`shrink-0 rounded-xl px-4 py-2 text-sm font-medium transition ${
                 isSelected
                   ? "bg-brand text-zinc-900 shadow-lg shadow-brand/10"
-                  : "border border-zinc-200 bg-zinc-50 text-zinc-400 hover:border-zinc-300 hover:bg-zinc-100 hover:text-zinc-900"
+                  : "border border-zinc-200 bg-zinc-50 text-zinc-600 hover:border-zinc-300 hover:bg-zinc-100 hover:text-zinc-900"
               }`}
             >
               {filter.label}
@@ -175,14 +175,14 @@ export default function SearchFilters({
               className={
                 selectedTool
                   ? "text-zinc-900"
-                  : "text-zinc-400"
+                  : "text-zinc-600"
               }
             >
               {selectedTool || "AI Tool"}
             </span>
 
             <svg
-              className="h-4 w-4 text-zinc-400 transition group-open:rotate-180"
+              className="h-4 w-4 text-zinc-600 transition group-open:rotate-180"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -201,7 +201,7 @@ export default function SearchFilters({
               className={`block rounded-lg px-3 py-2 text-sm transition ${
                 !selectedTool
                   ? "bg-brand/10 text-brand"
-                  : "text-zinc-400 hover:bg-white hover:text-zinc-900"
+                  : "text-zinc-600 hover:bg-white hover:text-zinc-900"
               }`}
             >
               All AI Tools
@@ -216,7 +216,7 @@ export default function SearchFilters({
                 className={`block rounded-lg px-3 py-2 text-sm transition ${
                   selectedTool === tool
                     ? "bg-brand/10 text-brand"
-                    : "text-zinc-400 hover:bg-white hover:text-zinc-900"
+                    : "text-zinc-600 hover:bg-white hover:text-zinc-900"
                 }`}
               >
                 {tool}
@@ -233,7 +233,7 @@ export default function SearchFilters({
               className={
                 selectedCategory
                   ? "text-zinc-900"
-                  : "text-zinc-400"
+                  : "text-zinc-600"
               }
             >
               {selectedCategory ||
@@ -241,7 +241,7 @@ export default function SearchFilters({
             </span>
 
             <svg
-              className="h-4 w-4 text-zinc-400 transition group-open:rotate-180"
+              className="h-4 w-4 text-zinc-600 transition group-open:rotate-180"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -260,7 +260,7 @@ export default function SearchFilters({
               className={`block rounded-lg px-3 py-2 text-sm transition ${
                 !selectedCategory
                   ? "bg-brand/10 text-brand"
-                  : "text-zinc-400 hover:bg-white hover:text-zinc-900"
+                  : "text-zinc-600 hover:bg-white hover:text-zinc-900"
               }`}
             >
               All Categories
@@ -276,7 +276,7 @@ export default function SearchFilters({
                   selectedCategory ===
                   category
                     ? "bg-brand/10 text-brand"
-                    : "text-zinc-400 hover:bg-white hover:text-zinc-900"
+                    : "text-zinc-600 hover:bg-white hover:text-zinc-900"
                 }`}
               >
                 {category}
@@ -292,7 +292,7 @@ export default function SearchFilters({
             href={createUrl({
               clearAll: true,
             })}
-            className="flex shrink-0 items-center justify-center rounded-xl border border-zinc-200 px-4 py-3 text-sm font-medium text-zinc-400 transition hover:border-brand hover:text-brand"
+            className="flex shrink-0 items-center justify-center rounded-xl border border-zinc-200 px-4 py-3 text-sm font-medium text-zinc-600 transition hover:border-brand hover:text-brand"
           >
             Clear Filters
           </Link>
@@ -306,7 +306,7 @@ export default function SearchFilters({
         selectedType !== "all") && (
         <div className="flex flex-wrap items-center gap-2">
 
-          <span className="mr-1 text-xs text-zinc-400">
+          <span className="mr-1 text-xs text-zinc-600">
             Active:
           </span>
 

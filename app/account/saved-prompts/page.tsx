@@ -198,7 +198,7 @@ export default function SavedPromptsPage() {
       <div className="mx-auto max-w-2xl">
         <Link
           href="/account"
-          className="text-sm text-zinc-400 hover:text-zinc-900"
+          className="text-sm text-zinc-600 hover:text-zinc-900"
         >
           ← Back to Account
         </Link>
@@ -229,9 +229,9 @@ export default function SavedPromptsPage() {
             className="mt-4 rounded-2xl border border-zinc-200 bg-white p-5"
           >
             <div>
-              <label className="text-sm font-medium text-zinc-400">
+              <label className="text-sm font-medium text-zinc-600">
                 Title{" "}
-                <span className="text-zinc-400">
+                <span className="text-zinc-600">
                   (optional)
                 </span>
               </label>
@@ -248,7 +248,7 @@ export default function SavedPromptsPage() {
             </div>
 
             <div className="mt-3">
-              <label className="text-sm font-medium text-zinc-400">
+              <label className="text-sm font-medium text-zinc-600">
                 Prompt Text
               </label>
               <textarea
@@ -265,9 +265,9 @@ export default function SavedPromptsPage() {
             </div>
 
             <div className="mt-3">
-              <label className="text-sm font-medium text-zinc-400">
+              <label className="text-sm font-medium text-zinc-600">
                 AI Tool{" "}
-                <span className="text-zinc-400">
+                <span className="text-zinc-600">
                   (optional)
                 </span>
               </label>
@@ -326,7 +326,7 @@ export default function SavedPromptsPage() {
           !error &&
           prompts.length === 0 && (
             <div className="mt-6 rounded-2xl border border-zinc-200 bg-white p-8 text-center">
-              <p className="text-zinc-400">
+              <p className="text-zinc-600">
                 No saved prompts yet.
               </p>
 
@@ -356,7 +356,7 @@ export default function SavedPromptsPage() {
                       </h2>
 
                       {item.ai_tool && (
-                        <span className="mt-1 inline-block rounded-full bg-zinc-100 px-2 py-0.5 text-xs text-zinc-400">
+                        <span className="mt-1 inline-block rounded-full bg-zinc-100 px-2 py-0.5 text-xs text-zinc-600">
                           {item.ai_tool}
                         </span>
                       )}
@@ -393,7 +393,7 @@ export default function SavedPromptsPage() {
                     </div>
                   </div>
 
-                  <p className="mt-3 whitespace-pre-wrap text-sm leading-6 text-zinc-400">
+                  <p className="mt-3 whitespace-pre-wrap text-sm leading-6 text-zinc-600">
                     {item.prompt_text}
                   </p>
                 </div>

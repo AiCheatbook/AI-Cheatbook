@@ -62,10 +62,10 @@ export default function MediaPicker({
     useState("");
 
   const inputClass =
-    "w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 outline-none focus:border-brand";
+    "w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-600 outline-none focus:border-brand";
 
   const labelClass =
-    "mb-1 block text-xs font-medium text-zinc-400";
+    "mb-1 block text-xs font-medium text-zinc-600";
 
   function updateMedia(
     partial: Partial<MediaFields>
@@ -271,11 +271,11 @@ export default function MediaPicker({
             accept="image/jpeg,image/png,image/webp,image/gif"
             onChange={handleFileSelected}
             disabled={uploading}
-            className="block w-full text-sm text-zinc-400 file:mr-3 file:rounded-lg file:border-0 file:bg-brand file:px-4 file:py-2 file:text-sm file:font-medium file:text-zinc-900 hover:file:bg-brand-dark disabled:opacity-50"
+            className="block w-full text-sm text-zinc-600 file:mr-3 file:rounded-lg file:border-0 file:bg-brand file:px-4 file:py-2 file:text-sm file:font-medium file:text-zinc-900 hover:file:bg-brand-dark disabled:opacity-50"
           />
 
           {uploading && (
-            <p className="mt-2 text-xs text-zinc-400">
+            <p className="mt-2 text-xs text-zinc-600">
               Uploading...
             </p>
           )}

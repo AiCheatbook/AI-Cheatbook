@@ -124,7 +124,7 @@ export default function SavedKeywordsWidget() {
                 Saved Keywords
               </h3>
 
-              <p className="mt-1 text-xs text-zinc-500">
+              <p className="mt-1 text-xs text-zinc-600">
                 {keywords.length} saved
               </p>
             </div>
@@ -134,7 +134,7 @@ export default function SavedKeywordsWidget() {
               onClick={() =>
                 setOpen(false)
               }
-              className="text-zinc-500 transition hover:text-white"
+              className="text-zinc-600 transition hover:text-white"
               aria-label="Close saved keywords"
             >
               ✕
@@ -163,7 +163,7 @@ export default function SavedKeywordsWidget() {
                     onClick={() =>
                       removeKeyword(keyword)
                     }
-                    className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-zinc-500 transition hover:bg-red-500/10 hover:text-red-400"
+                    className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-zinc-600 transition hover:bg-red-500/10 hover:text-red-400"
                     aria-label={`Remove ${keyword}`}
                   >
                     ✕
@@ -185,7 +185,7 @@ export default function SavedKeywordsWidget() {
               <button
                 type="button"
                 onClick={clearAllKeywords}
-                className="flex-1 rounded-xl border border-zinc-700 px-3 py-3 text-sm font-semibold text-zinc-400 transition hover:border-red-500 hover:text-red-400"
+                className="flex-1 rounded-xl border border-zinc-700 px-3 py-3 text-sm font-semibold text-zinc-600 transition hover:border-red-500 hover:text-red-400"
               >
                 Clear All
               </button>
@@ -229,13 +229,13 @@ export default function SavedKeywordsWidget() {
             Saved Keywords
           </span>
 
-          <span className="block text-xs text-zinc-500">
+          <span className="block text-xs text-zinc-600">
             {keywords.length} saved
           </span>
 
         </span>
 
-        <span className="text-zinc-500">
+        <span className="text-zinc-600">
           {open ? "↓" : "↑"}
         </span>
 

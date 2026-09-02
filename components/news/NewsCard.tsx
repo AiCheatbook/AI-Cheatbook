@@ -48,14 +48,14 @@ export default function NewsCard({
           {title}
         </h3>
 
-        <p className="mt-2 line-clamp-2 text-sm leading-5 text-zinc-500">
+        <p className="mt-2 line-clamp-2 text-sm leading-5 text-zinc-600">
           Learn what&apos;s new and how it affects
           creators and developers.
         </p>
 
         <div className="mt-auto flex items-center justify-between pt-3">
 
-          <span className="text-xs text-zinc-400">
+          <span className="text-xs text-zinc-600">
             2 min read
           </span>
 

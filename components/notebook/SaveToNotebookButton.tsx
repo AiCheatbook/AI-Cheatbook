@@ -219,7 +219,7 @@ export default function SaveToNotebookButton({
         className={`rounded-full border px-3 py-1.5 text-xs font-medium transition ${
           saved
             ? "border-brand bg-brand/10 text-brand"
-            : "border-zinc-300 text-zinc-400 hover:border-zinc-500 hover:text-zinc-900"
+            : "border-zinc-300 text-zinc-600 hover:border-zinc-500 hover:text-zinc-900"
         } ${compact ? "px-2 py-1" : ""}`}
       >
         {saved
@@ -235,7 +235,7 @@ export default function SaveToNotebookButton({
           }}
           className="absolute right-0 top-9 z-30 w-56 rounded-xl border border-zinc-200 bg-white p-3 shadow-xl"
         >
-          <p className="text-xs font-medium text-zinc-400">
+          <p className="text-xs font-medium text-zinc-600">
             Save to...
           </p>
 
@@ -245,7 +245,7 @@ export default function SaveToNotebookButton({
             onClick={() =>
               handleSave(null)
             }
-            className="mt-2 block w-full rounded-lg px-2 py-1.5 text-left text-xs text-zinc-400 hover:bg-zinc-100"
+            className="mt-2 block w-full rounded-lg px-2 py-1.5 text-left text-xs text-zinc-600 hover:bg-zinc-100"
           >
             Uncategorized
           </button>
@@ -261,7 +261,7 @@ export default function SaveToNotebookButton({
                     collection.id
                   )
                 }
-                className="block w-full rounded-lg px-2 py-1.5 text-left text-xs text-zinc-400 hover:bg-zinc-100"
+                className="block w-full rounded-lg px-2 py-1.5 text-left text-xs text-zinc-600 hover:bg-zinc-100"
               >
                 {collection.name}
               </button>
@@ -300,7 +300,7 @@ export default function SaveToNotebookButton({
             onClick={() =>
               setPickerOpen(false)
             }
-            className="mt-2 w-full text-center text-xs text-zinc-400 hover:text-zinc-900"
+            className="mt-2 w-full text-center text-xs text-zinc-600 hover:text-zinc-900"
           >
             Cancel
           </button>

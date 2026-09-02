@@ -34,12 +34,12 @@ export default function LearningPostCard({
       </h3>
 
       {preview && (
-        <p className="mt-1 line-clamp-2 text-sm text-zinc-400">
+        <p className="mt-1 line-clamp-2 text-sm text-zinc-600">
           {preview}
         </p>
       )}
 
-      <div className="mt-3 flex items-center justify-between text-xs text-zinc-400">
+      <div className="mt-3 flex items-center justify-between text-xs text-zinc-600">
         <span>
           Useful for {category} ·{" "}
           {authorName}

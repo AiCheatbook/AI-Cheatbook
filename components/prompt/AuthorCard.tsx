@@ -17,7 +17,7 @@ export default function AuthorCard({
           Author
         </h2>
 
-        <p className="mt-2 text-sm text-zinc-500">
+        <p className="mt-2 text-sm text-zinc-600">
           Prompt created and verified by the community.
         </p>
       </div>
@@ -39,7 +39,7 @@ export default function AuthorCard({
             {name}
           </h3>
 
-          <p className="mt-1 text-sm text-zinc-400">
+          <p className="mt-1 text-sm text-zinc-600">
             {verified
               ? "✓ Verified Creator"
               : "Community Creator"}

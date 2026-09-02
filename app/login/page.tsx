@@ -135,7 +135,7 @@ function LoginPageContent() {
   }
 
   const inputClass =
-    "w-full rounded-full border border-zinc-200 bg-white px-5 py-3 text-zinc-900 placeholder:text-zinc-400 outline-none focus:border-brand";
+    "w-full rounded-full border border-zinc-200 bg-white px-5 py-3 text-zinc-900 placeholder:text-zinc-600 outline-none focus:border-brand";
 
   return (
     <main className="flex min-h-screen items-center justify-center bg-white px-4 py-16">
@@ -148,7 +148,7 @@ function LoginPageContent() {
             AI Cheatbook
           </Link>
 
-          <p className="mt-2 text-sm text-zinc-400">
+          <p className="mt-2 text-sm text-zinc-600">
             {mode === "signup"
               ? "Create your account"
               : mode === "magic-link"
@@ -200,7 +200,7 @@ function LoginPageContent() {
               onClick={() =>
                 setMode("login")
               }
-              className="w-full text-center text-sm text-zinc-400 hover:text-zinc-900"
+              className="w-full text-center text-sm text-zinc-600 hover:text-zinc-900"
             >
               ← Back to password login
             </button>
@@ -276,7 +276,7 @@ function LoginPageContent() {
 
         <div className="my-6 flex items-center gap-3">
           <div className="h-px flex-1 bg-zinc-100" />
-          <span className="text-xs text-zinc-400">
+          <span className="text-xs text-zinc-600">
             or
           </span>
           <div className="h-px flex-1 bg-zinc-100" />
@@ -312,7 +312,7 @@ function LoginPageContent() {
           Continue with Google
         </button>
 
-        <p className="mt-8 text-center text-xs text-zinc-400">
+        <p className="mt-8 text-center text-xs text-zinc-600">
           By continuing, you agree to AI
           Cheatbook&apos;s Terms of Use and
           Privacy Policy.

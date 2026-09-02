@@ -173,7 +173,7 @@ function NewDiscussionPageContent() {
         )}
 
         <div className="mt-6">
-          <label className="text-sm font-medium text-zinc-400">
+          <label className="text-sm font-medium text-zinc-600">
             Type
           </label>
           <div className="mt-2 flex flex-wrap gap-2">
@@ -187,7 +187,7 @@ function NewDiscussionPageContent() {
                 className={`rounded-full border px-3.5 py-1.5 text-sm transition ${
                   contentKind === k.value
                     ? "border-brand bg-brand text-zinc-900"
-                    : "border-zinc-300 text-zinc-400 hover:border-zinc-500"
+                    : "border-zinc-300 text-zinc-600 hover:border-zinc-500"
                 }`}
               >
                 {k.label}
@@ -197,7 +197,7 @@ function NewDiscussionPageContent() {
         </div>
 
         <div className="mt-5">
-          <label className="text-sm font-medium text-zinc-400">
+          <label className="text-sm font-medium text-zinc-600">
             Category
           </label>
           <div className="mt-2 flex flex-wrap gap-2">
@@ -211,7 +211,7 @@ function NewDiscussionPageContent() {
                 className={`rounded-full border px-3.5 py-1.5 text-sm transition ${
                   category === c.value
                     ? "border-brand bg-brand text-zinc-900"
-                    : "border-zinc-300 text-zinc-400 hover:border-zinc-500"
+                    : "border-zinc-300 text-zinc-600 hover:border-zinc-500"
                 }`}
               >
                 {c.label}
@@ -221,7 +221,7 @@ function NewDiscussionPageContent() {
         </div>
 
         <div className="mt-5">
-          <label className="text-sm font-medium text-zinc-400">
+          <label className="text-sm font-medium text-zinc-600">
             Title
           </label>
           <input
@@ -235,7 +235,7 @@ function NewDiscussionPageContent() {
         </div>
 
         <div className="mt-5">
-          <label className="text-sm font-medium text-zinc-400">
+          <label className="text-sm font-medium text-zinc-600">
             Details
           </label>
           <textarea

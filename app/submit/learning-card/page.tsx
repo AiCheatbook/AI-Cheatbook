@@ -118,7 +118,7 @@ export default function SubmitLearningCardPage() {
             Submitted for review!
           </h1>
 
-          <p className="mt-3 text-sm text-zinc-400">
+          <p className="mt-3 text-sm text-zinc-600">
             Thanks — our team will review
             your learning card before it
             goes live on the site.
@@ -154,7 +154,7 @@ export default function SubmitLearningCardPage() {
           Submit a Learning Card
         </h1>
 
-        <p className="mt-2 text-sm text-zinc-400">
+        <p className="mt-2 text-sm text-zinc-600">
           Write an educational article for
           the community. It'll be
           reviewed before publishing.
@@ -167,7 +167,7 @@ export default function SubmitLearningCardPage() {
         )}
 
         <div className="mt-6">
-          <label className="text-sm font-medium text-zinc-400">
+          <label className="text-sm font-medium text-zinc-600">
             Title
           </label>
           <input
@@ -181,9 +181,9 @@ export default function SubmitLearningCardPage() {
         </div>
 
         <div className="mt-5">
-          <label className="text-sm font-medium text-zinc-400">
+          <label className="text-sm font-medium text-zinc-600">
             Summary{" "}
-            <span className="text-zinc-400">
+            <span className="text-zinc-600">
               (optional)
             </span>
           </label>
@@ -200,9 +200,9 @@ export default function SubmitLearningCardPage() {
 
         <div className="mt-5 grid gap-5 sm:grid-cols-2">
           <div>
-            <label className="text-sm font-medium text-zinc-400">
+            <label className="text-sm font-medium text-zinc-600">
               Category{" "}
-              <span className="text-zinc-400">
+              <span className="text-zinc-600">
                 (optional)
               </span>
             </label>
@@ -219,9 +219,9 @@ export default function SubmitLearningCardPage() {
           </div>
 
           <div>
-            <label className="text-sm font-medium text-zinc-400">
+            <label className="text-sm font-medium text-zinc-600">
               Tags{" "}
-              <span className="text-zinc-400">
+              <span className="text-zinc-600">
                 (comma separated)
               </span>
             </label>
@@ -237,7 +237,7 @@ export default function SubmitLearningCardPage() {
         </div>
 
         <div className="mt-5">
-          <label className="text-sm font-medium text-zinc-400">
+          <label className="text-sm font-medium text-zinc-600">
             Content
           </label>
 

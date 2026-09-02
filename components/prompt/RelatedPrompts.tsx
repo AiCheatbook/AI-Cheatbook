@@ -115,7 +115,7 @@ export default function RelatedPrompts({
           🔥 Related Prompts
         </h2>
 
-        <p className="mt-2 text-zinc-500">
+        <p className="mt-2 text-zinc-600">
           More prompts from the {category} category.
         </p>
       </div>

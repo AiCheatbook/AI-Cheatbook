@@ -133,7 +133,7 @@ export default function CommunityRightSidebar() {
           ) : (
             <dl className="mt-3 grid grid-cols-2 gap-3 text-center">
               <div>
-                <dt className="text-xs text-zinc-400">
+                <dt className="text-xs text-zinc-600">
                   Posts
                 </dt>
                 <dd className="text-lg font-semibold text-zinc-900">
@@ -141,7 +141,7 @@ export default function CommunityRightSidebar() {
                 </dd>
               </div>
               <div>
-                <dt className="text-xs text-zinc-400">
+                <dt className="text-xs text-zinc-600">
                   Questions
                 </dt>
                 <dd className="text-lg font-semibold text-zinc-900">
@@ -150,7 +150,7 @@ export default function CommunityRightSidebar() {
                 </dd>
               </div>
               <div>
-                <dt className="text-xs text-zinc-400">
+                <dt className="text-xs text-zinc-600">
                   Members
                 </dt>
                 <dd className="text-lg font-semibold text-zinc-900">
@@ -158,7 +158,7 @@ export default function CommunityRightSidebar() {
                 </dd>
               </div>
               <div>
-                <dt className="text-xs text-zinc-400">
+                <dt className="text-xs text-zinc-600">
                   Learning Cards
                 </dt>
                 <dd className="text-lg font-semibold text-zinc-900">
@@ -191,7 +191,7 @@ export default function CommunityRightSidebar() {
           {!loading &&
             contributors.length ===
               0 && (
-              <p className="mt-2 text-xs text-zinc-400">
+              <p className="mt-2 text-xs text-zinc-600">
                 Great conversations
                 will surface top
                 contributors here as
@@ -209,12 +209,12 @@ export default function CommunityRightSidebar() {
                         href={`/community/user/${c.id}`}
                         className="flex items-center justify-between text-sm hover:text-brand"
                       >
-                        <span className="truncate text-zinc-400">
+                        <span className="truncate text-zinc-600">
                           {c.display_name ||
                             c.email ||
                             "Community Member"}
                         </span>
-                        <span className="shrink-0 text-xs text-zinc-400">
+                        <span className="shrink-0 text-xs text-zinc-600">
                           {c.postCount}{" "}
                           posts
                         </span>
@@ -233,7 +233,7 @@ export default function CommunityRightSidebar() {
           <h3 className="text-sm font-semibold text-zinc-900">
             📓 Your AI Notebook
           </h3>
-          <p className="mt-1 text-xs text-zinc-400">
+          <p className="mt-1 text-xs text-zinc-600">
             Save posts, prompts, and
             learning cards you want to
             come back to.

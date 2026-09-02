@@ -138,7 +138,7 @@ export default async function NewsDetailPage({
 
           <Link
             href="/news"
-            className="inline-flex items-center gap-2 text-sm font-medium text-zinc-400 transition hover:text-zinc-900"
+            className="inline-flex items-center gap-2 text-sm font-medium text-zinc-600 transition hover:text-zinc-900"
           >
             <span>←</span>
             <span>Back to AI News</span>
@@ -165,7 +165,7 @@ export default async function NewsDetailPage({
           {/* Excerpt */}
 
           {news.excerpt && (
-            <p className="mt-6 max-w-3xl text-base leading-7 text-zinc-400 sm:text-lg sm:leading-8">
+            <p className="mt-6 max-w-3xl text-base leading-7 text-zinc-600 sm:text-lg sm:leading-8">
               {news.excerpt}
             </p>
           )}
@@ -183,7 +183,7 @@ export default async function NewsDetailPage({
                     .toUpperCase()}
                 </div>
 
-                <span className="text-sm text-zinc-400">
+                <span className="text-sm text-zinc-600">
                   {news.author}
                 </span>
 
@@ -196,7 +196,7 @@ export default async function NewsDetailPage({
                   •
                 </span>
 
-                <time className="text-sm text-zinc-400">
+                <time className="text-sm text-zinc-600">
                   {new Date(
                     news.published_at
                   ).toLocaleDateString(
@@ -217,7 +217,7 @@ export default async function NewsDetailPage({
               <ShareButton
                 title={news.title}
                 text={news.excerpt || ""}
-                className="inline-flex items-center gap-2 rounded-xl border border-zinc-200 bg-white px-4 py-2.5 text-sm font-medium text-zinc-400 transition hover:border-zinc-300 hover:bg-white hover:text-zinc-900"
+                className="inline-flex items-center gap-2 rounded-xl border border-zinc-200 bg-white px-4 py-2.5 text-sm font-medium text-zinc-600 transition hover:border-zinc-300 hover:bg-white hover:text-zinc-900"
               />
             </div>
 
@@ -280,7 +280,7 @@ export default async function NewsDetailPage({
           ) : (
             <div className="rounded-2xl border border-zinc-200 bg-white p-8 text-center">
 
-              <p className="text-zinc-400">
+              <p className="text-zinc-600">
                 This article has no content yet.
               </p>
 
@@ -327,7 +327,7 @@ export default async function NewsDetailPage({
 
               <Link
                 href="/news"
-                className="hidden text-sm font-medium text-zinc-400 transition hover:text-zinc-900 sm:block"
+                className="hidden text-sm font-medium text-zinc-600 transition hover:text-zinc-900 sm:block"
               >
                 View All →
               </Link>
@@ -385,7 +385,7 @@ export default async function NewsDetailPage({
                       </h3>
 
                       {item.published_at && (
-                        <p className="mt-3 text-xs text-zinc-400">
+                        <p className="mt-3 text-xs text-zinc-600">
                           {new Date(
                             item.published_at
                           ).toLocaleDateString(
@@ -413,7 +413,7 @@ export default async function NewsDetailPage({
 
               <Link
                 href="/news"
-                className="text-sm font-medium text-zinc-400 transition hover:text-zinc-900"
+                className="text-sm font-medium text-zinc-600 transition hover:text-zinc-900"
               >
                 View All AI News →
               </Link>

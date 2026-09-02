@@ -349,7 +349,7 @@ function CommunitySearchContent() {
         {!loading &&
           searched &&
           results.length === 0 && (
-            <p className="text-sm text-zinc-400">
+            <p className="text-sm text-zinc-600">
               No results for
               &quot;{initialQuery}&quot;.
             </p>
@@ -357,7 +357,7 @@ function CommunitySearchContent() {
 
         {!loading &&
           !searched && (
-            <p className="text-sm text-zinc-400">
+            <p className="text-sm text-zinc-600">
               Search across Questions,
               Discussions, Prompts,
               Polls, Learning, and

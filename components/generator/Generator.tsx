@@ -577,7 +577,7 @@ export default function Generator() {
           AI Prompt Generator
         </h1>
 
-        <p className="mt-4 max-w-2xl text-zinc-400">
+        <p className="mt-4 max-w-2xl text-zinc-600">
           Tell us what you want to create, choose
           your AI tool, then select the qualities
           you want.
@@ -590,7 +590,7 @@ export default function Generator() {
         <div className="grid gap-5 sm:grid-cols-3">
 
           <div>
-            <p className="text-sm text-zinc-500">
+            <p className="text-sm text-zinc-600">
               Current Plan
             </p>
 
@@ -600,7 +600,7 @@ export default function Generator() {
           </div>
 
           <div>
-            <p className="text-sm text-zinc-500">
+            <p className="text-sm text-zinc-600">
               Current Model
             </p>
 
@@ -610,7 +610,7 @@ export default function Generator() {
           </div>
 
           <div>
-            <p className="text-sm text-zinc-500">
+            <p className="text-sm text-zinc-600">
               Daily Generations
             </p>
 
@@ -624,11 +624,11 @@ export default function Generator() {
         <div className="mt-5">
 
           <div className="mb-2 flex items-center justify-between text-xs">
-            <span className="text-zinc-500">
+            <span className="text-zinc-600">
               Today&apos;s usage
             </span>
 
-            <span className="text-zinc-500">
+            <span className="text-zinc-600">
               {displayUsage.remaining} remaining
             </span>
           </div>
@@ -659,7 +659,7 @@ export default function Generator() {
               Daily limit reached
             </p>
 
-            <p className="mt-1 text-sm text-zinc-400">
+            <p className="mt-1 text-sm text-zinc-600">
               Free users can generate{" "}
               {displayUsage.limit} prompts per day.
             </p>
@@ -676,7 +676,7 @@ export default function Generator() {
           Choose AI Tool
         </h2>
 
-        <p className="mt-1 text-sm text-zinc-500">
+        <p className="mt-1 text-sm text-zinc-600">
           Choose the tool your prompt is intended for.
         </p>
 
@@ -712,12 +712,12 @@ export default function Generator() {
 
         <h2 className="text-lg font-semibold text-white">
           Reference Image{" "}
-          <span className="text-sm font-normal text-zinc-500">
+          <span className="text-sm font-normal text-zinc-600">
             (optional)
           </span>
         </h2>
 
-        <p className="mt-1 text-sm text-zinc-500">
+        <p className="mt-1 text-sm text-zinc-600">
           For turning an image into a
           video prompt.
         </p>
@@ -796,7 +796,7 @@ export default function Generator() {
                 </button>
               </div>
             ) : (
-              <label className="inline-block cursor-pointer rounded-xl border border-dashed border-zinc-700 px-5 py-3 text-sm text-zinc-400 hover:border-brand hover:text-brand">
+              <label className="inline-block cursor-pointer rounded-xl border border-dashed border-zinc-700 px-5 py-3 text-sm text-zinc-600 hover:border-brand hover:text-brand">
                 Choose an image...
                 <input
                   type="file"
@@ -824,7 +824,7 @@ export default function Generator() {
           What do you want to create?
         </label>
 
-        <p className="mt-1 text-sm text-zinc-500">
+        <p className="mt-1 text-sm text-zinc-600">
           Describe your goal in a few words.
         </p>
 
@@ -854,7 +854,7 @@ export default function Generator() {
                 Saved Keywords
               </h2>
 
-              <p className="mt-1 text-sm text-zinc-500">
+              <p className="mt-1 text-sm text-zinc-600">
                 Added from the Prompt Library
               </p>
             </div>
@@ -862,7 +862,7 @@ export default function Generator() {
             <button
               type="button"
               onClick={clearSavedKeywords}
-              className="text-sm text-zinc-500 transition hover:text-red-400"
+              className="text-sm text-zinc-600 transition hover:text-red-400"
             >
               Clear Saved
             </button>
@@ -894,7 +894,7 @@ export default function Generator() {
               Selected Keywords
             </h2>
 
-            <p className="mt-1 text-sm text-zinc-500">
+            <p className="mt-1 text-sm text-zinc-600">
               {selectedKeywords.length} selected
             </p>
           </div>
@@ -903,7 +903,7 @@ export default function Generator() {
             <button
               type="button"
               onClick={clearSelection}
-              className="text-sm text-zinc-400 transition hover:text-brand"
+              className="text-sm text-zinc-600 transition hover:text-brand"
             >
               Clear Selection
             </button>
@@ -931,7 +931,7 @@ export default function Generator() {
 
           </div>
         ) : (
-          <p className="mt-4 text-sm text-zinc-500">
+          <p className="mt-4 text-sm text-zinc-600">
             Select keywords below to build your prompt.
           </p>
         )}
@@ -970,7 +970,7 @@ export default function Generator() {
         </div>
       ) : (
         <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-8 text-center">
-          <p className="text-zinc-400">
+          <p className="text-zinc-600">
             No generator keywords available yet.
           </p>
         </div>
@@ -994,7 +994,7 @@ export default function Generator() {
 
       {isGenerating && (
         <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-5 text-center">
-          <p className="text-sm text-zinc-400">
+          <p className="text-sm text-zinc-600">
             Building your {aiTool} prompt...
           </p>
         </div>
@@ -1010,7 +1010,7 @@ export default function Generator() {
               Generation failed
             </p>
 
-            <p className="mt-1 text-sm text-zinc-400">
+            <p className="mt-1 text-sm text-zinc-600">
               {generationError}
             </p>
 

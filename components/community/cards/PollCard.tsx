@@ -46,7 +46,7 @@ export default function PollCard({
         <span className="rounded-full bg-green-500/10 px-2.5 py-1 text-xs font-semibold text-green-400">
           📊 POLL
         </span>
-        <span className="text-xs text-zinc-400">
+        <span className="text-xs text-zinc-600">
           {category}
         </span>
       </div>
@@ -55,7 +55,7 @@ export default function PollCard({
         {question}
       </h3>
 
-      <div className="mt-3 flex items-center justify-between text-xs text-zinc-400">
+      <div className="mt-3 flex items-center justify-between text-xs text-zinc-600">
         <span>
           {authorName} ·{" "}
           {timeAgo(createdAt)}

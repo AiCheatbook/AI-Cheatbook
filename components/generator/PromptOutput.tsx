@@ -115,7 +115,7 @@ export default function PromptOutput({
             Generated Prompt
           </h2>
 
-          <p className="mt-1 text-sm text-zinc-500">
+          <p className="mt-1 text-sm text-zinc-600">
             Your ready-to-use AI prompt
           </p>
         </div>
@@ -185,7 +185,7 @@ export default function PromptOutput({
         ) : (
           <div className="py-10 text-center">
 
-            <p className="text-zinc-500">
+            <p className="text-zinc-600">
               Your generated prompt will appear here.
             </p>
 

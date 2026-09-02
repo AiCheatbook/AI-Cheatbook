@@ -22,7 +22,7 @@ export default function KeywordGroup({
           {group.category}
         </h2>
 
-        <p className="mt-1 text-sm text-zinc-500">
+        <p className="mt-1 text-sm text-zinc-600">
           Choose the qualities you want in your prompt.
         </p>
       </div>

@@ -18,7 +18,7 @@ export default function PromptTags({
         Tags
       </h2>
 
-      <p className="mt-2 text-sm text-zinc-500">
+      <p className="mt-2 text-sm text-zinc-600">
         Topics and keywords related to this prompt.
       </p>
 

@@ -97,7 +97,7 @@ export default function AccountPage() {
               Unable to load your account
             </h1>
 
-            <p className="mt-2 whitespace-pre-wrap text-sm text-zinc-400">
+            <p className="mt-2 whitespace-pre-wrap text-sm text-zinc-600">
               {error}
             </p>
           </div>
@@ -158,7 +158,7 @@ export default function AccountPage() {
               "Your Account"}
           </h1>
 
-          <p className="mt-1 text-sm text-zinc-400">
+          <p className="mt-1 text-sm text-zinc-600">
             {profile.email}
           </p>
         </div>
@@ -170,13 +170,13 @@ export default function AccountPage() {
 
           <p className="mt-2 text-3xl font-bold">
             {remaining}{" "}
-            <span className="text-lg font-normal text-zinc-400">
+            <span className="text-lg font-normal text-zinc-600">
               / {REGISTERED_DAILY_LIMIT}{" "}
               remaining
             </span>
           </p>
 
-          <p className="mt-2 text-sm text-zinc-400">
+          <p className="mt-2 text-sm text-zinc-600">
             Resets every day at midnight.
           </p>
         </div>

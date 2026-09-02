@@ -86,7 +86,7 @@ export default function AdminLearningCardsPage() {
               Learning Cards
             </h1>
 
-            <p className="mt-2 text-zinc-400">
+            <p className="mt-2 text-zinc-600">
               Create and manage educational,
               Wikipedia-style articles.
             </p>
@@ -108,7 +108,7 @@ export default function AdminLearningCardsPage() {
               Unable to load learning cards
             </h2>
 
-            <p className="mt-2 whitespace-pre-wrap text-sm text-zinc-400">
+            <p className="mt-2 whitespace-pre-wrap text-sm text-zinc-600">
               {error}
             </p>
 
@@ -147,7 +147,7 @@ export default function AdminLearningCardsPage() {
                 No learning cards yet
               </h2>
 
-              <p className="mt-2 text-sm text-zinc-400">
+              <p className="mt-2 text-sm text-zinc-600">
                 Create your first one.
               </p>
 
@@ -166,7 +166,7 @@ export default function AdminLearningCardsPage() {
           !error &&
           cards.length > 0 && (
             <div className="mt-8 overflow-hidden rounded-2xl border border-zinc-200 bg-white">
-              <div className="hidden grid-cols-[1fr_140px_150px] gap-4 border-b border-zinc-200 bg-zinc-50 px-5 py-3 text-xs font-semibold uppercase tracking-wider text-zinc-400 md:grid">
+              <div className="hidden grid-cols-[1fr_140px_150px] gap-4 border-b border-zinc-200 bg-zinc-50 px-5 py-3 text-xs font-semibold uppercase tracking-wider text-zinc-600 md:grid">
                 <span>Learning Card</span>
                 <span>Category</span>
                 <span>Status</span>
@@ -193,7 +193,7 @@ export default function AdminLearningCardsPage() {
                               className="h-full w-full object-cover"
                             />
                           ) : (
-                            <div className="flex h-full items-center justify-center text-xs text-zinc-400">
+                            <div className="flex h-full items-center justify-center text-xs text-zinc-600">
                               None
                             </div>
                           )}
@@ -204,7 +204,7 @@ export default function AdminLearningCardsPage() {
                             {item.title}
                           </h2>
 
-                          <p className="mt-1 truncate text-sm text-zinc-400">
+                          <p className="mt-1 truncate text-sm text-zinc-600">
                             /learning/{item.slug}
                           </p>
 
@@ -216,7 +216,7 @@ export default function AdminLearningCardsPage() {
                         </div>
                       </div>
 
-                      <div className="text-sm text-zinc-400">
+                      <div className="text-sm text-zinc-600">
                         {item.category || "—"}
                       </div>
 
@@ -225,7 +225,7 @@ export default function AdminLearningCardsPage() {
                           className={`rounded-full px-2.5 py-1 text-xs font-medium ${
                             item.is_published
                               ? "bg-green-500/10 text-green-400"
-                              : "bg-zinc-100 text-zinc-400"
+                              : "bg-zinc-100 text-zinc-600"
                           }`}
                         >
                           {item.is_published

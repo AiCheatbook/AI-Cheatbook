@@ -94,7 +94,7 @@ export default function NewsPreviewPage() {
 
           <Link
             href={editorUrl}
-            className="text-sm text-zinc-400 transition hover:text-zinc-900"
+            className="text-sm text-zinc-600 transition hover:text-zinc-900"
           >
             ← Back to Editor
           </Link>
@@ -105,11 +105,11 @@ export default function NewsPreviewPage() {
               Preview unavailable
             </h1>
 
-            <p className="mt-4 text-zinc-400">
+            <p className="mt-4 text-zinc-600">
               The preview data is invalid or corrupted.
             </p>
 
-            <p className="mt-2 text-sm text-zinc-400">
+            <p className="mt-2 text-sm text-zinc-600">
               Go back to the editor and click Preview again.
             </p>
 
@@ -131,7 +131,7 @@ export default function NewsPreviewPage() {
 
           <Link
             href={editorUrl}
-            className="text-sm text-zinc-400 transition hover:text-zinc-900"
+            className="text-sm text-zinc-600 transition hover:text-zinc-900"
           >
             ← Back to Editor
           </Link>
@@ -142,7 +142,7 @@ export default function NewsPreviewPage() {
               No Preview Data
             </h1>
 
-            <p className="mt-4 text-zinc-400">
+            <p className="mt-4 text-zinc-600">
               Go back to the editor and click Preview again.
             </p>
 
@@ -187,7 +187,7 @@ export default function NewsPreviewPage() {
               PREVIEW
             </span>
 
-            <span className="hidden text-sm text-zinc-400 sm:block">
+            <span className="hidden text-sm text-zinc-600 sm:block">
               Unsaved editor preview
             </span>
 
@@ -195,7 +195,7 @@ export default function NewsPreviewPage() {
 
           <Link
             href={editorUrl}
-            className="rounded-lg border border-zinc-300 px-4 py-2 text-sm font-medium text-zinc-400 transition hover:border-zinc-500 hover:text-zinc-900"
+            className="rounded-lg border border-zinc-300 px-4 py-2 text-sm font-medium text-zinc-600 transition hover:border-zinc-500 hover:text-zinc-900"
           >
             ← Back to Editor
           </Link>
@@ -227,14 +227,14 @@ export default function NewsPreviewPage() {
         {/* EXCERPT */}
 
         {news.excerpt && (
-          <p className="mt-5 text-lg leading-8 text-zinc-400">
+          <p className="mt-5 text-lg leading-8 text-zinc-600">
             {news.excerpt}
           </p>
         )}
 
         {/* META */}
 
-        <div className="mt-6 flex flex-wrap items-center gap-4 text-sm text-zinc-400">
+        <div className="mt-6 flex flex-wrap items-center gap-4 text-sm text-zinc-600">
 
           {news.author && (
             <span>
@@ -306,7 +306,7 @@ export default function NewsPreviewPage() {
         {blocks.length === 0 && (
           <div className="mt-10 rounded-2xl border border-zinc-200 bg-white p-8 text-center">
 
-            <p className="text-zinc-400">
+            <p className="text-zinc-600">
               This article has no content yet.
             </p>
 
@@ -443,7 +443,7 @@ function PreviewBlock({
     }
 
     return (
-      <p className="whitespace-pre-wrap text-base leading-8 text-zinc-400">
+      <p className="whitespace-pre-wrap text-base leading-8 text-zinc-600">
         {text}
       </p>
     );
@@ -468,7 +468,7 @@ function PreviewBlock({
     }
 
     return (
-      <ul className="list-disc space-y-2 pl-6 text-base leading-7 text-zinc-400">
+      <ul className="list-disc space-y-2 pl-6 text-base leading-7 text-zinc-600">
 
         {items.map(
           (item, index) => (
@@ -501,7 +501,7 @@ function PreviewBlock({
     }
 
     return (
-      <ol className="list-decimal space-y-2 pl-6 text-base leading-7 text-zinc-400">
+      <ol className="list-decimal space-y-2 pl-6 text-base leading-7 text-zinc-600">
 
         {items.map(
           (item, index) => (
@@ -563,7 +563,7 @@ function PreviewBlock({
         </div>
 
         {caption && (
-          <figcaption className="mt-3 text-center text-sm text-zinc-400">
+          <figcaption className="mt-3 text-center text-sm text-zinc-600">
             {caption}
           </figcaption>
         )}
@@ -611,7 +611,7 @@ function PreviewBlock({
         </div>
 
         {caption && (
-          <figcaption className="mt-3 text-center text-sm text-zinc-400">
+          <figcaption className="mt-3 text-center text-sm text-zinc-600">
             {caption}
           </figcaption>
         )}
@@ -653,7 +653,7 @@ function PreviewBlock({
         </p>
 
         {author && (
-          <footer className="mt-3 text-sm text-zinc-400">
+          <footer className="mt-3 text-sm text-zinc-600">
             — {author}
           </footer>
         )}
@@ -700,7 +700,7 @@ function PreviewBlock({
     return (
       <pre className="overflow-x-auto rounded-2xl border border-zinc-200 bg-white p-5">
 
-        <code className="font-mono text-sm leading-7 text-zinc-400">
+        <code className="font-mono text-sm leading-7 text-zinc-600">
           {code}
         </code>
 

@@ -61,13 +61,13 @@ export default function CommunityHero({
   const answers = useCountUp(answerCount);
 
   return (
-    <section className="rounded-3xl border border-zinc-200 bg-gradient-to-b from-zinc-900 to-black p-8 text-center sm:p-12">
+    <section className="rounded-3xl border border-zinc-200 bg-white p-8 text-center shadow-sm sm:p-12">
       <h1 className="text-3xl font-bold text-zinc-900 sm:text-4xl">
         The AI Community, Built by
         People Who Actually Use AI.
       </h1>
 
-      <p className="mt-3 text-zinc-400">
+      <p className="mt-3 text-zinc-600">
         Ask. Answer. Challenge. Discover.
         Improve.
       </p>
@@ -88,7 +88,7 @@ export default function CommunityHero({
         </Link>
       </div>
 
-      <div className="mt-8 flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm text-zinc-400">
+      <div className="mt-8 flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm text-zinc-600">
         <span>
           <strong className="text-zinc-900">
             {formatCount(members)}

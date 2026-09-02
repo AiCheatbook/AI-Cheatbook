@@ -130,7 +130,7 @@ export default function PromptCard({
             {aiTools?.[0] || "AI"}
           </span>
 
-          <span className="text-xs text-zinc-500">
+          <span className="text-xs text-zinc-600">
             {type}
           </span>
 
@@ -146,14 +146,14 @@ export default function PromptCard({
 
         {/* Category */}
 
-        <p className="mt-2 text-sm text-zinc-400">
+        <p className="mt-2 text-sm text-zinc-600">
           {category} • Verified
         </p>
 
         {/* Description */}
 
         {description && (
-          <p className="mt-3 line-clamp-2 text-sm leading-6 text-zinc-500">
+          <p className="mt-3 line-clamp-2 text-sm leading-6 text-zinc-600">
             {description}
           </p>
         )}

@@ -110,7 +110,7 @@ export default function OTTCard({
           {meta.icon} {meta.label}
         </span>
 
-        <span className="rounded-full bg-zinc-800 px-2.5 py-1 text-xs text-zinc-500">
+        <span className="rounded-full bg-zinc-800 px-2.5 py-1 text-xs text-zinc-600">
           {category}
         </span>
 
@@ -138,12 +138,12 @@ export default function OTTCard({
       </h3>
 
       {preview && (
-        <p className="mt-1.5 line-clamp-2 text-sm text-zinc-400">
+        <p className="mt-1.5 line-clamp-2 text-sm text-zinc-600">
           {preview}
         </p>
       )}
 
-      <div className="mt-4 flex items-center justify-between text-xs text-zinc-500">
+      <div className="mt-4 flex items-center justify-between text-xs text-zinc-600">
         <span>
           {authorName} ·{" "}
           {timeAgo(createdAt)}

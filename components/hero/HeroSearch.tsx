@@ -317,7 +317,7 @@ export default function HeroSearch() {
           <div className="relative flex-1">
             <span
               aria-hidden="true"
-              className="pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 text-lg text-zinc-500"
+              className="pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 text-lg text-zinc-600"
             >
               🔍
             </span>
@@ -337,7 +337,7 @@ export default function HeroSearch() {
               placeholder="Search AI Cheatbook..."
               aria-label="Search AI Cheatbook"
               aria-autocomplete="list"
-              className="h-14 w-full rounded-xl border border-zinc-800 bg-zinc-900 pl-12 pr-5 text-white outline-none transition placeholder:text-zinc-500 focus:border-brand focus:ring-1 focus:ring-brand/30"
+              className="h-14 w-full rounded-xl border border-zinc-800 bg-zinc-900 pl-12 pr-5 text-white outline-none transition placeholder:text-zinc-600 focus:border-brand focus:ring-1 focus:ring-brand/30"
             />
 
             {loading && (
@@ -359,7 +359,7 @@ export default function HeroSearch() {
       {shouldShowDropdown && (
         <div className="absolute left-0 right-0 top-[calc(100%+12px)] z-50 overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-950 shadow-2xl shadow-black/50">
           {loading && results.length === 0 && (
-            <div className="px-5 py-6 text-sm text-zinc-500">
+            <div className="px-5 py-6 text-sm text-zinc-600">
               Searching AI Cheatbook...
             </div>
           )}
@@ -394,7 +394,7 @@ export default function HeroSearch() {
                       </span>
 
                       {item.description && (
-                        <p className="mt-1.5 line-clamp-1 text-xs text-zinc-500">
+                        <p className="mt-1.5 line-clamp-1 text-xs text-zinc-600">
                           {item.description}
                         </p>
                       )}
@@ -428,7 +428,7 @@ export default function HeroSearch() {
                   No results found
                 </p>
 
-                <p className="mt-1 text-xs text-zinc-500">
+                <p className="mt-1 text-xs text-zinc-600">
                   Try a different search
                   term.
                 </p>

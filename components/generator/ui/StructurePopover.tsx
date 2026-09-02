@@ -48,7 +48,7 @@ export default function StructurePopover({
     return (
       <div
         title="Log in to use Prompt Structures"
-        className="flex items-center gap-1.5 rounded-full border border-zinc-200 px-3 py-1.5 text-xs text-zinc-400"
+        className="flex items-center gap-1.5 rounded-full border border-zinc-200 px-3 py-1.5 text-xs text-zinc-600"
       >
         🔒 Structure
       </div>
@@ -63,7 +63,7 @@ export default function StructurePopover({
         className={`rounded-full border px-3 py-1.5 text-xs transition ${
           selected
             ? "border-brand bg-brand/10 text-brand"
-            : "border-zinc-300 text-zinc-400 hover:border-zinc-500 hover:text-zinc-900"
+            : "border-zinc-300 text-zinc-600 hover:border-zinc-500 hover:text-zinc-900"
         }`}
       >
         {selected
@@ -79,7 +79,7 @@ export default function StructurePopover({
               onChange(null);
               setOpen(false);
             }}
-            className="block w-full px-3 py-2 text-left text-xs text-zinc-400 hover:bg-zinc-100"
+            className="block w-full px-3 py-2 text-left text-xs text-zinc-600 hover:bg-zinc-100"
           >
             None
           </button>
@@ -95,7 +95,7 @@ export default function StructurePopover({
                 });
                 setOpen(false);
               }}
-              className="block w-full border-t border-zinc-200 px-3 py-2 text-left text-xs text-zinc-400 hover:bg-zinc-100"
+              className="block w-full border-t border-zinc-200 px-3 py-2 text-left text-xs text-zinc-600 hover:bg-zinc-100"
             >
               {s.name}
             </button>

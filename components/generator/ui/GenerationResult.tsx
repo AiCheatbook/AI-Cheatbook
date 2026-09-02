@@ -100,7 +100,7 @@ export default function GenerationResult({
           <h2 className="text-2xl font-bold text-zinc-900">
             Generated Prompt
           </h2>
-          <p className="mt-1 text-sm text-zinc-400">
+          <p className="mt-1 text-sm text-zinc-600">
             Your ready-to-use AI prompt
           </p>
         </div>
@@ -146,7 +146,7 @@ export default function GenerationResult({
             <div className="flex items-center gap-3">
               <div className="h-4 w-4 animate-spin rounded-full border-2 border-brand border-t-transparent" />
 
-              <p className="text-sm font-medium text-zinc-400">
+              <p className="text-sm font-medium text-zinc-600">
                 {
                   messages[
                     messageIndex
@@ -188,13 +188,13 @@ export default function GenerationResult({
         {status === "success" &&
           result && (
             <div>
-              <pre className="whitespace-pre-wrap wrap-break-word font-sans text-sm leading-7 text-zinc-400 sm:text-base">
+              <pre className="whitespace-pre-wrap wrap-break-word font-sans text-sm leading-7 text-zinc-600 sm:text-base">
                 {result.prompt}
               </pre>
 
               {result.provider ===
                 "local" && (
-                <p className="mt-4 text-xs text-zinc-400">
+                <p className="mt-4 text-xs text-zinc-600">
                   Generated with the
                   built-in generator.
                 </p>
@@ -204,11 +204,11 @@ export default function GenerationResult({
 
         {status === "idle" && (
           <div className="py-10 text-center">
-            <p className="text-zinc-400">
+            <p className="text-zinc-600">
               Your generated prompt will
               appear here.
             </p>
-            <p className="mt-2 text-sm text-zinc-400">
+            <p className="mt-2 text-sm text-zinc-600">
               Select keywords and click
               Generate Prompt.
             </p>

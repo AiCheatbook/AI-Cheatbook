@@ -169,7 +169,7 @@ export default function KeywordTagInput({
               ? "Type a keyword and press Enter..."
               : "Add another..."
           }
-          className="min-w-32 flex-1 bg-transparent text-sm text-zinc-900 outline-none placeholder:text-zinc-400"
+          className="min-w-32 flex-1 bg-transparent text-sm text-zinc-900 outline-none placeholder:text-zinc-600"
         />
       </div>
 

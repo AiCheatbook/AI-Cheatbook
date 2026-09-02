@@ -55,7 +55,7 @@ export default function LearningCardCard({
         </h3>
 
         {summary && (
-          <p className="mt-2 line-clamp-2 text-sm leading-5 text-zinc-500">
+          <p className="mt-2 line-clamp-2 text-sm leading-5 text-zinc-600">
             {summary}
           </p>
         )}

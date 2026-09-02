@@ -89,7 +89,7 @@ export default function CategorySection() {
             Browse by Category
           </h2>
 
-          <p className="mt-2 max-w-2xl text-zinc-400">
+          <p className="mt-2 max-w-2xl text-zinc-600">
             Find prompts organized by the type of
             content you want to create.
           </p>
@@ -135,7 +135,7 @@ export default function CategorySection() {
                     {category.name}
                   </h3>
 
-                  <span className="shrink-0 rounded-full bg-zinc-800 px-2.5 py-1 text-xs text-zinc-400 transition group-hover:bg-brand/20 group-hover:text-brand">
+                  <span className="shrink-0 rounded-full bg-zinc-800 px-2.5 py-1 text-xs text-zinc-600 transition group-hover:bg-brand/20 group-hover:text-brand">
                     {category.count}
                   </span>
 
@@ -143,7 +143,7 @@ export default function CategorySection() {
 
                 {/* Bottom */}
 
-                <p className="text-sm text-zinc-500 transition group-hover:text-zinc-400">
+                <p className="text-sm text-zinc-600 transition group-hover:text-zinc-600">
                   Explore prompts →
                 </p>
 
@@ -157,7 +157,7 @@ export default function CategorySection() {
 
         {!loading && categoryData.length === 0 && (
           <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-12 text-center">
-            <p className="text-zinc-400">
+            <p className="text-zinc-600">
               No categories available yet.
             </p>
           </div>

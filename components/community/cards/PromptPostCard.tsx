@@ -84,7 +84,7 @@ export default function PromptPostCard({
           ✨ PROMPT
         </span>
 
-        <span className="text-xs text-zinc-400">
+        <span className="text-xs text-zinc-600">
           {category}
           {aiTool && ` • ${aiTool}`}
         </span>
@@ -94,7 +94,7 @@ export default function PromptPostCard({
         {title}
       </h3>
 
-      <p className="mt-1 line-clamp-3 rounded-xl bg-zinc-100 p-3 font-mono text-sm text-zinc-400">
+      <p className="mt-1 line-clamp-3 rounded-xl bg-zinc-100 p-3 font-mono text-sm text-zinc-600">
         {promptText}
       </p>
 
@@ -129,7 +129,7 @@ export default function PromptPostCard({
           />
         </div>
 
-        <span className="text-xs text-zinc-400">
+        <span className="text-xs text-zinc-600">
           {authorName} ·{" "}
           {timeAgo(createdAt)} · ▲{" "}
           {voteCount} · 💬 {replyCount}

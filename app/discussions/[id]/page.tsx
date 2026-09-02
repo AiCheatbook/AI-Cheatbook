@@ -567,7 +567,7 @@ export default function DiscussionThreadPage() {
               {replyAuthor}
             </span>
 
-            <span className="text-xs text-zinc-400">
+            <span className="text-xs text-zinc-600">
               {new Date(
                 reply.created_at
               ).toLocaleDateString()}
@@ -582,14 +582,14 @@ export default function DiscussionThreadPage() {
                   reply.id
                 )
               }
-              className="text-xs text-zinc-400 hover:text-red-400"
+              className="text-xs text-zinc-600 hover:text-red-400"
             >
               Delete
             </button>
           )}
         </div>
 
-        <p className="mt-2 text-sm text-zinc-400">
+        <p className="mt-2 text-sm text-zinc-600">
           {reply.body}
         </p>
 
@@ -602,7 +602,7 @@ export default function DiscussionThreadPage() {
             className={`rounded-full px-2.5 py-1 text-xs transition ${
               myReplyVotes.has(reply.id)
                 ? "bg-brand/15 text-brand"
-                : "bg-zinc-100 text-zinc-400 hover:text-zinc-900"
+                : "bg-zinc-100 text-zinc-600 hover:text-zinc-900"
             }`}
           >
             ▲ {voteCount}
@@ -620,7 +620,7 @@ export default function DiscussionThreadPage() {
                       : reply.id
                   )
                 }
-                className="text-xs text-zinc-400 hover:text-zinc-900"
+                className="text-xs text-zinc-600 hover:text-zinc-900"
               >
                 Reply
               </button>
@@ -637,7 +637,7 @@ export default function DiscussionThreadPage() {
               className={`text-xs ${
                 isAccepted
                   ? "text-green-400 hover:text-green-300"
-                  : "text-zinc-400 hover:text-zinc-900"
+                  : "text-zinc-600 hover:text-zinc-900"
               }`}
             >
               {isAccepted
@@ -692,7 +692,7 @@ export default function DiscussionThreadPage() {
       <div className="mx-auto max-w-3xl">
         <Link
           href="/discussions"
-          className="text-sm text-zinc-400 hover:text-zinc-900"
+          className="text-sm text-zinc-600 hover:text-zinc-900"
         >
           ← Back to Discussions
         </Link>
@@ -721,12 +721,12 @@ export default function DiscussionThreadPage() {
           {thread.content_kind ===
             "question" &&
             !thread.accepted_reply_id && (
-              <span className="rounded-full bg-zinc-100 px-2.5 py-1 text-xs text-zinc-400">
+              <span className="rounded-full bg-zinc-100 px-2.5 py-1 text-xs text-zinc-600">
                 Unanswered
               </span>
             )}
 
-          <span className="rounded-full bg-zinc-100 px-2.5 py-1 text-xs text-zinc-400">
+          <span className="rounded-full bg-zinc-100 px-2.5 py-1 text-xs text-zinc-600">
             {
               CATEGORY_LABELS[
                 thread.category
@@ -740,7 +740,7 @@ export default function DiscussionThreadPage() {
         </h1>
 
         <div className="mt-2 flex items-center justify-between">
-          <p className="text-sm text-zinc-400">
+          <p className="text-sm text-zinc-600">
             {authorName} ·{" "}
             {new Date(
               thread.created_at
@@ -751,7 +751,7 @@ export default function DiscussionThreadPage() {
             <button
               type="button"
               onClick={handleDeleteThread}
-              className="text-xs text-zinc-400 hover:text-red-400"
+              className="text-xs text-zinc-600 hover:text-red-400"
             >
               Delete Discussion
             </button>
@@ -769,7 +769,7 @@ export default function DiscussionThreadPage() {
             className={`mt-4 rounded-full px-3 py-1.5 text-sm transition ${
               myThreadVote
                 ? "bg-brand/15 text-brand"
-                : "bg-zinc-100 text-zinc-400 hover:text-zinc-900"
+                : "bg-zinc-100 text-zinc-600 hover:text-zinc-900"
             }`}
           >
             ▲ {threadVoteCount}{" "}
@@ -804,7 +804,7 @@ export default function DiscussionThreadPage() {
               }
               rows={3}
               placeholder="Write a reply..."
-              className="w-full rounded-xl border border-zinc-200 bg-white px-4 py-3 text-sm text-zinc-900 placeholder:text-zinc-400 outline-none focus:border-brand"
+              className="w-full rounded-xl border border-zinc-200 bg-white px-4 py-3 text-sm text-zinc-900 placeholder:text-zinc-600 outline-none focus:border-brand"
             />
 
             <button
@@ -824,7 +824,7 @@ export default function DiscussionThreadPage() {
             </button>
           </div>
         ) : (
-          <p className="mt-4 rounded-xl border border-zinc-200 bg-white px-4 py-3 text-sm text-zinc-400">
+          <p className="mt-4 rounded-xl border border-zinc-200 bg-white px-4 py-3 text-sm text-zinc-600">
             <Link
               href="/login"
               className="text-brand hover:text-brand"
@@ -836,7 +836,7 @@ export default function DiscussionThreadPage() {
         )}
 
         {topLevelReplies.length === 0 ? (
-          <p className="mt-6 text-sm text-zinc-400">
+          <p className="mt-6 text-sm text-zinc-600">
             No replies yet.
           </p>
         ) : (

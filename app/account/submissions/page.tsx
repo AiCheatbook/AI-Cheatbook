@@ -106,7 +106,7 @@ export default function MySubmissionsPage() {
       <div className="mx-auto max-w-2xl">
         <Link
           href="/account"
-          className="text-sm text-zinc-400 hover:text-zinc-900"
+          className="text-sm text-zinc-600 hover:text-zinc-900"
         >
           ← Back to Account
         </Link>
@@ -131,7 +131,7 @@ export default function MySubmissionsPage() {
         {!loading &&
           submissions.length === 0 && (
             <div className="mt-6 rounded-2xl border border-zinc-200 bg-white p-8 text-center">
-              <p className="text-zinc-400">
+              <p className="text-zinc-600">
                 You haven&apos;t submitted
                 anything yet.
               </p>
@@ -166,7 +166,7 @@ export default function MySubmissionsPage() {
                     <p className="truncate font-medium text-zinc-900">
                       {item.title}
                     </p>
-                    <p className="text-xs text-zinc-400">
+                    <p className="text-xs text-zinc-600">
                       {item.kind}
                     </p>
                   </div>
@@ -176,7 +176,7 @@ export default function MySubmissionsPage() {
                       STATUS_STYLES[
                         item.status
                       ] ||
-                      "bg-zinc-100 text-zinc-400"
+                      "bg-zinc-100 text-zinc-600"
                     }`}
                   >
                     {item.status}

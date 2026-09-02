@@ -159,7 +159,7 @@ export default function ComposerKeywordSearch({
           }
           className="flex w-full items-center justify-between border-b border-zinc-200 px-4 py-2.5 text-left text-sm last:border-b-0 hover:bg-zinc-100"
         >
-          <span className="truncate text-zinc-400">
+          <span className="truncate text-zinc-600">
             {breadcrumbFor(keyword)}
           </span>
 

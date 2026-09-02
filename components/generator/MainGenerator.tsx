@@ -235,7 +235,7 @@ export default function MainGenerator() {
       {/* AI Tool */}
 
       <section className="rounded-2xl border border-zinc-800 bg-zinc-900 p-5">
-        <h2 className="text-sm font-semibold uppercase tracking-wider text-zinc-500">
+        <h2 className="text-sm font-semibold uppercase tracking-wider text-zinc-600">
           AI Tool
         </h2>
 
@@ -262,7 +262,7 @@ export default function MainGenerator() {
       {/* Prompt Structure */}
 
       <section className="rounded-2xl border border-zinc-800 bg-zinc-900 p-5">
-        <h2 className="text-sm font-semibold uppercase tracking-wider text-zinc-500">
+        <h2 className="text-sm font-semibold uppercase tracking-wider text-zinc-600">
           Prompt Structure
         </h2>
 
@@ -279,7 +279,7 @@ export default function MainGenerator() {
       {/* Reference Image */}
 
       <section className="rounded-2xl border border-zinc-800 bg-zinc-900 p-5">
-        <h2 className="text-sm font-semibold uppercase tracking-wider text-zinc-500">
+        <h2 className="text-sm font-semibold uppercase tracking-wider text-zinc-600">
           Reference Image{" "}
           <span className="normal-case text-zinc-600">
             (optional, for video prompts)
@@ -313,10 +313,10 @@ export default function MainGenerator() {
 
       <section className="rounded-2xl border border-zinc-800 bg-zinc-900 p-5">
         <div className="flex items-center justify-between text-xs">
-          <span className="text-zinc-500">
+          <span className="text-zinc-600">
             Today&apos;s usage
           </span>
-          <span className="text-zinc-500">
+          <span className="text-zinc-600">
             {usage.remaining} remaining
           </span>
         </div>

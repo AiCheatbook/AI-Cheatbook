@@ -484,7 +484,7 @@ export default function CommunityHubPage() {
         <div className="flex gap-2">
           <Link
             href="/community/shared-prompts"
-            className="rounded-xl border border-zinc-300 px-4 py-2 text-sm text-zinc-400 hover:bg-zinc-100"
+            className="rounded-xl border border-zinc-300 px-4 py-2 text-sm text-zinc-600 hover:bg-zinc-100"
           >
             Shared Prompts
           </Link>
@@ -515,7 +515,7 @@ export default function CommunityHubPage() {
         {!loading &&
           sorted.length === 0 && (
             <div className="rounded-2xl border border-zinc-200 bg-white p-10 text-center">
-              <p className="text-zinc-400">
+              <p className="text-zinc-600">
                 Nothing here yet — be the
                 first to post.
               </p>

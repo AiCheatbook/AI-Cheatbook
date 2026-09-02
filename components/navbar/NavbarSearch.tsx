@@ -289,7 +289,7 @@ export default function NavbarSearch() {
         type="button"
         onClick={() => setOpen(true)}
         aria-label="Search AI Cheatbook"
-        className="flex h-10 w-10 items-center justify-center rounded-xl border border-zinc-200 text-zinc-400 transition hover:border-brand hover:text-brand"
+        className="flex h-10 w-10 items-center justify-center rounded-xl border border-zinc-200 text-zinc-600 transition hover:border-brand hover:text-brand"
       >
         🔍
       </button>
@@ -313,7 +313,7 @@ export default function NavbarSearch() {
             }}
             placeholder="Search AI Cheatbook..."
             aria-label="Search AI Cheatbook"
-            className="h-10 w-56 rounded-l-xl border border-r-0 border-zinc-200 bg-white pl-4 pr-2 text-sm text-zinc-900 outline-none placeholder:text-zinc-400 focus:border-brand sm:w-72"
+            className="h-10 w-56 rounded-l-xl border border-r-0 border-zinc-200 bg-white pl-4 pr-2 text-sm text-zinc-900 outline-none placeholder:text-zinc-600 focus:border-brand sm:w-72"
           />
 
           <button
@@ -331,7 +331,7 @@ export default function NavbarSearch() {
               setShowSuggestions(false);
             }}
             aria-label="Close search"
-            className="ml-2 text-sm text-zinc-400 hover:text-zinc-700"
+            className="ml-2 text-sm text-zinc-600 hover:text-zinc-700"
           >
             ✕
           </button>
@@ -341,7 +341,7 @@ export default function NavbarSearch() {
       {shouldShowDropdown && (
         <div className="absolute right-0 top-[calc(100%+10px)] z-50 w-80 overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-2xl sm:w-96">
           {loading && results.length === 0 && (
-            <div className="px-5 py-6 text-sm text-zinc-400">
+            <div className="px-5 py-6 text-sm text-zinc-600">
               Searching AI Cheatbook...
             </div>
           )}
@@ -376,7 +376,7 @@ export default function NavbarSearch() {
           )}
 
           {!loading && results.length === 0 && (
-            <div className="px-5 py-6 text-center text-sm text-zinc-400">
+            <div className="px-5 py-6 text-center text-sm text-zinc-600">
               No results found.
             </div>
           )}

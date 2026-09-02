@@ -89,7 +89,7 @@ export default function LearningCardsGrid() {
             📚 Learning Cards
           </h1>
 
-          <p className="mt-1 text-zinc-400">
+          <p className="mt-1 text-zinc-600">
             Clear, structured explanations of
             AI concepts, tools, and
             techniques.
@@ -119,7 +119,7 @@ export default function LearningCardsGrid() {
               Unable to load learning cards
             </p>
 
-            <p className="mt-3 break-words text-sm text-zinc-400">
+            <p className="mt-3 break-words text-sm text-zinc-600">
               {errorMessage}
             </p>
           </div>
@@ -162,7 +162,7 @@ export default function LearningCardsGrid() {
           !errorMessage &&
           cards.length === 0 && (
             <div className="rounded-2xl border border-zinc-200 bg-white p-10 text-center">
-              <p className="text-zinc-400">
+              <p className="text-zinc-600">
                 No learning cards available
                 yet.
               </p>

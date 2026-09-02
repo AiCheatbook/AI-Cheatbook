@@ -260,7 +260,7 @@ export default function MigrateContentPage() {
           Migrate Content to Rich Text
         </h1>
 
-        <p className="mt-3 text-zinc-400">
+        <p className="mt-3 text-zinc-600">
           One-time tool. Converts your
           existing News articles and
           Learning Cards (currently stored
@@ -290,7 +290,7 @@ export default function MigrateContentPage() {
                 className={
                   line.isError
                     ? "text-red-400"
-                    : "text-zinc-400"
+                    : "text-zinc-600"
                 }
               >
                 {line.text}

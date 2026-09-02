@@ -226,7 +226,7 @@ export default function UserProfilePage() {
   if (!profile) {
     return (
       <CommunityLayout>
-        <p className="text-zinc-400">
+        <p className="text-zinc-600">
           User not found.
         </p>
       </CommunityLayout>
@@ -266,7 +266,7 @@ export default function UserProfilePage() {
               <span className="rounded-full bg-brand/10 px-2.5 py-1 text-xs font-semibold text-brand">
                 🏅 {badge}
               </span>
-              <span className="text-xs text-zinc-400">
+              <span className="text-xs text-zinc-600">
                 {reputation} reputation
               </span>
             </div>
@@ -303,7 +303,7 @@ export default function UserProfilePage() {
                   onClick={() =>
                     setEditingBio(false)
                   }
-                  className="rounded-lg border border-zinc-300 px-3 py-1.5 text-xs text-zinc-400"
+                  className="rounded-lg border border-zinc-300 px-3 py-1.5 text-xs text-zinc-600"
                 >
                   Cancel
                 </button>
@@ -311,7 +311,7 @@ export default function UserProfilePage() {
             </div>
           ) : (
             <div>
-              <p className="text-sm text-zinc-400">
+              <p className="text-sm text-zinc-600">
                 {profile.bio ||
                   (isOwnProfile
                     ? "No bio yet."
@@ -341,7 +341,7 @@ export default function UserProfilePage() {
       </h2>
 
       {threads.length === 0 ? (
-        <p className="mt-3 text-sm text-zinc-400">
+        <p className="mt-3 text-sm text-zinc-600">
           No posts yet.
         </p>
       ) : (

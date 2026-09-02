@@ -96,7 +96,7 @@ function LearningCardBlockItem({
     }
 
     return (
-      <p className="text-lg leading-8 text-zinc-400">
+      <p className="text-lg leading-8 text-zinc-600">
         {text}
       </p>
     );
@@ -116,7 +116,7 @@ function LearningCardBlockItem({
     }
 
     return (
-      <ul className="list-disc space-y-3 pl-6 text-lg leading-8 text-zinc-400">
+      <ul className="list-disc space-y-3 pl-6 text-lg leading-8 text-zinc-600">
         {items.map((item, index) => (
           <li key={index}>
             {item}
@@ -140,7 +140,7 @@ function LearningCardBlockItem({
     }
 
     return (
-      <ol className="list-decimal space-y-3 pl-6 text-lg leading-8 text-zinc-400">
+      <ol className="list-decimal space-y-3 pl-6 text-lg leading-8 text-zinc-600">
         {items.map((item, index) => (
           <li key={index}>
             {item}
@@ -184,7 +184,7 @@ function LearningCardBlockItem({
         </div>
 
         {caption && (
-          <figcaption className="text-sm leading-6 text-zinc-400">
+          <figcaption className="text-sm leading-6 text-zinc-600">
             {caption}
           </figcaption>
         )}
@@ -221,7 +221,7 @@ function LearningCardBlockItem({
         </div>
 
         {caption && (
-          <figcaption className="text-sm leading-6 text-zinc-400">
+          <figcaption className="text-sm leading-6 text-zinc-600">
             {caption}
           </figcaption>
         )}
@@ -253,7 +253,7 @@ function LearningCardBlockItem({
         </p>
 
         {author && (
-          <cite className="mt-3 block text-sm not-italic text-zinc-400">
+          <cite className="mt-3 block text-sm not-italic text-zinc-600">
             — {author}
           </cite>
         )}
@@ -285,7 +285,7 @@ function LearningCardBlockItem({
     }
 
     return (
-      <pre className="overflow-x-auto rounded-2xl border border-zinc-200 bg-white p-5 text-sm leading-7 text-zinc-400">
+      <pre className="overflow-x-auto rounded-2xl border border-zinc-200 bg-white p-5 text-sm leading-7 text-zinc-600">
         <code>{code}</code>
       </pre>
     );

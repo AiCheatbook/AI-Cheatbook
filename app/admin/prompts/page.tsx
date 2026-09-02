@@ -88,7 +88,7 @@ export default function AdminPromptsPage() {
               Prompt Library
             </h1>
 
-            <p className="mt-2 text-zinc-400">
+            <p className="mt-2 text-zinc-600">
               Create, edit and manage AI prompts.
             </p>
           </div>
@@ -109,7 +109,7 @@ export default function AdminPromptsPage() {
               Unable to load prompts
             </h2>
 
-            <p className="mt-2 whitespace-pre-wrap text-sm text-zinc-400">
+            <p className="mt-2 whitespace-pre-wrap text-sm text-zinc-600">
               {error}
             </p>
 
@@ -148,7 +148,7 @@ export default function AdminPromptsPage() {
                 No prompts yet
               </h2>
 
-              <p className="mt-2 text-sm text-zinc-400">
+              <p className="mt-2 text-sm text-zinc-600">
                 Create your first prompt.
               </p>
 
@@ -167,7 +167,7 @@ export default function AdminPromptsPage() {
           !error &&
           prompts.length > 0 && (
             <div className="mt-8 overflow-hidden rounded-2xl border border-zinc-200 bg-white">
-              <div className="hidden grid-cols-[1fr_120px_100px_150px] gap-4 border-b border-zinc-200 bg-zinc-50 px-5 py-3 text-xs font-semibold uppercase tracking-wider text-zinc-400 md:grid">
+              <div className="hidden grid-cols-[1fr_120px_100px_150px] gap-4 border-b border-zinc-200 bg-zinc-50 px-5 py-3 text-xs font-semibold uppercase tracking-wider text-zinc-600 md:grid">
                 <span>Prompt</span>
                 <span>Category</span>
                 <span>Type</span>
@@ -192,7 +192,7 @@ export default function AdminPromptsPage() {
                             className="h-full w-full object-cover"
                           />
                         ) : (
-                          <div className="flex h-full items-center justify-center text-xs text-zinc-400">
+                          <div className="flex h-full items-center justify-center text-xs text-zinc-600">
                             No media
                           </div>
                         )}
@@ -203,7 +203,7 @@ export default function AdminPromptsPage() {
                           {item.title}
                         </h2>
 
-                        <p className="mt-1 truncate text-sm text-zinc-400">
+                        <p className="mt-1 truncate text-sm text-zinc-600">
                           /prompt/{item.slug}
                         </p>
 
@@ -223,11 +223,11 @@ export default function AdminPromptsPage() {
                       </div>
                     </div>
 
-                    <div className="text-sm text-zinc-400">
+                    <div className="text-sm text-zinc-600">
                       {item.category || "—"}
                     </div>
 
-                    <div className="text-sm capitalize text-zinc-400">
+                    <div className="text-sm capitalize text-zinc-600">
                       {item.type || "—"}
                     </div>
 
@@ -236,7 +236,7 @@ export default function AdminPromptsPage() {
                         className={`rounded-full px-2.5 py-1 text-xs font-medium ${
                           item.is_published
                             ? "bg-green-500/10 text-green-400"
-                            : "bg-zinc-100 text-zinc-400"
+                            : "bg-zinc-100 text-zinc-600"
                         }`}
                       >
                         {item.is_published

@@ -225,7 +225,7 @@ export default function RatingSection({
                     average
                   )}
                 />
-                <span className="text-sm text-zinc-400">
+                <span className="text-sm text-zinc-600">
                   {average.toFixed(1)}{" "}
                   ({ratings.length}{" "}
                   {ratings.length === 1
@@ -238,7 +238,7 @@ export default function RatingSection({
 
           {!loading &&
             ratings.length === 0 && (
-              <p className="mt-1 text-sm text-zinc-400">
+              <p className="mt-1 text-sm text-zinc-600">
                 No ratings yet.
               </p>
             )}
@@ -247,7 +247,7 @@ export default function RatingSection({
 
       {currentUserId ? (
         <div className="mt-4 rounded-xl border border-zinc-200 bg-white p-4">
-          <p className="text-sm font-medium text-zinc-400">
+          <p className="text-sm font-medium text-zinc-600">
             {myRating
               ? "Your rating"
               : "Rate this prompt"}
@@ -294,7 +294,7 @@ export default function RatingSection({
             }
             rows={2}
             placeholder="Write a review (optional)..."
-            className="mt-3 w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 outline-none focus:border-brand"
+            className="mt-3 w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-600 outline-none focus:border-brand"
           />
 
           {error && (
@@ -304,7 +304,7 @@ export default function RatingSection({
           )}
         </div>
       ) : (
-        <p className="mt-4 rounded-xl border border-zinc-200 bg-white px-4 py-3 text-sm text-zinc-400">
+        <p className="mt-4 rounded-xl border border-zinc-200 bg-white px-4 py-3 text-sm text-zinc-600">
           <a
             href="/login"
             className="text-brand hover:text-brand"
@@ -339,7 +339,7 @@ export default function RatingSection({
                   />
                 </div>
 
-                <p className="mt-1.5 text-sm text-zinc-400">
+                <p className="mt-1.5 text-sm text-zinc-600">
                   {r.review_text}
                 </p>
               </div>

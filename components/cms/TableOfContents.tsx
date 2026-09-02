@@ -28,7 +28,7 @@ export default function TableOfContents({
           >
             <a
               href={`#${heading.id}`}
-              className="text-zinc-400 transition hover:text-brand"
+              className="text-zinc-600 transition hover:text-brand"
             >
               {heading.text}
             </a>

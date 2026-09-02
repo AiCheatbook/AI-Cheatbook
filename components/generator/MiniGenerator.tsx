@@ -43,7 +43,7 @@ export default function MiniGenerator() {
           type="button"
           onClick={() => setOpen(false)}
           aria-label="Close"
-          className="text-zinc-400 hover:text-zinc-900"
+          className="text-zinc-600 hover:text-zinc-900"
         >
           ✕
         </button>

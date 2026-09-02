@@ -48,13 +48,13 @@ export default function DiscussionCard({
       href={`/discussions/${id}`}
       className="block rounded-2xl border border-zinc-200 bg-white p-5 transition hover:border-brand/40"
     >
-      <div className="flex items-center gap-2 text-xs text-zinc-400">
+      <div className="flex items-center gap-2 text-xs text-zinc-600">
         <span className="flex h-6 w-6 items-center justify-center rounded-full bg-brand/20 font-bold text-brand">
           {authorName
             .charAt(0)
             .toUpperCase()}
         </span>
-        <span className="text-zinc-400">
+        <span className="text-zinc-600">
           {authorName}
         </span>
         <span>·</span>
@@ -68,12 +68,12 @@ export default function DiscussionCard({
       </h3>
 
       {preview && (
-        <p className="mt-1 line-clamp-2 text-sm text-zinc-400">
+        <p className="mt-1 line-clamp-2 text-sm text-zinc-600">
           {preview}
         </p>
       )}
 
-      <div className="mt-3 flex items-center justify-between text-xs text-zinc-400">
+      <div className="mt-3 flex items-center justify-between text-xs text-zinc-600">
         <span>
           ▲ {voteCount} Helpful · 💬{" "}
           {replyCount} Comments

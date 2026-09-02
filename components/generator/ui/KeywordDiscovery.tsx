@@ -125,7 +125,7 @@ export default function KeywordDiscovery({
           }
           className="flex w-full items-center justify-between border-b border-zinc-800 px-4 py-2.5 text-left text-sm last:border-b-0 hover:bg-zinc-800"
         >
-          <span className="text-zinc-500">
+          <span className="text-zinc-600">
             {breadcrumbFor(keyword)}
           </span>
 

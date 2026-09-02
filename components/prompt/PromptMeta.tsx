@@ -23,7 +23,7 @@ export default function PromptMeta({
           Prompt Information
         </h2>
 
-        <p className="mt-2 text-sm text-zinc-500">
+        <p className="mt-2 text-sm text-zinc-600">
           Details about this AI prompt.
         </p>
       </div>
@@ -35,7 +35,7 @@ export default function PromptMeta({
         {/* AI Tool */}
 
         <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-5">
-          <p className="text-sm text-zinc-500">
+          <p className="text-sm text-zinc-600">
             AI Tool
           </p>
 
@@ -47,7 +47,7 @@ export default function PromptMeta({
         {/* Category */}
 
         <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-5">
-          <p className="text-sm text-zinc-500">
+          <p className="text-sm text-zinc-600">
             Category
           </p>
 
@@ -59,7 +59,7 @@ export default function PromptMeta({
         {/* Language */}
 
         <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-5">
-          <p className="text-sm text-zinc-500">
+          <p className="text-sm text-zinc-600">
             Language
           </p>
 
@@ -71,13 +71,13 @@ export default function PromptMeta({
         {/* Rating */}
 
         <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-5">
-          <p className="text-sm text-zinc-500">
+          <p className="text-sm text-zinc-600">
             Rating
           </p>
 
           <p className="mt-2 font-medium text-white">
             ⭐ {rating}{" "}
-            <span className="text-zinc-500">
+            <span className="text-zinc-600">
               ({reviews})
             </span>
           </p>
