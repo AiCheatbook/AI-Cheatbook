@@ -26,7 +26,7 @@ export default function LearningCardCard({
     ) || "/news/news1.jpg";
 
   return (
-    <article className="group flex flex-col overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900 transition duration-300 hover:-translate-y-1 hover:border-orange-500/50">
+    <article className="group flex flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:border-orange-500/50 hover:shadow-md">
 
       {/* Thumbnail (always 4:5) */}
 
@@ -50,12 +50,12 @@ export default function LearningCardCard({
           </span>
         )}
 
-        <h3 className="mt-2 line-clamp-2 text-lg font-semibold leading-snug text-white transition group-hover:text-orange-400">
+        <h3 className="mt-2 line-clamp-2 text-lg font-semibold leading-snug text-zinc-900 transition group-hover:text-orange-500">
           {title}
         </h3>
 
         {summary && (
-          <p className="mt-2 line-clamp-2 text-sm leading-5 text-zinc-400">
+          <p className="mt-2 line-clamp-2 text-sm leading-5 text-zinc-500">
             {summary}
           </p>
         )}
@@ -63,7 +63,7 @@ export default function LearningCardCard({
         <div className="mt-auto flex items-center justify-between pt-3">
           <button
             type="button"
-            className="text-xs font-medium text-orange-500 transition hover:text-orange-400"
+            className="text-xs font-medium text-orange-500 transition hover:text-orange-600"
           >
             Read →
           </button>

@@ -91,22 +91,18 @@ export default function LearningCardsSection() {
   }
 
   return (
-    <section className="bg-black px-6 py-8 sm:py-10">
+    <section className="bg-white px-6 py-8 sm:py-10">
       <div className="mx-auto max-w-6xl">
 
         {/* HEADER */}
 
         <div className="mb-5 flex items-end justify-between gap-4">
           <div>
-            <p className="mb-0 whitespace-nowrap text-sm font-semibold uppercase tracking-wider text-orange-500">
+            <h2 className="text-3xl font-bold leading-tight text-zinc-900 sm:text-4xl">
               Learn AI
-            </p>
-
-            <h2 className="text-3xl font-bold leading-tight text-white sm:text-4xl">
-              📚 Learning Cards
             </h2>
 
-            <p className="mt-1 text-zinc-400">
+            <p className="mt-1 text-zinc-500">
               Clear, structured explanations
               of AI concepts, tools, and
               techniques.
@@ -115,7 +111,7 @@ export default function LearningCardsSection() {
 
           <Link
             href="/learning"
-            className="hidden shrink-0 text-sm font-medium text-orange-500 transition hover:text-orange-400 sm:block"
+            className="hidden shrink-0 text-sm font-medium text-orange-500 transition hover:text-orange-600 sm:block"
           >
             View All →
           </Link>
@@ -130,7 +126,7 @@ export default function LearningCardsSection() {
             }).map((_, index) => (
               <div
                 key={index}
-                className="aspect-4/5 animate-pulse rounded-2xl border border-zinc-800 bg-zinc-900"
+                className="aspect-4/5 animate-pulse rounded-2xl border border-zinc-200 bg-zinc-100"
               />
             ))}
           </div>
@@ -139,12 +135,12 @@ export default function LearningCardsSection() {
         {/* ERROR */}
 
         {!loading && errorMessage && (
-          <div className="rounded-2xl border border-red-900/50 bg-zinc-900 p-10">
-            <p className="text-lg font-semibold text-red-400">
+          <div className="rounded-2xl border border-red-200 bg-red-50 p-10">
+            <p className="text-lg font-semibold text-red-600">
               Unable to load learning cards
             </p>
 
-            <p className="mt-3 break-words text-sm text-zinc-400">
+            <p className="mt-3 break-words text-sm text-zinc-500">
               {errorMessage}
             </p>
           </div>
@@ -189,7 +185,7 @@ export default function LearningCardsSection() {
             <div className="mt-5 sm:hidden">
               <Link
                 href="/learning"
-                className="block rounded-xl border border-zinc-800 py-3 text-center text-sm font-medium text-orange-500"
+                className="block rounded-xl border border-zinc-200 py-3 text-center text-sm font-medium text-orange-500"
               >
                 View All Learning Cards →
               </Link>

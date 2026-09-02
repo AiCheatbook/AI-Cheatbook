@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="border-t border-zinc-800 bg-black text-white">
+    <footer className="border-t border-zinc-200 bg-white text-zinc-900">
 
       <div className="mx-auto flex max-w-6xl flex-col gap-10 px-6 py-12 md:flex-row md:items-center md:justify-between">
 
@@ -11,12 +11,12 @@ export default function Footer() {
         <div>
           <Link
             href="/"
-            className="text-2xl font-bold text-white transition hover:text-orange-500"
+            className="text-2xl font-bold text-zinc-900 transition hover:text-orange-500"
           >
             AI Cheatbook
           </Link>
 
-          <p className="mt-2 max-w-sm text-zinc-400">
+          <p className="mt-2 max-w-sm text-zinc-500">
             Verified AI Prompts for Creators &
             Developers
           </p>
@@ -24,7 +24,7 @@ export default function Footer() {
 
         {/* Links */}
 
-        <nav className="flex flex-wrap gap-x-6 gap-y-3 text-sm text-zinc-400">
+        <nav className="flex flex-wrap gap-x-6 gap-y-3 text-sm text-zinc-500">
 
           <Link
             href="/search"
@@ -48,7 +48,7 @@ export default function Footer() {
           </Link>
 
           <Link
-            href="/"
+            href="/community"
             className="transition hover:text-orange-500"
           >
             Community
@@ -60,7 +60,7 @@ export default function Footer() {
 
       {/* Copyright */}
 
-      <div className="border-t border-zinc-800 px-6 py-6 text-center text-sm text-zinc-500">
+      <div className="border-t border-zinc-200 px-6 py-6 text-center text-sm text-zinc-400">
         © 2026 AI Cheatbook. All rights reserved.
       </div>
 

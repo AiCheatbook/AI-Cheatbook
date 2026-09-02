@@ -9,20 +9,31 @@ import {
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
 
-type LibraryItem = {
+type SearchResult = {
   id: string;
-  slug: string;
   title: string;
-  type: string | null;
-  category: string | null;
   description: string | null;
+  href: string;
+  sourceLabel: string;
+  icon: string;
+};
+
+const SOURCE_ICON: Record<string, string> = {
+  "AI Library": "✦",
+  "AI News": "📰",
+  Learning: "💡",
+  Community: "💬",
+  Discussion: "💬",
+  Poll: "📊",
 };
 
 export default function HeroSearch() {
   const router = useRouter();
 
   const [query, setQuery] = useState("");
-  const [results, setResults] = useState<LibraryItem[]>([]);
+  const [results, setResults] = useState<
+    SearchResult[]
+  >([]);
   const [loading, setLoading] = useState(false);
   const [showSuggestions, setShowSuggestions] =
     useState(false);
@@ -31,20 +42,19 @@ export default function HeroSearch() {
     useRef<HTMLDivElement>(null);
 
   /*
-   * Search Supabase Library
+   * Global search — real functionality
+   * across every publicly searchable
+   * content type on the site, not just
+   * the Prompt Library. Each source is
+   * queried in parallel and results are
+   * merged, each clearly labeled by
+   * where it came from.
    */
   useEffect(() => {
     const trimmedQuery = query.trim();
 
     let cancelled = false;
 
-    /*
-     * Use the same debounce flow for both
-     * empty and non-empty queries.
-     *
-     * This avoids calling setState directly
-     * inside the effect body.
-     */
     const timer = window.setTimeout(async () => {
       if (!trimmedQuery) {
         setResults([]);
@@ -55,60 +65,150 @@ export default function HeroSearch() {
       setLoading(true);
 
       try {
-        const searchTerm = `%${trimmedQuery}%`;
+        const term = `%${trimmedQuery}%`;
 
-        const { data, error } = await supabase
-          .from("library_items")
-          .select(
-            `
-              id,
-              slug,
-              title,
-              type,
-              category,
-              description
-            `
-          )
-          .or(
-            [
-              `title.ilike.${searchTerm}`,
-              `slug.ilike.${searchTerm}`,
-              `description.ilike.${searchTerm}`,
-              `prompt.ilike.${searchTerm}`,
-              `category.ilike.${searchTerm}`,
-              `type.ilike.${searchTerm}`,
-            ].join(",")
-          )
-          .order("sort_order", {
-            ascending: true,
-          })
-          .limit(6);
+        const [
+          libraryResponse,
+          newsResponse,
+          learningResponse,
+          threadsResponse,
+          pollsResponse,
+        ] = await Promise.all([
+          supabase
+            .from("library_items")
+            .select(
+              "id, slug, title, type, category, description"
+            )
+            .or(
+              [
+                `title.ilike.${term}`,
+                `description.ilike.${term}`,
+                `prompt.ilike.${term}`,
+              ].join(",")
+            )
+            .eq("is_published", true)
+            .limit(4),
+          supabase
+            .from("news")
+            .select("id, slug, title")
+            .ilike("title", term)
+            .eq("is_published", true)
+            .limit(3),
+          supabase
+            .from("learning_cards")
+            .select(
+              "id, slug, title, summary"
+            )
+            .or(
+              [
+                `title.ilike.${term}`,
+                `summary.ilike.${term}`,
+              ].join(",")
+            )
+            .eq("is_published", true)
+            .limit(3),
+          supabase
+            .from("community_threads")
+            .select(
+              "id, title, body, content_kind"
+            )
+            .or(
+              [
+                `title.ilike.${term}`,
+                `body.ilike.${term}`,
+              ].join(",")
+            )
+            .eq("is_hidden", false)
+            .limit(4),
+          supabase
+            .from("community_polls")
+            .select("id, question")
+            .ilike("question", term)
+            .limit(2),
+        ]);
 
         if (cancelled) {
           return;
         }
 
-        if (error) {
-          console.error(
-            "Hero search failed:",
-            error
-          );
+        const merged: SearchResult[] = [];
 
-          setResults([]);
-          return;
+        for (const item of libraryResponse.data ||
+          []) {
+          merged.push({
+            id: `library-${item.id}`,
+            title: item.title,
+            description:
+              item.description,
+            href: `/prompt/${item.slug}`,
+            sourceLabel: "AI Library",
+            icon: SOURCE_ICON[
+              "AI Library"
+            ],
+          });
         }
 
-        setResults(
-          Array.isArray(data)
-            ? (data as LibraryItem[])
-            : []
-        );
+        for (const item of newsResponse.data ||
+          []) {
+          merged.push({
+            id: `news-${item.id}`,
+            title: item.title,
+            description: null,
+            href: `/news/${item.slug}`,
+            sourceLabel: "AI News",
+            icon: SOURCE_ICON["AI News"],
+          });
+        }
 
+        for (const item of learningResponse.data ||
+          []) {
+          merged.push({
+            id: `learning-${item.id}`,
+            title: item.title,
+            description:
+              item.summary,
+            href: `/learning/${item.slug}`,
+            sourceLabel: "Learning",
+            icon: SOURCE_ICON["Learning"],
+          });
+        }
+
+        for (const item of threadsResponse.data ||
+          []) {
+          const label =
+            item.content_kind ===
+            "question"
+              ? "Discussion"
+              : "Community";
+
+          merged.push({
+            id: `thread-${item.id}`,
+            title: item.title,
+            description: item.body,
+            href: `/discussions/${item.id}`,
+            sourceLabel: label,
+            icon: SOURCE_ICON[label],
+          });
+        }
+
+        for (const item of pollsResponse.data ||
+          []) {
+          merged.push({
+            id: `poll-${item.id}`,
+            title: item.question,
+            description: null,
+            href: `/community/polls/${item.id}`,
+            sourceLabel: "Poll",
+            icon: SOURCE_ICON["Poll"],
+          });
+        }
+
+        setResults(merged.slice(0, 10));
         setShowSuggestions(true);
       } catch (error) {
         if (!cancelled) {
           console.error(
-            "Hero search error:",
+            "Global search error:",
             error
           );
 
@@ -127,9 +227,6 @@ export default function HeroSearch() {
     };
   }, [query]);
 
-  /*
-   * Close suggestions when clicking outside
-   */
   useEffect(() => {
     function handleOutsideClick(
       event: MouseEvent
@@ -157,9 +254,6 @@ export default function HeroSearch() {
     };
   }, []);
 
-  /*
-   * Submit search
-   */
   function handleSubmit(
     event: FormEvent<HTMLFormElement>
   ) {
@@ -181,23 +275,14 @@ export default function HeroSearch() {
     );
   }
 
-  /*
-   * Open selected library result
-   */
   function handleSuggestionClick(
-    item: LibraryItem
+    item: SearchResult
   ) {
     setShowSuggestions(false);
     setQuery(item.title);
-
-    router.push(
-      `/prompt/${encodeURIComponent(item.slug)}`
-    );
+    router.push(item.href);
   }
 
-  /*
-   * Open complete library search
-   */
   function handleViewAll() {
     const trimmedQuery = query.trim();
 
@@ -229,8 +314,6 @@ export default function HeroSearch() {
         className="w-full"
       >
         <div className="flex w-full flex-col gap-3 sm:flex-row">
-          {/* Search Input */}
-
           <div className="relative flex-1">
             <span
               aria-hidden="true"
@@ -251,13 +334,11 @@ export default function HeroSearch() {
                   setShowSuggestions(true);
                 }
               }}
-              placeholder="Search prompts, concepts, keywords..."
-              aria-label="Search prompts, concepts and keywords"
+              placeholder="Search AI Cheatbook..."
+              aria-label="Search AI Cheatbook"
               aria-autocomplete="list"
               className="h-14 w-full rounded-xl border border-zinc-800 bg-zinc-900 pl-12 pr-5 text-white outline-none transition placeholder:text-zinc-500 focus:border-orange-500 focus:ring-1 focus:ring-orange-500/30"
             />
-
-            {/* Loading */}
 
             {loading && (
               <div className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2">
@@ -265,8 +346,6 @@ export default function HeroSearch() {
               </div>
             )}
           </div>
-
-          {/* Search Button */}
 
           <button
             type="submit"
@@ -277,88 +356,56 @@ export default function HeroSearch() {
         </div>
       </form>
 
-      {/* Dynamic Suggestions */}
-
       {shouldShowDropdown && (
         <div className="absolute left-0 right-0 top-[calc(100%+12px)] z-50 overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-950 shadow-2xl shadow-black/50">
-          {/* Loading State */}
-
           {loading && results.length === 0 && (
             <div className="px-5 py-6 text-sm text-zinc-500">
-              Searching the AI Cheatbook Library...
+              Searching AI Cheatbook...
             </div>
           )}
 
-          {/* Results */}
-
           {!loading && results.length > 0 && (
             <div>
-              <div className="border-b border-zinc-800 px-5 py-3">
-                <p className="text-xs font-semibold uppercase tracking-wider text-zinc-500">
-                  Library Results
-                </p>
-              </div>
-
-              <div className="max-h-80 overflow-y-auto">
+              <div className="max-h-96 overflow-y-auto">
                 {results.map((item) => (
                   <button
                     key={item.id}
                     type="button"
                     onClick={() =>
-                      handleSuggestionClick(item)
+                      handleSuggestionClick(
+                        item
+                      )
                     }
                     className="flex w-full items-start gap-4 border-b border-zinc-800/70 px-5 py-4 text-left transition last:border-b-0 hover:bg-zinc-900"
                   >
-                    {/* Icon */}
-
                     <div className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-zinc-700 bg-zinc-900 text-sm">
-                      {item.type === "concept"
-                        ? "💡"
-                        : "✦"}
+                      {item.icon}
                     </div>
 
-                    {/* Content */}
-
                     <div className="min-w-0 flex-1">
-                      <p className="truncate font-medium text-white">
-                        {item.title}
-                      </p>
-
-                      <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-zinc-500">
-                        {item.type && (
-                          <span className="capitalize">
-                            {item.type}
-                          </span>
-                        )}
-
-                        {item.category && (
-                          <>
-                            <span>•</span>
-
-                            <span className="capitalize">
-                              {item.category}
-                            </span>
-                          </>
-                        )}
+                      <div className="flex items-center gap-2">
+                        <p className="truncate font-medium text-white">
+                          {item.title}
+                        </p>
                       </div>
 
+                      <span className="mt-0.5 inline-block rounded-full bg-zinc-800 px-2 py-0.5 text-[11px] font-medium uppercase tracking-wide text-orange-400">
+                        {item.sourceLabel}
+                      </span>
+
                       {item.description && (
-                        <p className="mt-2 line-clamp-1 text-xs text-zinc-500">
+                        <p className="mt-1.5 line-clamp-1 text-xs text-zinc-500">
                           {item.description}
                         </p>
                       )}
                     </div>
 
-                    {/* Arrow */}
-
-                    <span className="mt-1 text-zinc-600 transition group-hover:text-orange-500">
+                    <span className="mt-1 text-zinc-600">
                       →
                     </span>
                   </button>
                 ))}
               </div>
-
-              {/* View All */}
 
               <button
                 type="button"
@@ -370,8 +417,6 @@ export default function HeroSearch() {
             </div>
           )}
 
-          {/* No Results */}
-
           {!loading &&
             results.length === 0 && (
               <div className="px-5 py-7 text-center">
@@ -380,12 +425,12 @@ export default function HeroSearch() {
                 </div>
 
                 <p className="mt-2 text-sm font-medium text-white">
-                  No library results found
+                  No results found
                 </p>
 
                 <p className="mt-1 text-xs text-zinc-500">
-                  Try a different prompt,
-                  concept or keyword.
+                  Try a different search
+                  term.
                 </p>
 
                 <button

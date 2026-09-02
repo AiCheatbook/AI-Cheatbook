@@ -84,7 +84,7 @@ export default function NewsSection({
   }, []);
 
   return (
-    <section className="bg-black px-6 py-8 sm:py-10">
+    <section className="bg-white px-6 py-8 sm:py-10">
       <div className="mx-auto max-w-6xl">
 
         {/* =========================
@@ -97,11 +97,11 @@ export default function NewsSection({
             Stay Updated
           </p>
 
-          <HeadingTag className="text-3xl font-bold leading-tight text-white sm:text-4xl">
+          <HeadingTag className="text-3xl font-bold leading-tight text-zinc-900 sm:text-4xl">
             📰 Latest AI News
           </HeadingTag>
 
-          <p className="mt-1 max-w-full overflow-hidden text-ellipsis whitespace-nowrap text-zinc-400">
+          <p className="mt-1 max-w-full overflow-hidden text-ellipsis whitespace-nowrap text-zinc-500">
             Keep up with the latest AI tools, models, features and updates.
           </p>
 
@@ -119,7 +119,7 @@ export default function NewsSection({
             }).map((_, index) => (
               <div
                 key={index}
-                className="aspect-4/5 animate-pulse rounded-2xl border border-zinc-800 bg-zinc-900"
+                className="aspect-4/5 animate-pulse rounded-2xl border border-zinc-200 bg-zinc-100"
               />
             ))}
 
@@ -132,13 +132,13 @@ export default function NewsSection({
 
         {!loading &&
           errorMessage && (
-            <div className="rounded-2xl border border-red-900/50 bg-zinc-900 p-10">
+            <div className="rounded-2xl border border-red-200 bg-red-50 p-10">
 
               <p className="text-lg font-semibold text-red-400">
                 Unable to load AI news
               </p>
 
-              <p className="mt-3 break-words text-sm text-zinc-400">
+              <p className="mt-3 break-words text-sm text-zinc-500">
                 {errorMessage}
               </p>
 
@@ -194,9 +194,9 @@ export default function NewsSection({
         {!loading &&
           !errorMessage &&
           news.length === 0 && (
-            <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-10 text-center">
+            <div className="rounded-2xl border border-zinc-200 bg-zinc-50 p-10 text-center">
 
-              <p className="text-zinc-400">
+              <p className="text-zinc-500">
                 No AI news available yet.
               </p>
 

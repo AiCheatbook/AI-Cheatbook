@@ -47,7 +47,7 @@ export default function Navbar() {
   }
 
   return (
-    <header className="sticky top-0 z-50 border-b border-zinc-800 bg-black/95 backdrop-blur">
+    <header className="sticky top-0 z-50 border-b border-zinc-200 bg-white/95 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
 
         {/* Logo */}
@@ -55,14 +55,14 @@ export default function Navbar() {
         <Link
           href="/"
           onClick={handleLogoClick}
-          className="text-xl font-bold text-white transition hover:text-orange-500"
+          className="text-xl font-bold text-zinc-900 transition hover:text-orange-500"
         >
           AI Cheatbook
         </Link>
 
         {/* Desktop Navigation */}
 
-        <nav className="hidden items-center gap-8 text-sm text-zinc-300 md:flex">
+        <nav className="hidden items-center gap-8 text-sm text-zinc-600 md:flex">
 
           <Link
             href="/search"
@@ -114,14 +114,14 @@ export default function Navbar() {
 
           <Link
             href={loggedIn ? "/account" : "/login"}
-            className="text-sm text-zinc-300 transition hover:text-white"
+            className="text-sm text-zinc-600 transition hover:text-zinc-900"
           >
             {loggedIn ? "My Account" : "Login"}
           </Link>
 
           <Link
             href="/submit/prompt"
-            className="rounded-xl bg-white px-5 py-2 text-sm font-medium text-black transition hover:bg-zinc-200"
+            className="rounded-xl bg-orange-500 px-5 py-2 text-sm font-medium text-white transition hover:bg-orange-600"
           >
             Submit Prompt
           </Link>
@@ -135,7 +135,7 @@ export default function Navbar() {
           onClick={() =>
             setMenuOpen((current) => !current)
           }
-          className="flex h-10 w-10 items-center justify-center rounded-xl border border-zinc-700 text-zinc-300 transition hover:border-orange-500 hover:text-white md:hidden"
+          className="flex h-10 w-10 items-center justify-center rounded-xl border border-zinc-300 text-zinc-600 transition hover:border-orange-500 hover:text-zinc-900 md:hidden"
           aria-label={
             menuOpen
               ? "Close navigation menu"
@@ -151,14 +151,14 @@ export default function Navbar() {
       {/* Mobile Navigation */}
 
       {menuOpen && (
-        <div className="border-t border-zinc-800 bg-black px-6 py-4 md:hidden">
+        <div className="border-t border-zinc-200 bg-white px-6 py-4 md:hidden">
 
           <nav className="flex flex-col gap-2">
 
             <Link
               href="/search"
               onClick={closeMenu}
-              className="rounded-xl px-4 py-3 text-zinc-300 transition hover:bg-zinc-900 hover:text-orange-500"
+              className="rounded-xl px-4 py-3 text-zinc-600 transition hover:bg-zinc-100 hover:text-orange-500"
             >
               AI Cheatbook Library
             </Link>
@@ -166,7 +166,7 @@ export default function Navbar() {
             <Link
               href="/news"
               onClick={closeMenu}
-              className="rounded-xl px-4 py-3 text-zinc-300 transition hover:bg-zinc-900 hover:text-orange-500"
+              className="rounded-xl px-4 py-3 text-zinc-600 transition hover:bg-zinc-100 hover:text-orange-500"
             >
               AI News
             </Link>
@@ -174,7 +174,7 @@ export default function Navbar() {
             <Link
               href="/learning"
               onClick={closeMenu}
-              className="rounded-xl px-4 py-3 text-zinc-300 transition hover:bg-zinc-900 hover:text-orange-500"
+              className="rounded-xl px-4 py-3 text-zinc-600 transition hover:bg-zinc-100 hover:text-orange-500"
             >
               Learning
             </Link>
@@ -182,7 +182,7 @@ export default function Navbar() {
             <Link
               href="/generator"
               onClick={closeMenu}
-              className="rounded-xl px-4 py-3 text-zinc-300 transition hover:bg-zinc-900 hover:text-orange-500"
+              className="rounded-xl px-4 py-3 text-zinc-600 transition hover:bg-zinc-100 hover:text-orange-500"
             >
               Generator
             </Link>
@@ -190,7 +190,7 @@ export default function Navbar() {
             <Link
               href="/community"
               onClick={closeMenu}
-              className="rounded-xl px-4 py-3 text-zinc-300 transition hover:bg-zinc-900 hover:text-orange-500"
+              className="rounded-xl px-4 py-3 text-zinc-600 transition hover:bg-zinc-100 hover:text-orange-500"
             >
               Community
             </Link>
@@ -198,7 +198,7 @@ export default function Navbar() {
             <Link
               href="/discussions"
               onClick={closeMenu}
-              className="rounded-xl px-4 py-3 text-zinc-300 transition hover:bg-zinc-900 hover:text-orange-500"
+              className="rounded-xl px-4 py-3 text-zinc-600 transition hover:bg-zinc-100 hover:text-orange-500"
             >
               Discussions
             </Link>
@@ -206,7 +206,7 @@ export default function Navbar() {
             <Link
               href={loggedIn ? "/account" : "/login"}
               onClick={closeMenu}
-              className="rounded-xl px-4 py-3 text-zinc-300 transition hover:bg-zinc-900 hover:text-orange-500"
+              className="rounded-xl px-4 py-3 text-zinc-600 transition hover:bg-zinc-100 hover:text-orange-500"
             >
               {loggedIn ? "My Account" : "Login"}
             </Link>
