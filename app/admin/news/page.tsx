@@ -145,7 +145,7 @@ export default function AdminNewsPage() {
   }
 
   return (
-    <main className="min-h-screen bg-black px-6 py-10 text-white">
+    <main className="min-h-screen bg-white px-6 py-10 text-zinc-900">
       <div className="mx-auto max-w-6xl">
 
         {/* =========================
@@ -170,7 +170,7 @@ export default function AdminNewsPage() {
 
           <Link
             href="/admin/news/new"
-            className="inline-flex h-11 items-center justify-center rounded-xl bg-brand px-5 text-sm font-semibold text-white transition hover:bg-brand-dark"
+            className="inline-flex h-11 items-center justify-center rounded-xl bg-brand px-5 text-sm font-semibold text-zinc-900 transition hover:bg-brand-dark"
           >
             + Create News
           </Link>
@@ -182,7 +182,7 @@ export default function AdminNewsPage() {
         ========================= */}
 
         {!loading && error && (
-          <div className="mt-8 rounded-2xl border border-red-900/50 bg-zinc-900 p-6">
+          <div className="mt-8 rounded-2xl border border-red-900/50 bg-white p-6">
 
             <h2 className="font-semibold text-red-400">
               Unable to load news
@@ -195,7 +195,7 @@ export default function AdminNewsPage() {
             <button
               type="button"
               onClick={reloadNews}
-              className="mt-4 rounded-lg border border-zinc-700 px-4 py-2 text-sm text-white transition hover:bg-zinc-800"
+              className="mt-4 rounded-lg border border-zinc-300 px-4 py-2 text-sm text-zinc-900 transition hover:bg-zinc-100"
             >
               Try Again
             </button>
@@ -215,7 +215,7 @@ export default function AdminNewsPage() {
             }).map((_, index) => (
               <div
                 key={index}
-                className="h-24 animate-pulse rounded-2xl border border-zinc-800 bg-zinc-900"
+                className="h-24 animate-pulse rounded-2xl border border-zinc-200 bg-white"
               />
             ))}
 
@@ -229,19 +229,19 @@ export default function AdminNewsPage() {
         {!loading &&
           !error &&
           news.length === 0 && (
-            <div className="mt-8 rounded-2xl border border-zinc-800 bg-zinc-900 p-12 text-center">
+            <div className="mt-8 rounded-2xl border border-zinc-200 bg-white p-12 text-center">
 
-              <h2 className="text-lg font-semibold text-white">
+              <h2 className="text-lg font-semibold text-zinc-900">
                 No news yet
               </h2>
 
-              <p className="mt-2 text-sm text-zinc-500">
+              <p className="mt-2 text-sm text-zinc-400">
                 Create your first AI news article.
               </p>
 
               <Link
                 href="/admin/news/new"
-                className="mt-5 inline-flex rounded-xl bg-brand px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-dark"
+                className="mt-5 inline-flex rounded-xl bg-brand px-5 py-2.5 text-sm font-semibold text-zinc-900 transition hover:bg-brand-dark"
               >
                 Create News
               </Link>
@@ -256,11 +256,11 @@ export default function AdminNewsPage() {
         {!loading &&
           !error &&
           news.length > 0 && (
-            <div className="mt-8 overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-950">
+            <div className="mt-8 overflow-hidden rounded-2xl border border-zinc-200 bg-white">
 
               {/* Table Header */}
 
-              <div className="hidden grid-cols-[1fr_140px_150px_140px] gap-4 border-b border-zinc-800 bg-zinc-900/60 px-5 py-3 text-xs font-semibold uppercase tracking-wider text-zinc-500 md:grid">
+              <div className="hidden grid-cols-[1fr_140px_150px_140px] gap-4 border-b border-zinc-200 bg-zinc-50 px-5 py-3 text-xs font-semibold uppercase tracking-wider text-zinc-400 md:grid">
 
                 <span>News</span>
 
@@ -279,14 +279,14 @@ export default function AdminNewsPage() {
                 {news.map((item) => (
                   <div
                     key={item.id}
-                    className="grid gap-4 px-5 py-5 transition hover:bg-zinc-900/50 md:grid-cols-[1fr_140px_150px_140px] md:items-center"
+                    className="grid gap-4 px-5 py-5 transition hover:bg-white/50 md:grid-cols-[1fr_140px_150px_140px] md:items-center"
                   >
 
                     {/* News */}
 
                     <div className="flex min-w-0 gap-4">
 
-                      <div className="h-16 w-24 shrink-0 overflow-hidden rounded-lg border border-zinc-800 bg-zinc-900">
+                      <div className="h-16 w-24 shrink-0 overflow-hidden rounded-lg border border-zinc-200 bg-white">
 
                         {item.cover_image_url ? (
                           <img
@@ -295,7 +295,7 @@ export default function AdminNewsPage() {
                             className="h-full w-full object-cover"
                           />
                         ) : (
-                          <div className="flex h-full items-center justify-center text-xs text-zinc-600">
+                          <div className="flex h-full items-center justify-center text-xs text-zinc-400">
                             No image
                           </div>
                         )}
@@ -304,16 +304,16 @@ export default function AdminNewsPage() {
 
                       <div className="min-w-0">
 
-                        <h2 className="truncate font-semibold text-white">
+                        <h2 className="truncate font-semibold text-zinc-900">
                           {item.title}
                         </h2>
 
-                        <p className="mt-1 truncate text-sm text-zinc-500">
+                        <p className="mt-1 truncate text-sm text-zinc-400">
                           /news/{item.slug}
                         </p>
 
                         {item.author && (
-                          <p className="mt-1 text-xs text-zinc-600">
+                          <p className="mt-1 text-xs text-zinc-400">
                             By {item.author}
                           </p>
                         )}
@@ -344,7 +344,7 @@ export default function AdminNewsPage() {
                         className={`rounded-full px-2.5 py-1 text-xs font-medium ${
                           item.is_published
                             ? "bg-green-500/10 text-green-400"
-                            : "bg-zinc-800 text-zinc-400"
+                            : "bg-zinc-100 text-zinc-400"
                         }`}
                       >
                         {item.is_published

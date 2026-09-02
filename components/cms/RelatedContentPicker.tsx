@@ -126,12 +126,12 @@ export default function RelatedContentPicker({
   }
 
   return (
-    <div className="rounded-xl border border-zinc-800 bg-zinc-950 p-4">
-      <h3 className="text-sm font-semibold text-white">
+    <div className="rounded-xl border border-zinc-200 bg-white p-4">
+      <h3 className="text-sm font-semibold text-zinc-900">
         Related Content
       </h3>
 
-      <p className="mt-1 text-xs text-zinc-500">
+      <p className="mt-1 text-xs text-zinc-400">
         Manually link this to relevant
         News, Prompts, or Learning Cards.
         Shown to visitors, and helps Google
@@ -148,15 +148,15 @@ export default function RelatedContentPicker({
           }}
           onFocus={() => setOpen(true)}
           placeholder="Search by title..."
-          className="w-full rounded-lg border border-zinc-800 bg-zinc-900 px-3 py-2 text-sm text-white placeholder:text-zinc-500 outline-none focus:border-brand"
+          className="w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 outline-none focus:border-brand"
         />
 
         {open &&
           (searching ||
             results.length > 0) && (
-            <div className="absolute z-10 mt-1 w-full rounded-lg border border-zinc-800 bg-zinc-900 shadow-lg">
+            <div className="absolute z-10 mt-1 w-full rounded-lg border border-zinc-200 bg-white shadow-lg">
               {searching && (
-                <div className="px-3 py-2 text-sm text-zinc-500">
+                <div className="px-3 py-2 text-sm text-zinc-400">
                   Searching...
                 </div>
               )}
@@ -169,12 +169,12 @@ export default function RelatedContentPicker({
                     onClick={() =>
                       addItem(item)
                     }
-                    className="flex w-full items-center justify-between px-3 py-2 text-left text-sm text-zinc-200 hover:bg-zinc-800"
+                    className="flex w-full items-center justify-between px-3 py-2 text-left text-sm text-zinc-700 hover:bg-zinc-100"
                   >
                     <span className="truncate">
                       {item.title}
                     </span>
-                    <span className="ml-2 shrink-0 rounded-full bg-zinc-800 px-2 py-0.5 text-xs text-zinc-400">
+                    <span className="ml-2 shrink-0 rounded-full bg-zinc-100 px-2 py-0.5 text-xs text-zinc-400">
                       {
                         RELATED_CONTENT_LABEL[
                           item.type
@@ -192,14 +192,14 @@ export default function RelatedContentPicker({
           {value.map((item) => (
             <div
               key={`${item.type}-${item.id}`}
-              className="flex items-center justify-between rounded-lg border border-zinc-800 bg-zinc-900 px-3 py-2 text-sm"
+              className="flex items-center justify-between rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm"
             >
-              <span className="truncate text-zinc-200">
+              <span className="truncate text-zinc-700">
                 {item.title}
               </span>
 
               <div className="flex shrink-0 items-center gap-2">
-                <span className="rounded-full bg-zinc-800 px-2 py-0.5 text-xs text-zinc-400">
+                <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-xs text-zinc-400">
                   {
                     RELATED_CONTENT_LABEL[
                       item.type
@@ -215,7 +215,7 @@ export default function RelatedContentPicker({
                       item.id
                     )
                   }
-                  className="text-zinc-500 hover:text-red-400"
+                  className="text-zinc-400 hover:text-red-400"
                 >
                   ×
                 </button>

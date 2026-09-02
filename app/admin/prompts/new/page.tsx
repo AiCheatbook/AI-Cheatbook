@@ -265,13 +265,13 @@ export default function NewPromptPage() {
   }
 
   const inputClass =
-    "mt-2 h-12 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-4 text-white outline-none transition placeholder:text-zinc-600 focus:border-brand";
+    "mt-2 h-12 w-full rounded-xl border border-zinc-200 bg-white px-4 text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-brand";
 
   const textareaClass =
-    "mt-2 w-full resize-y rounded-xl border border-zinc-800 bg-zinc-900 p-4 text-white outline-none transition placeholder:text-zinc-600 focus:border-brand";
+    "mt-2 w-full resize-y rounded-xl border border-zinc-200 bg-white p-4 text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-brand";
 
   return (
-    <main className="min-h-screen bg-black px-6 py-10 text-white">
+    <main className="min-h-screen bg-white px-6 py-10 text-zinc-900">
       <div className="mx-auto max-w-4xl">
         {/* HEADER */}
 
@@ -279,7 +279,7 @@ export default function NewPromptPage() {
           <div>
             <Link
               href="/admin/prompts"
-              className="text-sm text-zinc-500 hover:text-zinc-300"
+              className="text-sm text-zinc-400 hover:text-zinc-400"
             >
               ← Back to Prompt Library
             </Link>
@@ -291,7 +291,7 @@ export default function NewPromptPage() {
         </div>
 
         {error && (
-          <div className="mt-6 rounded-xl border border-red-900/50 bg-zinc-900 p-4">
+          <div className="mt-6 rounded-xl border border-red-900/50 bg-white p-4">
             <p className="whitespace-pre-wrap text-sm text-red-400">
               {error}
             </p>
@@ -307,7 +307,7 @@ export default function NewPromptPage() {
 
           <div className="mt-4 grid gap-5">
             <div>
-              <label className="text-sm font-medium text-zinc-300">
+              <label className="text-sm font-medium text-zinc-400">
                 Title
               </label>
               <input
@@ -323,7 +323,7 @@ export default function NewPromptPage() {
             </div>
 
             <div>
-              <label className="text-sm font-medium text-zinc-300">
+              <label className="text-sm font-medium text-zinc-400">
                 URL Slug
               </label>
               <input
@@ -338,7 +338,7 @@ export default function NewPromptPage() {
                 placeholder="cinematic-static-shot"
                 className={inputClass}
               />
-              <p className="mt-1 text-xs text-zinc-600">
+              <p className="mt-1 text-xs text-zinc-400">
                 aicheatbook.com/prompt/
                 {slug || "..."}
               </p>
@@ -346,7 +346,7 @@ export default function NewPromptPage() {
 
             <div className="grid gap-5 sm:grid-cols-2">
               <div>
-                <label className="text-sm font-medium text-zinc-300">
+                <label className="text-sm font-medium text-zinc-400">
                   Type
                 </label>
                 <select
@@ -370,7 +370,7 @@ export default function NewPromptPage() {
               </div>
 
               <div>
-                <label className="text-sm font-medium text-zinc-300">
+                <label className="text-sm font-medium text-zinc-400">
                   Category
                 </label>
                 <select
@@ -397,7 +397,7 @@ export default function NewPromptPage() {
             </div>
 
             <div>
-              <label className="text-sm font-medium text-zinc-300">
+              <label className="text-sm font-medium text-zinc-400">
                 Description
               </label>
               <textarea
@@ -414,9 +414,9 @@ export default function NewPromptPage() {
             </div>
 
             <div>
-              <label className="text-sm font-medium text-zinc-300">
+              <label className="text-sm font-medium text-zinc-400">
                 Full Details{" "}
-                <span className="text-zinc-600">
+                <span className="text-zinc-400">
                   (optional, shown on the
                   prompt's own page)
                 </span>
@@ -439,7 +439,7 @@ export default function NewPromptPage() {
             </div>
 
             <div>
-              <label className="text-sm font-medium text-zinc-300">
+              <label className="text-sm font-medium text-zinc-400">
                 Prompt Content
               </label>
               <textarea
@@ -473,9 +473,9 @@ export default function NewPromptPage() {
             </div>
 
             <div>
-              <label className="text-sm font-medium text-zinc-300">
+              <label className="text-sm font-medium text-zinc-400">
                 Author Name{" "}
-                <span className="text-zinc-600">
+                <span className="text-zinc-400">
                   (optional)
                 </span>
               </label>
@@ -499,7 +499,7 @@ export default function NewPromptPage() {
             AI Tools
           </h2>
 
-          <p className="mt-1 text-sm text-zinc-500">
+          <p className="mt-1 text-sm text-zinc-400">
             Which tools does this prompt work
             with?
           </p>
@@ -519,7 +519,7 @@ export default function NewPromptPage() {
                   className={`rounded-full border px-4 py-2 text-sm transition ${
                     selected
                       ? "border-brand bg-brand/15 text-brand"
-                      : "border-zinc-800 text-zinc-400 hover:border-zinc-600"
+                      : "border-zinc-200 text-zinc-400 hover:border-zinc-600"
                   }`}
                 >
                   {tool}
@@ -536,7 +536,7 @@ export default function NewPromptPage() {
             Keywords
           </h2>
 
-          <p className="mt-1 text-sm text-zinc-500">
+          <p className="mt-1 text-sm text-zinc-400">
             Type an existing keyword to reuse
             it, or a new one to create it.
           </p>
@@ -557,7 +557,7 @@ export default function NewPromptPage() {
           </h2>
 
           <div className="mt-4 flex flex-wrap gap-6">
-            <label className="flex items-center gap-2 text-sm text-zinc-300">
+            <label className="flex items-center gap-2 text-sm text-zinc-400">
               <input
                 type="checkbox"
                 checked={isFeatured}
@@ -566,12 +566,12 @@ export default function NewPromptPage() {
                     e.target.checked
                   )
                 }
-                className="h-4 w-4 rounded border-zinc-700 bg-zinc-900"
+                className="h-4 w-4 rounded border-zinc-300 bg-white"
               />
               Featured
             </label>
 
-            <label className="flex items-center gap-2 text-sm text-zinc-300">
+            <label className="flex items-center gap-2 text-sm text-zinc-400">
               <input
                 type="checkbox"
                 checked={isTrending}
@@ -580,7 +580,7 @@ export default function NewPromptPage() {
                     e.target.checked
                   )
                 }
-                className="h-4 w-4 rounded border-zinc-700 bg-zinc-900"
+                className="h-4 w-4 rounded border-zinc-300 bg-white"
               />
               Trending
             </label>
@@ -603,14 +603,14 @@ export default function NewPromptPage() {
 
         {/* ACTIONS */}
 
-        <div className="mt-10 flex items-center gap-3 border-t border-zinc-800 pt-6">
+        <div className="mt-10 flex items-center gap-3 border-t border-zinc-200 pt-6">
           <button
             type="button"
             disabled={saving}
             onClick={() =>
               handleSubmit(false)
             }
-            className="rounded-xl border border-zinc-700 px-5 py-3 text-sm font-semibold text-white transition hover:bg-zinc-800 disabled:opacity-50"
+            className="rounded-xl border border-zinc-300 px-5 py-3 text-sm font-semibold text-zinc-900 transition hover:bg-zinc-100 disabled:opacity-50"
           >
             Save Draft
           </button>
@@ -621,7 +621,7 @@ export default function NewPromptPage() {
             onClick={() =>
               handleSubmit(true)
             }
-            className="rounded-xl bg-brand px-5 py-3 text-sm font-semibold text-white transition hover:bg-brand-dark disabled:opacity-50"
+            className="rounded-xl bg-brand px-5 py-3 text-sm font-semibold text-zinc-900 transition hover:bg-brand-dark disabled:opacity-50"
           >
             {saving
               ? "Saving..."

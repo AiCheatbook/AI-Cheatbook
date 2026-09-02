@@ -132,7 +132,7 @@ export default function KeywordTagInput({
 
   return (
     <div className="relative">
-      <div className="flex min-h-12 flex-wrap items-center gap-2 rounded-xl border border-zinc-800 bg-zinc-900 px-3 py-2">
+      <div className="flex min-h-12 flex-wrap items-center gap-2 rounded-xl border border-zinc-200 bg-white px-3 py-2">
         {value.map((keyword) => (
           <span
             key={keyword.id}
@@ -169,18 +169,18 @@ export default function KeywordTagInput({
               ? "Type a keyword and press Enter..."
               : "Add another..."
           }
-          className="min-w-32 flex-1 bg-transparent text-sm text-white outline-none placeholder:text-zinc-600"
+          className="min-w-32 flex-1 bg-transparent text-sm text-zinc-900 outline-none placeholder:text-zinc-400"
         />
       </div>
 
       {open && suggestions.length > 0 && (
-        <div className="absolute z-10 mt-1 w-full rounded-lg border border-zinc-800 bg-zinc-900 shadow-lg">
+        <div className="absolute z-10 mt-1 w-full rounded-lg border border-zinc-200 bg-white shadow-lg">
           {suggestions.map((s) => (
             <button
               key={s.id}
               type="button"
               onClick={() => addKeyword(s)}
-              className="block w-full px-3 py-2 text-left text-sm text-zinc-200 hover:bg-zinc-800"
+              className="block w-full px-3 py-2 text-left text-sm text-zinc-700 hover:bg-zinc-100"
             >
               {s.label}
             </button>

@@ -153,8 +153,8 @@ export default function SearchFilters({
               })}
               className={`shrink-0 rounded-xl px-4 py-2 text-sm font-medium transition ${
                 isSelected
-                  ? "bg-brand text-white shadow-lg shadow-brand/10"
-                  : "border border-zinc-800 bg-zinc-900/60 text-zinc-400 hover:border-zinc-700 hover:bg-zinc-800 hover:text-white"
+                  ? "bg-brand text-zinc-900 shadow-lg shadow-brand/10"
+                  : "border border-zinc-200 bg-zinc-50 text-zinc-400 hover:border-zinc-300 hover:bg-zinc-100 hover:text-zinc-900"
               }`}
             >
               {filter.label}
@@ -170,19 +170,19 @@ export default function SearchFilters({
         {/* AI Tool */}
 
         <details className="group relative flex-1">
-          <summary className="flex cursor-pointer list-none items-center justify-between rounded-xl border border-zinc-800 bg-zinc-900/60 px-4 py-3 text-sm transition hover:border-zinc-700 hover:bg-zinc-900">
+          <summary className="flex cursor-pointer list-none items-center justify-between rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-3 text-sm transition hover:border-zinc-300 hover:bg-white">
             <span
               className={
                 selectedTool
-                  ? "text-white"
-                  : "text-zinc-500"
+                  ? "text-zinc-900"
+                  : "text-zinc-400"
               }
             >
               {selectedTool || "AI Tool"}
             </span>
 
             <svg
-              className="h-4 w-4 text-zinc-500 transition group-open:rotate-180"
+              className="h-4 w-4 text-zinc-400 transition group-open:rotate-180"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -192,7 +192,7 @@ export default function SearchFilters({
             </svg>
           </summary>
 
-          <div className="absolute left-0 right-0 top-full z-30 mt-2 max-h-64 overflow-y-auto rounded-xl border border-zinc-800 bg-zinc-950 p-2 shadow-2xl">
+          <div className="absolute left-0 right-0 top-full z-30 mt-2 max-h-64 overflow-y-auto rounded-xl border border-zinc-200 bg-white p-2 shadow-2xl">
 
             <Link
               href={createUrl({
@@ -201,7 +201,7 @@ export default function SearchFilters({
               className={`block rounded-lg px-3 py-2 text-sm transition ${
                 !selectedTool
                   ? "bg-brand/10 text-brand"
-                  : "text-zinc-400 hover:bg-zinc-900 hover:text-white"
+                  : "text-zinc-400 hover:bg-white hover:text-zinc-900"
               }`}
             >
               All AI Tools
@@ -216,7 +216,7 @@ export default function SearchFilters({
                 className={`block rounded-lg px-3 py-2 text-sm transition ${
                   selectedTool === tool
                     ? "bg-brand/10 text-brand"
-                    : "text-zinc-400 hover:bg-zinc-900 hover:text-white"
+                    : "text-zinc-400 hover:bg-white hover:text-zinc-900"
                 }`}
               >
                 {tool}
@@ -228,12 +228,12 @@ export default function SearchFilters({
         {/* Category */}
 
         <details className="group relative flex-1">
-          <summary className="flex cursor-pointer list-none items-center justify-between rounded-xl border border-zinc-800 bg-zinc-900/60 px-4 py-3 text-sm transition hover:border-zinc-700 hover:bg-zinc-900">
+          <summary className="flex cursor-pointer list-none items-center justify-between rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-3 text-sm transition hover:border-zinc-300 hover:bg-white">
             <span
               className={
                 selectedCategory
-                  ? "text-white"
-                  : "text-zinc-500"
+                  ? "text-zinc-900"
+                  : "text-zinc-400"
               }
             >
               {selectedCategory ||
@@ -241,7 +241,7 @@ export default function SearchFilters({
             </span>
 
             <svg
-              className="h-4 w-4 text-zinc-500 transition group-open:rotate-180"
+              className="h-4 w-4 text-zinc-400 transition group-open:rotate-180"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -251,7 +251,7 @@ export default function SearchFilters({
             </svg>
           </summary>
 
-          <div className="absolute left-0 right-0 top-full z-30 mt-2 max-h-64 overflow-y-auto rounded-xl border border-zinc-800 bg-zinc-950 p-2 shadow-2xl">
+          <div className="absolute left-0 right-0 top-full z-30 mt-2 max-h-64 overflow-y-auto rounded-xl border border-zinc-200 bg-white p-2 shadow-2xl">
 
             <Link
               href={createUrl({
@@ -260,7 +260,7 @@ export default function SearchFilters({
               className={`block rounded-lg px-3 py-2 text-sm transition ${
                 !selectedCategory
                   ? "bg-brand/10 text-brand"
-                  : "text-zinc-400 hover:bg-zinc-900 hover:text-white"
+                  : "text-zinc-400 hover:bg-white hover:text-zinc-900"
               }`}
             >
               All Categories
@@ -276,7 +276,7 @@ export default function SearchFilters({
                   selectedCategory ===
                   category
                     ? "bg-brand/10 text-brand"
-                    : "text-zinc-400 hover:bg-zinc-900 hover:text-white"
+                    : "text-zinc-400 hover:bg-white hover:text-zinc-900"
                 }`}
               >
                 {category}
@@ -292,7 +292,7 @@ export default function SearchFilters({
             href={createUrl({
               clearAll: true,
             })}
-            className="flex shrink-0 items-center justify-center rounded-xl border border-zinc-800 px-4 py-3 text-sm font-medium text-zinc-400 transition hover:border-brand hover:text-brand"
+            className="flex shrink-0 items-center justify-center rounded-xl border border-zinc-200 px-4 py-3 text-sm font-medium text-zinc-400 transition hover:border-brand hover:text-brand"
           >
             Clear Filters
           </Link>
@@ -306,7 +306,7 @@ export default function SearchFilters({
         selectedType !== "all") && (
         <div className="flex flex-wrap items-center gap-2">
 
-          <span className="mr-1 text-xs text-zinc-600">
+          <span className="mr-1 text-xs text-zinc-400">
             Active:
           </span>
 

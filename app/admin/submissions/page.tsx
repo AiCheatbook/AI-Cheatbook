@@ -331,7 +331,7 @@ export default function AdminSubmissionsPage() {
   }
 
   return (
-    <main className="min-h-screen bg-black px-6 py-10 text-white">
+    <main className="min-h-screen bg-white px-6 py-10 text-zinc-900">
       <div className="mx-auto max-w-4xl">
         <p className="text-sm font-semibold uppercase tracking-wider text-brand">
           Admin
@@ -347,14 +347,14 @@ export default function AdminSubmissionsPage() {
           live.
         </p>
 
-        <div className="mt-6 flex gap-4 border-b border-zinc-800">
+        <div className="mt-6 flex gap-4 border-b border-zinc-200">
           <button
             type="button"
             onClick={() => setTab("prompts")}
             className={`border-b-2 px-1 pb-3 text-sm font-medium ${
               tab === "prompts"
-                ? "border-brand text-white"
-                : "border-transparent text-zinc-500 hover:text-zinc-300"
+                ? "border-brand text-zinc-900"
+                : "border-transparent text-zinc-400 hover:text-zinc-400"
             }`}
           >
             Prompts ({prompts.length})
@@ -367,8 +367,8 @@ export default function AdminSubmissionsPage() {
             }
             className={`border-b-2 px-1 pb-3 text-sm font-medium ${
               tab === "learning-cards"
-                ? "border-brand text-white"
-                : "border-transparent text-zinc-500 hover:text-zinc-300"
+                ? "border-brand text-zinc-900"
+                : "border-transparent text-zinc-400 hover:text-zinc-400"
             }`}
           >
             Learning Cards (
@@ -377,7 +377,7 @@ export default function AdminSubmissionsPage() {
         </div>
 
         {error && (
-          <div className="mt-6 rounded-xl border border-red-900/50 bg-zinc-900 p-4">
+          <div className="mt-6 rounded-xl border border-red-900/50 bg-white p-4">
             <p className="text-sm text-red-400">
               {error}
             </p>
@@ -391,7 +391,7 @@ export default function AdminSubmissionsPage() {
             }).map((_, i) => (
               <div
                 key={i}
-                className="h-32 animate-pulse rounded-2xl border border-zinc-800 bg-zinc-900"
+                className="h-32 animate-pulse rounded-2xl border border-zinc-200 bg-white"
               />
             ))}
           </div>
@@ -400,7 +400,7 @@ export default function AdminSubmissionsPage() {
         {!loading &&
           tab === "prompts" &&
           prompts.length === 0 && (
-            <p className="mt-8 text-center text-zinc-500">
+            <p className="mt-8 text-center text-zinc-400">
               No pending prompt
               submissions.
             </p>
@@ -412,13 +412,13 @@ export default function AdminSubmissionsPage() {
               {prompts.map((item) => (
                 <div
                   key={item.id}
-                  className="rounded-2xl border border-zinc-800 bg-zinc-900 p-5"
+                  className="rounded-2xl border border-zinc-200 bg-white p-5"
                 >
-                  <h2 className="font-semibold text-white">
+                  <h2 className="font-semibold text-zinc-900">
                     {item.title}
                   </h2>
 
-                  <p className="mt-1 text-xs text-zinc-500">
+                  <p className="mt-1 text-xs text-zinc-400">
                     {item.type} ·{" "}
                     {item.category}
                     {item.ai_tools &&
@@ -433,7 +433,7 @@ export default function AdminSubmissionsPage() {
                     </p>
                   )}
 
-                  <p className="mt-3 whitespace-pre-wrap rounded-xl bg-black p-3 text-sm text-zinc-300">
+                  <p className="mt-3 whitespace-pre-wrap rounded-xl bg-white p-3 text-sm text-zinc-400">
                     {item.prompt_text}
                   </p>
 
@@ -449,7 +449,7 @@ export default function AdminSubmissionsPage() {
                           item
                         )
                       }
-                      className="rounded-lg bg-green-600 px-4 py-2 text-sm font-semibold text-white hover:bg-green-700 disabled:opacity-50"
+                      className="rounded-lg bg-green-600 px-4 py-2 text-sm font-semibold text-zinc-900 hover:bg-green-700 disabled:opacity-50"
                     >
                       Approve & Publish
                     </button>
@@ -478,7 +478,7 @@ export default function AdminSubmissionsPage() {
         {!loading &&
           tab === "learning-cards" &&
           learningCards.length === 0 && (
-            <p className="mt-8 text-center text-zinc-500">
+            <p className="mt-8 text-center text-zinc-400">
               No pending learning card
               submissions.
             </p>
@@ -491,13 +491,13 @@ export default function AdminSubmissionsPage() {
                 (item) => (
                   <div
                     key={item.id}
-                    className="rounded-2xl border border-zinc-800 bg-zinc-900 p-5"
+                    className="rounded-2xl border border-zinc-200 bg-white p-5"
                   >
-                    <h2 className="font-semibold text-white">
+                    <h2 className="font-semibold text-zinc-900">
                       {item.title}
                     </h2>
 
-                    <p className="mt-1 text-xs text-zinc-500">
+                    <p className="mt-1 text-xs text-zinc-400">
                       {item.category}
                       {item.tags &&
                         item.tags
@@ -512,7 +512,7 @@ export default function AdminSubmissionsPage() {
                     )}
 
                     <div
-                      className="prose prose-invert prose-sm mt-3 max-h-64 overflow-y-auto rounded-xl bg-black p-3"
+                      className="prose prose-invert prose-sm mt-3 max-h-64 overflow-y-auto rounded-xl bg-white p-3"
                       dangerouslySetInnerHTML={{
                         __html:
                           item.content_html ||
@@ -532,7 +532,7 @@ export default function AdminSubmissionsPage() {
                             item
                           )
                         }
-                        className="rounded-lg bg-green-600 px-4 py-2 text-sm font-semibold text-white hover:bg-green-700 disabled:opacity-50"
+                        className="rounded-lg bg-green-600 px-4 py-2 text-sm font-semibold text-zinc-900 hover:bg-green-700 disabled:opacity-50"
                       >
                         Approve & Publish
                       </button>

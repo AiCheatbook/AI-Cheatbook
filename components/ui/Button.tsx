@@ -16,10 +16,10 @@ export default function Button({
 
   const variants = {
     primary:
-      "bg-brand text-white hover:bg-brand-dark",
+      "bg-brand text-zinc-900 hover:bg-brand-dark",
 
     secondary:
-      "border border-zinc-700 bg-transparent text-white hover:bg-zinc-800",
+      "border border-zinc-300 bg-transparent text-zinc-900 hover:bg-zinc-100",
   };
 
   return (

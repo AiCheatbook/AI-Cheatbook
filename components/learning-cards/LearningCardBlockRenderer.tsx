@@ -76,7 +76,7 @@ function LearningCardBlockItem({
     }
 
     return (
-      <h2 className="text-2xl font-bold leading-tight text-white sm:text-3xl">
+      <h2 className="text-2xl font-bold leading-tight text-zinc-900 sm:text-3xl">
         {text}
       </h2>
     );
@@ -96,7 +96,7 @@ function LearningCardBlockItem({
     }
 
     return (
-      <p className="text-lg leading-8 text-zinc-300">
+      <p className="text-lg leading-8 text-zinc-400">
         {text}
       </p>
     );
@@ -116,7 +116,7 @@ function LearningCardBlockItem({
     }
 
     return (
-      <ul className="list-disc space-y-3 pl-6 text-lg leading-8 text-zinc-300">
+      <ul className="list-disc space-y-3 pl-6 text-lg leading-8 text-zinc-400">
         {items.map((item, index) => (
           <li key={index}>
             {item}
@@ -140,7 +140,7 @@ function LearningCardBlockItem({
     }
 
     return (
-      <ol className="list-decimal space-y-3 pl-6 text-lg leading-8 text-zinc-300">
+      <ol className="list-decimal space-y-3 pl-6 text-lg leading-8 text-zinc-400">
         {items.map((item, index) => (
           <li key={index}>
             {item}
@@ -173,7 +173,7 @@ function LearningCardBlockItem({
 
     return (
       <figure className="space-y-3">
-        <div className="relative overflow-hidden rounded-2xl border border-zinc-800">
+        <div className="relative overflow-hidden rounded-2xl border border-zinc-200">
           <Image
             src={url}
             alt={alt}
@@ -184,7 +184,7 @@ function LearningCardBlockItem({
         </div>
 
         {caption && (
-          <figcaption className="text-sm leading-6 text-zinc-500">
+          <figcaption className="text-sm leading-6 text-zinc-400">
             {caption}
           </figcaption>
         )}
@@ -211,7 +211,7 @@ function LearningCardBlockItem({
 
     return (
       <figure className="space-y-3">
-        <div className="overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-950">
+        <div className="overflow-hidden rounded-2xl border border-zinc-200 bg-white">
           <video
             src={url}
             controls
@@ -221,7 +221,7 @@ function LearningCardBlockItem({
         </div>
 
         {caption && (
-          <figcaption className="text-sm leading-6 text-zinc-500">
+          <figcaption className="text-sm leading-6 text-zinc-400">
             {caption}
           </figcaption>
         )}
@@ -248,12 +248,12 @@ function LearningCardBlockItem({
 
     return (
       <blockquote className="border-l-4 border-brand pl-6">
-        <p className="text-xl italic leading-8 text-zinc-200">
+        <p className="text-xl italic leading-8 text-zinc-700">
           “{text}”
         </p>
 
         {author && (
-          <cite className="mt-3 block text-sm not-italic text-zinc-500">
+          <cite className="mt-3 block text-sm not-italic text-zinc-400">
             — {author}
           </cite>
         )}
@@ -267,7 +267,7 @@ function LearningCardBlockItem({
 
   if (blockType === "divider") {
     return (
-      <div className="border-t border-zinc-800" />
+      <div className="border-t border-zinc-200" />
     );
   }
 
@@ -285,7 +285,7 @@ function LearningCardBlockItem({
     }
 
     return (
-      <pre className="overflow-x-auto rounded-2xl border border-zinc-800 bg-zinc-950 p-5 text-sm leading-7 text-zinc-300">
+      <pre className="overflow-x-auto rounded-2xl border border-zinc-200 bg-white p-5 text-sm leading-7 text-zinc-400">
         <code>{code}</code>
       </pre>
     );

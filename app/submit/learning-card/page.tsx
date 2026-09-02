@@ -112,8 +112,8 @@ export default function SubmitLearningCardPage() {
 
   if (success) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-black px-4 text-white">
-        <div className="w-full max-w-md rounded-2xl border border-zinc-800 bg-zinc-900 p-8 text-center">
+      <main className="flex min-h-screen items-center justify-center bg-white px-4 text-zinc-900">
+        <div className="w-full max-w-md rounded-2xl border border-zinc-200 bg-white p-8 text-center">
           <h1 className="text-xl font-bold">
             Submitted for review!
           </h1>
@@ -127,14 +127,14 @@ export default function SubmitLearningCardPage() {
           <div className="mt-6 flex justify-center gap-3">
             <Link
               href="/account/submissions"
-              className="rounded-xl border border-zinc-700 px-5 py-2.5 text-sm font-semibold text-white hover:bg-zinc-800"
+              className="rounded-xl border border-zinc-300 px-5 py-2.5 text-sm font-semibold text-zinc-900 hover:bg-zinc-100"
             >
               View My Submissions
             </Link>
 
             <Link
               href="/learning"
-              className="rounded-xl bg-brand px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-dark"
+              className="rounded-xl bg-brand px-5 py-2.5 text-sm font-semibold text-zinc-900 hover:bg-brand-dark"
             >
               Browse Learning Cards
             </Link>
@@ -145,16 +145,16 @@ export default function SubmitLearningCardPage() {
   }
 
   const inputClass =
-    "mt-2 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3 text-white outline-none transition focus:border-brand";
+    "mt-2 w-full rounded-xl border border-zinc-200 bg-white px-4 py-3 text-zinc-900 outline-none transition focus:border-brand";
 
   return (
-    <main className="min-h-screen bg-black px-6 py-16 text-white">
+    <main className="min-h-screen bg-white px-6 py-16 text-zinc-900">
       <div className="mx-auto max-w-2xl">
         <h1 className="text-2xl font-bold">
           Submit a Learning Card
         </h1>
 
-        <p className="mt-2 text-sm text-zinc-500">
+        <p className="mt-2 text-sm text-zinc-400">
           Write an educational article for
           the community. It'll be
           reviewed before publishing.
@@ -167,7 +167,7 @@ export default function SubmitLearningCardPage() {
         )}
 
         <div className="mt-6">
-          <label className="text-sm font-medium text-zinc-300">
+          <label className="text-sm font-medium text-zinc-400">
             Title
           </label>
           <input
@@ -181,9 +181,9 @@ export default function SubmitLearningCardPage() {
         </div>
 
         <div className="mt-5">
-          <label className="text-sm font-medium text-zinc-300">
+          <label className="text-sm font-medium text-zinc-400">
             Summary{" "}
-            <span className="text-zinc-600">
+            <span className="text-zinc-400">
               (optional)
             </span>
           </label>
@@ -200,9 +200,9 @@ export default function SubmitLearningCardPage() {
 
         <div className="mt-5 grid gap-5 sm:grid-cols-2">
           <div>
-            <label className="text-sm font-medium text-zinc-300">
+            <label className="text-sm font-medium text-zinc-400">
               Category{" "}
-              <span className="text-zinc-600">
+              <span className="text-zinc-400">
                 (optional)
               </span>
             </label>
@@ -219,9 +219,9 @@ export default function SubmitLearningCardPage() {
           </div>
 
           <div>
-            <label className="text-sm font-medium text-zinc-300">
+            <label className="text-sm font-medium text-zinc-400">
               Tags{" "}
-              <span className="text-zinc-600">
+              <span className="text-zinc-400">
                 (comma separated)
               </span>
             </label>
@@ -237,7 +237,7 @@ export default function SubmitLearningCardPage() {
         </div>
 
         <div className="mt-5">
-          <label className="text-sm font-medium text-zinc-300">
+          <label className="text-sm font-medium text-zinc-400">
             Content
           </label>
 
@@ -254,7 +254,7 @@ export default function SubmitLearningCardPage() {
           type="button"
           onClick={handleSubmit}
           disabled={submitting}
-          className="mt-8 w-full rounded-xl bg-brand py-3 font-semibold text-white transition hover:bg-brand-dark disabled:opacity-50"
+          className="mt-8 w-full rounded-xl bg-brand py-3 font-semibold text-zinc-900 transition hover:bg-brand-dark disabled:opacity-50"
         >
           {submitting
             ? "Submitting..."

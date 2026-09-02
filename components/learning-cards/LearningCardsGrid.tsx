@@ -75,7 +75,7 @@ export default function LearningCardsGrid() {
   }, []);
 
   return (
-    <section className="bg-black px-6 py-8 sm:py-10">
+    <section className="bg-white px-6 py-8 sm:py-10">
       <div className="mx-auto max-w-6xl">
 
         {/* HEADER */}
@@ -85,7 +85,7 @@ export default function LearningCardsGrid() {
             Learn AI
           </p>
 
-          <h1 className="text-3xl font-bold leading-tight text-white sm:text-4xl">
+          <h1 className="text-3xl font-bold leading-tight text-zinc-900 sm:text-4xl">
             📚 Learning Cards
           </h1>
 
@@ -105,7 +105,7 @@ export default function LearningCardsGrid() {
             }).map((_, index) => (
               <div
                 key={index}
-                className="aspect-4/5 animate-pulse rounded-2xl border border-zinc-800 bg-zinc-900"
+                className="aspect-4/5 animate-pulse rounded-2xl border border-zinc-200 bg-white"
               />
             ))}
           </div>
@@ -114,7 +114,7 @@ export default function LearningCardsGrid() {
         {/* ERROR */}
 
         {!loading && errorMessage && (
-          <div className="rounded-2xl border border-red-900/50 bg-zinc-900 p-10">
+          <div className="rounded-2xl border border-red-900/50 bg-white p-10">
             <p className="text-lg font-semibold text-red-400">
               Unable to load learning cards
             </p>
@@ -161,7 +161,7 @@ export default function LearningCardsGrid() {
         {!loading &&
           !errorMessage &&
           cards.length === 0 && (
-            <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-10 text-center">
+            <div className="rounded-2xl border border-zinc-200 bg-white p-10 text-center">
               <p className="text-zinc-400">
                 No learning cards available
                 yet.

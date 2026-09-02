@@ -63,7 +63,7 @@ export default function Navbar() {
 
         {/* Desktop Navigation */}
 
-        <nav className="hidden items-center gap-8 text-sm text-zinc-600 md:flex">
+        <nav className="hidden items-center gap-8 text-sm text-zinc-400 md:flex">
 
           <Link
             href="/search"
@@ -117,14 +117,14 @@ export default function Navbar() {
 
           <Link
             href={loggedIn ? "/account" : "/login"}
-            className="text-sm text-zinc-600 transition hover:text-zinc-900"
+            className="text-sm text-zinc-400 transition hover:text-zinc-900"
           >
             {loggedIn ? "My Account" : "Login"}
           </Link>
 
           <Link
             href="/submit/prompt"
-            className="rounded-xl bg-brand px-5 py-2 text-sm font-medium text-white transition hover:bg-brand-dark"
+            className="rounded-xl bg-brand px-5 py-2 text-sm font-medium text-zinc-900 transition hover:bg-brand-dark"
           >
             Submit Prompt
           </Link>
@@ -138,7 +138,7 @@ export default function Navbar() {
           onClick={() =>
             setMenuOpen((current) => !current)
           }
-          className="flex h-10 w-10 items-center justify-center rounded-xl border border-zinc-300 text-zinc-600 transition hover:border-brand hover:text-zinc-900 md:hidden"
+          className="flex h-10 w-10 items-center justify-center rounded-xl border border-zinc-300 text-zinc-400 transition hover:border-brand hover:text-zinc-900 md:hidden"
           aria-label={
             menuOpen
               ? "Close navigation menu"
@@ -165,14 +165,14 @@ export default function Navbar() {
             <Link
               href="/search"
               onClick={closeMenu}
-              className="rounded-xl px-4 py-3 text-zinc-600 transition hover:bg-zinc-100 hover:text-brand"
+              className="rounded-xl px-4 py-3 text-zinc-400 transition hover:bg-zinc-100 hover:text-brand"
             >              AI Cheatbook Library
             </Link>
 
             <Link
               href="/news"
               onClick={closeMenu}
-              className="rounded-xl px-4 py-3 text-zinc-600 transition hover:bg-zinc-100 hover:text-brand"
+              className="rounded-xl px-4 py-3 text-zinc-400 transition hover:bg-zinc-100 hover:text-brand"
             >
               AI News
             </Link>
@@ -180,7 +180,7 @@ export default function Navbar() {
             <Link
               href="/learning"
               onClick={closeMenu}
-              className="rounded-xl px-4 py-3 text-zinc-600 transition hover:bg-zinc-100 hover:text-brand"
+              className="rounded-xl px-4 py-3 text-zinc-400 transition hover:bg-zinc-100 hover:text-brand"
             >
               Learning
             </Link>
@@ -188,7 +188,7 @@ export default function Navbar() {
             <Link
               href="/generator"
               onClick={closeMenu}
-              className="rounded-xl px-4 py-3 text-zinc-600 transition hover:bg-zinc-100 hover:text-brand"
+              className="rounded-xl px-4 py-3 text-zinc-400 transition hover:bg-zinc-100 hover:text-brand"
             >
               Generator
             </Link>
@@ -196,7 +196,7 @@ export default function Navbar() {
             <Link
               href="/community"
               onClick={closeMenu}
-              className="rounded-xl px-4 py-3 text-zinc-600 transition hover:bg-zinc-100 hover:text-brand"
+              className="rounded-xl px-4 py-3 text-zinc-400 transition hover:bg-zinc-100 hover:text-brand"
             >
               Community
             </Link>
@@ -204,7 +204,7 @@ export default function Navbar() {
             <Link
               href="/discussions"
               onClick={closeMenu}
-              className="rounded-xl px-4 py-3 text-zinc-600 transition hover:bg-zinc-100 hover:text-brand"
+              className="rounded-xl px-4 py-3 text-zinc-400 transition hover:bg-zinc-100 hover:text-brand"
             >
               Discussions
             </Link>
@@ -212,7 +212,7 @@ export default function Navbar() {
             <Link
               href={loggedIn ? "/account" : "/login"}
               onClick={closeMenu}
-              className="rounded-xl px-4 py-3 text-zinc-600 transition hover:bg-zinc-100 hover:text-brand"
+              className="rounded-xl px-4 py-3 text-zinc-400 transition hover:bg-zinc-100 hover:text-brand"
             >
               {loggedIn ? "My Account" : "Login"}
             </Link>

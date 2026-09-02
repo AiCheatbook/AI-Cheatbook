@@ -61,16 +61,16 @@ export default function SeoPanel({
   }
 
   const inputClass =
-    "w-full rounded-lg border border-zinc-800 bg-zinc-900 px-3 py-2 text-sm text-white placeholder:text-zinc-500 outline-none focus:border-brand";
+    "w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 outline-none focus:border-brand";
 
   const labelClass =
     "mb-1 block text-xs font-medium text-zinc-400";
 
   return (
-    <div className="rounded-xl border border-zinc-800 bg-zinc-950">
+    <div className="rounded-xl border border-zinc-200 bg-white">
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-zinc-800 px-4 py-3">
-        <h3 className="text-sm font-semibold text-white">
+      <div className="flex items-center justify-between border-b border-zinc-200 px-4 py-3">
+        <h3 className="text-sm font-semibold text-zinc-900">
           SEO & Social Media
         </h3>
 
@@ -84,14 +84,14 @@ export default function SeoPanel({
       </div>
 
       {/* Tabs */}
-      <div className="flex gap-4 border-b border-zinc-800 px-4">
+      <div className="flex gap-4 border-b border-zinc-200 px-4">
         <button
           type="button"
           onClick={() => setTab("seo")}
           className={`border-b-2 px-1 py-2 text-sm ${
             tab === "seo"
-              ? "border-brand text-white"
-              : "border-transparent text-zinc-500 hover:text-zinc-300"
+              ? "border-brand text-zinc-900"
+              : "border-transparent text-zinc-400 hover:text-zinc-400"
           }`}
         >
           SEO
@@ -102,8 +102,8 @@ export default function SeoPanel({
           onClick={() => setTab("social")}
           className={`border-b-2 px-1 py-2 text-sm ${
             tab === "social"
-              ? "border-brand text-white"
-              : "border-transparent text-zinc-500 hover:text-zinc-300"
+              ? "border-brand text-zinc-900"
+              : "border-transparent text-zinc-400 hover:text-zinc-400"
           }`}
         >
           Social Media
@@ -155,7 +155,7 @@ export default function SeoPanel({
           <div>
             <label className={labelClass}>
               Meta Keywords{" "}
-              <span className="text-zinc-600">
+              <span className="text-zinc-400">
                 (comma separated, optional)
               </span>
             </label>
@@ -192,7 +192,7 @@ export default function SeoPanel({
           <div>
             <label className={labelClass}>
               Canonical URL{" "}
-              <span className="text-zinc-600">
+              <span className="text-zinc-400">
                 (optional)
               </span>
             </label>
@@ -209,7 +209,7 @@ export default function SeoPanel({
             />
           </div>
 
-          <label className="flex items-center gap-2 text-sm text-zinc-300">
+          <label className="flex items-center gap-2 text-sm text-zinc-400">
             <input
               type="checkbox"
               checked={!seo.isIndexed}
@@ -219,7 +219,7 @@ export default function SeoPanel({
                     !e.target.checked,
                 })
               }
-              className="h-4 w-4 rounded border-zinc-700 bg-zinc-900"
+              className="h-4 w-4 rounded border-zinc-300 bg-white"
             />
             Block search engines (noindex)
           </label>
@@ -292,7 +292,7 @@ export default function SeoPanel({
               <img
                 src={seo.ogImageUrl}
                 alt="Open Graph preview"
-                className="mt-2 h-32 w-full rounded-lg border border-zinc-800 object-cover"
+                className="mt-2 h-32 w-full rounded-lg border border-zinc-200 object-cover"
               />
             )}
           </div>

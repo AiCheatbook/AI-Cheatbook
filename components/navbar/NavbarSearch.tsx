@@ -289,7 +289,7 @@ export default function NavbarSearch() {
         type="button"
         onClick={() => setOpen(true)}
         aria-label="Search AI Cheatbook"
-        className="flex h-10 w-10 items-center justify-center rounded-xl border border-zinc-200 text-zinc-500 transition hover:border-brand hover:text-brand"
+        className="flex h-10 w-10 items-center justify-center rounded-xl border border-zinc-200 text-zinc-400 transition hover:border-brand hover:text-brand"
       >
         🔍
       </button>
@@ -318,7 +318,7 @@ export default function NavbarSearch() {
 
           <button
             type="submit"
-            className="h-10 rounded-r-xl border border-zinc-200 bg-brand px-3 text-sm font-semibold text-white transition hover:bg-brand-dark"
+            className="h-10 rounded-r-xl border border-zinc-200 bg-brand px-3 text-sm font-semibold text-zinc-900 transition hover:bg-brand-dark"
           >
             {loading ? "…" : "Search"}
           </button>
@@ -341,7 +341,7 @@ export default function NavbarSearch() {
       {shouldShowDropdown && (
         <div className="absolute right-0 top-[calc(100%+10px)] z-50 w-80 overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-2xl sm:w-96">
           {loading && results.length === 0 && (
-            <div className="px-5 py-6 text-sm text-zinc-500">
+            <div className="px-5 py-6 text-sm text-zinc-400">
               Searching AI Cheatbook...
             </div>
           )}
@@ -376,7 +376,7 @@ export default function NavbarSearch() {
           )}
 
           {!loading && results.length === 0 && (
-            <div className="px-5 py-6 text-center text-sm text-zinc-500">
+            <div className="px-5 py-6 text-center text-sm text-zinc-400">
               No results found.
             </div>
           )}

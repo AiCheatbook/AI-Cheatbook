@@ -127,17 +127,17 @@ export default function AdminKeywordsPage() {
     return (
       <div key={parent.id}>
         <div
-          className="flex items-center justify-between gap-3 border-b border-zinc-800 py-2"
+          className="flex items-center justify-between gap-3 border-b border-zinc-200 py-2"
           style={{
             paddingLeft: depth * 24,
           }}
         >
           <div className="min-w-0">
-            <span className="text-sm text-white">
+            <span className="text-sm text-zinc-900">
               {parent.label}
             </span>
             {parent.category && (
-              <span className="ml-2 text-xs text-zinc-600">
+              <span className="ml-2 text-xs text-zinc-400">
                 {parent.category}
               </span>
             )}
@@ -156,7 +156,7 @@ export default function AdminKeywordsPage() {
                 e.target.value
               )
             }
-            className="shrink-0 rounded-lg border border-zinc-800 bg-zinc-900 px-2 py-1 text-xs text-white outline-none"
+            className="shrink-0 rounded-lg border border-zinc-200 bg-white px-2 py-1 text-xs text-zinc-900 outline-none"
           >
             <option value="">
               (top level)
@@ -200,7 +200,7 @@ export default function AdminKeywordsPage() {
                 ? "bg-brand/15 text-brand"
                 : parent.placement ===
                     "global"
-                  ? "bg-zinc-800 text-zinc-400"
+                  ? "bg-zinc-100 text-zinc-400"
                   : "bg-blue-500/15 text-blue-400"
             }`}
           >
@@ -222,7 +222,7 @@ export default function AdminKeywordsPage() {
   }
 
   return (
-    <main className="min-h-screen bg-black px-6 py-10 text-white">
+    <main className="min-h-screen bg-white px-6 py-10 text-zinc-900">
       <div className="mx-auto max-w-3xl">
         <p className="text-sm font-semibold uppercase tracking-wider text-brand">
           Admin
@@ -261,7 +261,7 @@ export default function AdminKeywordsPage() {
         </p>
 
         {error && (
-          <div className="mt-6 rounded-xl border border-red-900/50 bg-zinc-900 p-4">
+          <div className="mt-6 rounded-xl border border-red-900/50 bg-white p-4">
             <p className="text-sm text-red-400">
               {error}
             </p>
@@ -269,13 +269,13 @@ export default function AdminKeywordsPage() {
         )}
 
         {loading && (
-          <div className="mt-6 h-64 animate-pulse rounded-2xl bg-zinc-900" />
+          <div className="mt-6 h-64 animate-pulse rounded-2xl bg-white" />
         )}
 
         {!loading &&
           !error &&
           keywords.length === 0 && (
-            <p className="mt-8 text-center text-zinc-500">
+            <p className="mt-8 text-center text-zinc-400">
               No keywords yet.
             </p>
           )}
@@ -283,7 +283,7 @@ export default function AdminKeywordsPage() {
         {!loading &&
           !error &&
           keywords.length > 0 && (
-            <div className="mt-6 rounded-2xl border border-zinc-800 bg-zinc-950 p-4">
+            <div className="mt-6 rounded-2xl border border-zinc-200 bg-white p-4">
               {topLevel.map((keyword) =>
                 renderTree(keyword, 0)
               )}

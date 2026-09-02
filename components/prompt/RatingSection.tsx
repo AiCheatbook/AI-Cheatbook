@@ -210,10 +210,10 @@ export default function RatingSection({
       : 0;
 
   return (
-    <section className="mt-10 rounded-2xl border border-zinc-800 bg-zinc-900 p-5">
+    <section className="mt-10 rounded-2xl border border-zinc-200 bg-white p-5">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h2 className="text-lg font-semibold text-white">
+          <h2 className="text-lg font-semibold text-zinc-900">
             Ratings & Reviews
           </h2>
 
@@ -238,7 +238,7 @@ export default function RatingSection({
 
           {!loading &&
             ratings.length === 0 && (
-              <p className="mt-1 text-sm text-zinc-500">
+              <p className="mt-1 text-sm text-zinc-400">
                 No ratings yet.
               </p>
             )}
@@ -246,8 +246,8 @@ export default function RatingSection({
       </div>
 
       {currentUserId ? (
-        <div className="mt-4 rounded-xl border border-zinc-800 bg-black p-4">
-          <p className="text-sm font-medium text-zinc-300">
+        <div className="mt-4 rounded-xl border border-zinc-200 bg-white p-4">
+          <p className="text-sm font-medium text-zinc-400">
             {myRating
               ? "Your rating"
               : "Rate this prompt"}
@@ -294,7 +294,7 @@ export default function RatingSection({
             }
             rows={2}
             placeholder="Write a review (optional)..."
-            className="mt-3 w-full rounded-lg border border-zinc-800 bg-zinc-900 px-3 py-2 text-sm text-white placeholder:text-zinc-500 outline-none focus:border-brand"
+            className="mt-3 w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 outline-none focus:border-brand"
           />
 
           {error && (
@@ -304,7 +304,7 @@ export default function RatingSection({
           )}
         </div>
       ) : (
-        <p className="mt-4 rounded-xl border border-zinc-800 bg-black px-4 py-3 text-sm text-zinc-400">
+        <p className="mt-4 rounded-xl border border-zinc-200 bg-white px-4 py-3 text-sm text-zinc-400">
           <a
             href="/login"
             className="text-brand hover:text-brand"
@@ -316,7 +316,7 @@ export default function RatingSection({
       )}
 
       {withReview.length > 0 && (
-        <div className="mt-5 space-y-3 border-t border-zinc-800 pt-4">
+        <div className="mt-5 space-y-3 border-t border-zinc-200 pt-4">
           {withReview.map((r) => {
             const authorName =
               r.profiles
@@ -327,10 +327,10 @@ export default function RatingSection({
             return (
               <div
                 key={r.id}
-                className="rounded-xl border border-zinc-800 bg-black p-3"
+                className="rounded-xl border border-zinc-200 bg-white p-3"
               >
                 <div className="flex items-center gap-2">
-                  <span className="text-sm font-medium text-white">
+                  <span className="text-sm font-medium text-zinc-900">
                     {authorName}
                   </span>
                   <Stars

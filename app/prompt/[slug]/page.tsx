@@ -137,7 +137,7 @@ export default async function PromptDetailsPage({
       : [];
 
   return (
-    <main className="min-h-screen bg-black text-white">
+    <main className="min-h-screen bg-white text-zinc-900">
       <JsonLd
         data={[
           buildCreativeWorkSchema(
@@ -172,7 +172,7 @@ export default async function PromptDetailsPage({
             )}
 
             {item.category && (
-              <span className="inline-flex items-center rounded-full border border-zinc-700 bg-zinc-900 px-4 py-2 text-sm font-medium capitalize text-zinc-300">
+              <span className="inline-flex items-center rounded-full border border-zinc-300 bg-white px-4 py-2 text-sm font-medium capitalize text-zinc-400">
                 {item.category}
               </span>
             )}
@@ -209,7 +209,7 @@ export default async function PromptDetailsPage({
               {/* Image */}
 
               {item.media_type === "image" && (
-                <div className="relative overflow-hidden rounded-3xl border border-zinc-800 bg-zinc-900">
+                <div className="relative overflow-hidden rounded-3xl border border-zinc-200 bg-white">
 
                   <Image
                     src={item.media_url}
@@ -227,7 +227,7 @@ export default async function PromptDetailsPage({
               {/* YouTube */}
 
               {item.media_type === "youtube" && (
-                <div className="overflow-hidden rounded-3xl border border-zinc-800 bg-zinc-900">
+                <div className="overflow-hidden rounded-3xl border border-zinc-200 bg-white">
 
                   <div className="aspect-video">
 
@@ -250,7 +250,7 @@ export default async function PromptDetailsPage({
               {/* Hostinger Video */}
 
               {item.media_type === "hosted_video" && (
-                <div className="overflow-hidden rounded-3xl border border-zinc-800 bg-black">
+                <div className="overflow-hidden rounded-3xl border border-zinc-200 bg-white">
 
                   <video
                     controls
@@ -276,23 +276,23 @@ export default async function PromptDetailsPage({
         {/* Prompt */}
 
         {item.prompt && (
-          <section className="mt-8 rounded-2xl border border-zinc-800 bg-zinc-900 p-6 sm:p-8">
+          <section className="mt-8 rounded-2xl border border-zinc-200 bg-white p-6 sm:p-8">
 
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
 
-              <h2 className="text-xl font-semibold text-white">
+              <h2 className="text-xl font-semibold text-zinc-900">
                 Prompt
               </h2>
 
-              <span className="text-sm text-zinc-500">
+              <span className="text-sm text-zinc-400">
                 Ready to use
               </span>
 
             </div>
 
-            <div className="mt-5 rounded-xl border border-zinc-800 bg-black p-5 sm:p-6">
+            <div className="mt-5 rounded-xl border border-zinc-200 bg-white p-5 sm:p-6">
 
-              <p className="whitespace-pre-line wrap-break-word text-base leading-8 text-zinc-300">
+              <p className="whitespace-pre-line wrap-break-word text-base leading-8 text-zinc-400">
                 {item.prompt}
               </p>
 
@@ -321,11 +321,11 @@ export default async function PromptDetailsPage({
         {keywords.length > 0 && (
           <section className="mt-12">
 
-            <h2 className="text-xl font-semibold text-white">
+            <h2 className="text-xl font-semibold text-zinc-900">
               Keywords
             </h2>
 
-            <p className="mt-2 text-sm text-zinc-500">
+            <p className="mt-2 text-sm text-zinc-400">
               Click the + button to add
               keywords directly to the
               Prompt Builder.
@@ -342,7 +342,7 @@ export default async function PromptDetailsPage({
                 }) => (
                   <div
                     key={keyword.id}
-                    className="flex items-center gap-1 rounded-full border border-zinc-700 bg-zinc-900 pl-4 pr-1 py-1 text-sm text-zinc-300"
+                    className="flex items-center gap-1 rounded-full border border-zinc-300 bg-white pl-4 pr-1 py-1 text-sm text-zinc-400"
                   >
 
                     <span>
@@ -368,11 +368,11 @@ export default async function PromptDetailsPage({
         {item.category && (
           <section className="mt-10">
 
-            <p className="text-sm text-zinc-500">
+            <p className="text-sm text-zinc-400">
               Category
             </p>
 
-            <p className="mt-2 text-lg font-medium capitalize text-white">
+            <p className="mt-2 text-lg font-medium capitalize text-zinc-900">
               {item.category}
             </p>
 
@@ -385,7 +385,7 @@ export default async function PromptDetailsPage({
         {aiTools.length > 0 && (
           <section className="mt-10">
 
-            <p className="text-sm text-zinc-500">
+            <p className="text-sm text-zinc-400">
               Works With
             </p>
 
@@ -395,7 +395,7 @@ export default async function PromptDetailsPage({
                 (tool: string) => (
                   <span
                     key={tool}
-                    className="rounded-full border border-zinc-700 bg-zinc-900 px-4 py-2 text-sm text-zinc-300"
+                    className="rounded-full border border-zinc-300 bg-white px-4 py-2 text-sm text-zinc-400"
                   >
                     {tool}
                   </span>
@@ -411,15 +411,15 @@ export default async function PromptDetailsPage({
         {/* Author */}
 
         {item.author_name && (
-          <section className="mt-12 rounded-2xl border border-zinc-800 bg-zinc-950 p-6">
+          <section className="mt-12 rounded-2xl border border-zinc-200 bg-white p-6">
 
             <div className="mb-5">
 
-              <h2 className="text-xl font-semibold text-white">
+              <h2 className="text-xl font-semibold text-zinc-900">
                 Author
               </h2>
 
-              <p className="mt-2 text-sm text-zinc-500">
+              <p className="mt-2 text-sm text-zinc-400">
                 Prompt or concept created
                 and verified by the
                 community.
@@ -427,9 +427,9 @@ export default async function PromptDetailsPage({
 
             </div>
 
-            <div className="flex items-center gap-4 rounded-2xl border border-zinc-800 bg-zinc-900 p-5">
+            <div className="flex items-center gap-4 rounded-2xl border border-zinc-200 bg-white p-5">
 
-              <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-brand text-2xl font-bold text-white">
+              <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-brand text-2xl font-bold text-zinc-900">
                 {item.author_name
                   .charAt(0)
                   .toUpperCase()}
@@ -437,7 +437,7 @@ export default async function PromptDetailsPage({
 
               <div>
 
-                <h3 className="text-xl font-semibold text-white">
+                <h3 className="text-xl font-semibold text-zinc-900">
                   {item.author_name}
                 </h3>
 
@@ -461,7 +461,7 @@ export default async function PromptDetailsPage({
           item.library_comments.length > 0 && (
             <section className="mt-12">
 
-              <h2 className="text-2xl font-semibold text-white">
+              <h2 className="text-2xl font-semibold text-zinc-900">
                 Community Comments
               </h2>
 
@@ -476,10 +476,10 @@ export default async function PromptDetailsPage({
                   }) => (
                     <div
                       key={comment.id}
-                      className="flex gap-4 rounded-2xl border border-zinc-800 bg-zinc-900 p-5"
+                      className="flex gap-4 rounded-2xl border border-zinc-200 bg-white p-5"
                     >
 
-                      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-zinc-700 font-semibold text-white">
+                      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-zinc-700 font-semibold text-zinc-900">
                         {comment.author_name
                           .charAt(0)
                           .toUpperCase()}
@@ -487,11 +487,11 @@ export default async function PromptDetailsPage({
 
                       <div>
 
-                        <p className="font-medium text-white">
+                        <p className="font-medium text-zinc-900">
                           {comment.author_name}
                         </p>
 
-                        <p className="mt-2 text-zinc-300">
+                        <p className="mt-2 text-zinc-400">
                           {comment.comment}
                         </p>
 

@@ -432,8 +432,8 @@ export default function CommentSection({
         key={comment.id}
         className={
           isReply
-            ? "ml-10 mt-3 rounded-xl border border-zinc-800 bg-black p-3"
-            : "rounded-xl border border-zinc-800 bg-zinc-900 p-4"
+            ? "ml-10 mt-3 rounded-xl border border-zinc-200 bg-white p-3"
+            : "rounded-xl border border-zinc-200 bg-white p-4"
         }
       >
         <div className="flex items-start justify-between gap-3">
@@ -457,11 +457,11 @@ export default function CommentSection({
               </div>
             )}
 
-            <span className="text-sm font-medium text-white">
+            <span className="text-sm font-medium text-zinc-900">
               {authorName}
             </span>
 
-            <span className="text-xs text-zinc-600">
+            <span className="text-xs text-zinc-400">
               {new Date(
                 comment.created_at
               ).toLocaleDateString()}
@@ -474,14 +474,14 @@ export default function CommentSection({
               onClick={() =>
                 handleDelete(comment.id)
               }
-              className="text-xs text-zinc-600 hover:text-red-400"
+              className="text-xs text-zinc-400 hover:text-red-400"
             >
               Delete
             </button>
           )}
         </div>
 
-        <p className="mt-2 text-sm text-zinc-300">
+        <p className="mt-2 text-sm text-zinc-400">
           {comment.comment_text}
         </p>
 
@@ -500,7 +500,7 @@ export default function CommentSection({
               className={`rounded-full px-2.5 py-1 text-xs transition ${
                 mine
                   ? "bg-brand/15 text-brand"
-                  : "bg-zinc-800 text-zinc-400 hover:text-white"
+                  : "bg-zinc-100 text-zinc-400 hover:text-zinc-900"
               }`}
             >
               {mine
@@ -516,7 +516,7 @@ export default function CommentSection({
 
             {reactionPickerFor ===
               comment.id && (
-              <div className="absolute bottom-8 left-0 z-10 flex gap-1 rounded-full border border-zinc-800 bg-zinc-900 p-1.5 shadow-xl">
+              <div className="absolute bottom-8 left-0 z-10 flex gap-1 rounded-full border border-zinc-200 bg-white p-1.5 shadow-xl">
                 {REACTIONS.map(
                   (reaction) => (
                     <button
@@ -533,7 +533,7 @@ export default function CommentSection({
                           reaction.type
                         )
                       }
-                      className="rounded-full p-1.5 text-lg transition hover:scale-125 hover:bg-zinc-800"
+                      className="rounded-full p-1.5 text-lg transition hover:scale-125 hover:bg-zinc-100"
                     >
                       {reaction.emoji}
                     </button>
@@ -555,7 +555,7 @@ export default function CommentSection({
                       : comment.id
                   )
                 }
-                className="text-xs text-zinc-500 hover:text-white"
+                className="text-xs text-zinc-400 hover:text-zinc-900"
               >
                 Reply
               </button>
@@ -572,7 +572,7 @@ export default function CommentSection({
                 )
               }
               placeholder="Write a reply..."
-              className="flex-1 rounded-lg border border-zinc-800 bg-black px-3 py-1.5 text-sm text-white outline-none focus:border-brand"
+              className="flex-1 rounded-lg border border-zinc-200 bg-white px-3 py-1.5 text-sm text-zinc-900 outline-none focus:border-brand"
             />
 
             <button
@@ -585,7 +585,7 @@ export default function CommentSection({
               disabled={
                 !replyText.trim()
               }
-              className="rounded-lg bg-brand px-3 py-1.5 text-xs font-semibold text-white hover:bg-brand-dark disabled:opacity-50"
+              className="rounded-lg bg-brand px-3 py-1.5 text-xs font-semibold text-zinc-900 hover:bg-brand-dark disabled:opacity-50"
             >
               Reply
             </button>
@@ -602,8 +602,8 @@ export default function CommentSection({
   }
 
   return (
-    <section className="mt-12 border-t border-zinc-800 pt-8">
-      <h2 className="text-lg font-semibold text-white">
+    <section className="mt-12 border-t border-zinc-200 pt-8">
+      <h2 className="text-lg font-semibold text-zinc-900">
         Comments{" "}
         {!loading &&
           `(${comments.length})`}
@@ -623,7 +623,7 @@ export default function CommentSection({
             }
             rows={3}
             placeholder="Share your thoughts..."
-            className="w-full rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3 text-sm text-white placeholder:text-zinc-500 outline-none focus:border-brand"
+            className="w-full rounded-xl border border-zinc-200 bg-white px-4 py-3 text-sm text-zinc-900 placeholder:text-zinc-400 outline-none focus:border-brand"
           />
 
           {error && (
@@ -638,7 +638,7 @@ export default function CommentSection({
               posting ||
               !newComment.trim()
             }
-            className="mt-2 rounded-xl bg-brand px-5 py-2 text-sm font-semibold text-white transition hover:bg-brand-dark disabled:opacity-50"
+            className="mt-2 rounded-xl bg-brand px-5 py-2 text-sm font-semibold text-zinc-900 transition hover:bg-brand-dark disabled:opacity-50"
           >
             {posting
               ? "Posting..."
@@ -646,7 +646,7 @@ export default function CommentSection({
           </button>
         </form>
       ) : (
-        <p className="mt-4 rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3 text-sm text-zinc-400">
+        <p className="mt-4 rounded-xl border border-zinc-200 bg-white px-4 py-3 text-sm text-zinc-400">
           <a
             href="/login"
             className="text-brand hover:text-brand"
@@ -664,7 +664,7 @@ export default function CommentSection({
           }).map((_, i) => (
             <div
               key={i}
-              className="h-16 animate-pulse rounded-xl bg-zinc-900"
+              className="h-16 animate-pulse rounded-xl bg-white"
             />
           ))}
         </div>
@@ -672,7 +672,7 @@ export default function CommentSection({
 
       {!loading &&
         topLevel.length === 0 && (
-          <p className="mt-6 text-sm text-zinc-500">
+          <p className="mt-6 text-sm text-zinc-400">
             No comments yet — be the
             first to share your thoughts.
           </p>

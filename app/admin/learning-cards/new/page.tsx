@@ -497,7 +497,7 @@ export default function CreateLearningCardPage() {
   }
 
   return (
-    <main className="min-h-screen bg-black px-6 py-10 text-white">
+    <main className="min-h-screen bg-white px-6 py-10 text-zinc-900">
       <div className="mx-auto max-w-5xl">
 
         {/* =========================
@@ -508,7 +508,7 @@ export default function CreateLearningCardPage() {
 
           <Link
             href="/admin/learning-cards"
-            className="text-sm text-zinc-500 transition hover:text-white"
+            className="text-sm text-zinc-400 transition hover:text-zinc-900"
           >
             ← Back to Learning Cards
           </Link>
@@ -553,7 +553,7 @@ export default function CreateLearningCardPage() {
             BASIC INFORMATION
         ========================= */}
 
-        <section className="rounded-2xl border border-zinc-800 bg-zinc-950 p-6">
+        <section className="rounded-2xl border border-zinc-200 bg-white p-6">
 
           <h2 className="text-lg font-semibold">
             Learning Card Information
@@ -565,7 +565,7 @@ export default function CreateLearningCardPage() {
 
             <div>
 
-              <label className="text-sm font-medium text-zinc-300">
+              <label className="text-sm font-medium text-zinc-400">
                 Title
               </label>
 
@@ -578,7 +578,7 @@ export default function CreateLearningCardPage() {
                   )
                 }
                 placeholder="OpenAI launches a new AI model"
-                className="mt-2 h-12 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-4 text-white outline-none transition placeholder:text-zinc-600 focus:border-brand"
+                className="mt-2 h-12 w-full rounded-xl border border-zinc-200 bg-white px-4 text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-brand"
               />
 
             </div>
@@ -587,7 +587,7 @@ export default function CreateLearningCardPage() {
 
             <div>
 
-              <label className="text-sm font-medium text-zinc-300">
+              <label className="text-sm font-medium text-zinc-400">
                 Slug
               </label>
 
@@ -602,7 +602,7 @@ export default function CreateLearningCardPage() {
                   )
                 }
                 placeholder="openai-launches-new-ai-model"
-                className="mt-2 h-12 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-4 text-white outline-none transition placeholder:text-zinc-600 focus:border-brand"
+                className="mt-2 h-12 w-full rounded-xl border border-zinc-200 bg-white px-4 text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-brand"
               />
 
             </div>
@@ -613,7 +613,7 @@ export default function CreateLearningCardPage() {
 
               <div>
 
-                <label className="text-sm font-medium text-zinc-300">
+                <label className="text-sm font-medium text-zinc-400">
                   Category
                 </label>
 
@@ -626,14 +626,14 @@ export default function CreateLearningCardPage() {
                     )
                   }
                   placeholder="AI Models"
-                  className="mt-2 h-12 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-4 text-white outline-none transition placeholder:text-zinc-600 focus:border-brand"
+                  className="mt-2 h-12 w-full rounded-xl border border-zinc-200 bg-white px-4 text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-brand"
                 />
 
               </div>
 
               <div>
 
-                <label className="text-sm font-medium text-zinc-300">
+                <label className="text-sm font-medium text-zinc-400">
                   Author
                 </label>
 
@@ -646,7 +646,7 @@ export default function CreateLearningCardPage() {
                     )
                   }
                   placeholder="AI Cheatbook"
-                  className="mt-2 h-12 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-4 text-white outline-none transition placeholder:text-zinc-600 focus:border-brand"
+                  className="mt-2 h-12 w-full rounded-xl border border-zinc-200 bg-white px-4 text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-brand"
                 />
 
               </div>
@@ -657,9 +657,9 @@ export default function CreateLearningCardPage() {
 
             <div>
 
-              <label className="text-sm font-medium text-zinc-300">
+              <label className="text-sm font-medium text-zinc-400">
                 Tags{" "}
-                <span className="text-zinc-600">
+                <span className="text-zinc-400">
                   (comma separated)
                 </span>
               </label>
@@ -671,7 +671,7 @@ export default function CreateLearningCardPage() {
                   setTags(event.target.value)
                 }
                 placeholder="machine learning, neural networks, transformers"
-                className="mt-2 h-12 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-4 text-white outline-none transition placeholder:text-zinc-600 focus:border-brand"
+                className="mt-2 h-12 w-full rounded-xl border border-zinc-200 bg-white px-4 text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-brand"
               />
 
             </div>
@@ -680,7 +680,7 @@ export default function CreateLearningCardPage() {
 
             <div>
 
-              <label className="text-sm font-medium text-zinc-300">
+              <label className="text-sm font-medium text-zinc-400">
                 Summary
               </label>
 
@@ -693,7 +693,7 @@ export default function CreateLearningCardPage() {
                 }
                 rows={3}
                 placeholder="Short summary of the learning card..."
-                className="mt-2 w-full resize-y rounded-xl border border-zinc-800 bg-zinc-900 p-4 text-white outline-none transition placeholder:text-zinc-600 focus:border-brand"
+                className="mt-2 w-full resize-y rounded-xl border border-zinc-200 bg-white p-4 text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-brand"
               />
 
             </div>
@@ -745,7 +745,7 @@ export default function CreateLearningCardPage() {
             Content
           </h2>
 
-          <p className="mt-1 text-sm text-zinc-500">
+          <p className="mt-1 text-sm text-zinc-400">
             Write your article using the toolbar below — just like a word processor.
           </p>
 
@@ -774,7 +774,7 @@ export default function CreateLearningCardPage() {
             PUBLISH
         ========================= */}
 
-        <section className="mt-8 rounded-2xl border border-zinc-800 bg-zinc-950 p-5">
+        <section className="mt-8 rounded-2xl border border-zinc-200 bg-white p-5">
 
           <label className="flex cursor-pointer items-center gap-3">
 
@@ -789,7 +789,7 @@ export default function CreateLearningCardPage() {
               className="h-4 w-4 accent-brand"
             />
 
-            <span className="text-sm text-zinc-300">
+            <span className="text-sm text-zinc-400">
               Publish immediately
             </span>
 
@@ -799,7 +799,7 @@ export default function CreateLearningCardPage() {
 
             <Link
               href="/admin/learning-cards"
-              className="rounded-xl border border-zinc-800 px-5 py-2.5 text-sm font-medium text-zinc-400 transition hover:bg-zinc-900 hover:text-white"
+              className="rounded-xl border border-zinc-200 px-5 py-2.5 text-sm font-medium text-zinc-400 transition hover:bg-white hover:text-zinc-900"
             >
               Cancel
             </Link>
@@ -810,7 +810,7 @@ export default function CreateLearningCardPage() {
               onClick={() =>
                 handleSubmit(false)
               }
-              className="rounded-xl border border-zinc-700 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-zinc-800 disabled:cursor-not-allowed disabled:opacity-50"
+              className="rounded-xl border border-zinc-300 px-5 py-2.5 text-sm font-semibold text-zinc-900 transition hover:bg-zinc-100 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {saving
                 ? "Saving..."
@@ -823,7 +823,7 @@ export default function CreateLearningCardPage() {
               onClick={() =>
                 handleSubmit(true)
               }
-              className="rounded-xl bg-brand px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-dark disabled:cursor-not-allowed disabled:opacity-50"
+              className="rounded-xl bg-brand px-5 py-2.5 text-sm font-semibold text-zinc-900 transition hover:bg-brand-dark disabled:cursor-not-allowed disabled:opacity-50"
             >
               {saving
                 ? "Publishing..."

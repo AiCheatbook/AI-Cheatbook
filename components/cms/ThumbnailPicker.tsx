@@ -22,7 +22,7 @@ export default function ThumbnailPicker({
     useState("");
 
   const inputClass =
-    "w-full rounded-lg border border-zinc-800 bg-zinc-900 px-3 py-2 text-sm text-white placeholder:text-zinc-500 outline-none focus:border-brand";
+    "w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 outline-none focus:border-brand";
 
   const labelClass =
     "mb-1 block text-xs font-medium text-zinc-400";
@@ -111,12 +111,12 @@ export default function ThumbnailPicker({
   }
 
   return (
-    <div className="rounded-xl border border-zinc-800 bg-zinc-950 p-4">
-      <h3 className="text-sm font-semibold text-white">
+    <div className="rounded-xl border border-zinc-200 bg-white p-4">
+      <h3 className="text-sm font-semibold text-zinc-900">
         {label}
       </h3>
 
-      <p className="mt-1 text-xs text-zinc-500">
+      <p className="mt-1 text-xs text-zinc-400">
         Shown everywhere this content
         appears as a card (always 4:5).
         Optional — if left blank, a
@@ -125,7 +125,7 @@ export default function ThumbnailPicker({
       </p>
 
       <div className="mt-4 flex gap-4">
-        <div className="flex aspect-[4/5] w-24 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-zinc-800 bg-zinc-900">
+        <div className="flex aspect-[4/5] w-24 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-zinc-200 bg-white">
           {url ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
@@ -134,7 +134,7 @@ export default function ThumbnailPicker({
               className="h-full w-full object-cover"
             />
           ) : (
-            <span className="px-2 text-center text-[10px] text-zinc-600">
+            <span className="px-2 text-center text-[10px] text-zinc-400">
               Auto
             </span>
           )}
@@ -158,7 +158,7 @@ export default function ThumbnailPicker({
           </div>
 
           <div className="flex gap-2">
-            <label className="flex-1 cursor-pointer rounded-lg bg-brand px-3 py-2 text-center text-xs font-medium text-white hover:bg-brand-dark">
+            <label className="flex-1 cursor-pointer rounded-lg bg-brand px-3 py-2 text-center text-xs font-medium text-zinc-900 hover:bg-brand-dark">
               Upload to Hostinger
               <input
                 type="file"
@@ -178,7 +178,7 @@ export default function ThumbnailPicker({
               />
             </label>
 
-            <label className="flex-1 cursor-pointer rounded-lg border border-zinc-700 px-3 py-2 text-center text-xs font-medium text-white hover:bg-zinc-800">
+            <label className="flex-1 cursor-pointer rounded-lg border border-zinc-300 px-3 py-2 text-center text-xs font-medium text-zinc-900 hover:bg-zinc-100">
               Upload to Supabase
               <input
                 type="file"
@@ -200,7 +200,7 @@ export default function ThumbnailPicker({
           </div>
 
           {uploading && (
-            <p className="text-xs text-zinc-500">
+            <p className="text-xs text-zinc-400">
               Uploading...
             </p>
           )}

@@ -194,11 +194,11 @@ export default function SavedPromptsPage() {
   }
 
   return (
-    <main className="min-h-screen bg-black px-6 py-16 text-white">
+    <main className="min-h-screen bg-white px-6 py-16 text-zinc-900">
       <div className="mx-auto max-w-2xl">
         <Link
           href="/account"
-          className="text-sm text-zinc-500 hover:text-white"
+          className="text-sm text-zinc-400 hover:text-zinc-900"
         >
           ← Back to Account
         </Link>
@@ -215,7 +215,7 @@ export default function SavedPromptsPage() {
                 (v) => !v
               )
             }
-            className="rounded-xl border border-zinc-700 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800"
+            className="rounded-xl border border-zinc-300 px-4 py-2 text-sm font-medium text-zinc-900 hover:bg-zinc-100"
           >
             {showAddForm
               ? "Cancel"
@@ -226,12 +226,12 @@ export default function SavedPromptsPage() {
         {showAddForm && (
           <form
             onSubmit={handleManualAdd}
-            className="mt-4 rounded-2xl border border-zinc-800 bg-zinc-900 p-5"
+            className="mt-4 rounded-2xl border border-zinc-200 bg-white p-5"
           >
             <div>
-              <label className="text-sm font-medium text-zinc-300">
+              <label className="text-sm font-medium text-zinc-400">
                 Title{" "}
-                <span className="text-zinc-600">
+                <span className="text-zinc-400">
                   (optional)
                 </span>
               </label>
@@ -243,12 +243,12 @@ export default function SavedPromptsPage() {
                   )
                 }
                 placeholder="e.g. My favorite Midjourney prompt"
-                className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-black px-3 py-2 text-sm text-white outline-none focus:border-brand"
+                className="mt-1.5 w-full rounded-xl border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 outline-none focus:border-brand"
               />
             </div>
 
             <div className="mt-3">
-              <label className="text-sm font-medium text-zinc-300">
+              <label className="text-sm font-medium text-zinc-400">
                 Prompt Text
               </label>
               <textarea
@@ -260,14 +260,14 @@ export default function SavedPromptsPage() {
                 }
                 rows={4}
                 placeholder="Paste or type any prompt you want to save..."
-                className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-black px-3 py-2 text-sm text-white outline-none focus:border-brand"
+                className="mt-1.5 w-full rounded-xl border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 outline-none focus:border-brand"
               />
             </div>
 
             <div className="mt-3">
-              <label className="text-sm font-medium text-zinc-300">
+              <label className="text-sm font-medium text-zinc-400">
                 AI Tool{" "}
-                <span className="text-zinc-600">
+                <span className="text-zinc-400">
                   (optional)
                 </span>
               </label>
@@ -279,7 +279,7 @@ export default function SavedPromptsPage() {
                   )
                 }
                 placeholder="e.g. Midjourney"
-                className="mt-1.5 w-full rounded-xl border border-zinc-800 bg-black px-3 py-2 text-sm text-white outline-none focus:border-brand"
+                className="mt-1.5 w-full rounded-xl border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 outline-none focus:border-brand"
               />
             </div>
 
@@ -292,7 +292,7 @@ export default function SavedPromptsPage() {
             <button
               type="submit"
               disabled={adding}
-              className="mt-4 rounded-xl bg-brand px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-dark disabled:opacity-50"
+              className="mt-4 rounded-xl bg-brand px-5 py-2.5 text-sm font-semibold text-zinc-900 transition hover:bg-brand-dark disabled:opacity-50"
             >
               {adding
                 ? "Saving..."
@@ -308,14 +308,14 @@ export default function SavedPromptsPage() {
             }).map((_, i) => (
               <div
                 key={i}
-                className="h-24 animate-pulse rounded-2xl border border-zinc-800 bg-zinc-900"
+                className="h-24 animate-pulse rounded-2xl border border-zinc-200 bg-white"
               />
             ))}
           </div>
         )}
 
         {!loading && error && (
-          <div className="mt-6 rounded-2xl border border-red-900/50 bg-zinc-900 p-6">
+          <div className="mt-6 rounded-2xl border border-red-900/50 bg-white p-6">
             <p className="text-sm text-red-400">
               {error}
             </p>
@@ -325,14 +325,14 @@ export default function SavedPromptsPage() {
         {!loading &&
           !error &&
           prompts.length === 0 && (
-            <div className="mt-6 rounded-2xl border border-zinc-800 bg-zinc-900 p-8 text-center">
+            <div className="mt-6 rounded-2xl border border-zinc-200 bg-white p-8 text-center">
               <p className="text-zinc-400">
                 No saved prompts yet.
               </p>
 
               <Link
                 href="/generator"
-                className="mt-4 inline-block rounded-xl bg-brand px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-dark"
+                className="mt-4 inline-block rounded-xl bg-brand px-5 py-2.5 text-sm font-semibold text-zinc-900 hover:bg-brand-dark"
               >
                 Go to Generator
               </Link>
@@ -346,17 +346,17 @@ export default function SavedPromptsPage() {
               {prompts.map((item) => (
                 <div
                   key={item.id}
-                  className="rounded-2xl border border-zinc-800 bg-zinc-900 p-5"
+                  className="rounded-2xl border border-zinc-200 bg-white p-5"
                 >
                   <div className="flex items-start justify-between gap-4">
                     <div className="min-w-0">
-                      <h2 className="truncate font-semibold text-white">
+                      <h2 className="truncate font-semibold text-zinc-900">
                         {item.title ||
                           "Saved prompt"}
                       </h2>
 
                       {item.ai_tool && (
-                        <span className="mt-1 inline-block rounded-full bg-zinc-800 px-2 py-0.5 text-xs text-zinc-400">
+                        <span className="mt-1 inline-block rounded-full bg-zinc-100 px-2 py-0.5 text-xs text-zinc-400">
                           {item.ai_tool}
                         </span>
                       )}
@@ -371,7 +371,7 @@ export default function SavedPromptsPage() {
                             item.prompt_text
                           )
                         }
-                        className="rounded-lg border border-zinc-700 px-3 py-1.5 text-xs font-medium text-white hover:bg-zinc-800"
+                        className="rounded-lg border border-zinc-300 px-3 py-1.5 text-xs font-medium text-zinc-900 hover:bg-zinc-100"
                       >
                         {copiedId ===
                         item.id

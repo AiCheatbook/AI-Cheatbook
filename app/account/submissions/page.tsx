@@ -102,11 +102,11 @@ export default function MySubmissionsPage() {
   }, [router]);
 
   return (
-    <main className="min-h-screen bg-black px-6 py-16 text-white">
+    <main className="min-h-screen bg-white px-6 py-16 text-zinc-900">
       <div className="mx-auto max-w-2xl">
         <Link
           href="/account"
-          className="text-sm text-zinc-500 hover:text-white"
+          className="text-sm text-zinc-400 hover:text-zinc-900"
         >
           ← Back to Account
         </Link>
@@ -122,7 +122,7 @@ export default function MySubmissionsPage() {
             }).map((_, i) => (
               <div
                 key={i}
-                className="h-16 animate-pulse rounded-2xl border border-zinc-800 bg-zinc-900"
+                className="h-16 animate-pulse rounded-2xl border border-zinc-200 bg-white"
               />
             ))}
           </div>
@@ -130,7 +130,7 @@ export default function MySubmissionsPage() {
 
         {!loading &&
           submissions.length === 0 && (
-            <div className="mt-6 rounded-2xl border border-zinc-800 bg-zinc-900 p-8 text-center">
+            <div className="mt-6 rounded-2xl border border-zinc-200 bg-white p-8 text-center">
               <p className="text-zinc-400">
                 You haven&apos;t submitted
                 anything yet.
@@ -139,14 +139,14 @@ export default function MySubmissionsPage() {
               <div className="mt-4 flex justify-center gap-3">
                 <Link
                   href="/submit/prompt"
-                  className="rounded-xl border border-zinc-700 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800"
+                  className="rounded-xl border border-zinc-300 px-4 py-2 text-sm font-medium text-zinc-900 hover:bg-zinc-100"
                 >
                   Submit a Prompt
                 </Link>
 
                 <Link
                   href="/submit/learning-card"
-                  className="rounded-xl border border-zinc-700 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800"
+                  className="rounded-xl border border-zinc-300 px-4 py-2 text-sm font-medium text-zinc-900 hover:bg-zinc-100"
                 >
                   Submit a Learning Card
                 </Link>
@@ -160,13 +160,13 @@ export default function MySubmissionsPage() {
               {submissions.map((item) => (
                 <div
                   key={item.id}
-                  className="flex items-center justify-between rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3"
+                  className="flex items-center justify-between rounded-xl border border-zinc-200 bg-white px-4 py-3"
                 >
                   <div className="min-w-0">
-                    <p className="truncate font-medium text-white">
+                    <p className="truncate font-medium text-zinc-900">
                       {item.title}
                     </p>
-                    <p className="text-xs text-zinc-500">
+                    <p className="text-xs text-zinc-400">
                       {item.kind}
                     </p>
                   </div>
@@ -176,7 +176,7 @@ export default function MySubmissionsPage() {
                       STATUS_STYLES[
                         item.status
                       ] ||
-                      "bg-zinc-800 text-zinc-400"
+                      "bg-zinc-100 text-zinc-400"
                     }`}
                   >
                     {item.status}

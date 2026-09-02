@@ -12,7 +12,7 @@ export default function TableOfContents({
   }
 
   return (
-    <nav className="mb-8 rounded-xl border border-zinc-800 bg-zinc-950 p-5">
+    <nav className="mb-8 rounded-xl border border-zinc-200 bg-white p-5">
       <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-brand">
         On this page
       </p>

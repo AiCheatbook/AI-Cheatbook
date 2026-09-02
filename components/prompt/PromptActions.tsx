@@ -136,7 +136,7 @@ export default function PromptActions({
       <button
         type="button"
         onClick={handleCopy}
-        className="rounded-xl bg-brand px-6 py-4 font-semibold text-white transition hover:bg-brand-dark"
+        className="rounded-xl bg-brand px-6 py-4 font-semibold text-zinc-900 transition hover:bg-brand-dark"
       >
         {copied
           ? "✓ Copied"
@@ -149,7 +149,7 @@ export default function PromptActions({
         type="button"
         onClick={handleSave}
         disabled={ingredients.length === 0}
-        className="rounded-xl border border-zinc-700 px-6 py-4 font-semibold text-white transition hover:border-brand disabled:cursor-not-allowed disabled:opacity-40"
+        className="rounded-xl border border-zinc-300 px-6 py-4 font-semibold text-zinc-900 transition hover:border-brand disabled:cursor-not-allowed disabled:opacity-40"
       >
         {saved ? "✓ Saved" : "❤️ Save"}
       </button>
@@ -159,7 +159,7 @@ export default function PromptActions({
       <button
         type="button"
         onClick={handleShare}
-        className="rounded-xl border border-zinc-700 px-6 py-4 font-semibold text-white transition hover:border-brand"
+        className="rounded-xl border border-zinc-300 px-6 py-4 font-semibold text-zinc-900 transition hover:border-brand"
       >
         {shared
           ? "✓ Link Copied"

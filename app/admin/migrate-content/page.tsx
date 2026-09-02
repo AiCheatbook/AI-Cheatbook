@@ -254,7 +254,7 @@ export default function MigrateContentPage() {
   }
 
   return (
-    <main className="min-h-screen bg-black px-6 py-10 text-white">
+    <main className="min-h-screen bg-white px-6 py-10 text-zinc-900">
       <div className="mx-auto max-w-3xl">
         <h1 className="text-3xl font-bold">
           Migrate Content to Rich Text
@@ -275,7 +275,7 @@ export default function MigrateContentPage() {
           type="button"
           disabled={running}
           onClick={runMigration}
-          className="mt-6 rounded-xl bg-brand px-5 py-3 text-sm font-semibold text-white transition hover:bg-brand-dark disabled:opacity-50"
+          className="mt-6 rounded-xl bg-brand px-5 py-3 text-sm font-semibold text-zinc-900 transition hover:bg-brand-dark disabled:opacity-50"
         >
           {running
             ? "Migrating..."
@@ -283,14 +283,14 @@ export default function MigrateContentPage() {
         </button>
 
         {log.length > 0 && (
-          <div className="mt-8 max-h-[500px] overflow-y-auto rounded-xl border border-zinc-800 bg-zinc-950 p-4 font-mono text-sm">
+          <div className="mt-8 max-h-[500px] overflow-y-auto rounded-xl border border-zinc-200 bg-white p-4 font-mono text-sm">
             {log.map((line, index) => (
               <div
                 key={index}
                 className={
                   line.isError
                     ? "text-red-400"
-                    : "text-zinc-300"
+                    : "text-zinc-400"
                 }
               >
                 {line.text}

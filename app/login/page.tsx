@@ -135,20 +135,20 @@ function LoginPageContent() {
   }
 
   const inputClass =
-    "w-full rounded-full border border-zinc-800 bg-zinc-900 px-5 py-3 text-white placeholder:text-zinc-500 outline-none focus:border-brand";
+    "w-full rounded-full border border-zinc-200 bg-white px-5 py-3 text-zinc-900 placeholder:text-zinc-400 outline-none focus:border-brand";
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-black px-4 py-16">
+    <main className="flex min-h-screen items-center justify-center bg-white px-4 py-16">
       <div className="w-full max-w-sm">
         <div className="mb-8 text-center">
           <Link
             href="/"
-            className="text-2xl font-bold text-white"
+            className="text-2xl font-bold text-zinc-900"
           >
             AI Cheatbook
           </Link>
 
-          <p className="mt-2 text-sm text-zinc-500">
+          <p className="mt-2 text-sm text-zinc-400">
             {mode === "signup"
               ? "Create your account"
               : mode === "magic-link"
@@ -188,7 +188,7 @@ function LoginPageContent() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full rounded-full bg-brand py-3 font-semibold text-white transition hover:bg-brand-dark disabled:opacity-50"
+              className="w-full rounded-full bg-brand py-3 font-semibold text-zinc-900 transition hover:bg-brand-dark disabled:opacity-50"
             >
               {loading
                 ? "Sending..."
@@ -200,7 +200,7 @@ function LoginPageContent() {
               onClick={() =>
                 setMode("login")
               }
-              className="w-full text-center text-sm text-zinc-500 hover:text-white"
+              className="w-full text-center text-sm text-zinc-400 hover:text-zinc-900"
             >
               ← Back to password login
             </button>
@@ -263,7 +263,7 @@ function LoginPageContent() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full rounded-full bg-brand py-3 font-semibold text-white transition hover:bg-brand-dark disabled:opacity-50"
+              className="w-full rounded-full bg-brand py-3 font-semibold text-zinc-900 transition hover:bg-brand-dark disabled:opacity-50"
             >
               {loading
                 ? "Please wait..."
@@ -275,17 +275,17 @@ function LoginPageContent() {
         )}
 
         <div className="my-6 flex items-center gap-3">
-          <div className="h-px flex-1 bg-zinc-800" />
-          <span className="text-xs text-zinc-600">
+          <div className="h-px flex-1 bg-zinc-100" />
+          <span className="text-xs text-zinc-400">
             or
           </span>
-          <div className="h-px flex-1 bg-zinc-800" />
+          <div className="h-px flex-1 bg-zinc-100" />
         </div>
 
         <button
           type="button"
           onClick={handleGoogleLogin}
-          className="flex w-full items-center justify-center gap-3 rounded-full border border-zinc-800 bg-zinc-900 py-3 text-sm font-medium text-white transition hover:bg-zinc-800"
+          className="flex w-full items-center justify-center gap-3 rounded-full border border-zinc-200 bg-white py-3 text-sm font-medium text-zinc-900 transition hover:bg-zinc-100"
         >
           <svg
             width="18"
@@ -312,7 +312,7 @@ function LoginPageContent() {
           Continue with Google
         </button>
 
-        <p className="mt-8 text-center text-xs text-zinc-600">
+        <p className="mt-8 text-center text-xs text-zinc-400">
           By continuing, you agree to AI
           Cheatbook&apos;s Terms of Use and
           Privacy Policy.

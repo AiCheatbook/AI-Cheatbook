@@ -74,7 +74,7 @@ export default function AdminPromptsPage() {
   }, []);
 
   return (
-    <main className="min-h-screen bg-black px-6 py-10 text-white">
+    <main className="min-h-screen bg-white px-6 py-10 text-zinc-900">
       <div className="mx-auto max-w-6xl">
         {/* HEADER */}
 
@@ -95,7 +95,7 @@ export default function AdminPromptsPage() {
 
           <Link
             href="/admin/prompts/new"
-            className="inline-flex h-11 items-center justify-center rounded-xl bg-brand px-5 text-sm font-semibold text-white transition hover:bg-brand-dark"
+            className="inline-flex h-11 items-center justify-center rounded-xl bg-brand px-5 text-sm font-semibold text-zinc-900 transition hover:bg-brand-dark"
           >
             + Create Prompt
           </Link>
@@ -104,7 +104,7 @@ export default function AdminPromptsPage() {
         {/* ERROR */}
 
         {!loading && error && (
-          <div className="mt-8 rounded-2xl border border-red-900/50 bg-zinc-900 p-6">
+          <div className="mt-8 rounded-2xl border border-red-900/50 bg-white p-6">
             <h2 className="font-semibold text-red-400">
               Unable to load prompts
             </h2>
@@ -116,7 +116,7 @@ export default function AdminPromptsPage() {
             <button
               type="button"
               onClick={loadPrompts}
-              className="mt-4 rounded-lg border border-zinc-700 px-4 py-2 text-sm text-white transition hover:bg-zinc-800"
+              className="mt-4 rounded-lg border border-zinc-300 px-4 py-2 text-sm text-zinc-900 transition hover:bg-zinc-100"
             >
               Try Again
             </button>
@@ -131,7 +131,7 @@ export default function AdminPromptsPage() {
               (_, index) => (
                 <div
                   key={index}
-                  className="h-24 animate-pulse rounded-2xl border border-zinc-800 bg-zinc-900"
+                  className="h-24 animate-pulse rounded-2xl border border-zinc-200 bg-white"
                 />
               )
             )}
@@ -143,18 +143,18 @@ export default function AdminPromptsPage() {
         {!loading &&
           !error &&
           prompts.length === 0 && (
-            <div className="mt-8 rounded-2xl border border-zinc-800 bg-zinc-900 p-12 text-center">
-              <h2 className="text-lg font-semibold text-white">
+            <div className="mt-8 rounded-2xl border border-zinc-200 bg-white p-12 text-center">
+              <h2 className="text-lg font-semibold text-zinc-900">
                 No prompts yet
               </h2>
 
-              <p className="mt-2 text-sm text-zinc-500">
+              <p className="mt-2 text-sm text-zinc-400">
                 Create your first prompt.
               </p>
 
               <Link
                 href="/admin/prompts/new"
-                className="mt-5 inline-flex rounded-xl bg-brand px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-dark"
+                className="mt-5 inline-flex rounded-xl bg-brand px-5 py-2.5 text-sm font-semibold text-zinc-900 transition hover:bg-brand-dark"
               >
                 Create Prompt
               </Link>
@@ -166,8 +166,8 @@ export default function AdminPromptsPage() {
         {!loading &&
           !error &&
           prompts.length > 0 && (
-            <div className="mt-8 overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-950">
-              <div className="hidden grid-cols-[1fr_120px_100px_150px] gap-4 border-b border-zinc-800 bg-zinc-900/60 px-5 py-3 text-xs font-semibold uppercase tracking-wider text-zinc-500 md:grid">
+            <div className="mt-8 overflow-hidden rounded-2xl border border-zinc-200 bg-white">
+              <div className="hidden grid-cols-[1fr_120px_100px_150px] gap-4 border-b border-zinc-200 bg-zinc-50 px-5 py-3 text-xs font-semibold uppercase tracking-wider text-zinc-400 md:grid">
                 <span>Prompt</span>
                 <span>Category</span>
                 <span>Type</span>
@@ -178,10 +178,10 @@ export default function AdminPromptsPage() {
                 {prompts.map((item) => (
                   <div
                     key={item.id}
-                    className="grid gap-4 px-5 py-5 transition hover:bg-zinc-900/50 md:grid-cols-[1fr_120px_100px_150px] md:items-center"
+                    className="grid gap-4 px-5 py-5 transition hover:bg-white/50 md:grid-cols-[1fr_120px_100px_150px] md:items-center"
                   >
                     <div className="flex min-w-0 gap-4">
-                      <div className="h-16 w-24 shrink-0 overflow-hidden rounded-lg border border-zinc-800 bg-zinc-900">
+                      <div className="h-16 w-24 shrink-0 overflow-hidden rounded-lg border border-zinc-200 bg-white">
                         {item.media_url ? (
                           // eslint-disable-next-line @next/next/no-img-element
                           <img
@@ -192,18 +192,18 @@ export default function AdminPromptsPage() {
                             className="h-full w-full object-cover"
                           />
                         ) : (
-                          <div className="flex h-full items-center justify-center text-xs text-zinc-600">
+                          <div className="flex h-full items-center justify-center text-xs text-zinc-400">
                             No media
                           </div>
                         )}
                       </div>
 
                       <div className="min-w-0">
-                        <h2 className="truncate font-semibold text-white">
+                        <h2 className="truncate font-semibold text-zinc-900">
                           {item.title}
                         </h2>
 
-                        <p className="mt-1 truncate text-sm text-zinc-500">
+                        <p className="mt-1 truncate text-sm text-zinc-400">
                           /prompt/{item.slug}
                         </p>
 
@@ -236,7 +236,7 @@ export default function AdminPromptsPage() {
                         className={`rounded-full px-2.5 py-1 text-xs font-medium ${
                           item.is_published
                             ? "bg-green-500/10 text-green-400"
-                            : "bg-zinc-800 text-zinc-400"
+                            : "bg-zinc-100 text-zinc-400"
                         }`}
                       >
                         {item.is_published

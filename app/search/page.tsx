@@ -389,7 +389,7 @@ export default async function SearchPage({
     : "/search";
 
   return (
-    <main className="min-h-screen bg-black text-white">
+    <main className="min-h-screen bg-white text-zinc-900">
 
       <div className="mx-auto max-w-7xl px-5 py-12 sm:px-8 lg:px-10">
 
@@ -405,7 +405,7 @@ export default async function SearchPage({
             AI Library
           </h1>
 
-          <p className="mt-2 max-w-2xl text-sm text-zinc-500 sm:text-base">
+          <p className="mt-2 max-w-2xl text-sm text-zinc-400 sm:text-base">
             Browse prompts, concepts and
             techniques from one unified AI library.
           </p>
@@ -432,19 +432,19 @@ export default async function SearchPage({
 
         {/* Library */}
 
-        <section className="overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-950">
+        <section className="overflow-hidden rounded-2xl border border-zinc-200 bg-white">
 
           {/* Library Header */}
 
-          <div className="flex flex-wrap items-center justify-between gap-4 border-b border-zinc-800 px-5 py-4">
+          <div className="flex flex-wrap items-center justify-between gap-4 border-b border-zinc-200 px-5 py-4">
 
             <div>
 
-              <h2 className="font-semibold text-white">
+              <h2 className="font-semibold text-zinc-900">
                 Library
               </h2>
 
-              <p className="mt-1 text-xs text-zinc-500">
+              <p className="mt-1 text-xs text-zinc-400">
                 {results.length}{" "}
                 {results.length === 1
                   ? "item"
@@ -456,7 +456,7 @@ export default async function SearchPage({
             <div className="flex items-center gap-2">
 
               {query && (
-                <div className="hidden rounded-full border border-zinc-800 bg-zinc-900 px-3 py-1.5 text-xs text-zinc-400 sm:block">
+                <div className="hidden rounded-full border border-zinc-200 bg-white px-3 py-1.5 text-xs text-zinc-400 sm:block">
                   Search: &quot;{q}&quot;
                 </div>
               )}
@@ -464,7 +464,7 @@ export default async function SearchPage({
               {query && (
                 <Link
                   href={getClearSearchUrl()}
-                  className="rounded-lg border border-zinc-700 px-3 py-1.5 text-xs font-medium text-zinc-400 transition hover:border-brand hover:text-brand"
+                  className="rounded-lg border border-zinc-300 px-3 py-1.5 text-xs font-medium text-zinc-400 transition hover:border-brand hover:text-brand"
                 >
                   Clear Search
                 </Link>
@@ -480,7 +480,7 @@ export default async function SearchPage({
 
             {/* Left Library */}
 
-            <aside className="border-b border-zinc-800 lg:border-b-0 lg:border-r">
+            <aside className="border-b border-zinc-200 lg:border-b-0 lg:border-r">
 
               {results.length > 0 ? (
 
@@ -506,7 +506,7 @@ export default async function SearchPage({
                         className={`group block border-b border-zinc-900 px-5 py-4 transition ${
                           isSelected
                             ? "border-l-2 border-l-brand bg-brand/10"
-                            : "border-l-2 border-l-transparent hover:bg-zinc-900"
+                            : "border-l-2 border-l-transparent hover:bg-white"
                         }`}
                       >
 
@@ -514,7 +514,7 @@ export default async function SearchPage({
 
                           {/* Thumbnail */}
 
-                          <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-lg bg-zinc-900">
+                          <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-lg bg-white">
 
                             {item.media_url ? (
 
@@ -533,7 +533,7 @@ export default async function SearchPage({
 
                             ) : (
 
-                              <div className="flex h-full w-full items-center justify-center text-xs text-zinc-600">
+                              <div className="flex h-full w-full items-center justify-center text-xs text-zinc-400">
                                 AI
                               </div>
 
@@ -549,19 +549,19 @@ export default async function SearchPage({
                               className={`truncate text-sm font-semibold transition ${
                                 isSelected
                                   ? "text-brand"
-                                  : "text-zinc-200 group-hover:text-white"
+                                  : "text-zinc-700 group-hover:text-zinc-900"
                               }`}
                             >
                               {item.title}
                             </h3>
 
-                            <p className="mt-1 truncate text-xs text-zinc-500">
+                            <p className="mt-1 truncate text-xs text-zinc-400">
                               {item.category ||
                                 "AI Prompt"}
                             </p>
 
                             {itemTools[0] && (
-                              <p className="mt-1 truncate text-[11px] text-zinc-600">
+                              <p className="mt-1 truncate text-[11px] text-zinc-400">
                                 {itemTools[0]}
                               </p>
                             )}
@@ -584,25 +584,25 @@ export default async function SearchPage({
 
                   <div className="max-w-xs">
 
-                    <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-zinc-800 bg-zinc-900 text-xl">
+                    <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-zinc-200 bg-white text-xl">
                       🔍
                     </div>
 
-                    <p className="mt-4 text-sm font-semibold text-zinc-200">
+                    <p className="mt-4 text-sm font-semibold text-zinc-700">
                       No results found
                     </p>
 
                     {query ? (
-                      <p className="mt-2 text-xs leading-5 text-zinc-500">
+                      <p className="mt-2 text-xs leading-5 text-zinc-400">
                         We couldn&apos;t find anything
                         matching{" "}
-                        <span className="text-zinc-300">
+                        <span className="text-zinc-400">
                           &quot;{q}&quot;
                         </span>
                         .
                       </p>
                     ) : (
-                      <p className="mt-2 text-xs leading-5 text-zinc-500">
+                      <p className="mt-2 text-xs leading-5 text-zinc-400">
                         No library items match
                         your current filters.
                       </p>
@@ -611,7 +611,7 @@ export default async function SearchPage({
                     {query && (
                       <Link
                         href={getClearSearchUrl()}
-                        className="mt-5 inline-flex rounded-lg bg-brand px-4 py-2 text-xs font-semibold text-white transition hover:bg-brand-dark"
+                        className="mt-5 inline-flex rounded-lg bg-brand px-4 py-2 text-xs font-semibold text-zinc-900 transition hover:bg-brand-dark"
                       >
                         Clear Search
                       </Link>
@@ -641,7 +641,7 @@ export default async function SearchPage({
 
                     {selectedItem.media_url && (
 
-                      <div className="relative aspect-4/5 w-full shrink-0 overflow-hidden rounded-xl bg-zinc-900 sm:w-44">
+                      <div className="relative aspect-4/5 w-full shrink-0 overflow-hidden rounded-xl bg-white sm:w-44">
 
                         <Image
                           src={resolveThumbnailUrl(
@@ -677,7 +677,7 @@ export default async function SearchPage({
                         )}
 
                         {selectedItem.type && (
-                          <span className="rounded-full border border-zinc-800 px-3 py-1 text-xs text-zinc-500">
+                          <span className="rounded-full border border-zinc-200 px-3 py-1 text-xs text-zinc-400">
                             {
                               selectedItem.type
                             }
@@ -686,7 +686,7 @@ export default async function SearchPage({
 
                       </div>
 
-                      <h2 className="mt-4 text-2xl font-bold tracking-tight text-white sm:text-3xl">
+                      <h2 className="mt-4 text-2xl font-bold tracking-tight text-zinc-900 sm:text-3xl">
                         {selectedItem.title}
                       </h2>
 
@@ -710,19 +710,19 @@ export default async function SearchPage({
 
                       <div className="mb-3 flex items-center justify-between">
 
-                        <p className="text-xs font-semibold uppercase tracking-wider text-zinc-500">
+                        <p className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
                           Prompt
                         </p>
 
-                        <span className="text-xs text-zinc-600">
+                        <span className="text-xs text-zinc-400">
                           Ready to use
                         </span>
 
                       </div>
 
-                      <div className="rounded-xl border border-zinc-800 bg-black p-5">
+                      <div className="rounded-xl border border-zinc-200 bg-white p-5">
 
-                        <pre className="max-h-80 overflow-auto whitespace-pre-wrap wrap-break-word font-mono text-sm leading-6 text-zinc-300">
+                        <pre className="max-h-80 overflow-auto whitespace-pre-wrap wrap-break-word font-mono text-sm leading-6 text-zinc-400">
                           {
                             selectedItem.prompt
                           }
@@ -742,11 +742,11 @@ export default async function SearchPage({
 
                       <div className="mb-3 flex items-center justify-between gap-4">
 
-                        <p className="text-xs font-semibold uppercase tracking-wider text-zinc-500">
+                        <p className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
                           Keywords
                         </p>
 
-                        <span className="text-[11px] text-zinc-600">
+                        <span className="text-[11px] text-zinc-400">
                           Add to Generator
                         </span>
 
@@ -759,14 +759,14 @@ export default async function SearchPage({
 
                             <div
                               key={keyword}
-                              className="flex items-center gap-1 rounded-full border border-zinc-800 bg-zinc-900 pl-3 pr-1"
+                              className="flex items-center gap-1 rounded-full border border-zinc-200 bg-white pl-3 pr-1"
                             >
 
                               <Link
                                 href={`/search?q=${encodeURIComponent(
                                   keyword
                                 )}`}
-                                className="py-1.5 text-xs text-zinc-300 transition hover:text-brand"
+                                className="py-1.5 text-xs text-zinc-400 transition hover:text-brand"
                               >
                                 {keyword}
                               </Link>
@@ -792,7 +792,7 @@ export default async function SearchPage({
 
                     <div className="mt-7">
 
-                      <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-zinc-500">
+                      <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-zinc-400">
                         Works With
                       </p>
 
@@ -806,7 +806,7 @@ export default async function SearchPage({
                               href={`/search?tool=${encodeURIComponent(
                                 tool
                               )}`}
-                              className="rounded-lg border border-zinc-800 bg-zinc-900 px-3 py-2 text-xs text-zinc-300 transition hover:border-brand hover:text-brand"
+                              className="rounded-lg border border-zinc-200 bg-white px-3 py-2 text-xs text-zinc-400 transition hover:border-brand hover:text-brand"
                             >
                               {tool}
                             </Link>
@@ -822,9 +822,9 @@ export default async function SearchPage({
 
                   {/* Created By */}
 
-                  <div className="mt-8 border-t border-zinc-800 pt-6">
+                  <div className="mt-8 border-t border-zinc-200 pt-6">
 
-                    <p className="text-xs text-zinc-600">
+                    <p className="text-xs text-zinc-400">
                       Created by
                     </p>
 
@@ -840,14 +840,14 @@ export default async function SearchPage({
 
                     <Link
                       href={detailsUrl}
-                      className="rounded-xl bg-brand px-5 py-3 text-center text-sm font-semibold text-white transition hover:bg-brand-dark"
+                      className="rounded-xl bg-brand px-5 py-3 text-center text-sm font-semibold text-zinc-900 transition hover:bg-brand-dark"
                     >
                       Open Full Details →
                     </Link>
 
                     <Link
                       href={detailsUrl}
-                      className="rounded-xl border border-zinc-700 px-5 py-3 text-center text-sm font-semibold text-zinc-300 transition hover:border-brand hover:text-brand"
+                      className="rounded-xl border border-zinc-300 px-5 py-3 text-center text-sm font-semibold text-zinc-400 transition hover:border-brand hover:text-brand"
                     >
                       View Prompt
                     </Link>
@@ -864,15 +864,15 @@ export default async function SearchPage({
 
                   <div className="max-w-md">
 
-                    <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl border border-zinc-800 bg-zinc-900 text-2xl">
+                    <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl border border-zinc-200 bg-white text-2xl">
                       ✨
                     </div>
 
-                    <h2 className="mt-5 text-xl font-semibold text-white">
+                    <h2 className="mt-5 text-xl font-semibold text-zinc-900">
                       Explore the AI Library
                     </h2>
 
-                    <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-zinc-500">
+                    <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-zinc-400">
                       Search for a prompt,
                       concept, keyword or AI
                       tool to explore the library.
@@ -881,7 +881,7 @@ export default async function SearchPage({
                     {query && results.length === 0 && (
                       <Link
                         href={getClearSearchUrl()}
-                        className="mt-5 inline-flex rounded-xl bg-brand px-5 py-3 text-sm font-semibold text-white transition hover:bg-brand-dark"
+                        className="mt-5 inline-flex rounded-xl bg-brand px-5 py-3 text-sm font-semibold text-zinc-900 transition hover:bg-brand-dark"
                       >
                         Clear Search
                       </Link>

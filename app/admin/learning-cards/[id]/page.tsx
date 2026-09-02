@@ -991,13 +991,13 @@ export default function EditLearningCardPage() {
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-black px-6 py-10 text-white">
+      <main className="min-h-screen bg-white px-6 py-10 text-zinc-900">
         <div className="mx-auto max-w-5xl">
           <div className="animate-pulse space-y-4">
-            <div className="h-5 w-32 rounded bg-zinc-900" />
-            <div className="h-10 w-72 rounded bg-zinc-900" />
-            <div className="h-5 w-96 rounded bg-zinc-900" />
-            <div className="h-64 rounded-2xl bg-zinc-900" />
+            <div className="h-5 w-32 rounded bg-white" />
+            <div className="h-10 w-72 rounded bg-white" />
+            <div className="h-5 w-96 rounded bg-white" />
+            <div className="h-64 rounded-2xl bg-white" />
           </div>
         </div>
       </main>
@@ -1010,11 +1010,11 @@ export default function EditLearningCardPage() {
 
   if (error && !card) {
     return (
-      <main className="min-h-screen bg-black px-6 py-10 text-white">
+      <main className="min-h-screen bg-white px-6 py-10 text-zinc-900">
         <div className="mx-auto max-w-5xl">
           <Link
             href="/admin/card"
-            className="text-sm text-zinc-500 hover:text-white"
+            className="text-sm text-zinc-400 hover:text-zinc-900"
           >
             ← Back to Learning Cards
           </Link>
@@ -1038,7 +1038,7 @@ export default function EditLearningCardPage() {
    */
 
   return (
-    <main className="min-h-screen bg-black px-6 py-10 text-white">
+    <main className="min-h-screen bg-white px-6 py-10 text-zinc-900">
       <div className="mx-auto max-w-5xl">
 
         {/* Header */}
@@ -1046,7 +1046,7 @@ export default function EditLearningCardPage() {
         <div className="mb-8">
           <Link
             href="/admin/card"
-            className="text-sm text-zinc-500 transition hover:text-white"
+            className="text-sm text-zinc-400 transition hover:text-zinc-900"
           >
             ← Back to Learning Cards
           </Link>
@@ -1083,7 +1083,7 @@ export default function EditLearningCardPage() {
 
         {/* Learning Card Information */}
 
-        <section className="rounded-2xl border border-zinc-800 bg-zinc-950 p-6">
+        <section className="rounded-2xl border border-zinc-200 bg-white p-6">
           <h2 className="text-lg font-semibold">
             Learning Card Information
           </h2>
@@ -1093,7 +1093,7 @@ export default function EditLearningCardPage() {
             {/* Title */}
 
             <div>
-              <label className="mb-2 block text-sm text-zinc-300">
+              <label className="mb-2 block text-sm text-zinc-400">
                 Title
               </label>
 
@@ -1104,14 +1104,14 @@ export default function EditLearningCardPage() {
                     event.target.value
                   )
                 }
-                className="w-full rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3 text-white outline-none transition focus:border-brand"
+                className="w-full rounded-xl border border-zinc-200 bg-white px-4 py-3 text-zinc-900 outline-none transition focus:border-brand"
               />
             </div>
 
             {/* Slug */}
 
             <div>
-              <label className="mb-2 block text-sm text-zinc-300">
+              <label className="mb-2 block text-sm text-zinc-400">
                 Slug
               </label>
 
@@ -1122,7 +1122,7 @@ export default function EditLearningCardPage() {
                     event.target.value
                   )
                 }
-                className="w-full rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3 text-white outline-none transition focus:border-brand"
+                className="w-full rounded-xl border border-zinc-200 bg-white px-4 py-3 text-zinc-900 outline-none transition focus:border-brand"
               />
             </div>
 
@@ -1131,7 +1131,7 @@ export default function EditLearningCardPage() {
             <div className="grid gap-5 md:grid-cols-2">
 
               <div>
-                <label className="mb-2 block text-sm text-zinc-300">
+                <label className="mb-2 block text-sm text-zinc-400">
                   Category
                 </label>
 
@@ -1142,12 +1142,12 @@ export default function EditLearningCardPage() {
                       event.target.value
                     )
                   }
-                  className="w-full rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3 text-white outline-none transition focus:border-brand"
+                  className="w-full rounded-xl border border-zinc-200 bg-white px-4 py-3 text-zinc-900 outline-none transition focus:border-brand"
                 />
               </div>
 
               <div>
-                <label className="mb-2 block text-sm text-zinc-300">
+                <label className="mb-2 block text-sm text-zinc-400">
                   Author
                 </label>
 
@@ -1158,7 +1158,7 @@ export default function EditLearningCardPage() {
                       event.target.value
                     )
                   }
-                  className="w-full rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3 text-white outline-none transition focus:border-brand"
+                  className="w-full rounded-xl border border-zinc-200 bg-white px-4 py-3 text-zinc-900 outline-none transition focus:border-brand"
                 />
               </div>
 
@@ -1167,9 +1167,9 @@ export default function EditLearningCardPage() {
             {/* Tags */}
 
             <div>
-              <label className="mb-2 block text-sm text-zinc-300">
+              <label className="mb-2 block text-sm text-zinc-400">
                 Tags{" "}
-                <span className="text-zinc-600">
+                <span className="text-zinc-400">
                   (comma separated)
                 </span>
               </label>
@@ -1179,14 +1179,14 @@ export default function EditLearningCardPage() {
                 onChange={(event) =>
                   setTags(event.target.value)
                 }
-                className="w-full rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3 text-white outline-none transition focus:border-brand"
+                className="w-full rounded-xl border border-zinc-200 bg-white px-4 py-3 text-zinc-900 outline-none transition focus:border-brand"
               />
             </div>
 
             {/* Summary */}
 
             <div>
-              <label className="mb-2 block text-sm text-zinc-300">
+              <label className="mb-2 block text-sm text-zinc-400">
                 Summary
               </label>
 
@@ -1198,7 +1198,7 @@ export default function EditLearningCardPage() {
                   )
                 }
                 rows={4}
-                className="w-full resize-y rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3 text-white outline-none transition focus:border-brand"
+                className="w-full resize-y rounded-xl border border-zinc-200 bg-white px-4 py-3 text-zinc-900 outline-none transition focus:border-brand"
               />
             </div>
 
@@ -1243,7 +1243,7 @@ export default function EditLearningCardPage() {
             Content
           </h2>
 
-          <p className="mt-1 text-sm text-zinc-500">
+          <p className="mt-1 text-sm text-zinc-400">
             Write your article using the toolbar below — just like a word processor.
           </p>
 
@@ -1268,7 +1268,7 @@ export default function EditLearningCardPage() {
 
         {/* Actions */}
 
-        <section className="mt-6 rounded-2xl border border-zinc-800 bg-zinc-950 p-5">
+        <section className="mt-6 rounded-2xl border border-zinc-200 bg-white p-5">
 
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
 
@@ -1296,7 +1296,7 @@ export default function EditLearningCardPage() {
 
               <Link
                 href="/admin/card"
-                className="rounded-xl border border-zinc-800 px-5 py-3 text-sm text-zinc-300 transition hover:border-zinc-600 hover:text-white"
+                className="rounded-xl border border-zinc-200 px-5 py-3 text-sm text-zinc-400 transition hover:border-zinc-600 hover:text-zinc-900"
               >
                 Cancel
               </Link>
@@ -1320,7 +1320,7 @@ export default function EditLearningCardPage() {
                 onClick={() =>
                   handleSave()
                 }
-                className="rounded-xl border border-zinc-700 px-5 py-3 text-sm font-medium text-white transition hover:bg-zinc-900 disabled:cursor-not-allowed disabled:opacity-50"
+                className="rounded-xl border border-zinc-300 px-5 py-3 text-sm font-medium text-zinc-900 transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {saving
                   ? "Saving..."

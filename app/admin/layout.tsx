@@ -41,7 +41,7 @@ export default function AdminLayout({
                   "/admin/news"
                 )
                   ? "text-brand"
-                  : "text-neutral-400 hover:text-white"
+                  : "text-neutral-400 hover:text-zinc-900"
               }
             >
               News
@@ -54,7 +54,7 @@ export default function AdminLayout({
                   "/admin/prompts"
                 )
                   ? "text-brand"
-                  : "text-neutral-400 hover:text-white"
+                  : "text-neutral-400 hover:text-zinc-900"
               }
             >
               Prompt Library
@@ -67,7 +67,7 @@ export default function AdminLayout({
                   "/admin/learning-cards"
                 )
                   ? "text-brand"
-                  : "text-neutral-400 hover:text-white"
+                  : "text-neutral-400 hover:text-zinc-900"
               }
             >
               Learning Cards
@@ -80,7 +80,7 @@ export default function AdminLayout({
                   "/admin/submissions"
                 )
                   ? "text-brand"
-                  : "text-neutral-400 hover:text-white"
+                  : "text-neutral-400 hover:text-zinc-900"
               }
             >
               Submissions
@@ -93,7 +93,7 @@ export default function AdminLayout({
                   "/admin/keywords"
                 )
                   ? "text-brand"
-                  : "text-neutral-400 hover:text-white"
+                  : "text-neutral-400 hover:text-zinc-900"
               }
             >
               Keywords
@@ -106,7 +106,7 @@ export default function AdminLayout({
                   "/admin/structures"
                 )
                   ? "text-brand"
-                  : "text-neutral-400 hover:text-white"
+                  : "text-neutral-400 hover:text-zinc-900"
               }
             >
               Structures
@@ -116,7 +116,7 @@ export default function AdminLayout({
 
         <button
           onClick={handleLogout}
-          className="rounded-md border border-white/10 px-3 py-1 text-sm text-white hover:bg-white/10"
+          className="rounded-md border border-white/10 px-3 py-1 text-sm text-zinc-900 hover:bg-white/10"
         >
           Log Out
         </button>

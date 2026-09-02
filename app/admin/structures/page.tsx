@@ -130,10 +130,10 @@ export default function AdminStructuresPage() {
   }
 
   const inputClass =
-    "mt-2 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3 text-white outline-none transition focus:border-brand";
+    "mt-2 w-full rounded-xl border border-zinc-200 bg-white px-4 py-3 text-zinc-900 outline-none transition focus:border-brand";
 
   return (
-    <main className="min-h-screen bg-black px-6 py-10 text-white">
+    <main className="min-h-screen bg-white px-6 py-10 text-zinc-900">
       <div className="mx-auto max-w-2xl">
         <p className="text-sm font-semibold uppercase tracking-wider text-brand">
           Admin
@@ -150,7 +150,7 @@ export default function AdminStructuresPage() {
         </p>
 
         {error && (
-          <div className="mt-6 rounded-xl border border-red-900/50 bg-zinc-900 p-4">
+          <div className="mt-6 rounded-xl border border-red-900/50 bg-white p-4">
             <p className="text-sm text-red-400">
               {error}
             </p>
@@ -159,14 +159,14 @@ export default function AdminStructuresPage() {
 
         <form
           onSubmit={handleCreate}
-          className="mt-6 rounded-2xl border border-zinc-800 bg-zinc-950 p-5"
+          className="mt-6 rounded-2xl border border-zinc-200 bg-white p-5"
         >
-          <h2 className="font-semibold text-white">
+          <h2 className="font-semibold text-zinc-900">
             New Structure
           </h2>
 
           <div className="mt-4">
-            <label className="text-sm font-medium text-zinc-300">
+            <label className="text-sm font-medium text-zinc-400">
               Name
             </label>
             <input
@@ -180,9 +180,9 @@ export default function AdminStructuresPage() {
           </div>
 
           <div className="mt-4">
-            <label className="text-sm font-medium text-zinc-300">
+            <label className="text-sm font-medium text-zinc-400">
               Description{" "}
-              <span className="text-zinc-600">
+              <span className="text-zinc-400">
                 (optional)
               </span>
             </label>
@@ -198,9 +198,9 @@ export default function AdminStructuresPage() {
           </div>
 
           <div className="mt-4">
-            <label className="text-sm font-medium text-zinc-300">
+            <label className="text-sm font-medium text-zinc-400">
               Fields{" "}
-              <span className="text-zinc-600">
+              <span className="text-zinc-400">
                 (comma separated, in order)
               </span>
             </label>
@@ -219,7 +219,7 @@ export default function AdminStructuresPage() {
           <button
             type="submit"
             disabled={saving}
-            className="mt-5 rounded-xl bg-brand px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-dark disabled:opacity-50"
+            className="mt-5 rounded-xl bg-brand px-5 py-2.5 text-sm font-semibold text-zinc-900 transition hover:bg-brand-dark disabled:opacity-50"
           >
             {saving
               ? "Saving..."
@@ -228,7 +228,7 @@ export default function AdminStructuresPage() {
         </form>
 
         {loading && (
-          <div className="mt-6 h-40 animate-pulse rounded-2xl bg-zinc-900" />
+          <div className="mt-6 h-40 animate-pulse rounded-2xl bg-white" />
         )}
 
         {!loading &&
@@ -238,23 +238,23 @@ export default function AdminStructuresPage() {
                 (structure) => (
                   <div
                     key={structure.id}
-                    className="rounded-xl border border-zinc-800 bg-zinc-900 p-4"
+                    className="rounded-xl border border-zinc-200 bg-white p-4"
                   >
                     <div className="flex items-start justify-between gap-3">
                       <div>
-                        <h3 className="font-medium text-white">
+                        <h3 className="font-medium text-zinc-900">
                           {structure.name}
                         </h3>
 
                         {structure.description && (
-                          <p className="mt-1 text-sm text-zinc-500">
+                          <p className="mt-1 text-sm text-zinc-400">
                             {
                               structure.description
                             }
                           </p>
                         )}
 
-                        <p className="mt-2 text-xs text-zinc-600">
+                        <p className="mt-2 text-xs text-zinc-400">
                           {structure.fields.join(
                             " → "
                           )}
@@ -268,7 +268,7 @@ export default function AdminStructuresPage() {
                             structure.id
                           )
                         }
-                        className="shrink-0 text-xs text-zinc-600 hover:text-red-400"
+                        className="shrink-0 text-xs text-zinc-400 hover:text-red-400"
                       >
                         Delete
                       </button>

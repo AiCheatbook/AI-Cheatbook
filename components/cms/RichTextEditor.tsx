@@ -99,7 +99,7 @@ export default function RichTextEditor({
     editorProps: {
       attributes: {
         class:
-          "prose prose-invert max-w-none min-h-[300px] rounded-b-xl border border-t-0 border-zinc-800 bg-zinc-900 px-4 py-4 outline-none focus:border-brand",
+          "prose prose-invert max-w-none min-h-[300px] rounded-b-xl border border-t-0 border-zinc-200 bg-white px-4 py-4 outline-none focus:border-brand",
       },
     },
     onUpdate: ({ editor }) => {
@@ -255,15 +255,15 @@ export default function RichTextEditor({
   const buttonClass = (active: boolean) =>
     `rounded-md px-2.5 py-1.5 text-sm transition ${
       active
-        ? "bg-brand text-white"
-        : "text-zinc-300 hover:bg-zinc-800"
+        ? "bg-brand text-zinc-900"
+        : "text-zinc-400 hover:bg-zinc-100"
     }`;
 
   return (
-    <div className="rounded-xl border border-zinc-800">
+    <div className="rounded-xl border border-zinc-200">
       {/* Toolbar */}
 
-      <div className="flex flex-wrap items-center gap-1 rounded-t-xl border-b border-zinc-800 bg-zinc-950 p-2">
+      <div className="flex flex-wrap items-center gap-1 rounded-t-xl border-b border-zinc-200 bg-white p-2">
         <select
           value={
             editor.isActive("heading", { level: 1 })
@@ -291,7 +291,7 @@ export default function RichTextEditor({
                 .run();
             }
           }}
-          className="rounded-md border border-zinc-800 bg-zinc-900 px-2 py-1.5 text-sm text-white outline-none"
+          className="rounded-md border border-zinc-200 bg-white px-2 py-1.5 text-sm text-zinc-900 outline-none"
         >
           <option value="p">Paragraph</option>
           <option value="h1">Heading 1</option>
@@ -299,7 +299,7 @@ export default function RichTextEditor({
           <option value="h3">Heading 3</option>
         </select>
 
-        <div className="mx-1 h-6 w-px bg-zinc-800" />
+        <div className="mx-1 h-6 w-px bg-zinc-100" />
 
         <button type="button" onClick={() => editor.chain().focus().toggleBold().run()} className={buttonClass(editor.isActive("bold"))}>
           <b>B</b>
@@ -317,7 +317,7 @@ export default function RichTextEditor({
           <s>S</s>
         </button>
 
-        <div className="mx-1 h-6 w-px bg-zinc-800" />
+        <div className="mx-1 h-6 w-px bg-zinc-100" />
 
         {/* Text color */}
 
@@ -332,7 +332,7 @@ export default function RichTextEditor({
               editor.chain().focus().unsetColor().run();
             }
           }}
-          className="rounded-md border border-zinc-800 bg-zinc-900 px-2 py-1.5 text-sm text-white outline-none"
+          className="rounded-md border border-zinc-200 bg-white px-2 py-1.5 text-sm text-zinc-900 outline-none"
           title="Text color"
         >
           {TEXT_COLORS.map((c) => (
@@ -355,7 +355,7 @@ export default function RichTextEditor({
               editor.chain().focus().unsetHighlight().run();
             }
           }}
-          className="rounded-md border border-zinc-800 bg-zinc-900 px-2 py-1.5 text-sm text-white outline-none"
+          className="rounded-md border border-zinc-200 bg-white px-2 py-1.5 text-sm text-zinc-900 outline-none"
           title="Highlight"
         >
           {HIGHLIGHT_COLORS.map((c) => (
@@ -365,7 +365,7 @@ export default function RichTextEditor({
           ))}
         </select>
 
-        <div className="mx-1 h-6 w-px bg-zinc-800" />
+        <div className="mx-1 h-6 w-px bg-zinc-100" />
 
         {/* Alignment */}
 
@@ -381,7 +381,7 @@ export default function RichTextEditor({
           ➡
         </button>
 
-        <div className="mx-1 h-6 w-px bg-zinc-800" />
+        <div className="mx-1 h-6 w-px bg-zinc-100" />
 
         <button type="button" onClick={() => editor.chain().focus().toggleBulletList().run()} className={buttonClass(editor.isActive("bulletList"))}>
           • List
@@ -399,7 +399,7 @@ export default function RichTextEditor({
           {"</>"}
         </button>
 
-        <div className="mx-1 h-6 w-px bg-zinc-800" />
+        <div className="mx-1 h-6 w-px bg-zinc-100" />
 
         {/* Callouts */}
 
@@ -413,7 +413,7 @@ export default function RichTextEditor({
               e.target.value = "";
             }
           }}
-          className="rounded-md border border-zinc-800 bg-zinc-900 px-2 py-1.5 text-sm text-white outline-none"
+          className="rounded-md border border-zinc-200 bg-white px-2 py-1.5 text-sm text-zinc-900 outline-none"
           title="Insert callout box"
         >
           <option value="">+ Callout</option>
@@ -423,7 +423,7 @@ export default function RichTextEditor({
           <option value="info">ℹ️ Info</option>
         </select>
 
-        <div className="mx-1 h-6 w-px bg-zinc-800" />
+        <div className="mx-1 h-6 w-px bg-zinc-100" />
 
         <button type="button" onClick={insertLink} className={buttonClass(editor.isActive("link"))}>
           🔗 Link
@@ -470,7 +470,7 @@ export default function RichTextEditor({
           ─ Divider
         </button>
 
-        <div className="mx-1 h-6 w-px bg-zinc-800" />
+        <div className="mx-1 h-6 w-px bg-zinc-100" />
 
         <button type="button" onClick={() => editor.chain().focus().undo().run()} className={buttonClass(false)}>
           ↶ Undo

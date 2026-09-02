@@ -100,7 +100,7 @@ export default async function LearningCardDetailPage({
     []) as RelatedLearningCard[];
 
   return (
-    <main className="min-h-screen bg-black text-white">
+    <main className="min-h-screen bg-white text-zinc-900">
 
       <JsonLd
         data={[
@@ -135,7 +135,7 @@ export default async function LearningCardDetailPage({
 
           <Link
             href="/learning"
-            className="inline-flex items-center gap-2 text-sm font-medium text-zinc-500 transition hover:text-white"
+            className="inline-flex items-center gap-2 text-sm font-medium text-zinc-400 transition hover:text-zinc-900"
           >
             <span>←</span>
             <span>Back to Learning Cards</span>
@@ -155,7 +155,7 @@ export default async function LearningCardDetailPage({
 
           {/* Title */}
 
-          <h1 className="mt-5 max-w-4xl text-4xl font-bold leading-[1.08] tracking-tight text-white sm:text-5xl lg:text-6xl">
+          <h1 className="mt-5 max-w-4xl text-4xl font-bold leading-[1.08] tracking-tight text-zinc-900 sm:text-5xl lg:text-6xl">
             {card.title}
           </h1>
 
@@ -180,7 +180,7 @@ export default async function LearningCardDetailPage({
                     .toUpperCase()}
                 </div>
 
-                <span className="text-sm text-zinc-300">
+                <span className="text-sm text-zinc-400">
                   {card.author}
                 </span>
 
@@ -193,7 +193,7 @@ export default async function LearningCardDetailPage({
                   •
                 </span>
 
-                <time className="text-sm text-zinc-500">
+                <time className="text-sm text-zinc-400">
                   {new Date(
                     card.published_at
                   ).toLocaleDateString(
@@ -214,7 +214,7 @@ export default async function LearningCardDetailPage({
               <ShareButton
                 title={card.title}
                 text={card.summary || ""}
-                className="inline-flex items-center gap-2 rounded-xl border border-zinc-800 bg-zinc-950 px-4 py-2.5 text-sm font-medium text-zinc-300 transition hover:border-zinc-700 hover:bg-zinc-900 hover:text-white"
+                className="inline-flex items-center gap-2 rounded-xl border border-zinc-200 bg-white px-4 py-2.5 text-sm font-medium text-zinc-400 transition hover:border-zinc-300 hover:bg-white hover:text-zinc-900"
               />
             </div>
 
@@ -229,7 +229,7 @@ export default async function LearningCardDetailPage({
         {card.cover_image_url && (
           <div className="mx-auto mt-10 max-w-6xl px-4 sm:mt-12 sm:px-6">
 
-            <div className="overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-950 shadow-2xl sm:rounded-3xl">
+            <div className="overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-2xl sm:rounded-3xl">
 
               {card.media_source === "youtube" ? (
                 <div className="aspect-video">
@@ -275,9 +275,9 @@ export default async function LearningCardDetailPage({
               blocks={blocks}
             />
           ) : (
-            <div className="rounded-2xl border border-zinc-800 bg-zinc-950 p-8 text-center">
+            <div className="rounded-2xl border border-zinc-200 bg-white p-8 text-center">
 
-              <p className="text-zinc-500">
+              <p className="text-zinc-400">
                 This article has no content yet.
               </p>
 
@@ -304,7 +304,7 @@ export default async function LearningCardDetailPage({
       ================================= */}
 
       {relatedCards.length > 0 && (
-        <section className="border-t border-zinc-900 bg-zinc-950/50">
+        <section className="border-t border-zinc-900 bg-white/50">
 
           <div className="mx-auto max-w-6xl px-6 py-12 sm:py-16">
 
@@ -316,7 +316,7 @@ export default async function LearningCardDetailPage({
                   Keep Reading
                 </p>
 
-                <h2 className="mt-2 text-2xl font-bold text-white sm:text-3xl">
+                <h2 className="mt-2 text-2xl font-bold text-zinc-900 sm:text-3xl">
                   More Learning Cards
                 </h2>
 
@@ -324,7 +324,7 @@ export default async function LearningCardDetailPage({
 
               <Link
                 href="/learning"
-                className="hidden text-sm font-medium text-zinc-500 transition hover:text-white sm:block"
+                className="hidden text-sm font-medium text-zinc-400 transition hover:text-zinc-900 sm:block"
               >
                 View All →
               </Link>
@@ -338,12 +338,12 @@ export default async function LearningCardDetailPage({
                   <Link
                     key={item.id}
                     href={`/learning/${item.slug}`}
-                    className="group overflow-hidden rounded-2xl border border-zinc-800 bg-black transition hover:-translate-y-1 hover:border-zinc-700"
+                    className="group overflow-hidden rounded-2xl border border-zinc-200 bg-white transition hover:-translate-y-1 hover:border-zinc-300"
                   >
 
                     {/* Thumbnail (always 4:5) */}
 
-                    <div className="aspect-[4/5] overflow-hidden bg-zinc-900">
+                    <div className="aspect-[4/5] overflow-hidden bg-white">
 
                       {(item.thumbnail_url || item.cover_image_url) ? (
                         <img
@@ -377,12 +377,12 @@ export default async function LearningCardDetailPage({
                         </p>
                       )}
 
-                      <h3 className="mt-2 line-clamp-2 text-lg font-semibold leading-snug text-white transition group-hover:text-brand">
+                      <h3 className="mt-2 line-clamp-2 text-lg font-semibold leading-snug text-zinc-900 transition group-hover:text-brand">
                         {item.title}
                       </h3>
 
                       {item.published_at && (
-                        <p className="mt-3 text-xs text-zinc-600">
+                        <p className="mt-3 text-xs text-zinc-400">
                           {new Date(
                             item.published_at
                           ).toLocaleDateString(
@@ -410,7 +410,7 @@ export default async function LearningCardDetailPage({
 
               <Link
                 href="/learning"
-                className="text-sm font-medium text-zinc-500 transition hover:text-white"
+                className="text-sm font-medium text-zinc-400 transition hover:text-zinc-900"
               >
                 View All Learning Cards →
               </Link>
@@ -426,7 +426,7 @@ export default async function LearningCardDetailPage({
           FOOTER SPACE
       ================================= */}
 
-      <div className="h-10 bg-black" />
+      <div className="h-10 bg-white" />
 
     </main>
   );

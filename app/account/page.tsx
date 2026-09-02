@@ -80,9 +80,9 @@ export default function AccountPage() {
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-black px-6 py-16 text-white">
+      <main className="min-h-screen bg-white px-6 py-16 text-zinc-900">
         <div className="mx-auto max-w-md">
-          <div className="h-40 animate-pulse rounded-2xl bg-zinc-900" />
+          <div className="h-40 animate-pulse rounded-2xl bg-white" />
         </div>
       </main>
     );
@@ -90,9 +90,9 @@ export default function AccountPage() {
 
   if (error) {
     return (
-      <main className="min-h-screen bg-black px-6 py-16 text-white">
+      <main className="min-h-screen bg-white px-6 py-16 text-zinc-900">
         <div className="mx-auto max-w-md">
-          <div className="rounded-2xl border border-red-900/50 bg-zinc-900 p-6">
+          <div className="rounded-2xl border border-red-900/50 bg-white p-6">
             <h1 className="font-semibold text-red-400">
               Unable to load your account
             </h1>
@@ -131,9 +131,9 @@ export default function AccountPage() {
   );
 
   return (
-    <main className="min-h-screen bg-black px-6 py-16 text-white">
+    <main className="min-h-screen bg-white px-6 py-16 text-zinc-900">
       <div className="mx-auto max-w-md">
-        <div className="rounded-2xl border border-zinc-800 bg-zinc-950 p-6 text-center">
+        <div className="rounded-2xl border border-zinc-200 bg-white p-6 text-center">
           {profile.avatar_url ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
@@ -158,39 +158,39 @@ export default function AccountPage() {
               "Your Account"}
           </h1>
 
-          <p className="mt-1 text-sm text-zinc-500">
+          <p className="mt-1 text-sm text-zinc-400">
             {profile.email}
           </p>
         </div>
 
-        <div className="mt-4 rounded-2xl border border-zinc-800 bg-zinc-950 p-6">
+        <div className="mt-4 rounded-2xl border border-zinc-200 bg-white p-6">
           <p className="text-sm font-semibold uppercase tracking-wider text-brand">
             Real AI Usage Today
           </p>
 
           <p className="mt-2 text-3xl font-bold">
             {remaining}{" "}
-            <span className="text-lg font-normal text-zinc-500">
+            <span className="text-lg font-normal text-zinc-400">
               / {REGISTERED_DAILY_LIMIT}{" "}
               remaining
             </span>
           </p>
 
-          <p className="mt-2 text-sm text-zinc-500">
+          <p className="mt-2 text-sm text-zinc-400">
             Resets every day at midnight.
           </p>
         </div>
 
         <Link
           href="/account/saved-prompts"
-          className="mt-4 block w-full rounded-full border border-zinc-800 py-3 text-center text-sm font-medium text-white transition hover:bg-zinc-900"
+          className="mt-4 block w-full rounded-full border border-zinc-200 py-3 text-center text-sm font-medium text-zinc-900 transition hover:bg-white"
         >
           My Prompts
         </Link>
 
         <Link
           href="/account/submissions"
-          className="mt-3 block w-full rounded-full border border-zinc-800 py-3 text-center text-sm font-medium text-white transition hover:bg-zinc-900"
+          className="mt-3 block w-full rounded-full border border-zinc-200 py-3 text-center text-sm font-medium text-zinc-900 transition hover:bg-white"
         >
           My Submissions
         </Link>
@@ -198,7 +198,7 @@ export default function AccountPage() {
         <button
           type="button"
           onClick={handleLogout}
-          className="mt-3 w-full rounded-full border border-zinc-800 py-3 text-sm font-medium text-white transition hover:bg-zinc-900"
+          className="mt-3 w-full rounded-full border border-zinc-200 py-3 text-sm font-medium text-zinc-900 transition hover:bg-white"
         >
           Log Out
         </button>

@@ -405,30 +405,30 @@ export default function EditPromptPage() {
   }
 
   const inputClass =
-    "mt-2 h-12 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-4 text-white outline-none transition placeholder:text-zinc-600 focus:border-brand";
+    "mt-2 h-12 w-full rounded-xl border border-zinc-200 bg-white px-4 text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-brand";
 
   const textareaClass =
-    "mt-2 w-full resize-y rounded-xl border border-zinc-800 bg-zinc-900 p-4 text-white outline-none transition placeholder:text-zinc-600 focus:border-brand";
+    "mt-2 w-full resize-y rounded-xl border border-zinc-200 bg-white p-4 text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-brand";
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-black px-6 py-10 text-white">
+      <main className="min-h-screen bg-white px-6 py-10 text-zinc-900">
         <div className="mx-auto max-w-4xl">
-          <div className="h-8 w-48 animate-pulse rounded bg-zinc-800" />
-          <div className="mt-8 h-64 animate-pulse rounded-2xl bg-zinc-900" />
+          <div className="h-8 w-48 animate-pulse rounded bg-zinc-100" />
+          <div className="mt-8 h-64 animate-pulse rounded-2xl bg-white" />
         </div>
       </main>
     );
   }
 
   return (
-    <main className="min-h-screen bg-black px-6 py-10 text-white">
+    <main className="min-h-screen bg-white px-6 py-10 text-zinc-900">
       <div className="mx-auto max-w-4xl">
         <div className="flex items-center justify-between">
           <div>
             <Link
               href="/admin/prompts"
-              className="text-sm text-zinc-500 hover:text-zinc-300"
+              className="text-sm text-zinc-400 hover:text-zinc-400"
             >
               ← Back to Prompt Library
             </Link>
@@ -440,7 +440,7 @@ export default function EditPromptPage() {
             className={`rounded-full px-3 py-1 text-xs font-medium ${
               isPublished
                 ? "bg-green-500/10 text-green-400"
-                : "bg-zinc-800 text-zinc-400"
+                : "bg-zinc-100 text-zinc-400"
             }`}
           >
             {isPublished ? "Published" : "Draft"}
@@ -448,7 +448,7 @@ export default function EditPromptPage() {
         </div>
 
         {error && (
-          <div className="mt-6 rounded-xl border border-red-900/50 bg-zinc-900 p-4">
+          <div className="mt-6 rounded-xl border border-red-900/50 bg-white p-4">
             <p className="whitespace-pre-wrap text-sm text-red-400">
               {error}
             </p>
@@ -460,7 +460,7 @@ export default function EditPromptPage() {
 
           <div className="mt-4 grid gap-5">
             <div>
-              <label className="text-sm font-medium text-zinc-300">
+              <label className="text-sm font-medium text-zinc-400">
                 Title
               </label>
               <input
@@ -471,7 +471,7 @@ export default function EditPromptPage() {
             </div>
 
             <div>
-              <label className="text-sm font-medium text-zinc-300">
+              <label className="text-sm font-medium text-zinc-400">
                 URL Slug
               </label>
               <input
@@ -481,14 +481,14 @@ export default function EditPromptPage() {
                 }
                 className={inputClass}
               />
-              <p className="mt-1 text-xs text-zinc-600">
+              <p className="mt-1 text-xs text-zinc-400">
                 aicheatbook.com/prompt/{slug || "..."}
               </p>
             </div>
 
             <div className="grid gap-5 sm:grid-cols-2">
               <div>
-                <label className="text-sm font-medium text-zinc-300">
+                <label className="text-sm font-medium text-zinc-400">
                   Type
                 </label>
                 <select
@@ -505,7 +505,7 @@ export default function EditPromptPage() {
               </div>
 
               <div>
-                <label className="text-sm font-medium text-zinc-300">
+                <label className="text-sm font-medium text-zinc-400">
                   Category
                 </label>
                 <select
@@ -523,7 +523,7 @@ export default function EditPromptPage() {
             </div>
 
             <div>
-              <label className="text-sm font-medium text-zinc-300">
+              <label className="text-sm font-medium text-zinc-400">
                 Description
               </label>
               <textarea
@@ -535,9 +535,9 @@ export default function EditPromptPage() {
             </div>
 
             <div>
-              <label className="text-sm font-medium text-zinc-300">
+              <label className="text-sm font-medium text-zinc-400">
                 Full Details{" "}
-                <span className="text-zinc-600">
+                <span className="text-zinc-400">
                   (optional, shown on the prompt's own page)
                 </span>
               </label>
@@ -560,7 +560,7 @@ export default function EditPromptPage() {
             </div>
 
             <div>
-              <label className="text-sm font-medium text-zinc-300">
+              <label className="text-sm font-medium text-zinc-400">
                 Prompt Content
               </label>
               <textarea
@@ -589,9 +589,9 @@ export default function EditPromptPage() {
             </div>
 
             <div>
-              <label className="text-sm font-medium text-zinc-300">
+              <label className="text-sm font-medium text-zinc-400">
                 Author Name{" "}
-                <span className="text-zinc-600">(optional)</span>
+                <span className="text-zinc-400">(optional)</span>
               </label>
               <input
                 value={authorName}
@@ -617,7 +617,7 @@ export default function EditPromptPage() {
                   className={`rounded-full border px-4 py-2 text-sm transition ${
                     selected
                       ? "border-brand bg-brand/15 text-brand"
-                      : "border-zinc-800 text-zinc-400 hover:border-zinc-600"
+                      : "border-zinc-200 text-zinc-400 hover:border-zinc-600"
                   }`}
                 >
                   {tool}
@@ -639,22 +639,22 @@ export default function EditPromptPage() {
           <h2 className="text-xl font-semibold">Visibility</h2>
 
           <div className="mt-4 flex flex-wrap gap-6">
-            <label className="flex items-center gap-2 text-sm text-zinc-300">
+            <label className="flex items-center gap-2 text-sm text-zinc-400">
               <input
                 type="checkbox"
                 checked={isFeatured}
                 onChange={(e) => setIsFeatured(e.target.checked)}
-                className="h-4 w-4 rounded border-zinc-700 bg-zinc-900"
+                className="h-4 w-4 rounded border-zinc-300 bg-white"
               />
               Featured
             </label>
 
-            <label className="flex items-center gap-2 text-sm text-zinc-300">
+            <label className="flex items-center gap-2 text-sm text-zinc-400">
               <input
                 type="checkbox"
                 checked={isTrending}
                 onChange={(e) => setIsTrending(e.target.checked)}
-                className="h-4 w-4 rounded border-zinc-700 bg-zinc-900"
+                className="h-4 w-4 rounded border-zinc-300 bg-white"
               />
               Trending
             </label>
@@ -671,13 +671,13 @@ export default function EditPromptPage() {
           />
         </section>
 
-        <div className="mt-10 flex items-center justify-between border-t border-zinc-800 pt-6">
+        <div className="mt-10 flex items-center justify-between border-t border-zinc-200 pt-6">
           <div className="flex gap-3">
             <button
               type="button"
               disabled={saving}
               onClick={() => handleSubmit(false)}
-              className="rounded-xl border border-zinc-700 px-5 py-3 text-sm font-semibold text-white transition hover:bg-zinc-800 disabled:opacity-50"
+              className="rounded-xl border border-zinc-300 px-5 py-3 text-sm font-semibold text-zinc-900 transition hover:bg-zinc-100 disabled:opacity-50"
             >
               Save Draft
             </button>
@@ -686,7 +686,7 @@ export default function EditPromptPage() {
               type="button"
               disabled={saving}
               onClick={() => handleSubmit(true)}
-              className="rounded-xl bg-brand px-5 py-3 text-sm font-semibold text-white transition hover:bg-brand-dark disabled:opacity-50"
+              className="rounded-xl bg-brand px-5 py-3 text-sm font-semibold text-zinc-900 transition hover:bg-brand-dark disabled:opacity-50"
             >
               {saving ? "Saving..." : "Publish"}
             </button>

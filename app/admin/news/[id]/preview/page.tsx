@@ -89,17 +89,17 @@ export default function NewsPreviewPage() {
 
   if (raw && !preview) {
     return (
-      <main className="min-h-screen bg-black px-6 py-16 text-white">
+      <main className="min-h-screen bg-white px-6 py-16 text-zinc-900">
         <div className="mx-auto max-w-4xl">
 
           <Link
             href={editorUrl}
-            className="text-sm text-zinc-500 transition hover:text-white"
+            className="text-sm text-zinc-400 transition hover:text-zinc-900"
           >
             ← Back to Editor
           </Link>
 
-          <div className="mt-8 rounded-2xl border border-red-900/50 bg-zinc-950 p-8">
+          <div className="mt-8 rounded-2xl border border-red-900/50 bg-white p-8">
 
             <h1 className="text-2xl font-semibold text-red-400">
               Preview unavailable
@@ -109,7 +109,7 @@ export default function NewsPreviewPage() {
               The preview data is invalid or corrupted.
             </p>
 
-            <p className="mt-2 text-sm text-zinc-600">
+            <p className="mt-2 text-sm text-zinc-400">
               Go back to the editor and click Preview again.
             </p>
 
@@ -126,19 +126,19 @@ export default function NewsPreviewPage() {
 
   if (!raw) {
     return (
-      <main className="min-h-screen bg-black px-6 py-16 text-white">
+      <main className="min-h-screen bg-white px-6 py-16 text-zinc-900">
         <div className="mx-auto max-w-4xl">
 
           <Link
             href={editorUrl}
-            className="text-sm text-zinc-500 transition hover:text-white"
+            className="text-sm text-zinc-400 transition hover:text-zinc-900"
           >
             ← Back to Editor
           </Link>
 
-          <div className="mt-8 rounded-2xl border border-zinc-800 bg-zinc-950 p-10">
+          <div className="mt-8 rounded-2xl border border-zinc-200 bg-white p-10">
 
-            <h1 className="text-2xl font-semibold text-white">
+            <h1 className="text-2xl font-semibold text-zinc-900">
               No Preview Data
             </h1>
 
@@ -171,13 +171,13 @@ export default function NewsPreviewPage() {
   ======================================================= */
 
   return (
-    <main className="min-h-screen bg-black text-white">
+    <main className="min-h-screen bg-white text-zinc-900">
 
       {/* ===================================================
           PREVIEW BAR
       =================================================== */}
 
-      <div className="sticky top-0 z-50 border-b border-brand/30 bg-zinc-950/95 px-6 py-3 backdrop-blur">
+      <div className="sticky top-0 z-50 border-b border-brand/30 bg-white/95 px-6 py-3 backdrop-blur">
 
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4">
 
@@ -187,7 +187,7 @@ export default function NewsPreviewPage() {
               PREVIEW
             </span>
 
-            <span className="hidden text-sm text-zinc-500 sm:block">
+            <span className="hidden text-sm text-zinc-400 sm:block">
               Unsaved editor preview
             </span>
 
@@ -195,7 +195,7 @@ export default function NewsPreviewPage() {
 
           <Link
             href={editorUrl}
-            className="rounded-lg border border-zinc-700 px-4 py-2 text-sm font-medium text-zinc-300 transition hover:border-zinc-500 hover:text-white"
+            className="rounded-lg border border-zinc-300 px-4 py-2 text-sm font-medium text-zinc-400 transition hover:border-zinc-500 hover:text-zinc-900"
           >
             ← Back to Editor
           </Link>
@@ -220,7 +220,7 @@ export default function NewsPreviewPage() {
 
         {/* TITLE */}
 
-        <h1 className="mt-3 text-4xl font-bold leading-tight tracking-tight text-white sm:text-5xl">
+        <h1 className="mt-3 text-4xl font-bold leading-tight tracking-tight text-zinc-900 sm:text-5xl">
           {news.title}
         </h1>
 
@@ -234,7 +234,7 @@ export default function NewsPreviewPage() {
 
         {/* META */}
 
-        <div className="mt-6 flex flex-wrap items-center gap-4 text-sm text-zinc-500">
+        <div className="mt-6 flex flex-wrap items-center gap-4 text-sm text-zinc-400">
 
           {news.author && (
             <span>
@@ -259,7 +259,7 @@ export default function NewsPreviewPage() {
         {/* COVER IMAGE */}
 
         {news.cover_image_url && (
-          <div className="mt-10 overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-950">
+          <div className="mt-10 overflow-hidden rounded-2xl border border-zinc-200 bg-white">
 
             <img
               src={news.cover_image_url}
@@ -304,9 +304,9 @@ export default function NewsPreviewPage() {
         {/* EMPTY CONTENT */}
 
         {blocks.length === 0 && (
-          <div className="mt-10 rounded-2xl border border-zinc-800 bg-zinc-950 p-8 text-center">
+          <div className="mt-10 rounded-2xl border border-zinc-200 bg-white p-8 text-center">
 
-            <p className="text-zinc-500">
+            <p className="text-zinc-400">
               This article has no content yet.
             </p>
 
@@ -417,7 +417,7 @@ function PreviewBlock({
     }
 
     return (
-      <h2 className="text-2xl font-bold leading-tight text-white sm:text-3xl">
+      <h2 className="text-2xl font-bold leading-tight text-zinc-900 sm:text-3xl">
         {text}
       </h2>
     );
@@ -443,7 +443,7 @@ function PreviewBlock({
     }
 
     return (
-      <p className="whitespace-pre-wrap text-base leading-8 text-zinc-300">
+      <p className="whitespace-pre-wrap text-base leading-8 text-zinc-400">
         {text}
       </p>
     );
@@ -468,7 +468,7 @@ function PreviewBlock({
     }
 
     return (
-      <ul className="list-disc space-y-2 pl-6 text-base leading-7 text-zinc-300">
+      <ul className="list-disc space-y-2 pl-6 text-base leading-7 text-zinc-400">
 
         {items.map(
           (item, index) => (
@@ -501,7 +501,7 @@ function PreviewBlock({
     }
 
     return (
-      <ol className="list-decimal space-y-2 pl-6 text-base leading-7 text-zinc-300">
+      <ol className="list-decimal space-y-2 pl-6 text-base leading-7 text-zinc-400">
 
         {items.map(
           (item, index) => (
@@ -549,7 +549,7 @@ function PreviewBlock({
     return (
       <figure>
 
-        <div className="overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-950">
+        <div className="overflow-hidden rounded-2xl border border-zinc-200 bg-white">
 
           <img
             src={url}
@@ -563,7 +563,7 @@ function PreviewBlock({
         </div>
 
         {caption && (
-          <figcaption className="mt-3 text-center text-sm text-zinc-500">
+          <figcaption className="mt-3 text-center text-sm text-zinc-400">
             {caption}
           </figcaption>
         )}
@@ -600,7 +600,7 @@ function PreviewBlock({
     return (
       <figure>
 
-        <div className="overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-950">
+        <div className="overflow-hidden rounded-2xl border border-zinc-200 bg-white">
 
           <video
             src={url}
@@ -611,7 +611,7 @@ function PreviewBlock({
         </div>
 
         {caption && (
-          <figcaption className="mt-3 text-center text-sm text-zinc-500">
+          <figcaption className="mt-3 text-center text-sm text-zinc-400">
             {caption}
           </figcaption>
         )}
@@ -648,12 +648,12 @@ function PreviewBlock({
     return (
       <blockquote className="border-l-2 border-brand pl-5">
 
-        <p className="text-lg italic leading-8 text-zinc-200">
+        <p className="text-lg italic leading-8 text-zinc-700">
           “{text}”
         </p>
 
         {author && (
-          <footer className="mt-3 text-sm text-zinc-500">
+          <footer className="mt-3 text-sm text-zinc-400">
             — {author}
           </footer>
         )}
@@ -673,7 +673,7 @@ function PreviewBlock({
 
     return (
       <div className="py-2">
-        <div className="h-px bg-zinc-800" />
+        <div className="h-px bg-zinc-100" />
       </div>
     );
   }
@@ -698,9 +698,9 @@ function PreviewBlock({
     }
 
     return (
-      <pre className="overflow-x-auto rounded-2xl border border-zinc-800 bg-zinc-950 p-5">
+      <pre className="overflow-x-auto rounded-2xl border border-zinc-200 bg-white p-5">
 
-        <code className="font-mono text-sm leading-7 text-zinc-300">
+        <code className="font-mono text-sm leading-7 text-zinc-400">
           {code}
         </code>
 

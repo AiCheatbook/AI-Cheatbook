@@ -62,7 +62,7 @@ export default function MediaPicker({
     useState("");
 
   const inputClass =
-    "w-full rounded-lg border border-zinc-800 bg-zinc-900 px-3 py-2 text-sm text-white placeholder:text-zinc-500 outline-none focus:border-brand";
+    "w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 outline-none focus:border-brand";
 
   const labelClass =
     "mb-1 block text-xs font-medium text-zinc-400";
@@ -177,8 +177,8 @@ export default function MediaPicker({
   }
 
   return (
-    <div className="rounded-xl border border-zinc-800 bg-zinc-950 p-4">
-      <h3 className="text-sm font-semibold text-white">
+    <div className="rounded-xl border border-zinc-200 bg-white p-4">
+      <h3 className="text-sm font-semibold text-zinc-900">
         {label}
       </h3>
 
@@ -271,11 +271,11 @@ export default function MediaPicker({
             accept="image/jpeg,image/png,image/webp,image/gif"
             onChange={handleFileSelected}
             disabled={uploading}
-            className="block w-full text-sm text-zinc-400 file:mr-3 file:rounded-lg file:border-0 file:bg-brand file:px-4 file:py-2 file:text-sm file:font-medium file:text-white hover:file:bg-brand-dark disabled:opacity-50"
+            className="block w-full text-sm text-zinc-400 file:mr-3 file:rounded-lg file:border-0 file:bg-brand file:px-4 file:py-2 file:text-sm file:font-medium file:text-zinc-900 hover:file:bg-brand-dark disabled:opacity-50"
           />
 
           {uploading && (
-            <p className="mt-2 text-xs text-zinc-500">
+            <p className="mt-2 text-xs text-zinc-400">
               Uploading...
             </p>
           )}
@@ -307,7 +307,7 @@ export default function MediaPicker({
             <img
               src={url}
               alt="Media preview"
-              className={`rounded-lg border border-zinc-800 object-cover ${
+              className={`rounded-lg border border-zinc-200 object-cover ${
                 media.aspectRatio === "9:16"
                   ? "aspect-[9/16] w-40"
                   : media.aspectRatio ===

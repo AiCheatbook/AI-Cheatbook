@@ -155,8 +155,8 @@ export default function SubmitPromptPage() {
 
   if (success) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-black px-4 text-white">
-        <div className="w-full max-w-md rounded-2xl border border-zinc-800 bg-zinc-900 p-8 text-center">
+      <main className="flex min-h-screen items-center justify-center bg-white px-4 text-zinc-900">
+        <div className="w-full max-w-md rounded-2xl border border-zinc-200 bg-white p-8 text-center">
           <h1 className="text-xl font-bold">
             Submitted for review!
           </h1>
@@ -170,14 +170,14 @@ export default function SubmitPromptPage() {
           <div className="mt-6 flex justify-center gap-3">
             <Link
               href="/account/submissions"
-              className="rounded-xl border border-zinc-700 px-5 py-2.5 text-sm font-semibold text-white hover:bg-zinc-800"
+              className="rounded-xl border border-zinc-300 px-5 py-2.5 text-sm font-semibold text-zinc-900 hover:bg-zinc-100"
             >
               View My Submissions
             </Link>
 
             <Link
               href="/generator"
-              className="rounded-xl bg-brand px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-dark"
+              className="rounded-xl bg-brand px-5 py-2.5 text-sm font-semibold text-zinc-900 hover:bg-brand-dark"
             >
               Back to Generator
             </Link>
@@ -188,10 +188,10 @@ export default function SubmitPromptPage() {
   }
 
   const inputClass =
-    "mt-2 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3 text-white outline-none transition focus:border-brand";
+    "mt-2 w-full rounded-xl border border-zinc-200 bg-white px-4 py-3 text-zinc-900 outline-none transition focus:border-brand";
 
   return (
-    <main className="min-h-screen bg-black px-6 py-16 text-white">
+    <main className="min-h-screen bg-white px-6 py-16 text-zinc-900">
       <form
         onSubmit={handleSubmit}
         className="mx-auto max-w-2xl"
@@ -200,7 +200,7 @@ export default function SubmitPromptPage() {
           Submit a Prompt
         </h1>
 
-        <p className="mt-2 text-sm text-zinc-500">
+        <p className="mt-2 text-sm text-zinc-400">
           Share a prompt with the community.
           It'll be reviewed before
           publishing.
@@ -213,7 +213,7 @@ export default function SubmitPromptPage() {
         )}
 
         <div className="mt-6">
-          <label className="text-sm font-medium text-zinc-300">
+          <label className="text-sm font-medium text-zinc-400">
             Title
           </label>
           <input
@@ -227,9 +227,9 @@ export default function SubmitPromptPage() {
         </div>
 
         <div className="mt-5">
-          <label className="text-sm font-medium text-zinc-300">
+          <label className="text-sm font-medium text-zinc-400">
             Description{" "}
-            <span className="text-zinc-600">
+            <span className="text-zinc-400">
               (optional)
             </span>
           </label>
@@ -247,7 +247,7 @@ export default function SubmitPromptPage() {
         </div>
 
         <div className="mt-5">
-          <label className="text-sm font-medium text-zinc-300">
+          <label className="text-sm font-medium text-zinc-400">
             Prompt Content
           </label>
           <textarea
@@ -265,7 +265,7 @@ export default function SubmitPromptPage() {
 
         <div className="mt-5 grid gap-5 sm:grid-cols-2">
           <div>
-            <label className="text-sm font-medium text-zinc-300">
+            <label className="text-sm font-medium text-zinc-400">
               Category
             </label>
             <select
@@ -289,7 +289,7 @@ export default function SubmitPromptPage() {
           </div>
 
           <div>
-            <label className="text-sm font-medium text-zinc-300">
+            <label className="text-sm font-medium text-zinc-400">
               Type
             </label>
             <select
@@ -312,7 +312,7 @@ export default function SubmitPromptPage() {
         </div>
 
         <div className="mt-5">
-          <label className="text-sm font-medium text-zinc-300">
+          <label className="text-sm font-medium text-zinc-400">
             AI Tools
           </label>
 
@@ -336,7 +336,7 @@ export default function SubmitPromptPage() {
                     className={`rounded-full border px-4 py-2 text-sm transition ${
                       selected
                         ? "border-brand bg-brand/15 text-brand"
-                        : "border-zinc-800 text-zinc-400 hover:border-zinc-600"
+                        : "border-zinc-200 text-zinc-400 hover:border-zinc-600"
                     }`}
                   >
                     {tool}
@@ -350,7 +350,7 @@ export default function SubmitPromptPage() {
         <button
           type="submit"
           disabled={submitting}
-          className="mt-8 w-full rounded-xl bg-brand py-3 font-semibold text-white transition hover:bg-brand-dark disabled:opacity-50"
+          className="mt-8 w-full rounded-xl bg-brand py-3 font-semibold text-zinc-900 transition hover:bg-brand-dark disabled:opacity-50"
         >
           {submitting
             ? "Submitting..."
