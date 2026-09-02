@@ -56,16 +56,38 @@ export default async function DiscussionThreadPage({
 }: PageProps) {
   const { id } = await params;
 
-  const { data: thread } = await supabase
-    .from("community_threads")
-    .select("id")
-    .eq("id", id)
-    .eq("is_hidden", false)
-    .is("deleted_at", null)
-    .maybeSingle();
+  const { data: thread, error } =
+    await supabase
+      .from("community_threads")
+      .select("id")
+      .eq("id", id)
+      .eq("is_hidden", false)
+      .is("deleted_at", null)
+      .maybeSingle();
 
-  if (!thread) {
+  /*
+   * Only 404 when we're CONFIDENT the
+   * post doesn't exist (query succeeded,
+   * zero matching rows) — never on a
+   * query error (e.g. a column that
+   * doesn't exist yet because a migration
+   * hasn't been run). An error here
+   * should never take down real content;
+   * the client component does its own
+   * fetch and will show its own not-found
+   * state if the post is genuinely
+   * missing.
+   */
+
+  if (!thread && !error) {
     notFound();
+  }
+
+  if (error) {
+    console.error(
+      "Discussion existence check failed:",
+      error.message
+    );
   }
 
   return <DiscussionDetailClient />;
