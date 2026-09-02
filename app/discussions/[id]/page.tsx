@@ -458,9 +458,9 @@ export default function DiscussionThreadPage() {
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-white px-6 py-12 text-zinc-900">
+      <main className="min-h-screen bg-black px-6 py-12 text-white">
         <div className="mx-auto max-w-3xl">
-          <div className="h-40 animate-pulse rounded-2xl bg-white" />
+          <div className="h-40 animate-pulse rounded-2xl bg-zinc-900" />
         </div>
       </main>
     );
@@ -468,7 +468,7 @@ export default function DiscussionThreadPage() {
 
   if (error || !thread) {
     return (
-      <main className="min-h-screen bg-white px-6 py-12 text-zinc-900">
+      <main className="min-h-screen bg-black px-6 py-12 text-white">
         <div className="mx-auto max-w-3xl">
           <p className="text-red-400">
             {error ||
@@ -476,7 +476,7 @@ export default function DiscussionThreadPage() {
           </p>
           <Link
             href="/discussions"
-            className="mt-4 inline-block text-brand hover:text-brand"
+            className="mt-4 inline-block text-orange-500 hover:text-orange-400"
           >
             ← Back to Discussions
           </Link>
@@ -533,7 +533,7 @@ export default function DiscussionThreadPage() {
         } rounded-xl border p-4 ${
           isAccepted
             ? "border-green-600/50 bg-green-500/5"
-            : "border-zinc-200 bg-white"
+            : "border-zinc-800 bg-zinc-900"
         }`}
       >
         {isAccepted && (
@@ -556,14 +556,14 @@ export default function DiscussionThreadPage() {
                 className="h-6 w-6 rounded-full object-cover"
               />
             ) : (
-              <div className="flex h-6 w-6 items-center justify-center rounded-full bg-brand/20 text-xs font-bold text-brand">
+              <div className="flex h-6 w-6 items-center justify-center rounded-full bg-orange-500/20 text-xs font-bold text-orange-400">
                 {replyAuthor
                   .charAt(0)
                   .toUpperCase()}
               </div>
             )}
 
-            <span className="text-sm font-medium text-zinc-900">
+            <span className="text-sm font-medium text-white">
               {replyAuthor}
             </span>
 
@@ -589,7 +589,7 @@ export default function DiscussionThreadPage() {
           )}
         </div>
 
-        <p className="mt-2 text-sm text-zinc-600">
+        <p className="mt-2 text-sm text-zinc-300">
           {reply.body}
         </p>
 
@@ -601,8 +601,8 @@ export default function DiscussionThreadPage() {
             }
             className={`rounded-full px-2.5 py-1 text-xs transition ${
               myReplyVotes.has(reply.id)
-                ? "bg-brand/15 text-brand"
-                : "bg-zinc-100 text-zinc-600 hover:text-zinc-900"
+                ? "bg-orange-500/15 text-orange-400"
+                : "bg-zinc-800 text-zinc-400 hover:text-white"
             }`}
           >
             ▲ {voteCount}
@@ -620,7 +620,7 @@ export default function DiscussionThreadPage() {
                       : reply.id
                   )
                 }
-                className="text-xs text-zinc-600 hover:text-zinc-900"
+                className="text-xs text-zinc-500 hover:text-white"
               >
                 Reply
               </button>
@@ -637,7 +637,7 @@ export default function DiscussionThreadPage() {
               className={`text-xs ${
                 isAccepted
                   ? "text-green-400 hover:text-green-300"
-                  : "text-zinc-600 hover:text-zinc-900"
+                  : "text-zinc-500 hover:text-white"
               }`}
             >
               {isAccepted
@@ -657,7 +657,7 @@ export default function DiscussionThreadPage() {
                 )
               }
               placeholder="Write a reply..."
-              className="flex-1 rounded-lg border border-zinc-200 bg-white px-3 py-1.5 text-sm text-zinc-900 outline-none focus:border-brand"
+              className="flex-1 rounded-lg border border-zinc-800 bg-black px-3 py-1.5 text-sm text-white outline-none focus:border-orange-500"
             />
 
             <button
@@ -671,7 +671,7 @@ export default function DiscussionThreadPage() {
                 !nestedReplyText.trim() ||
                 posting
               }
-              className="rounded-lg bg-brand px-3 py-1.5 text-xs font-semibold text-zinc-900 hover:bg-brand-dark disabled:opacity-50"
+              className="rounded-lg bg-orange-500 px-3 py-1.5 text-xs font-semibold text-white hover:bg-orange-600 disabled:opacity-50"
             >
               Reply
             </button>
@@ -692,7 +692,7 @@ export default function DiscussionThreadPage() {
       <div className="mx-auto max-w-3xl">
         <Link
           href="/discussions"
-          className="text-sm text-zinc-600 hover:text-zinc-900"
+          className="text-sm text-zinc-500 hover:text-white"
         >
           ← Back to Discussions
         </Link>
@@ -721,12 +721,12 @@ export default function DiscussionThreadPage() {
           {thread.content_kind ===
             "question" &&
             !thread.accepted_reply_id && (
-              <span className="rounded-full bg-zinc-100 px-2.5 py-1 text-xs text-zinc-600">
+              <span className="rounded-full bg-zinc-800 px-2.5 py-1 text-xs text-zinc-400">
                 Unanswered
               </span>
             )}
 
-          <span className="rounded-full bg-zinc-100 px-2.5 py-1 text-xs text-zinc-600">
+          <span className="rounded-full bg-zinc-800 px-2.5 py-1 text-xs text-zinc-400">
             {
               CATEGORY_LABELS[
                 thread.category
@@ -740,7 +740,7 @@ export default function DiscussionThreadPage() {
         </h1>
 
         <div className="mt-2 flex items-center justify-between">
-          <p className="text-sm text-zinc-600">
+          <p className="text-sm text-zinc-500">
             {authorName} ·{" "}
             {new Date(
               thread.created_at
@@ -758,8 +758,8 @@ export default function DiscussionThreadPage() {
           )}
         </div>
 
-        <div className="mt-4 rounded-2xl border border-zinc-200 bg-white p-5">
-          <p className="whitespace-pre-wrap text-zinc-700">
+        <div className="mt-4 rounded-2xl border border-zinc-800 bg-zinc-900 p-5">
+          <p className="whitespace-pre-wrap text-zinc-200">
             {thread.body}
           </p>
 
@@ -768,8 +768,8 @@ export default function DiscussionThreadPage() {
             onClick={handleThreadVote}
             className={`mt-4 rounded-full px-3 py-1.5 text-sm transition ${
               myThreadVote
-                ? "bg-brand/15 text-brand"
-                : "bg-zinc-100 text-zinc-600 hover:text-zinc-900"
+                ? "bg-orange-500/15 text-orange-400"
+                : "bg-zinc-800 text-zinc-400 hover:text-white"
             }`}
           >
             ▲ {threadVoteCount}{" "}
@@ -779,7 +779,7 @@ export default function DiscussionThreadPage() {
           </button>
         </div>
 
-        <h2 className="mt-8 text-lg font-semibold text-zinc-900">
+        <h2 className="mt-8 text-lg font-semibold text-white">
           {topLevelReplies.length}{" "}
           {thread.content_kind ===
           "question"
@@ -804,7 +804,7 @@ export default function DiscussionThreadPage() {
               }
               rows={3}
               placeholder="Write a reply..."
-              className="w-full rounded-xl border border-zinc-200 bg-white px-4 py-3 text-sm text-zinc-900 placeholder:text-zinc-600 outline-none focus:border-brand"
+              className="w-full rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3 text-sm text-white placeholder:text-zinc-500 outline-none focus:border-orange-500"
             />
 
             <button
@@ -816,7 +816,7 @@ export default function DiscussionThreadPage() {
                 !newReply.trim() ||
                 posting
               }
-              className="mt-2 rounded-xl bg-brand px-5 py-2 text-sm font-semibold text-zinc-900 transition hover:bg-brand-dark disabled:opacity-50"
+              className="mt-2 rounded-xl bg-orange-500 px-5 py-2 text-sm font-semibold text-white transition hover:bg-orange-600 disabled:opacity-50"
             >
               {posting
                 ? "Posting..."
@@ -824,10 +824,10 @@ export default function DiscussionThreadPage() {
             </button>
           </div>
         ) : (
-          <p className="mt-4 rounded-xl border border-zinc-200 bg-white px-4 py-3 text-sm text-zinc-600">
+          <p className="mt-4 rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3 text-sm text-zinc-400">
             <Link
               href="/login"
-              className="text-brand hover:text-brand"
+              className="text-orange-500 hover:text-orange-400"
             >
               Log in
             </Link>{" "}
@@ -836,7 +836,7 @@ export default function DiscussionThreadPage() {
         )}
 
         {topLevelReplies.length === 0 ? (
-          <p className="mt-6 text-sm text-zinc-600">
+          <p className="mt-6 text-sm text-zinc-500">
             No replies yet.
           </p>
         ) : (
