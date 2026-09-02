@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import SaveToNotebookButton from "@/components/notebook/SaveToNotebookButton";
+import FeatureInLibraryButton from "@/components/moderation/FeatureInLibraryButton";
 
 type PromptPostCardProps = {
   id: string;
@@ -14,6 +15,7 @@ type PromptPostCardProps = {
   voteCount: number;
   replyCount: number;
   createdAt: string;
+  alreadyFeatured?: boolean;
 };
 
 function timeAgo(dateString: string): string {
@@ -46,6 +48,7 @@ export default function PromptPostCard({
   voteCount,
   replyCount,
   createdAt,
+  alreadyFeatured = false,
 }: PromptPostCardProps) {
   const [copied, setCopied] =
     useState(false);
@@ -112,6 +115,17 @@ export default function PromptPostCard({
             contentId={id}
             title={title}
             compact
+          />
+
+          <FeatureInLibraryButton
+            threadId={id}
+            title={title}
+            promptText={promptText}
+            aiTool={aiTool}
+            authorName={authorName}
+            alreadyFeatured={
+              alreadyFeatured
+            }
           />
         </div>
 

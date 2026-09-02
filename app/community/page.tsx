@@ -39,6 +39,7 @@ type FeedItem = {
   score: number;
   aiTool: string | null;
   resourceUrl: string | null;
+  featuredInLibrary: boolean;
 };
 
 const CATEGORY_LABELS: Record<
@@ -108,6 +109,7 @@ export default function CommunityHubPage() {
             accepted_reply_id,
             ai_tool,
             resource_url,
+            featured_in_library,
             created_at,
             profiles ( display_name, email )
           `
@@ -232,6 +234,7 @@ export default function CommunityHubPage() {
         accepted_reply_id: string | null;
         ai_tool: string | null;
         resource_url: string | null;
+        featured_in_library: boolean;
         created_at: string;
         profiles: {
           display_name: string | null;
@@ -264,6 +267,8 @@ export default function CommunityHubPage() {
         ),
         aiTool: t.ai_tool,
         resourceUrl: t.resource_url,
+        featuredInLibrary:
+          t.featured_in_library,
         score: trendingScore(
           voteCount,
           replyCount,
@@ -307,6 +312,7 @@ export default function CommunityHubPage() {
         isAnswered: false,
         aiTool: null,
         resourceUrl: null,
+        featuredInLibrary: false,
         score: trendingScore(
           voteCount,
           0,
@@ -407,6 +413,9 @@ export default function CommunityHubPage() {
           voteCount={item.voteCount}
           replyCount={item.replyCount}
           createdAt={item.createdAt}
+          alreadyFeatured={
+            item.featuredInLibrary
+          }
         />
       );
     }
