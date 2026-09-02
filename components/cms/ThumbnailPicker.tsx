@@ -110,6 +110,26 @@ export default function ThumbnailPicker({
     }
   }
 
+  const [isDragging, setIsDragging] =
+    useState(false);
+  const [fileName, setFileName] =
+    useState("");
+
+  function handleDrop(
+    event: React.DragEvent
+  ) {
+    event.preventDefault();
+    setIsDragging(false);
+
+    const file =
+      event.dataTransfer.files?.[0];
+
+    if (file) {
+      setFileName(file.name);
+      handleHostingerUpload(file);
+    }
+  }
+
   return (
     <div className="rounded-xl border border-zinc-200 bg-white p-4">
       <h3 className="text-sm font-semibold text-zinc-900">
@@ -124,7 +144,21 @@ export default function ThumbnailPicker({
         automatically from the main media.
       </p>
 
-      <div className="mt-4 flex gap-4">
+      <div
+        onDragOver={(e) => {
+          e.preventDefault();
+          setIsDragging(true);
+        }}
+        onDragLeave={() =>
+          setIsDragging(false)
+        }
+        onDrop={handleDrop}
+        className={`mt-4 flex gap-4 rounded-xl border-2 border-dashed p-3 transition ${
+          isDragging
+            ? "border-brand bg-brand-light"
+            : "border-zinc-200"
+        }`}
+      >
         <div className="flex aspect-[4/5] w-24 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-zinc-200 bg-white">
           {url ? (
             // eslint-disable-next-line @next/next/no-img-element
@@ -141,63 +175,113 @@ export default function ThumbnailPicker({
         </div>
 
         <div className="flex-1 space-y-3">
-          <div>
-            <label className={labelClass}>
-              Paste a URL
-            </label>
+          <label className="block cursor-pointer rounded-lg border border-zinc-300 bg-zinc-50 px-4 py-3 text-center text-xs text-zinc-600 transition hover:border-brand hover:bg-brand-light">
+            <span className="font-medium text-zinc-900">
+              Drag & drop an image here
+            </span>
+            <br />
+            or click to browse
+            <br />
+            <span className="text-[10px] text-zinc-500">
+              JPG / PNG / WEBP
+            </span>
+
             <input
-              value={url}
-              onChange={(e) =>
-                onUrlChange(
-                  e.target.value
-                )
-              }
-              placeholder="https://..."
-              className={inputClass}
+              type="file"
+              accept="image/jpeg,image/png,image/webp,image/gif"
+              onChange={(e) => {
+                const file =
+                  e.target.files?.[0];
+
+                if (file) {
+                  setFileName(
+                    file.name
+                  );
+                  handleHostingerUpload(
+                    file
+                  );
+                }
+
+                e.target.value = "";
+              }}
+              disabled={uploading}
+              className="sr-only"
             />
-          </div>
+          </label>
 
-          <div className="flex gap-2">
-            <label className="flex-1 cursor-pointer rounded-lg bg-brand px-3 py-2 text-center text-xs font-medium text-zinc-900 hover:bg-brand-dark">
-              Upload to Hostinger
-              <input
-                type="file"
-                accept="image/jpeg,image/png,image/webp,image/gif"
-                onChange={(e) => {
-                  const file =
-                    e.target.files?.[0];
-                  if (file) {
-                    handleHostingerUpload(
-                      file
-                    );
-                  }
-                  e.target.value = "";
-                }}
-                disabled={uploading}
-                className="sr-only"
-              />
-            </label>
+          {fileName && (
+            <div className="flex items-center justify-between rounded-lg bg-zinc-50 px-3 py-1.5">
+              <span className="truncate text-xs text-zinc-600">
+                📎 {fileName}
+              </span>
 
-            <label className="flex-1 cursor-pointer rounded-lg border border-zinc-300 px-3 py-2 text-center text-xs font-medium text-zinc-900 hover:bg-zinc-100">
-              Upload to Supabase
-              <input
-                type="file"
-                accept="image/jpeg,image/png,image/webp,image/gif"
-                onChange={(e) => {
-                  const file =
-                    e.target.files?.[0];
-                  if (file) {
-                    handleSupabaseUpload(
-                      file
-                    );
+              {url && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    onUrlChange("");
+                    setFileName("");
+                  }}
+                  className="shrink-0 text-xs text-red-500 hover:text-red-600"
+                >
+                  Remove
+                </button>
+              )}
+            </div>
+          )}
+
+          <details className="text-xs">
+            <summary className="cursor-pointer text-zinc-600 hover:text-zinc-900">
+              More options (paste URL,
+              upload to Supabase instead)
+            </summary>
+
+            <div className="mt-3 space-y-3">
+              <div>
+                <label className={labelClass}>
+                  Paste a URL
+                </label>
+                <input
+                  value={url}
+                  onChange={(e) =>
+                    onUrlChange(
+                      e.target.value
+                    )
                   }
-                  e.target.value = "";
-                }}
-                disabled={uploading}
-                className="sr-only"
-              />
-            </label>
-          </div>
+                  placeholder="https://..."
+                  className={inputClass}
+                />
+              </div>
+
+              <label className="block cursor-pointer rounded-lg border border-zinc-300 px-3 py-2 text-center text-xs font-medium text-zinc-900 hover:bg-zinc-100">
+                Upload to Supabase
+                instead
+                <input
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp,image/gif"
+                  onChange={(e) => {
+                    const file =
+                      e.target
+                        .files?.[0];
+
+                    if (file) {
+                      setFileName(
+                        file.name
+                      );
+                      handleSupabaseUpload(
+                        file
+                      );
+                    }
+
+                    e.target.value =
+                      "";
+                  }}
+                  disabled={uploading}
+                  className="sr-only"
+                />
+              </label>
+            </div>
+          </details>
 
           {uploading && (
             <p className="text-xs text-zinc-600">
