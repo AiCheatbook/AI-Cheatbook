@@ -100,6 +100,19 @@ export default function AdminLayout({
             </Link>
 
             <Link
+              href="/admin/artwork"
+              className={
+                pathname.startsWith(
+                  "/admin/artwork"
+                )
+                  ? "text-brand-text"
+                  : "text-neutral-400 hover:text-zinc-900"
+              }
+            >
+              Artwork
+            </Link>
+
+            <Link
               href="/admin/keywords"
               className={
                 pathname.startsWith(
