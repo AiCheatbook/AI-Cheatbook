@@ -26,6 +26,9 @@ type QuestionRow = {
   voteCount: number;
   replyCount: number;
   accepted_reply_id: string | null;
+  media_urls: string[] | null;
+  video_url: string | null;
+  youtube_url: string | null;
 };
 
 const SUB_FILTERS: { value: SubFilter; label: string }[] = [
@@ -115,7 +118,7 @@ export default function PollsQuestionsPanel({
             supabaseAuthClient
               .from("community_threads")
               .select(
-                "id, title, body, category, created_at, accepted_reply_id, profiles(display_name, email)"
+                "id, title, body, category, created_at, accepted_reply_id, media_urls, video_url, youtube_url, profiles(display_name, email)"
               )
               .eq("content_kind", "question")
               .eq("is_hidden", false)
@@ -153,6 +156,9 @@ export default function PollsQuestionsPanel({
             category: string;
             created_at: string;
             accepted_reply_id: string | null;
+            media_urls: string[] | null;
+            video_url: string | null;
+            youtube_url: string | null;
             profiles: {
               display_name: string | null;
               email: string | null;
@@ -164,6 +170,9 @@ export default function PollsQuestionsPanel({
             category: t.category,
             created_at: t.created_at,
             accepted_reply_id: t.accepted_reply_id,
+            media_urls: t.media_urls,
+            video_url: t.video_url,
+            youtube_url: t.youtube_url,
             authorName:
               t.profiles?.display_name ||
               t.profiles?.email ||
@@ -268,6 +277,9 @@ export default function PollsQuestionsPanel({
                 voteCount={q.voteCount}
                 createdAt={q.created_at}
                 isAnswered={Boolean(q.accepted_reply_id)}
+                mediaUrls={q.media_urls}
+                videoUrl={q.video_url}
+                youtubeUrl={q.youtube_url}
               />
             </div>
           ))}

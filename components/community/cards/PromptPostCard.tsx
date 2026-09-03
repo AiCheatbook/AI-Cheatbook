@@ -5,6 +5,7 @@ import Link from "next/link";
 import SaveToNotebookButton from "@/components/notebook/SaveToNotebookButton";
 import FeatureInLibraryButton from "@/components/moderation/FeatureInLibraryButton";
 import LikeButton from "@/components/community/LikeButton";
+import PostMedia from "@/components/community/PostMedia";
 
 type PromptPostCardProps = {
   id: string;
@@ -17,6 +18,9 @@ type PromptPostCardProps = {
   replyCount: number;
   createdAt: string;
   alreadyFeatured?: boolean;
+  mediaUrls?: string[] | null;
+  videoUrl?: string | null;
+  youtubeUrl?: string | null;
 };
 
 function timeAgo(dateString: string): string {
@@ -50,6 +54,9 @@ export default function PromptPostCard({
   replyCount,
   createdAt,
   alreadyFeatured = false,
+  mediaUrls,
+  videoUrl,
+  youtubeUrl,
 }: PromptPostCardProps) {
   const [copied, setCopied] =
     useState(false);
@@ -98,6 +105,12 @@ export default function PromptPostCard({
       <p className="mt-1 line-clamp-3 rounded-xl bg-zinc-100 p-3 font-mono text-sm text-zinc-600">
         {promptText}
       </p>
+
+      <PostMedia
+        imageUrls={mediaUrls}
+        videoUrl={videoUrl}
+        youtubeUrl={youtubeUrl}
+      />
 
       <div className="mt-3 flex items-center justify-between">
         <div className="flex items-center gap-2">

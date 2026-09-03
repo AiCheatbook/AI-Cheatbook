@@ -47,6 +47,9 @@ type FeedItem = {
   resourceUrl: string | null;
   featuredInLibrary: boolean;
   imageUrl?: string | null;
+  mediaUrls?: string[] | null;
+  videoUrl?: string | null;
+  youtubeUrl?: string | null;
   href?: string;
 };
 
@@ -117,6 +120,9 @@ export default function HomePage() {
             accepted_reply_id,
             ai_tool,
             resource_url,
+            media_urls,
+            video_url,
+            youtube_url,
             featured_in_library,
             created_at,
             profiles ( display_name, email )
@@ -243,6 +249,9 @@ export default function HomePage() {
         accepted_reply_id: string | null;
         ai_tool: string | null;
         resource_url: string | null;
+        media_urls: string[] | null;
+        video_url: string | null;
+        youtube_url: string | null;
         featured_in_library: boolean;
         created_at: string;
         profiles: {
@@ -276,6 +285,9 @@ export default function HomePage() {
         ),
         aiTool: t.ai_tool,
         resourceUrl: t.resource_url,
+        mediaUrls: t.media_urls,
+        videoUrl: t.video_url,
+        youtubeUrl: t.youtube_url,
         featuredInLibrary:
           t.featured_in_library,
         score: trendingScore(
@@ -521,6 +533,9 @@ export default function HomePage() {
           voteCount={item.voteCount}
           createdAt={item.createdAt}
           isAnswered={item.isAnswered}
+          mediaUrls={item.mediaUrls}
+          videoUrl={item.videoUrl}
+          youtubeUrl={item.youtubeUrl}
         />
       );
     }
@@ -541,6 +556,9 @@ export default function HomePage() {
           alreadyFeatured={
             item.featuredInLibrary
           }
+          mediaUrls={item.mediaUrls}
+          videoUrl={item.videoUrl}
+          youtubeUrl={item.youtubeUrl}
         />
       );
     }
@@ -557,6 +575,9 @@ export default function HomePage() {
           replyCount={item.replyCount}
           voteCount={item.voteCount}
           createdAt={item.createdAt}
+          mediaUrls={item.mediaUrls}
+          videoUrl={item.videoUrl}
+          youtubeUrl={item.youtubeUrl}
         />
       );
     }
@@ -573,6 +594,9 @@ export default function HomePage() {
           resourceUrl={item.resourceUrl}
           voteCount={item.voteCount}
           replyCount={item.replyCount}
+          mediaUrls={item.mediaUrls}
+          videoUrl={item.videoUrl}
+          youtubeUrl={item.youtubeUrl}
         />
       );
     }
@@ -588,6 +612,9 @@ export default function HomePage() {
         replyCount={item.replyCount}
         voteCount={item.voteCount}
         createdAt={item.createdAt}
+        mediaUrls={item.mediaUrls}
+        videoUrl={item.videoUrl}
+        youtubeUrl={item.youtubeUrl}
       />
     );
   }

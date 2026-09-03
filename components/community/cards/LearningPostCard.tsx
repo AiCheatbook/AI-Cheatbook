@@ -1,6 +1,7 @@
 import Link from "next/link";
 import SaveToNotebookButton from "@/components/notebook/SaveToNotebookButton";
 import LikeButton from "@/components/community/LikeButton";
+import PostMedia from "@/components/community/PostMedia";
 
 type LearningPostCardProps = {
   id: string;
@@ -11,6 +12,9 @@ type LearningPostCardProps = {
   replyCount: number;
   voteCount: number;
   createdAt: string;
+  mediaUrls?: string[] | null;
+  videoUrl?: string | null;
+  youtubeUrl?: string | null;
 };
 
 export default function LearningPostCard({
@@ -21,6 +25,9 @@ export default function LearningPostCard({
   category,
   replyCount,
   voteCount,
+  mediaUrls,
+  videoUrl,
+  youtubeUrl,
 }: LearningPostCardProps) {
   return (
     <Link
@@ -40,6 +47,12 @@ export default function LearningPostCard({
           {preview}
         </p>
       )}
+
+      <PostMedia
+        imageUrls={mediaUrls}
+        videoUrl={videoUrl}
+        youtubeUrl={youtubeUrl}
+      />
 
       <div className="mt-3 flex items-center justify-between text-xs text-zinc-600">
         <span>

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import SaveToNotebookButton from "@/components/notebook/SaveToNotebookButton";
 import LikeButton from "@/components/community/LikeButton";
+import PostMedia from "@/components/community/PostMedia";
 
 type ResourcePostCardProps = {
   id: string;
@@ -11,6 +12,9 @@ type ResourcePostCardProps = {
   resourceUrl: string | null;
   voteCount: number;
   replyCount: number;
+  mediaUrls?: string[] | null;
+  videoUrl?: string | null;
+  youtubeUrl?: string | null;
 };
 
 function getDomain(url: string): string {
@@ -30,6 +34,9 @@ export default function ResourcePostCard({
   resourceUrl,
   voteCount,
   replyCount,
+  mediaUrls,
+  videoUrl,
+  youtubeUrl,
 }: ResourcePostCardProps) {
   return (
     <Link
@@ -57,6 +64,12 @@ export default function ResourcePostCard({
           {preview}
         </p>
       )}
+
+      <PostMedia
+        imageUrls={mediaUrls}
+        videoUrl={videoUrl}
+        youtubeUrl={youtubeUrl}
+      />
 
       <div className="mt-3 flex items-center justify-between text-xs text-zinc-600">
         <span>

@@ -2,6 +2,7 @@ import Link from "next/link";
 import SaveToNotebookButton from "@/components/notebook/SaveToNotebookButton";
 import ReportButton from "@/components/moderation/ReportButton";
 import LikeButton from "@/components/community/LikeButton";
+import PostMedia from "@/components/community/PostMedia";
 
 type DiscussionCardProps = {
   id: string;
@@ -12,6 +13,9 @@ type DiscussionCardProps = {
   replyCount: number;
   voteCount: number;
   createdAt: string;
+  mediaUrls?: string[] | null;
+  videoUrl?: string | null;
+  youtubeUrl?: string | null;
 };
 
 function timeAgo(dateString: string): string {
@@ -43,6 +47,9 @@ export default function DiscussionCard({
   replyCount,
   voteCount,
   createdAt,
+  mediaUrls,
+  videoUrl,
+  youtubeUrl,
 }: DiscussionCardProps) {
   return (
     <Link
@@ -73,6 +80,12 @@ export default function DiscussionCard({
           {preview}
         </p>
       )}
+
+      <PostMedia
+        imageUrls={mediaUrls}
+        videoUrl={videoUrl}
+        youtubeUrl={youtubeUrl}
+      />
 
       <div className="mt-3 flex items-center justify-between text-xs text-zinc-600">
         <span className="flex items-center gap-3">

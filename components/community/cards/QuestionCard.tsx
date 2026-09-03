@@ -1,6 +1,7 @@
 import Link from "next/link";
 import SaveToNotebookButton from "@/components/notebook/SaveToNotebookButton";
 import LikeButton from "@/components/community/LikeButton";
+import PostMedia from "@/components/community/PostMedia";
 
 type QuestionCardProps = {
   id: string;
@@ -12,6 +13,9 @@ type QuestionCardProps = {
   voteCount: number;
   createdAt: string;
   isAnswered: boolean;
+  mediaUrls?: string[] | null;
+  videoUrl?: string | null;
+  youtubeUrl?: string | null;
 };
 
 function timeAgo(dateString: string): string {
@@ -44,6 +48,9 @@ export default function QuestionCard({
   voteCount,
   createdAt,
   isAnswered,
+  mediaUrls,
+  videoUrl,
+  youtubeUrl,
 }: QuestionCardProps) {
   return (
     <Link
@@ -85,6 +92,12 @@ export default function QuestionCard({
           {preview}
         </p>
       )}
+
+      <PostMedia
+        imageUrls={mediaUrls}
+        videoUrl={videoUrl}
+        youtubeUrl={youtubeUrl}
+      />
 
       <div className="mt-3 flex items-center justify-between text-xs text-zinc-600">
         <span>
