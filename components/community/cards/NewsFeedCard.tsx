@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase/client";
 import SaveToNotebookButton from "@/components/notebook/SaveToNotebookButton";
+import ContentReactionBar from "@/components/community/ContentReactionBar";
 
 type NewsFeedCardProps = {
   id: string;
@@ -37,9 +38,9 @@ function timeAgo(dateString: string): string {
  * "Learning" variant (identical structure, different theme color).
  *
  * Comment count is real (fetched from the same `comments` table
- * CommentSection already uses on the article page) — liking an
- * article isn't wired up here since there's no article-level like
- * table yet (only comment-level reactions exist today).
+ * CommentSection already uses on the article page). Like/React is
+ * backed by database/040_content_reactions.sql, mirroring the
+ * existing comment_reactions pattern one level up.
  */
 export default function NewsFeedCard({
   id,
@@ -118,10 +119,13 @@ export default function NewsFeedCard({
       </Link>
 
       <div className="flex items-center justify-between px-5 pb-4 text-xs text-zinc-600">
-        <Link href={href} className="hover:text-brand-text">
-          💬 {commentCount ?? "…"}{" "}
-          {commentCount === 1 ? "comment" : "comments"}
-        </Link>
+        <span className="flex items-center gap-3">
+          <ContentReactionBar contentType="news" contentId={id} />
+          <Link href={href} className="hover:text-brand-text">
+            💬 {commentCount ?? "…"}{" "}
+            {commentCount === 1 ? "comment" : "comments"}
+          </Link>
+        </span>
 
         <SaveToNotebookButton
           contentType="news"
