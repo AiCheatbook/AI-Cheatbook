@@ -1,5 +1,4 @@
 import NewsSection from "@/components/news/NewsSection";
-import SiteSidebarShell from "@/components/community/layout/SiteSidebarShell";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 
 export const metadata = buildPageMetadata({
@@ -12,9 +11,7 @@ export const metadata = buildPageMetadata({
 export default function NewsPage() {
   return (
     <main className="min-h-screen bg-white text-zinc-900">
-      <SiteSidebarShell>
-        <NewsSection headingLevel="h1" />
-      </SiteSidebarShell>
+      <NewsSection headingLevel="h1" />
     </main>
   );
 }

@@ -78,7 +78,7 @@ export default function RootLayout({
 
         <Navbar />
 
-        <div className="flex">
+        <div className="mx-auto flex max-w-[1600px]">
           <CommunitySidebar />
           <div className="min-w-0 flex-1">{children}</div>
         </div>
