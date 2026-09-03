@@ -37,7 +37,7 @@ const NAV_ITEMS = [
     subtitle: "Latest AI News, Updates & Trends",
   },
   {
-    href: "/",
+    href: "/learning",
     icon: "🌐",
     label: "Learn AI with Community",
     subtitle: "Explore, Understand & Master AI",

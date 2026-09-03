@@ -230,20 +230,6 @@ export default function CommunityRightSidebar() {
               </ul>
             )}
         </div>
-
-        <Link
-          href="/notebook"
-          className="block rounded-2xl border border-zinc-200 bg-white p-4 transition hover:border-brand/50"
-        >
-          <h3 className="text-sm font-semibold text-zinc-900">
-            📓 Your AI Notebook
-          </h3>
-          <p className="mt-1 text-xs text-zinc-600">
-            Save posts, prompts, and
-            learning cards you want to
-            come back to.
-          </p>
-        </Link>
       </div>
     </aside>
   );
