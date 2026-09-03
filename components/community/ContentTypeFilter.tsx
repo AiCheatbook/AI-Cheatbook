@@ -7,6 +7,8 @@ type ContentTypeFilterProps = {
 
 const TYPES = [
   { value: "all", label: "All" },
+  { value: "news", label: "News" },
+  { value: "learning_card", label: "Learning" },
   { value: "question", label: "Questions" },
   {
     value: "discussion",
@@ -14,10 +16,6 @@ const TYPES = [
   },
   { value: "poll", label: "Polls" },
   { value: "prompt", label: "Prompts" },
-  {
-    value: "learning",
-    label: "Learning",
-  },
   {
     value: "resource",
     label: "Resources",

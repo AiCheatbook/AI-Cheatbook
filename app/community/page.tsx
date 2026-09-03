@@ -13,8 +13,11 @@ import PollCard from "@/components/community/cards/PollCard";
 import PromptPostCard from "@/components/community/cards/PromptPostCard";
 import LearningPostCard from "@/components/community/cards/LearningPostCard";
 import ResourcePostCard from "@/components/community/cards/ResourcePostCard";
+import NewsFeedCard from "@/components/community/cards/NewsFeedCard";
+import LearningFeedCard from "@/components/community/cards/LearningFeedCard";
 import PostComposer from "@/components/community/PostComposer";
 import { trendingScore } from "@/lib/community/trending";
+import { getUnifiedFeed } from "@/lib/feed/getUnifiedFeed";
 
 type ContentKind =
   | "question"
@@ -23,7 +26,9 @@ type ContentKind =
   | "poll"
   | "prompt"
   | "learning"
-  | "resource";
+  | "resource"
+  | "news"
+  | "learning_card";
 
 type FeedItem = {
   id: string;
@@ -40,6 +45,8 @@ type FeedItem = {
   aiTool: string | null;
   resourceUrl: string | null;
   featuredInLibrary: boolean;
+  imageUrl?: string | null;
+  href?: string;
 };
 
 const CATEGORY_LABELS: Record<
@@ -115,6 +122,7 @@ export default function CommunityHubPage() {
           `
         )
         .eq("is_hidden", false)
+        .is("deleted_at", null)
         .order("created_at", {
           ascending: false,
         }),
@@ -321,9 +329,77 @@ export default function CommunityHubPage() {
       };
     });
 
+    const [
+      newsFeed,
+      learningFeed,
+    ] = await Promise.all([
+      getUnifiedFeed({
+        type: "news",
+        page: 1,
+      }),
+      getUnifiedFeed({
+        type: "learning_card",
+        page: 1,
+      }),
+    ]);
+
+    const newsItems: FeedItem[] =
+      newsFeed.items.map((item) => ({
+        id: item.id,
+        kind: "news" as const,
+        title: item.title,
+        preview: item.excerpt || "",
+        authorName:
+          item.authorName ||
+          "AI Cheatbook",
+        category: item.category || "",
+        voteCount: 0,
+        replyCount: 0,
+        createdAt: item.publishedAt,
+        isAnswered: false,
+        score: trendingScore(
+          0,
+          0,
+          item.publishedAt
+        ),
+        aiTool: null,
+        resourceUrl: null,
+        featuredInLibrary: false,
+        imageUrl: item.imageUrl,
+        href: item.href,
+      }));
+
+    const learningCardItems: FeedItem[] =
+      learningFeed.items.map((item) => ({
+        id: item.id,
+        kind: "learning_card" as const,
+        title: item.title,
+        preview: item.excerpt || "",
+        authorName:
+          item.authorName ||
+          "AI Cheatbook",
+        category: item.category || "",
+        voteCount: 0,
+        replyCount: 0,
+        createdAt: item.publishedAt,
+        isAnswered: false,
+        score: trendingScore(
+          0,
+          0,
+          item.publishedAt
+        ),
+        aiTool: null,
+        resourceUrl: null,
+        featuredInLibrary: false,
+        imageUrl: item.imageUrl,
+        href: item.href,
+      }));
+
     setItems([
       ...threadItems,
       ...pollItems,
+      ...newsItems,
+      ...learningCardItems,
     ]);
 
     setAnswerCount(
@@ -369,6 +445,48 @@ export default function CommunityHubPage() {
   );
 
   function renderCard(item: FeedItem) {
+    if (item.kind === "news") {
+      return (
+        <NewsFeedCard
+          key={`news-${item.id}`}
+          id={item.id}
+          title={item.title}
+          excerpt={item.preview}
+          authorName={item.authorName}
+          category={item.category}
+          imageUrl={
+            item.imageUrl || null
+          }
+          publishedAt={item.createdAt}
+          href={
+            item.href ||
+            `/news/${item.id}`
+          }
+        />
+      );
+    }
+
+    if (item.kind === "learning_card") {
+      return (
+        <LearningFeedCard
+          key={`learning-card-${item.id}`}
+          id={item.id}
+          title={item.title}
+          excerpt={item.preview}
+          authorName={item.authorName}
+          category={item.category}
+          imageUrl={
+            item.imageUrl || null
+          }
+          publishedAt={item.createdAt}
+          href={
+            item.href ||
+            `/learning/${item.id}`
+          }
+        />
+      );
+    }
+
     if (item.kind === "poll") {
       return (
         <PollCard
