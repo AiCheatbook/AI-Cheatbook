@@ -49,57 +49,38 @@ export default function Navbar() {
   }
 
   return (
-    <header className="sticky top-0 z-50 border-b border-zinc-200 bg-white/95 backdrop-blur">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
+    <header className="sticky top-0 z-50 border-b border-zinc-800 bg-black/95 backdrop-blur">
+      <div className="mx-auto flex h-16 max-w-7xl items-center gap-4 px-6">
 
         {/* Logo */}
 
         <Link
           href="/"
           onClick={handleLogoClick}
-          className="text-xl font-bold text-zinc-900 transition hover:text-brand-text"
+          className="shrink-0 text-xl font-bold text-white transition hover:text-brand-text"
         >
           AI Cheatbook
         </Link>
 
-        {/* Desktop Navigation */}
+        {/* Search — now the primary center element. AI Library
+            and Prompt Generator no longer live here since they're
+            covered by the persistent left nav sidebar (desktop);
+            they're kept in the mobile menu below since the
+            sidebar is desktop-only. */}
 
-        <nav className="hidden items-center gap-8 text-sm text-zinc-600 md:flex">
-
-          <Link
-            href="/"
-            className="font-medium text-zinc-900 transition hover:text-brand-text"
-          >
-            Home
-          </Link>
-
-          <Link
-            href="/search"
-            className="transition hover:text-brand-text"
-          >
-            AI Library
-          </Link>
-
-          <Link
-            href="/generator"
-            className="transition hover:text-brand-text"
-          >
-            Prompt Generator
-          </Link>
-
-        </nav>
+        <div className="hidden flex-1 md:block md:max-w-md lg:max-w-lg">
+          <NavbarSearch />
+        </div>
 
         {/* Desktop Actions */}
 
-        <div className="hidden items-center gap-4 md:flex">
-
-          <NavbarSearch />
+        <div className="hidden shrink-0 items-center gap-4 md:flex">
 
           <NotificationBell />
 
           <Link
             href={loggedIn ? "/account" : "/login"}
-            className="text-sm text-zinc-600 transition hover:text-zinc-900"
+            className="text-sm text-zinc-300 transition hover:text-white"
           >
             {loggedIn ? "My Account" : "Login"}
           </Link>
@@ -120,7 +101,7 @@ export default function Navbar() {
           onClick={() =>
             setMenuOpen((current) => !current)
           }
-          className="flex h-10 w-10 items-center justify-center rounded-xl border border-zinc-300 text-zinc-600 transition hover:border-brand hover:text-zinc-900 md:hidden"
+          className="ml-auto flex h-10 w-10 items-center justify-center rounded-xl border border-zinc-700 text-zinc-300 transition hover:border-brand hover:text-white md:hidden"
           aria-label={
             menuOpen
               ? "Close navigation menu"
@@ -133,10 +114,13 @@ export default function Navbar() {
 
       </div>
 
-      {/* Mobile Navigation */}
+      {/* Mobile Navigation — keeps AI Library and Generator
+          links, since the left nav sidebar is desktop-only
+          (hidden below the lg breakpoint) and mobile users
+          need another way to reach those pages. */}
 
       {menuOpen && (
-        <div className="border-t border-zinc-200 bg-white px-6 py-4 md:hidden">
+        <div className="border-t border-zinc-800 bg-black px-6 py-4 md:hidden">
 
           <div className="mb-3">
             <NavbarSearch />
@@ -147,7 +131,7 @@ export default function Navbar() {
             <Link
               href="/"
               onClick={closeMenu}
-              className="rounded-xl px-4 py-3 font-medium text-zinc-900 transition hover:bg-zinc-100 hover:text-brand-text"
+              className="rounded-xl px-4 py-3 font-medium text-white transition hover:bg-zinc-900 hover:text-brand-text"
             >
               Home
             </Link>
@@ -155,14 +139,14 @@ export default function Navbar() {
             <Link
               href="/search"
               onClick={closeMenu}
-              className="rounded-xl px-4 py-3 text-zinc-600 transition hover:bg-zinc-100 hover:text-brand-text"
+              className="rounded-xl px-4 py-3 text-zinc-300 transition hover:bg-zinc-900 hover:text-brand-text"
             >              AI Cheatbook Library
             </Link>
 
             <Link
               href="/generator"
               onClick={closeMenu}
-              className="rounded-xl px-4 py-3 text-zinc-600 transition hover:bg-zinc-100 hover:text-brand-text"
+              className="rounded-xl px-4 py-3 text-zinc-300 transition hover:bg-zinc-900 hover:text-brand-text"
             >
               Generator
             </Link>
@@ -170,7 +154,7 @@ export default function Navbar() {
             <Link
               href={loggedIn ? "/account" : "/login"}
               onClick={closeMenu}
-              className="rounded-xl px-4 py-3 text-zinc-600 transition hover:bg-zinc-100 hover:text-brand-text"
+              className="rounded-xl px-4 py-3 text-zinc-300 transition hover:bg-zinc-900 hover:text-brand-text"
             >
               {loggedIn ? "My Account" : "Login"}
             </Link>
@@ -178,7 +162,7 @@ export default function Navbar() {
             <Link
               href="/submit/prompt"
               onClick={closeMenu}
-              className="mt-2 rounded-xl bg-white px-4 py-3 text-center text-sm font-semibold text-black transition hover:bg-zinc-200"
+              className="mt-2 rounded-xl bg-brand px-4 py-3 text-center text-sm font-semibold text-zinc-900 transition hover:bg-brand-dark"
             >
               Submit Prompt
             </Link>

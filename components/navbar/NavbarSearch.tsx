@@ -29,17 +29,14 @@ const SOURCE_ICON: Record<string, string> = {
 
 /*
  * The site's global search, now living in
- * the navbar as a compact toggle instead of
- * a permanent hero element — same real
- * search logic as before (library, news,
- * learning, community threads, polls), just
- * a different entry point.
+ * the navbar as an always-visible bar — same
+ * real search logic as before (library, news,
+ * learning, community threads, polls).
  */
 
 export default function NavbarSearch() {
   const router = useRouter();
 
-  const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<
     SearchResult[]
@@ -52,12 +49,6 @@ export default function NavbarSearch() {
     useRef<HTMLDivElement>(null);
   const inputRef =
     useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    if (open) {
-      inputRef.current?.focus();
-    }
-  }, [open]);
 
   useEffect(() => {
     const trimmedQuery = query.trim();
@@ -240,7 +231,6 @@ export default function NavbarSearch() {
         )
       ) {
         setShowSuggestions(false);
-        setOpen(false);
       }
     }
 
@@ -262,7 +252,6 @@ export default function NavbarSearch() {
     event.preventDefault();
     const trimmedQuery = query.trim();
     setShowSuggestions(false);
-    setOpen(false);
 
     router.push(
       trimmedQuery
@@ -275,7 +264,6 @@ export default function NavbarSearch() {
     item: SearchResult
   ) {
     setShowSuggestions(false);
-    setOpen(false);
     setQuery("");
     router.push(item.href);
   }
@@ -283,23 +271,10 @@ export default function NavbarSearch() {
   const shouldShowDropdown =
     showSuggestions && query.trim().length > 0;
 
-  if (!open) {
-    return (
-      <button
-        type="button"
-        onClick={() => setOpen(true)}
-        aria-label="Search AI Cheatbook"
-        className="flex h-10 w-10 items-center justify-center rounded-xl border border-zinc-200 text-zinc-600 transition hover:border-brand hover:text-brand-text"
-      >
-        🔍
-      </button>
-    );
-  }
-
   return (
     <div
       ref={containerRef}
-      className="relative"
+      className="relative w-full"
     >
       <form onSubmit={handleSubmit}>
         <div className="flex items-center">
@@ -313,33 +288,20 @@ export default function NavbarSearch() {
             }}
             placeholder="Search AI Cheatbook..."
             aria-label="Search AI Cheatbook"
-            className="h-10 w-56 rounded-l-xl border border-r-0 border-zinc-200 bg-white pl-4 pr-2 text-sm text-zinc-900 outline-none placeholder:text-zinc-600 focus:border-brand sm:w-72"
+            className="h-10 w-full rounded-l-xl border border-r-0 border-zinc-700 bg-white pl-4 pr-2 text-sm text-zinc-900 outline-none placeholder:text-zinc-500 focus:border-brand"
           />
 
           <button
             type="submit"
-            className="h-10 rounded-r-xl border border-zinc-200 bg-brand px-3 text-sm font-semibold text-zinc-900 transition hover:bg-brand-dark"
+            className="h-10 shrink-0 rounded-r-xl border border-zinc-700 bg-brand px-4 text-sm font-semibold text-zinc-900 transition hover:bg-brand-dark"
           >
             {loading ? "…" : "Search"}
-          </button>
-
-          <button
-            type="button"
-            onClick={() => {
-              setOpen(false);
-              setQuery("");
-              setShowSuggestions(false);
-            }}
-            aria-label="Close search"
-            className="ml-2 text-sm text-zinc-600 hover:text-zinc-700"
-          >
-            ✕
           </button>
         </div>
       </form>
 
       {shouldShowDropdown && (
-        <div className="absolute right-0 top-[calc(100%+10px)] z-50 w-80 overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-2xl sm:w-96">
+        <div className="absolute left-0 right-0 top-[calc(100%+10px)] z-50 overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-2xl">
           {loading && results.length === 0 && (
             <div className="px-5 py-6 text-sm text-zinc-600">
               Searching AI Cheatbook...

@@ -92,8 +92,8 @@ export default function CommunitySidebar() {
     profile?.display_name || profile?.email?.split("@")[0] || "Guest";
 
   return (
-    <aside className="hidden w-64 shrink-0 lg:block">
-      <div className="sticky top-20 space-y-4">
+    <aside className="hidden min-h-screen w-64 shrink-0 border-r border-zinc-200 bg-white px-4 py-6 lg:block">
+      <div className="sticky top-16 space-y-4">
         {loading ? (
           <div className="h-16 animate-pulse rounded-2xl border border-zinc-200 bg-white" />
         ) : profile ? (
