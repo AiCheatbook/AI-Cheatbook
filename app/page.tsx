@@ -16,6 +16,7 @@ import ResourcePostCard from "@/components/community/cards/ResourcePostCard";
 import NewsFeedCard from "@/components/community/cards/NewsFeedCard";
 import LearningFeedCard from "@/components/community/cards/LearningFeedCard";
 import PostComposer from "@/components/community/PostComposer";
+import PollsQuestionsPanel from "@/components/community/PollsQuestionsPanel";
 import { trendingScore } from "@/lib/community/trending";
 import { getUnifiedFeed } from "@/lib/feed/getUnifiedFeed";
 
@@ -432,11 +433,15 @@ export default function HomePage() {
 
   const filtered = useMemo(
     () =>
-      items.filter(
-        (item) =>
-          filter === "all" ||
-          item.kind === filter
-      ),
+      items.filter((item) => {
+        // Polls and Questions get their own dedicated tab (see
+        // PollsQuestionsPanel) with rotating-answered-status
+        // sub-filters — they no longer appear in the live/All feed.
+        if (filter === "all") {
+          return item.kind !== "poll" && item.kind !== "question";
+        }
+        return item.kind === filter;
+      }),
     [items, filter]
   );
 
@@ -621,30 +626,36 @@ export default function HomePage() {
         </div>
       </div>
 
-      <div className="mt-6 space-y-4">
-        {loading &&
-          Array.from({ length: 4 }).map(
-            (_, i) => (
-              <div
-                key={i}
-                className="h-32 animate-pulse rounded-2xl border border-zinc-200 bg-white"
-              />
-            )
-          )}
+      {(filter === "poll" || filter === "question") ? (
+        <div className="mt-6">
+          <PollsQuestionsPanel kind={filter} />
+        </div>
+      ) : (
+        <div className="mt-6 space-y-4">
+          {loading &&
+            Array.from({ length: 4 }).map(
+              (_, i) => (
+                <div
+                  key={i}
+                  className="h-32 animate-pulse rounded-2xl border border-zinc-200 bg-white"
+                />
+              )
+            )}
 
-        {!loading &&
-          sorted.length === 0 && (
-            <div className="rounded-2xl border border-zinc-200 bg-white p-10 text-center">
-              <p className="text-zinc-600">
-                Nothing here yet — be the
-                first to post.
-              </p>
-            </div>
-          )}
+          {!loading &&
+            sorted.length === 0 && (
+              <div className="rounded-2xl border border-zinc-200 bg-white p-10 text-center">
+                <p className="text-zinc-600">
+                  Nothing here yet — be the
+                  first to post.
+                </p>
+              </div>
+            )}
 
-        {!loading &&
-          sorted.map(renderCard)}
-      </div>
+          {!loading &&
+            sorted.map(renderCard)}
+        </div>
+      )}
 
       {composerOpen && (
         <PostComposer
