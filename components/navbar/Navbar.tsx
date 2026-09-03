@@ -67,38 +67,17 @@ export default function Navbar() {
         <nav className="hidden items-center gap-8 text-sm text-zinc-600 md:flex">
 
           <Link
+            href="/"
+            className="font-medium text-zinc-900 transition hover:text-brand-text"
+          >
+            Home
+          </Link>
+
+          <Link
             href="/search"
             className="transition hover:text-brand-text"
           >
             AI Library
-          </Link>
-
-          <Link
-            href="/news"
-            className="transition hover:text-brand-text"
-          >
-            AI News
-          </Link>
-
-          <Link
-            href="/learning"
-            className="transition hover:text-brand-text"
-          >
-            Learning
-          </Link>
-
-          <Link
-            href="/community"
-            className="transition hover:text-brand-text"
-          >
-            Community
-          </Link>
-
-          <Link
-            href="/discussions"
-            className="transition hover:text-brand-text"
-          >
-            Discussions
           </Link>
 
           <Link
@@ -166,26 +145,18 @@ export default function Navbar() {
           <nav className="flex flex-col gap-2">
 
             <Link
+              href="/"
+              onClick={closeMenu}
+              className="rounded-xl px-4 py-3 font-medium text-zinc-900 transition hover:bg-zinc-100 hover:text-brand-text"
+            >
+              Home
+            </Link>
+
+            <Link
               href="/search"
               onClick={closeMenu}
               className="rounded-xl px-4 py-3 text-zinc-600 transition hover:bg-zinc-100 hover:text-brand-text"
             >              AI Cheatbook Library
-            </Link>
-
-            <Link
-              href="/news"
-              onClick={closeMenu}
-              className="rounded-xl px-4 py-3 text-zinc-600 transition hover:bg-zinc-100 hover:text-brand-text"
-            >
-              AI News
-            </Link>
-
-            <Link
-              href="/learning"
-              onClick={closeMenu}
-              className="rounded-xl px-4 py-3 text-zinc-600 transition hover:bg-zinc-100 hover:text-brand-text"
-            >
-              Learning
             </Link>
 
             <Link
@@ -194,22 +165,6 @@ export default function Navbar() {
               className="rounded-xl px-4 py-3 text-zinc-600 transition hover:bg-zinc-100 hover:text-brand-text"
             >
               Generator
-            </Link>
-
-            <Link
-              href="/community"
-              onClick={closeMenu}
-              className="rounded-xl px-4 py-3 text-zinc-600 transition hover:bg-zinc-100 hover:text-brand-text"
-            >
-              Community
-            </Link>
-
-            <Link
-              href="/discussions"
-              onClick={closeMenu}
-              className="rounded-xl px-4 py-3 text-zinc-600 transition hover:bg-zinc-100 hover:text-brand-text"
-            >
-              Discussions
             </Link>
 
             <Link
