@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import PromptComposer from "./PromptComposer";
+import dynamic from "next/dynamic";
 
 /*
  * The Mini/Quick Generator — a compact
@@ -14,7 +14,28 @@ import PromptComposer from "./PromptComposer";
  * generator implementation in the whole
  * codebase, so Main and Mini can never
  * silently drift apart again.
+ *
+ * PromptComposer is loaded dynamically —
+ * this component renders on EVERY page site-
+ * wide (it's in the root layout), so a static
+ * import would ship the entire generator
+ * bundle (TipTap and its extensions, the
+ * Gemini integration) to every single page
+ * load even when the panel is never opened.
+ * This was a real, measured contributor to
+ * the "unused JavaScript" PageSpeed finding.
  */
+
+const PromptComposer = dynamic(
+  () => import("./PromptComposer"),
+  {
+    loading: () => (
+      <div className="flex h-40 items-center justify-center text-sm text-zinc-500">
+        Loading...
+      </div>
+    ),
+  }
+);
 
 export default function MiniGenerator() {
   const [open, setOpen] = useState(false);
