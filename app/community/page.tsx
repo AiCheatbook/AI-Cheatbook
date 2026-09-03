@@ -441,7 +441,9 @@ export default function CommunityHubPage() {
   );
 
   const sorted = [...filtered].sort(
-    (a, b) => b.score - a.score
+    (a, b) =>
+      new Date(b.createdAt).getTime() -
+      new Date(a.createdAt).getTime()
   );
 
   function renderCard(item: FeedItem) {
