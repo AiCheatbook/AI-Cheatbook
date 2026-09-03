@@ -5,6 +5,7 @@ import Link from "next/link";
 import SearchBar from "@/components/search/SearchBar";
 import SearchFilters from "@/components/search/SearchFilters";
 import AddKeywordButton from "@/components/prompt/AddKeywordButton";
+import SiteSidebarShell from "@/components/community/layout/SiteSidebarShell";
 
 import { getLibraryItems } from "@/lib/supabase/library";
 
@@ -390,6 +391,7 @@ export default async function SearchPage({
 
   return (
     <main className="min-h-screen bg-white text-zinc-900">
+      <SiteSidebarShell>
 
       <div className="mx-auto max-w-7xl px-5 py-12 sm:px-8 lg:px-10">
 
@@ -901,6 +903,7 @@ export default async function SearchPage({
 
       </div>
 
+      </SiteSidebarShell>
     </main>
   );
 }
