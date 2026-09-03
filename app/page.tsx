@@ -600,7 +600,18 @@ export default function HomePage() {
         answerCount={answerCount}
       />
 
-      <div className="mt-6 flex flex-wrap items-center justify-between gap-4">
+      <button
+        type="button"
+        onClick={() => setComposerOpen(true)}
+        className="mt-6 flex w-full items-center gap-3 rounded-2xl border border-zinc-200 bg-white px-5 py-4 text-left text-zinc-500 transition hover:border-brand/50"
+      >
+        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-brand/10 text-brand-text">
+          ✎
+        </span>
+        Share your AI thoughts?
+      </button>
+
+      <div className="mt-4 flex flex-wrap items-center justify-between gap-4">
         <ContentTypeFilter
           value={filter}
           onChange={setFilter}
@@ -613,16 +624,6 @@ export default function HomePage() {
           >
             Shared Prompts
           </Link>
-
-          <button
-            type="button"
-            onClick={() =>
-              setComposerOpen(true)
-            }
-            className="rounded-xl bg-brand px-4 py-2 text-sm font-semibold text-zinc-900 hover:bg-brand-dark"
-          >
-            + Create
-          </button>
         </div>
       </div>
 
