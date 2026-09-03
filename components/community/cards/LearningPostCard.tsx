@@ -1,4 +1,6 @@
 import Link from "next/link";
+import SaveToNotebookButton from "@/components/notebook/SaveToNotebookButton";
+import LikeButton from "@/components/community/LikeButton";
 
 type LearningPostCardProps = {
   id: string;
@@ -41,12 +43,18 @@ export default function LearningPostCard({
 
       <div className="mt-3 flex items-center justify-between text-xs text-zinc-600">
         <span>
-          Useful for {category} ·{" "}
-          {authorName}
+          Useful for {category} · {authorName}
         </span>
-        <span>
-          ▲ {voteCount} · 💬{" "}
-          {replyCount}
+
+        <span className="flex items-center gap-3">
+          <LikeButton threadId={id} initialCount={voteCount} compact />
+          <span>💬 {replyCount}</span>
+          <SaveToNotebookButton
+            contentType="community_thread"
+            contentId={id}
+            title={title}
+            compact
+          />
         </span>
       </div>
     </Link>

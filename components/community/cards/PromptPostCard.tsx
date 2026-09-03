@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import SaveToNotebookButton from "@/components/notebook/SaveToNotebookButton";
 import FeatureInLibraryButton from "@/components/moderation/FeatureInLibraryButton";
+import LikeButton from "@/components/community/LikeButton";
 
 type PromptPostCardProps = {
   id: string;
@@ -129,10 +130,10 @@ export default function PromptPostCard({
           />
         </div>
 
-        <span className="text-xs text-zinc-600">
-          {authorName} ·{" "}
-          {timeAgo(createdAt)} · ▲{" "}
-          {voteCount} · 💬 {replyCount}
+        <span className="flex items-center gap-2 text-xs text-zinc-600">
+          {authorName} · {timeAgo(createdAt)} ·{" "}
+          <LikeButton threadId={id} initialCount={voteCount} compact /> · 💬{" "}
+          {replyCount}
         </span>
       </div>
     </Link>

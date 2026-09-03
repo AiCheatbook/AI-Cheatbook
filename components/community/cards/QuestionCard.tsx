@@ -1,5 +1,6 @@
 import Link from "next/link";
 import SaveToNotebookButton from "@/components/notebook/SaveToNotebookButton";
+import LikeButton from "@/components/community/LikeButton";
 
 type QuestionCardProps = {
   id: string;
@@ -92,7 +93,7 @@ export default function QuestionCard({
         </span>
 
         <span className="flex items-center gap-3">
-          <span>▲ {voteCount}</span>
+          <LikeButton threadId={id} initialCount={voteCount} compact />
           <span>
             {replyCount}{" "}
             {replyCount === 1

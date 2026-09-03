@@ -1,6 +1,7 @@
 import Link from "next/link";
 import SaveToNotebookButton from "@/components/notebook/SaveToNotebookButton";
 import ReportButton from "@/components/moderation/ReportButton";
+import LikeButton from "@/components/community/LikeButton";
 
 type DiscussionCardProps = {
   id: string;
@@ -74,9 +75,9 @@ export default function DiscussionCard({
       )}
 
       <div className="mt-3 flex items-center justify-between text-xs text-zinc-600">
-        <span>
-          ▲ {voteCount} Helpful · 💬{" "}
-          {replyCount} Comments
+        <span className="flex items-center gap-3">
+          <LikeButton threadId={id} initialCount={voteCount} compact />
+          <span>💬 {replyCount} Comments</span>
         </span>
 
         <div className="flex items-center gap-3">

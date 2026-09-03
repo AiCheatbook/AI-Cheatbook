@@ -15,6 +15,7 @@ type ContentType =
   | "community_poll"
   | "library_item"
   | "learning_card"
+  | "news"
   | "note";
 
 type NotebookItem = {
@@ -37,6 +38,10 @@ function linkFor(item: NotebookItem): string | null {
       return `/discussions/${item.content_id}`;
     case "community_poll":
       return `/community/polls/${item.content_id}`;
+    case "learning_card":
+      return `/learning/${item.content_id}`;
+    case "news":
+      return `/news/${item.content_id}`;
     default:
       return null;
   }
@@ -50,6 +55,7 @@ const TYPE_LABELS: Record<
   community_poll: "Poll",
   library_item: "Prompt",
   learning_card: "Learning Card",
+  news: "News",
   note: "Note",
 };
 

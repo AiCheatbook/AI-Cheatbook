@@ -7,7 +7,8 @@ type ContentType =
   | "community_thread"
   | "community_poll"
   | "library_item"
-  | "learning_card";
+  | "learning_card"
+  | "news";
 
 type SaveToNotebookButtonProps = {
   contentType: ContentType;

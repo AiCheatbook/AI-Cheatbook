@@ -1,4 +1,6 @@
 import Link from "next/link";
+import SaveToNotebookButton from "@/components/notebook/SaveToNotebookButton";
+import LikeButton from "@/components/community/LikeButton";
 
 type ResourcePostCardProps = {
   id: string;
@@ -13,10 +15,7 @@ type ResourcePostCardProps = {
 
 function getDomain(url: string): string {
   try {
-    return new URL(url).hostname.replace(
-      "www.",
-      ""
-    );
+    return new URL(url).hostname.replace("www.", "");
   } catch {
     return url;
   }
@@ -61,12 +60,18 @@ export default function ResourcePostCard({
 
       <div className="mt-3 flex items-center justify-between text-xs text-zinc-600">
         <span>
-          Shared by {authorName} ·{" "}
-          {category}
+          Shared by {authorName} · {category}
         </span>
-        <span>
-          ▲ {voteCount} · 💬{" "}
-          {replyCount}
+
+        <span className="flex items-center gap-3">
+          <LikeButton threadId={id} initialCount={voteCount} compact />
+          <span>💬 {replyCount}</span>
+          <SaveToNotebookButton
+            contentType="community_thread"
+            contentId={id}
+            title={title}
+            compact
+          />
         </span>
       </div>
     </Link>

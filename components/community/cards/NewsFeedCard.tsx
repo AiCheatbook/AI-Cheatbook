@@ -1,4 +1,9 @@
+"use client";
+
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { supabase } from "@/lib/supabase/client";
+import SaveToNotebookButton from "@/components/notebook/SaveToNotebookButton";
 
 type NewsFeedCardProps = {
   id: string;
@@ -30,8 +35,14 @@ function timeAgo(dateString: string): string {
  * layout, similar in spirit to a modern social feed post rather
  * than a small generic tile. See LearningFeedCard for the sibling
  * "Learning" variant (identical structure, different theme color).
+ *
+ * Comment count is real (fetched from the same `comments` table
+ * CommentSection already uses on the article page) — liking an
+ * article isn't wired up here since there's no article-level like
+ * table yet (only comment-level reactions exist today).
  */
 export default function NewsFeedCard({
+  id,
   title,
   excerpt,
   authorName,
@@ -40,48 +51,85 @@ export default function NewsFeedCard({
   publishedAt,
   href,
 }: NewsFeedCardProps) {
+  const [commentCount, setCommentCount] = useState<number | null>(null);
+
+  useEffect(() => {
+    async function loadCount() {
+      const { count, error } = await supabase
+        .from("comments")
+        .select("id", { count: "exact", head: true })
+        .eq("content_type", "news")
+        .eq("content_id", id);
+
+      if (error) {
+        console.error(
+          "NewsFeedCard: failed to load comment count:",
+          error.message
+        );
+        return;
+      }
+
+      setCommentCount(count || 0);
+    }
+
+    loadCount();
+  }, [id]);
+
   return (
-    <Link
-      href={href}
-      className="block overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm transition hover:border-brand/50 hover:shadow-md"
-    >
-      {imageUrl && (
-        <div className="aspect-[16/9] w-full overflow-hidden bg-zinc-100">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={imageUrl}
-            alt=""
-            className="h-full w-full object-cover"
-          />
-        </div>
-      )}
-
-      <div className="p-5">
-        <div className="flex items-center gap-2">
-          <span className="rounded-full bg-brand-light px-2.5 py-1 text-xs font-semibold text-brand-text">
-            📰 NEWS
-          </span>
-
-          {category && (
-            <span className="text-xs text-zinc-500">{category}</span>
-          )}
-        </div>
-
-        <h3 className="mt-2 line-clamp-2 text-lg font-semibold text-zinc-900">
-          {title}
-        </h3>
-
-        {excerpt && (
-          <p className="mt-1.5 line-clamp-2 text-sm text-zinc-600">
-            {excerpt}
-          </p>
+    <div className="overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm transition hover:border-brand/50 hover:shadow-md">
+      <Link href={href} className="block">
+        {imageUrl && (
+          <div className="aspect-[16/9] w-full overflow-hidden bg-zinc-100">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={imageUrl}
+              alt=""
+              className="h-full w-full object-cover"
+            />
+          </div>
         )}
 
-        <p className="mt-3 text-xs text-zinc-400">
-          {authorName && `${authorName} · `}
-          {timeAgo(publishedAt)}
-        </p>
+        <div className="p-5 pb-3">
+          <div className="flex items-center gap-2">
+            <span className="rounded-full bg-brand-light px-2.5 py-1 text-xs font-semibold text-brand-text">
+              📰 NEWS
+            </span>
+
+            {category && (
+              <span className="text-xs text-zinc-500">{category}</span>
+            )}
+          </div>
+
+          <h3 className="mt-2 line-clamp-2 text-lg font-semibold text-zinc-900">
+            {title}
+          </h3>
+
+          {excerpt && (
+            <p className="mt-1.5 line-clamp-2 text-sm text-zinc-600">
+              {excerpt}
+            </p>
+          )}
+
+          <p className="mt-3 text-xs text-zinc-400">
+            {authorName && `${authorName} · `}
+            {timeAgo(publishedAt)}
+          </p>
+        </div>
+      </Link>
+
+      <div className="flex items-center justify-between px-5 pb-4 text-xs text-zinc-600">
+        <Link href={href} className="hover:text-brand-text">
+          💬 {commentCount ?? "…"}{" "}
+          {commentCount === 1 ? "comment" : "comments"}
+        </Link>
+
+        <SaveToNotebookButton
+          contentType="news"
+          contentId={id}
+          title={title}
+          compact
+        />
       </div>
-    </Link>
+    </div>
   );
 }
