@@ -77,7 +77,7 @@ export default function SeoPanel({
         <button
           type="button"
           onClick={handleAutoFill}
-          className="rounded-md border border-brand/40 px-3 py-1.5 text-xs font-medium text-brand hover:bg-brand/10"
+          className="rounded-md border border-brand/40 px-3 py-1.5 text-xs font-medium text-brand-text hover:bg-brand/10"
         >
           Auto-fill from content
         </button>

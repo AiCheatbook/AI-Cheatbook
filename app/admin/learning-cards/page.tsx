@@ -78,7 +78,7 @@ export default function AdminLearningCardsPage() {
 
         <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-wider text-brand">
+            <p className="text-sm font-semibold uppercase tracking-wider text-brand-text">
               Admin
             </p>
 
@@ -209,7 +209,7 @@ export default function AdminLearningCardsPage() {
                           </p>
 
                           {item.is_featured && (
-                            <span className="mt-1 inline-block text-xs text-brand">
+                            <span className="mt-1 inline-block text-xs text-brand-text">
                               Featured
                             </span>
                           )}
@@ -235,7 +235,7 @@ export default function AdminLearningCardsPage() {
 
                         <Link
                           href={`/admin/learning-cards/${item.id}`}
-                          className="text-sm font-medium text-brand transition hover:text-brand"
+                          className="text-sm font-medium text-brand-text transition hover:text-brand-text"
                         >
                           Edit
                         </Link>

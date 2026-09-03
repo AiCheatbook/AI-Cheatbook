@@ -111,7 +111,7 @@ export default function LearningCardsSection() {
 
           <Link
             href="/learning"
-            className="hidden shrink-0 text-sm font-medium text-brand transition hover:text-brand-dark sm:block"
+            className="hidden shrink-0 text-sm font-medium text-brand-text transition hover:text-brand-text-hover sm:block"
           >
             View All →
           </Link>
@@ -152,7 +152,7 @@ export default function LearningCardsSection() {
           !errorMessage &&
           cards.length > 0 && (
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {cards.map((item) => (
+              {cards.map((item, index) => (
                 <Link
                   key={item.id}
                   href={`/learning/${item.slug}`}
@@ -171,6 +171,7 @@ export default function LearningCardsSection() {
                     thumbnailUrl={
                       item.thumbnail_url
                     }
+                    priority={index === 0}
                   />
                 </Link>
               ))}
@@ -185,7 +186,7 @@ export default function LearningCardsSection() {
             <div className="mt-5 sm:hidden">
               <Link
                 href="/learning"
-                className="block rounded-xl border border-zinc-200 py-3 text-center text-sm font-medium text-brand"
+                className="block rounded-xl border border-zinc-200 py-3 text-center text-sm font-medium text-brand-text"
               >
                 View All Learning Cards →
               </Link>

@@ -155,7 +155,7 @@ export default function PromptSection() {
         {/* Header */}
 
         <div className="mb-10">
-          <p className="mb-2 text-sm font-semibold uppercase tracking-wider text-brand">
+          <p className="mb-2 text-sm font-semibold uppercase tracking-wider text-brand-text">
             Popular Right Now
           </p>
 

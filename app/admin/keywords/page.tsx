@@ -197,7 +197,7 @@ export default function AdminKeywordsPage() {
             className={`shrink-0 rounded-full px-2.5 py-1 text-xs font-medium transition ${
               parent.placement ===
               "inline"
-                ? "bg-brand/15 text-brand"
+                ? "bg-brand/15 text-brand-text"
                 : parent.placement ===
                     "global"
                   ? "bg-zinc-100 text-zinc-600"
@@ -224,7 +224,7 @@ export default function AdminKeywordsPage() {
   return (
     <main className="min-h-screen bg-white px-6 py-10 text-zinc-900">
       <div className="mx-auto max-w-3xl">
-        <p className="text-sm font-semibold uppercase tracking-wider text-brand">
+        <p className="text-sm font-semibold uppercase tracking-wider text-brand-text">
           Admin
         </p>
 
@@ -240,7 +240,7 @@ export default function AdminKeywordsPage() {
           cycle through where each keyword
           can appear in the Prompt
           Composer:{" "}
-          <span className="text-brand">
+          <span className="text-brand-text">
             Inline
           </span>{" "}
           (inserted directly into the

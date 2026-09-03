@@ -142,7 +142,7 @@ export default function ComposerKeywordSearch({
 
   return (
     <div className="absolute z-30 mt-2 w-full overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-xl">
-      <p className="bg-white px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-brand">
+      <p className="bg-white px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-brand-text">
         Inline Keywords
       </p>
 
@@ -163,7 +163,7 @@ export default function ComposerKeywordSearch({
             {breadcrumbFor(keyword)}
           </span>
 
-          <span className="ml-3 shrink-0 rounded-full bg-brand/10 px-2 py-0.5 text-xs text-brand">
+          <span className="ml-3 shrink-0 rounded-full bg-brand/10 px-2 py-0.5 text-xs text-brand-text">
             Insert
           </span>
         </button>

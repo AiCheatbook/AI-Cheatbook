@@ -124,7 +124,7 @@ export default function AttachmentPopover({
         className={`flex h-9 min-w-9 items-center justify-center rounded-full border px-2 text-lg transition ${
           attachments.length > 0 ||
           mode !== "none"
-            ? "border-brand bg-brand/10 text-brand"
+            ? "border-brand bg-brand/10 text-brand-text"
             : "border-zinc-300 text-zinc-600 hover:border-zinc-500 hover:text-zinc-900"
         }`}
         aria-label="Add attachment"
@@ -159,7 +159,7 @@ export default function AttachmentPopover({
                 onClick={() => onModeChange(option.value)}
                 className={`rounded-full border px-2.5 py-1 text-xs transition ${
                   mode === option.value
-                    ? "border-brand bg-brand/10 text-brand"
+                    ? "border-brand bg-brand/10 text-brand-text"
                     : "border-zinc-300 text-zinc-600 hover:border-zinc-500"
                 }`}
               >
@@ -186,7 +186,7 @@ export default function AttachmentPopover({
                 ))}
               </select>
 
-              <label className="mt-2 block cursor-pointer rounded-lg border border-dashed border-zinc-300 px-3 py-2 text-center text-xs text-zinc-600 hover:border-brand hover:text-brand">
+              <label className="mt-2 block cursor-pointer rounded-lg border border-dashed border-zinc-300 px-3 py-2 text-center text-xs text-zinc-600 hover:border-brand hover:text-brand-text">
                 Choose image...
                 <input
                   type="file"

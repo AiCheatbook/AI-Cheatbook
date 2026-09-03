@@ -238,7 +238,7 @@ function LoginPageContent() {
                 onClick={() =>
                   setMode("magic-link")
                 }
-                className="text-brand hover:text-brand"
+                className="text-brand-text hover:text-brand-text"
               >
                 Use magic link instead
               </button>
@@ -252,7 +252,7 @@ function LoginPageContent() {
                       : "signup"
                   )
                 }
-                className="text-brand hover:text-brand"
+                className="text-brand-text hover:text-brand-text"
               >
                 {mode === "signup"
                   ? "Log in"

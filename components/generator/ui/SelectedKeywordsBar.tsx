@@ -24,7 +24,7 @@ export default function SelectedKeywordsBar({
       {keywords.map((keyword) => (
         <span
           key={keyword}
-          className="flex items-center gap-2 rounded-full border border-brand/40 bg-brand/10 px-3 py-1.5 text-sm text-brand"
+          className="flex items-center gap-2 rounded-full border border-brand/40 bg-brand/10 px-3 py-1.5 text-sm text-brand-text"
         >
           {keyword}
 
@@ -34,7 +34,7 @@ export default function SelectedKeywordsBar({
               onRemove(keyword)
             }
             aria-label={`Remove ${keyword}`}
-            className="text-brand/70 hover:text-white"
+            className="text-brand-text/70 hover:text-white"
           >
             ×
           </button>

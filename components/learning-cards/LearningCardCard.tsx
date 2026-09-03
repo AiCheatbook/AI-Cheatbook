@@ -8,6 +8,7 @@ type LearningCardCardProps = {
   coverImage: string | null;
   mediaSource: string | null;
   thumbnailUrl: string | null;
+  priority?: boolean;
 };
 
 export default function LearningCardCard({
@@ -17,6 +18,7 @@ export default function LearningCardCard({
   coverImage,
   mediaSource,
   thumbnailUrl,
+  priority = false,
 }: LearningCardCardProps) {
   const displayImage =
     resolveThumbnailUrl(
@@ -37,6 +39,7 @@ export default function LearningCardCard({
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
           className="object-cover transition duration-500 group-hover:scale-105"
+          priority={priority}
         />
       </div>
 
@@ -45,12 +48,12 @@ export default function LearningCardCard({
       <div className="flex min-h-0 flex-1 flex-col p-4">
 
         {category && (
-          <span className="text-xs font-medium text-brand">
+          <span className="text-xs font-medium text-brand-text">
             {category}
           </span>
         )}
 
-        <h3 className="mt-2 line-clamp-2 text-lg font-semibold leading-snug text-zinc-900 transition group-hover:text-brand">
+        <h3 className="mt-2 line-clamp-2 text-lg font-semibold leading-snug text-zinc-900 transition group-hover:text-brand-text">
           {title}
         </h3>
 
@@ -63,7 +66,7 @@ export default function LearningCardCard({
         <div className="mt-auto flex items-center justify-between pt-3">
           <button
             type="button"
-            className="text-xs font-medium text-brand transition hover:text-brand-dark"
+            className="-m-2 p-2 text-xs font-medium text-brand-text transition hover:text-brand-text-hover"
           >
             Read →
           </button>

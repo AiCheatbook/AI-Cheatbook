@@ -207,7 +207,7 @@ export default function CommunityRightSidebar() {
                     <li key={c.id}>
                       <Link
                         href={`/community/user/${c.id}`}
-                        className="flex items-center justify-between text-sm hover:text-brand"
+                        className="flex items-center justify-between text-sm hover:text-brand-text"
                       >
                         <span className="truncate text-zinc-600">
                           {c.display_name ||

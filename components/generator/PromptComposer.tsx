@@ -343,7 +343,7 @@ export default function PromptComposer({
             onClick={() =>
               setTypeMenuOpen((v) => !v)
             }
-            className="rounded-full border border-zinc-300 bg-white px-4 py-1.5 text-sm text-zinc-600 transition hover:border-brand hover:text-brand"
+            className="rounded-full border border-zinc-300 bg-white px-4 py-1.5 text-sm text-zinc-600 transition hover:border-brand hover:text-brand-text"
           >
             {promptType.label} ▾
           </button>
@@ -481,7 +481,7 @@ export default function PromptComposer({
       </p>
 
       {limitNotice && (
-        <p className="mt-2 text-center text-sm text-brand">
+        <p className="mt-2 text-center text-sm text-brand-text">
           You&apos;ve reached today&apos;s
           limit.
         </p>

@@ -252,7 +252,7 @@ export default function UserProfilePage() {
               className="h-16 w-16 rounded-full object-cover"
             />
           ) : (
-            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-brand/20 text-2xl font-bold text-brand">
+            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-brand/20 text-2xl font-bold text-brand-text">
               {name.charAt(0).toUpperCase()}
             </div>
           )}
@@ -263,7 +263,7 @@ export default function UserProfilePage() {
             </h1>
 
             <div className="mt-1 flex items-center gap-2">
-              <span className="rounded-full bg-brand/10 px-2.5 py-1 text-xs font-semibold text-brand">
+              <span className="rounded-full bg-brand/10 px-2.5 py-1 text-xs font-semibold text-brand-text">
                 🏅 {badge}
               </span>
               <span className="text-xs text-zinc-600">
@@ -324,7 +324,7 @@ export default function UserProfilePage() {
                   onClick={() =>
                     setEditingBio(true)
                   }
-                  className="mt-1 text-xs text-brand hover:text-brand"
+                  className="mt-1 text-xs text-brand-text hover:text-brand-text"
                 >
                   {profile.bio
                     ? "Edit bio"

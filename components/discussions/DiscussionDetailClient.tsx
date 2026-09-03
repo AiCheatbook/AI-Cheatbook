@@ -520,7 +520,7 @@ export default function DiscussionDetailClient() {
           </p>
           <Link
             href="/discussions"
-            className="mt-4 inline-block text-brand hover:text-brand"
+            className="mt-4 inline-block text-brand-text hover:text-brand-text"
           >
             ← Back to Discussions
           </Link>
@@ -600,7 +600,7 @@ export default function DiscussionDetailClient() {
                 className="h-6 w-6 rounded-full object-cover"
               />
             ) : (
-              <div className="flex h-6 w-6 items-center justify-center rounded-full bg-brand/20 text-xs font-bold text-brand">
+              <div className="flex h-6 w-6 items-center justify-center rounded-full bg-brand/20 text-xs font-bold text-brand-text">
                 {replyAuthor
                   .charAt(0)
                   .toUpperCase()}
@@ -645,7 +645,7 @@ export default function DiscussionDetailClient() {
             }
             className={`rounded-full px-2.5 py-1 text-xs transition ${
               myReplyVotes.has(reply.id)
-                ? "bg-brand/15 text-brand"
+                ? "bg-brand/15 text-brand-text"
                 : "bg-zinc-100 text-zinc-600 hover:text-zinc-900"
             }`}
           >
@@ -812,7 +812,7 @@ export default function DiscussionDetailClient() {
             onClick={handleThreadVote}
             className={`mt-4 rounded-full px-3 py-1.5 text-sm transition ${
               myThreadVote
-                ? "bg-brand/15 text-brand"
+                ? "bg-brand/15 text-brand-text"
                 : "bg-zinc-100 text-zinc-600 hover:text-zinc-900"
             }`}
           >
@@ -871,7 +871,7 @@ export default function DiscussionDetailClient() {
           <p className="mt-4 rounded-xl border border-zinc-200 bg-white px-4 py-3 text-sm text-zinc-600">
             <Link
               href="/login"
-              className="text-brand hover:text-brand"
+              className="text-brand-text hover:text-brand-text"
             >
               Log in
             </Link>{" "}

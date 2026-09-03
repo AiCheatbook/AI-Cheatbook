@@ -49,7 +49,7 @@ export default function DiscussionCard({
       className="block rounded-2xl border border-zinc-200 bg-white p-5 transition hover:border-brand/40"
     >
       <div className="flex items-center gap-2 text-xs text-zinc-600">
-        <span className="flex h-6 w-6 items-center justify-center rounded-full bg-brand/20 font-bold text-brand">
+        <span className="flex h-6 w-6 items-center justify-center rounded-full bg-brand/20 font-bold text-brand-text">
           {authorName
             .charAt(0)
             .toUpperCase()}

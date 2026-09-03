@@ -389,7 +389,7 @@ export default function HeroSearch() {
                         </p>
                       </div>
 
-                      <span className="mt-0.5 inline-block rounded-full bg-zinc-800 px-2 py-0.5 text-[11px] font-medium uppercase tracking-wide text-brand">
+                      <span className="mt-0.5 inline-block rounded-full bg-zinc-800 px-2 py-0.5 text-[11px] font-medium uppercase tracking-wide text-brand-text">
                         {item.sourceLabel}
                       </span>
 
@@ -410,7 +410,7 @@ export default function HeroSearch() {
               <button
                 type="button"
                 onClick={handleViewAll}
-                className="w-full border-t border-zinc-800 bg-zinc-900/50 px-5 py-3.5 text-center text-sm font-medium text-brand transition hover:bg-zinc-900 hover:text-brand"
+                className="w-full border-t border-zinc-800 bg-zinc-900/50 px-5 py-3.5 text-center text-sm font-medium text-brand-text transition hover:bg-zinc-900 hover:text-brand-text"
               >
                 View all results →
               </button>
@@ -436,7 +436,7 @@ export default function HeroSearch() {
                 <button
                   type="button"
                   onClick={handleViewAll}
-                  className="mt-4 text-sm font-medium text-brand hover:text-brand"
+                  className="mt-4 text-sm font-medium text-brand-text hover:text-brand-text"
                 >
                   Search the full library →
                 </button>

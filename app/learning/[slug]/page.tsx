@@ -146,7 +146,7 @@ export default async function LearningCardDetailPage({
           <div className="mt-10">
 
             {card.category && (
-              <span className="inline-flex rounded-full border border-brand/20 bg-brand/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-brand">
+              <span className="inline-flex rounded-full border border-brand/20 bg-brand/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-brand-text">
                 {card.category}
               </span>
             )}
@@ -174,7 +174,7 @@ export default async function LearningCardDetailPage({
             {card.author && (
               <div className="flex items-center gap-2">
 
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-brand/10 text-xs font-bold text-brand">
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-brand/10 text-xs font-bold text-brand-text">
                   {card.author
                     .charAt(0)
                     .toUpperCase()}
@@ -312,7 +312,7 @@ export default async function LearningCardDetailPage({
 
               <div>
 
-                <p className="text-xs font-semibold uppercase tracking-widest text-brand">
+                <p className="text-xs font-semibold uppercase tracking-widest text-brand-text">
                   Keep Reading
                 </p>
 
@@ -370,14 +370,14 @@ export default async function LearningCardDetailPage({
                     <div className="p-5">
 
                       {item.category && (
-                        <p className="text-xs font-semibold uppercase tracking-wider text-brand">
+                        <p className="text-xs font-semibold uppercase tracking-wider text-brand-text">
                           {
                             item.category
                           }
                         </p>
                       )}
 
-                      <h3 className="mt-2 line-clamp-2 text-lg font-semibold leading-snug text-zinc-900 transition group-hover:text-brand">
+                      <h3 className="mt-2 line-clamp-2 text-lg font-semibold leading-snug text-zinc-900 transition group-hover:text-brand-text">
                         {item.title}
                       </h3>
 

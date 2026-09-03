@@ -450,7 +450,7 @@ export default function CommentSection({
                 className="h-7 w-7 rounded-full object-cover"
               />
             ) : (
-              <div className="flex h-7 w-7 items-center justify-center rounded-full bg-brand/20 text-xs font-bold text-brand">
+              <div className="flex h-7 w-7 items-center justify-center rounded-full bg-brand/20 text-xs font-bold text-brand-text">
                 {authorName
                   .charAt(0)
                   .toUpperCase()}
@@ -499,7 +499,7 @@ export default function CommentSection({
               }
               className={`rounded-full px-2.5 py-1 text-xs transition ${
                 mine
-                  ? "bg-brand/15 text-brand"
+                  ? "bg-brand/15 text-brand-text"
                   : "bg-zinc-100 text-zinc-600 hover:text-zinc-900"
               }`}
             >
@@ -649,7 +649,7 @@ export default function CommentSection({
         <p className="mt-4 rounded-xl border border-zinc-200 bg-white px-4 py-3 text-sm text-zinc-600">
           <a
             href="/login"
-            className="text-brand hover:text-brand"
+            className="text-brand-text hover:text-brand-text"
           >
             Log in
           </a>{" "}

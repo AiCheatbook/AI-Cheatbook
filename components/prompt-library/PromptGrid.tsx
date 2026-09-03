@@ -297,7 +297,7 @@ export default function PromptGrid() {
       {/* Header */}
 
       <div className="mb-8">
-        <p className="text-sm font-semibold uppercase tracking-wider text-brand">
+        <p className="text-sm font-semibold uppercase tracking-wider text-brand-text">
           Explore the Library
         </p>
 
@@ -463,7 +463,7 @@ export default function PromptGrid() {
                               <p
                                 className={`truncate font-medium ${
                                   active
-                                    ? "text-brand"
+                                    ? "text-brand-text"
                                     : "text-white"
                                 }`}
                               >
@@ -594,7 +594,7 @@ function LibraryDetail({
 
         <div className="flex flex-wrap gap-2">
 
-          <span className="rounded-full border border-brand/30 bg-brand/10 px-3 py-1 text-xs font-medium text-brand">
+          <span className="rounded-full border border-brand/30 bg-brand/10 px-3 py-1 text-xs font-medium text-brand-text">
             {item.type ||
               "Content"}
           </span>

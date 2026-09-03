@@ -155,7 +155,7 @@ export default function AdminNewsPage() {
         <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
 
           <div>
-            <p className="text-sm font-semibold uppercase tracking-wider text-brand">
+            <p className="text-sm font-semibold uppercase tracking-wider text-brand-text">
               Admin
             </p>
 
@@ -354,7 +354,7 @@ export default function AdminNewsPage() {
 
                       <Link
                         href={`/admin/news/${item.id}`}
-                        className="text-sm font-medium text-brand transition hover:text-brand"
+                        className="text-sm font-medium text-brand-text transition hover:text-brand-text"
                       >
                         Edit
                       </Link>

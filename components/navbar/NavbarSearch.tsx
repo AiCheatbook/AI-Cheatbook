@@ -289,7 +289,7 @@ export default function NavbarSearch() {
         type="button"
         onClick={() => setOpen(true)}
         aria-label="Search AI Cheatbook"
-        className="flex h-10 w-10 items-center justify-center rounded-xl border border-zinc-200 text-zinc-600 transition hover:border-brand hover:text-brand"
+        className="flex h-10 w-10 items-center justify-center rounded-xl border border-zinc-200 text-zinc-600 transition hover:border-brand hover:text-brand-text"
       >
         🔍
       </button>

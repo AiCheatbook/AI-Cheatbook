@@ -81,7 +81,7 @@ export default function LearningCardsGrid() {
         {/* HEADER */}
 
         <div className="mb-5">
-          <p className="mb-0 whitespace-nowrap text-sm font-semibold uppercase tracking-wider text-brand">
+          <p className="mb-0 whitespace-nowrap text-sm font-semibold uppercase tracking-wider text-brand-text">
             Learn AI
           </p>
 

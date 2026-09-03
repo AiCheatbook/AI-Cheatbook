@@ -74,7 +74,7 @@ export default function PromptCard({
 
         <div className="p-4">
 
-          <h3 className="line-clamp-2 text-lg font-semibold text-white transition duration-200 group-hover:text-brand">
+          <h3 className="line-clamp-2 text-lg font-semibold text-white transition duration-200 group-hover:text-brand-text">
             {title}
           </h3>
 

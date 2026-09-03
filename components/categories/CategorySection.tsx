@@ -81,7 +81,7 @@ export default function CategorySection() {
 
         <div className="mb-7">
 
-          <p className="text-sm font-semibold uppercase tracking-wider text-brand">
+          <p className="text-sm font-semibold uppercase tracking-wider text-brand-text">
             Explore the Library
           </p>
 
@@ -131,11 +131,11 @@ export default function CategorySection() {
 
                 <div className="flex items-start justify-between gap-3">
 
-                  <h3 className="font-semibold text-white transition group-hover:text-brand">
+                  <h3 className="font-semibold text-white transition group-hover:text-brand-text">
                     {category.name}
                   </h3>
 
-                  <span className="shrink-0 rounded-full bg-zinc-800 px-2.5 py-1 text-xs text-zinc-600 transition group-hover:bg-brand/20 group-hover:text-brand">
+                  <span className="shrink-0 rounded-full bg-zinc-800 px-2.5 py-1 text-xs text-zinc-600 transition group-hover:bg-brand/20 group-hover:text-brand-text">
                     {category.count}
                   </span>
 

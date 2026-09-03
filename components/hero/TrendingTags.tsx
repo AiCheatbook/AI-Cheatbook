@@ -19,7 +19,7 @@ export default function TrendingTags() {
         <Link
           key={tool}
           href={`/search?tool=${encodeURIComponent(tool)}`}
-          className="rounded-full border border-zinc-800 bg-zinc-900 px-4 py-2 text-sm text-zinc-600 transition hover:border-brand hover:bg-brand/10 hover:text-brand"
+          className="rounded-full border border-zinc-800 bg-zinc-900 px-4 py-2 text-sm text-zinc-600 transition hover:border-brand hover:bg-brand/10 hover:text-brand-text"
         >
           {tool}
         </Link>

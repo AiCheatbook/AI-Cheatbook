@@ -265,7 +265,7 @@ export default function PollDetailClient() {
           </p>
           <Link
             href="/community"
-            className="mt-4 inline-block text-brand hover:text-brand"
+            className="mt-4 inline-block text-brand-text hover:text-brand-text"
           >
             ← Back to Community
           </Link>
@@ -357,7 +357,7 @@ export default function PollDetailClient() {
                           myVotes.has(
                             option.id
                           )
-                            ? "font-semibold text-brand"
+                            ? "font-semibold text-brand-text"
                             : "text-zinc-700"
                         }
                       >

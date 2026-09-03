@@ -57,7 +57,7 @@ export default function Navbar() {
         <Link
           href="/"
           onClick={handleLogoClick}
-          className="text-xl font-bold text-zinc-900 transition hover:text-brand"
+          className="text-xl font-bold text-zinc-900 transition hover:text-brand-text"
         >
           AI Cheatbook
         </Link>
@@ -68,42 +68,42 @@ export default function Navbar() {
 
           <Link
             href="/search"
-            className="transition hover:text-brand"
+            className="transition hover:text-brand-text"
           >
             AI Library
           </Link>
 
           <Link
             href="/news"
-            className="transition hover:text-brand"
+            className="transition hover:text-brand-text"
           >
             AI News
           </Link>
 
           <Link
             href="/learning"
-            className="transition hover:text-brand"
+            className="transition hover:text-brand-text"
           >
             Learning
           </Link>
 
           <Link
             href="/community"
-            className="transition hover:text-brand"
+            className="transition hover:text-brand-text"
           >
             Community
           </Link>
 
           <Link
             href="/discussions"
-            className="transition hover:text-brand"
+            className="transition hover:text-brand-text"
           >
             Discussions
           </Link>
 
           <Link
             href="/generator"
-            className="transition hover:text-brand"
+            className="transition hover:text-brand-text"
           >
             Prompt Generator
           </Link>
@@ -168,14 +168,14 @@ export default function Navbar() {
             <Link
               href="/search"
               onClick={closeMenu}
-              className="rounded-xl px-4 py-3 text-zinc-600 transition hover:bg-zinc-100 hover:text-brand"
+              className="rounded-xl px-4 py-3 text-zinc-600 transition hover:bg-zinc-100 hover:text-brand-text"
             >              AI Cheatbook Library
             </Link>
 
             <Link
               href="/news"
               onClick={closeMenu}
-              className="rounded-xl px-4 py-3 text-zinc-600 transition hover:bg-zinc-100 hover:text-brand"
+              className="rounded-xl px-4 py-3 text-zinc-600 transition hover:bg-zinc-100 hover:text-brand-text"
             >
               AI News
             </Link>
@@ -183,7 +183,7 @@ export default function Navbar() {
             <Link
               href="/learning"
               onClick={closeMenu}
-              className="rounded-xl px-4 py-3 text-zinc-600 transition hover:bg-zinc-100 hover:text-brand"
+              className="rounded-xl px-4 py-3 text-zinc-600 transition hover:bg-zinc-100 hover:text-brand-text"
             >
               Learning
             </Link>
@@ -191,7 +191,7 @@ export default function Navbar() {
             <Link
               href="/generator"
               onClick={closeMenu}
-              className="rounded-xl px-4 py-3 text-zinc-600 transition hover:bg-zinc-100 hover:text-brand"
+              className="rounded-xl px-4 py-3 text-zinc-600 transition hover:bg-zinc-100 hover:text-brand-text"
             >
               Generator
             </Link>
@@ -199,7 +199,7 @@ export default function Navbar() {
             <Link
               href="/community"
               onClick={closeMenu}
-              className="rounded-xl px-4 py-3 text-zinc-600 transition hover:bg-zinc-100 hover:text-brand"
+              className="rounded-xl px-4 py-3 text-zinc-600 transition hover:bg-zinc-100 hover:text-brand-text"
             >
               Community
             </Link>
@@ -207,7 +207,7 @@ export default function Navbar() {
             <Link
               href="/discussions"
               onClick={closeMenu}
-              className="rounded-xl px-4 py-3 text-zinc-600 transition hover:bg-zinc-100 hover:text-brand"
+              className="rounded-xl px-4 py-3 text-zinc-600 transition hover:bg-zinc-100 hover:text-brand-text"
             >
               Discussions
             </Link>
@@ -215,7 +215,7 @@ export default function Navbar() {
             <Link
               href={loggedIn ? "/account" : "/login"}
               onClick={closeMenu}
-              className="rounded-xl px-4 py-3 text-zinc-600 transition hover:bg-zinc-100 hover:text-brand"
+              className="rounded-xl px-4 py-3 text-zinc-600 transition hover:bg-zinc-100 hover:text-brand-text"
             >
               {loggedIn ? "My Account" : "Login"}
             </Link>

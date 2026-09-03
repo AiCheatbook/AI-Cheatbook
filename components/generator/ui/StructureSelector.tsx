@@ -63,7 +63,7 @@ export default function StructureSelector({
         className={`rounded-full border px-4 py-2 text-sm transition ${
           !selectedId
             ? "border-brand bg-brand text-white"
-            : "border-zinc-700 bg-black text-zinc-300 hover:border-brand hover:text-brand"
+            : "border-zinc-700 bg-black text-zinc-300 hover:border-brand hover:text-brand-text"
         }`}
       >
         No structure
@@ -86,7 +86,7 @@ export default function StructureSelector({
           className={`rounded-full border px-4 py-2 text-sm transition ${
             selectedId === structure.id
               ? "border-brand bg-brand text-white"
-              : "border-zinc-700 bg-black text-zinc-300 hover:border-brand hover:text-brand"
+              : "border-zinc-700 bg-black text-zinc-300 hover:border-brand hover:text-brand-text"
           }`}
         >
           {structure.name}

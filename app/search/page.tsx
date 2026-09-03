@@ -397,7 +397,7 @@ export default async function SearchPage({
 
         <header className="mb-8">
 
-          <p className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-brand">
+          <p className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-brand-text">
             AI Cheatbook
           </p>
 
@@ -464,7 +464,7 @@ export default async function SearchPage({
               {query && (
                 <Link
                   href={getClearSearchUrl()}
-                  className="rounded-lg border border-zinc-300 px-3 py-1.5 text-xs font-medium text-zinc-600 transition hover:border-brand hover:text-brand"
+                  className="rounded-lg border border-zinc-300 px-3 py-1.5 text-xs font-medium text-zinc-600 transition hover:border-brand hover:text-brand-text"
                 >
                   Clear Search
                 </Link>
@@ -548,7 +548,7 @@ export default async function SearchPage({
                             <h3
                               className={`truncate text-sm font-semibold transition ${
                                 isSelected
-                                  ? "text-brand"
+                                  ? "text-brand-text"
                                   : "text-zinc-700 group-hover:text-zinc-900"
                               }`}
                             >
@@ -669,7 +669,7 @@ export default async function SearchPage({
                       <div className="flex flex-wrap gap-2">
 
                         {selectedItem.category && (
-                          <span className="rounded-full bg-brand/10 px-3 py-1 text-xs font-medium text-brand">
+                          <span className="rounded-full bg-brand/10 px-3 py-1 text-xs font-medium text-brand-text">
                             {
                               selectedItem.category
                             }
@@ -766,7 +766,7 @@ export default async function SearchPage({
                                 href={`/search?q=${encodeURIComponent(
                                   keyword
                                 )}`}
-                                className="py-1.5 text-xs text-zinc-600 transition hover:text-brand"
+                                className="py-1.5 text-xs text-zinc-600 transition hover:text-brand-text"
                               >
                                 {keyword}
                               </Link>
@@ -806,7 +806,7 @@ export default async function SearchPage({
                               href={`/search?tool=${encodeURIComponent(
                                 tool
                               )}`}
-                              className="rounded-lg border border-zinc-200 bg-white px-3 py-2 text-xs text-zinc-600 transition hover:border-brand hover:text-brand"
+                              className="rounded-lg border border-zinc-200 bg-white px-3 py-2 text-xs text-zinc-600 transition hover:border-brand hover:text-brand-text"
                             >
                               {tool}
                             </Link>
@@ -847,7 +847,7 @@ export default async function SearchPage({
 
                     <Link
                       href={detailsUrl}
-                      className="rounded-xl border border-zinc-300 px-5 py-3 text-center text-sm font-semibold text-zinc-600 transition hover:border-brand hover:text-brand"
+                      className="rounded-xl border border-zinc-300 px-5 py-3 text-center text-sm font-semibold text-zinc-600 transition hover:border-brand hover:text-brand-text"
                     >
                       View Prompt
                     </Link>

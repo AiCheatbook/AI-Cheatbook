@@ -322,7 +322,7 @@ export default function NewPollPage() {
             <button
               type="button"
               onClick={addOption}
-              className="mt-2 text-sm text-brand hover:text-brand"
+              className="mt-2 text-sm text-brand-text hover:text-brand-text"
             >
               + Add option
             </button>

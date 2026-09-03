@@ -200,7 +200,7 @@ export default function SearchFilters({
               })}
               className={`block rounded-lg px-3 py-2 text-sm transition ${
                 !selectedTool
-                  ? "bg-brand/10 text-brand"
+                  ? "bg-brand/10 text-brand-text"
                   : "text-zinc-600 hover:bg-white hover:text-zinc-900"
               }`}
             >
@@ -215,7 +215,7 @@ export default function SearchFilters({
                 })}
                 className={`block rounded-lg px-3 py-2 text-sm transition ${
                   selectedTool === tool
-                    ? "bg-brand/10 text-brand"
+                    ? "bg-brand/10 text-brand-text"
                     : "text-zinc-600 hover:bg-white hover:text-zinc-900"
                 }`}
               >
@@ -259,7 +259,7 @@ export default function SearchFilters({
               })}
               className={`block rounded-lg px-3 py-2 text-sm transition ${
                 !selectedCategory
-                  ? "bg-brand/10 text-brand"
+                  ? "bg-brand/10 text-brand-text"
                   : "text-zinc-600 hover:bg-white hover:text-zinc-900"
               }`}
             >
@@ -275,7 +275,7 @@ export default function SearchFilters({
                 className={`block rounded-lg px-3 py-2 text-sm transition ${
                   selectedCategory ===
                   category
-                    ? "bg-brand/10 text-brand"
+                    ? "bg-brand/10 text-brand-text"
                     : "text-zinc-600 hover:bg-white hover:text-zinc-900"
                 }`}
               >
@@ -292,7 +292,7 @@ export default function SearchFilters({
             href={createUrl({
               clearAll: true,
             })}
-            className="flex shrink-0 items-center justify-center rounded-xl border border-zinc-200 px-4 py-3 text-sm font-medium text-zinc-600 transition hover:border-brand hover:text-brand"
+            className="flex shrink-0 items-center justify-center rounded-xl border border-zinc-200 px-4 py-3 text-sm font-medium text-zinc-600 transition hover:border-brand hover:text-brand-text"
           >
             Clear Filters
           </Link>
@@ -315,7 +315,7 @@ export default function SearchFilters({
               href={createUrl({
                 tool: "",
               })}
-              className="rounded-full border border-brand/30 bg-brand/10 px-3 py-1 text-xs text-brand transition hover:bg-brand/20"
+              className="rounded-full border border-brand/30 bg-brand/10 px-3 py-1 text-xs text-brand-text transition hover:bg-brand/20"
             >
               Tool: {selectedTool} ×
             </Link>
@@ -326,7 +326,7 @@ export default function SearchFilters({
               href={createUrl({
                 category: "",
               })}
-              className="rounded-full border border-brand/30 bg-brand/10 px-3 py-1 text-xs text-brand transition hover:bg-brand/20"
+              className="rounded-full border border-brand/30 bg-brand/10 px-3 py-1 text-xs text-brand-text transition hover:bg-brand/20"
             >
               Category:{" "}
               {selectedCategory} ×
@@ -338,7 +338,7 @@ export default function SearchFilters({
               href={createUrl({
                 type: "all",
               })}
-              className="rounded-full border border-brand/30 bg-brand/10 px-3 py-1 text-xs capitalize text-brand transition hover:bg-brand/20"
+              className="rounded-full border border-brand/30 bg-brand/10 px-3 py-1 text-xs capitalize text-brand-text transition hover:bg-brand/20"
             >
               Type: {selectedType} ×
             </Link>

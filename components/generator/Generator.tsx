@@ -604,7 +604,7 @@ export default function Generator() {
               Current Model
             </p>
 
-            <p className="mt-1 font-semibold text-brand">
+            <p className="mt-1 font-semibold text-brand-text">
               {currentModel.name}
             </p>
           </div>
@@ -655,7 +655,7 @@ export default function Generator() {
 
         {displayUsage.remaining === 0 && (
           <div className="mt-5 rounded-xl border border-brand/30 bg-brand/10 p-4">
-            <p className="font-semibold text-brand">
+            <p className="font-semibold text-brand-text">
               Daily limit reached
             </p>
 
@@ -695,7 +695,7 @@ export default function Generator() {
               className={`rounded-full border px-4 py-2 text-sm transition ${
                 aiTool === tool
                   ? "border-brand bg-brand text-white"
-                  : "border-zinc-700 bg-black text-zinc-300 hover:border-brand hover:text-brand"
+                  : "border-zinc-700 bg-black text-zinc-300 hover:border-brand hover:text-brand-text"
               }`}
             >
               {tool}
@@ -763,7 +763,7 @@ export default function Generator() {
                 referenceImageMode ===
                 option.value
                   ? "border-brand bg-brand text-white"
-                  : "border-zinc-700 bg-black text-zinc-300 hover:border-brand hover:text-brand"
+                  : "border-zinc-700 bg-black text-zinc-300 hover:border-brand hover:text-brand-text"
               }`}
             >
               {option.label}
@@ -796,7 +796,7 @@ export default function Generator() {
                 </button>
               </div>
             ) : (
-              <label className="inline-block cursor-pointer rounded-xl border border-dashed border-zinc-700 px-5 py-3 text-sm text-zinc-600 hover:border-brand hover:text-brand">
+              <label className="inline-block cursor-pointer rounded-xl border border-dashed border-zinc-700 px-5 py-3 text-sm text-zinc-600 hover:border-brand hover:text-brand-text">
                 Choose an image...
                 <input
                   type="file"
@@ -903,7 +903,7 @@ export default function Generator() {
             <button
               type="button"
               onClick={clearSelection}
-              className="text-sm text-zinc-600 transition hover:text-brand"
+              className="text-sm text-zinc-600 transition hover:text-brand-text"
             >
               Clear Selection
             </button>

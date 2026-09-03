@@ -97,7 +97,7 @@ export default function GlobalKeywordsBar({
         {selected.map((keyword) => (
           <span
             key={keyword}
-            className="flex items-center gap-1.5 rounded-full bg-brand/10 px-2.5 py-1 text-xs text-brand"
+            className="flex items-center gap-1.5 rounded-full bg-brand/10 px-2.5 py-1 text-xs text-brand-text"
           >
             {keyword}
             <button
@@ -106,7 +106,7 @@ export default function GlobalKeywordsBar({
                 onRemove(keyword)
               }
               aria-label={`Remove ${keyword}`}
-              className="text-brand/70 hover:text-zinc-900"
+              className="text-brand-text/70 hover:text-zinc-900"
             >
               ×
             </button>
@@ -119,7 +119,7 @@ export default function GlobalKeywordsBar({
             onClick={() =>
               setPickerOpen((v) => !v)
             }
-            className="rounded-full border border-dashed border-zinc-300 px-3 py-1 text-xs text-zinc-600 hover:border-brand hover:text-brand"
+            className="rounded-full border border-dashed border-zinc-300 px-3 py-1 text-xs text-zinc-600 hover:border-brand hover:text-brand-text"
           >
             + Add
           </button>

@@ -510,7 +510,7 @@ export default function CreateNewsPage() {
 
           <div className="mt-5">
 
-            <p className="text-sm font-semibold uppercase tracking-wider text-brand">
+            <p className="text-sm font-semibold uppercase tracking-wider text-brand-text">
               Admin / News
             </p>
 

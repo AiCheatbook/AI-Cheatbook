@@ -20,6 +20,17 @@
   --color-brand-light: #E9F1FA;
   --color-brand: #00ABE4;
   --color-brand-dark: #0090C4;
+  /*
+   * brand (#00ABE4) measures ~2.6:1 against
+   * white — fails WCAG AA (4.5:1) for text.
+   * It's fine for large color blocks (button
+   * backgrounds, borders) but not for small
+   * text. brand-text is a darker shade in
+   * the same hue, ~5:1, for any place brand
+   * color is used AS text (labels, links).
+   */
+  --color-brand-text: #0077A3;
+  --color-brand-text-hover: #005E82;
 }
 
 html,

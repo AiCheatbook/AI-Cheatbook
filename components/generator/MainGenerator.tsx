@@ -250,7 +250,7 @@ export default function MainGenerator() {
               className={`rounded-full border px-4 py-2 text-sm transition ${
                 aiTool === tool
                   ? "border-brand bg-brand text-white"
-                  : "border-zinc-700 bg-black text-zinc-300 hover:border-brand hover:text-brand"
+                  : "border-zinc-700 bg-black text-zinc-300 hover:border-brand hover:text-brand-text"
               }`}
             >
               {tool}
@@ -340,7 +340,7 @@ export default function MainGenerator() {
         </div>
 
         {limitNotice && (
-          <p className="mt-3 text-sm text-brand">
+          <p className="mt-3 text-sm text-brand-text">
             You&apos;ve reached today&apos;s
             limit.{" "}
             {!isLoggedIn &&

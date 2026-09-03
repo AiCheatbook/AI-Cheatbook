@@ -115,7 +115,7 @@ export default function OTTCard({
         </span>
 
         {isTrending && (
-          <span className="rounded-full bg-brand/10 px-2.5 py-1 text-xs text-brand">
+          <span className="rounded-full bg-brand/10 px-2.5 py-1 text-xs text-brand-text">
             🔥 Trending
           </span>
         )}
@@ -133,7 +133,7 @@ export default function OTTCard({
         )}
       </div>
 
-      <h3 className="mt-3 text-lg font-semibold text-white transition group-hover:text-brand">
+      <h3 className="mt-3 text-lg font-semibold text-white transition group-hover:text-brand-text">
         {title}
       </h3>
 

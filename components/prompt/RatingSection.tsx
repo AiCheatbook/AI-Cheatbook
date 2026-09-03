@@ -34,7 +34,7 @@ function Stars({
           key={n}
           className={
             n <= value
-              ? "text-brand"
+              ? "text-brand-text"
               : "text-zinc-700"
           }
         >
@@ -272,8 +272,8 @@ export default function RatingSection({
                   n <=
                   (hoverRating ||
                     myRating)
-                    ? "text-brand"
-                    : "text-zinc-700 hover:text-brand"
+                    ? "text-brand-text"
+                    : "text-zinc-700 hover:text-brand-text"
                 }
               >
                 ★
@@ -307,7 +307,7 @@ export default function RatingSection({
         <p className="mt-4 rounded-xl border border-zinc-200 bg-white px-4 py-3 text-sm text-zinc-600">
           <a
             href="/login"
-            className="text-brand hover:text-brand"
+            className="text-brand-text hover:text-brand-text"
           >
             Log in
           </a>{" "}

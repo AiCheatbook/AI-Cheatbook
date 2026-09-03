@@ -126,7 +126,7 @@ export default function PromptCard({
 
         <div className="flex items-center justify-between gap-3">
 
-          <span className="rounded-full bg-brand/20 px-3 py-1 text-xs font-medium text-brand">
+          <span className="rounded-full bg-brand/20 px-3 py-1 text-xs font-medium text-brand-text">
             {aiTools?.[0] || "AI"}
           </span>
 
@@ -139,7 +139,7 @@ export default function PromptCard({
         {/* Title */}
 
         <Link href={`/prompt/${slug}`}>
-          <h3 className="mt-4 text-xl font-semibold text-white transition hover:text-brand">
+          <h3 className="mt-4 text-xl font-semibold text-white transition hover:text-brand-text">
             {title}
           </h3>
         </Link>
@@ -209,7 +209,7 @@ export default function PromptCard({
 
         <Link
           href={`/prompt/${slug}`}
-          className="mt-2 block w-full rounded-xl border border-zinc-700 px-4 py-3 text-center text-sm font-semibold text-zinc-300 transition hover:border-brand hover:text-brand"
+          className="mt-2 block w-full rounded-xl border border-zinc-700 px-4 py-3 text-center text-sm font-semibold text-zinc-300 transition hover:border-brand hover:text-brand-text"
         >
           View Prompt →
         </Link>

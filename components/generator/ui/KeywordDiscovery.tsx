@@ -129,7 +129,7 @@ export default function KeywordDiscovery({
             {breadcrumbFor(keyword)}
           </span>
 
-          <span className="ml-3 shrink-0 rounded-full bg-brand/10 px-2 py-0.5 text-xs text-brand">
+          <span className="ml-3 shrink-0 rounded-full bg-brand/10 px-2 py-0.5 text-xs text-brand-text">
             Add
           </span>
         </button>

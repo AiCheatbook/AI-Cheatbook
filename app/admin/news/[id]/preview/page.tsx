@@ -213,7 +213,7 @@ export default function NewsPreviewPage() {
         {/* CATEGORY */}
 
         {news.category && (
-          <p className="text-sm font-semibold uppercase tracking-wider text-brand">
+          <p className="text-sm font-semibold uppercase tracking-wider text-brand-text">
             {news.category}
           </p>
         )}

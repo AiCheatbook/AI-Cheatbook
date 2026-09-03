@@ -166,7 +166,7 @@ export default async function PromptDetailsPage({
           <div className="flex flex-wrap gap-2">
 
             {item.type && (
-              <span className="inline-flex items-center rounded-full border border-brand/30 bg-brand/10 px-4 py-2 text-sm font-medium capitalize text-brand">
+              <span className="inline-flex items-center rounded-full border border-brand/30 bg-brand/10 px-4 py-2 text-sm font-medium capitalize text-brand-text">
                 {item.type}
               </span>
             )}
@@ -496,7 +496,7 @@ export default async function PromptDetailsPage({
                         </p>
 
                         {comment.comment_type && (
-                          <p className="mt-2 text-sm capitalize text-brand">
+                          <p className="mt-2 text-sm capitalize text-brand-text">
                             {comment.comment_type}
                           </p>
                         )}

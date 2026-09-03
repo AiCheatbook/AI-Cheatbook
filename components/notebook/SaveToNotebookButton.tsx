@@ -218,7 +218,7 @@ export default function SaveToNotebookButton({
         }}
         className={`rounded-full border px-3 py-1.5 text-xs font-medium transition ${
           saved
-            ? "border-brand bg-brand/10 text-brand"
+            ? "border-brand bg-brand/10 text-brand-text"
             : "border-zinc-300 text-zinc-600 hover:border-zinc-500 hover:text-zinc-900"
         } ${compact ? "px-2 py-1" : ""}`}
       >

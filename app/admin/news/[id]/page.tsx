@@ -1042,7 +1042,7 @@ export default function EditNewsPage() {
           </Link>
 
           <div className="mt-5">
-            <p className="text-sm font-semibold uppercase tracking-wider text-brand">
+            <p className="text-sm font-semibold uppercase tracking-wider text-brand-text">
               Admin / News
             </p>
 
@@ -1279,7 +1279,7 @@ export default function EditNewsPage() {
                 type="button"
                 onClick={handlePreview}
                 disabled={saving}
-                className="rounded-xl border border-brand/50 bg-brand/10 px-5 py-3 text-sm font-semibold text-brand transition hover:bg-brand/20 disabled:cursor-not-allowed disabled:opacity-50"
+                className="rounded-xl border border-brand/50 bg-brand/10 px-5 py-3 text-sm font-semibold text-brand-text transition hover:bg-brand/20 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 Preview
               </button>
@@ -1340,7 +1340,7 @@ export default function EditNewsPage() {
                   onClick={() =>
                     handleSave(true)
                   }
-                  className="rounded-xl border border-brand/50 px-5 py-3 text-sm font-semibold text-brand transition hover:bg-brand/10 disabled:cursor-not-allowed disabled:opacity-50"
+                  className="rounded-xl border border-brand/50 px-5 py-3 text-sm font-semibold text-brand-text transition hover:bg-brand/10 disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   {saving
                     ? "Updating..."

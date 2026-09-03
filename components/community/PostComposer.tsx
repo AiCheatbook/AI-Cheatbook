@@ -241,7 +241,7 @@ export default function PostComposer({
                 }
                 className={`rounded-full border px-3 py-1 text-xs transition ${
                   category === c.value
-                    ? "border-brand bg-brand/10 text-brand"
+                    ? "border-brand bg-brand/10 text-brand-text"
                     : "border-zinc-300 text-zinc-600"
                 }`}
               >

@@ -40,7 +40,7 @@ export default function AdminLayout({
                 pathname.startsWith(
                   "/admin/news"
                 )
-                  ? "text-brand"
+                  ? "text-brand-text"
                   : "text-neutral-400 hover:text-zinc-900"
               }
             >
@@ -53,7 +53,7 @@ export default function AdminLayout({
                 pathname.startsWith(
                   "/admin/prompts"
                 )
-                  ? "text-brand"
+                  ? "text-brand-text"
                   : "text-neutral-400 hover:text-zinc-900"
               }
             >
@@ -66,7 +66,7 @@ export default function AdminLayout({
                 pathname.startsWith(
                   "/admin/learning-cards"
                 )
-                  ? "text-brand"
+                  ? "text-brand-text"
                   : "text-neutral-400 hover:text-zinc-900"
               }
             >
@@ -79,11 +79,24 @@ export default function AdminLayout({
                 pathname.startsWith(
                   "/admin/submissions"
                 )
-                  ? "text-brand"
+                  ? "text-brand-text"
                   : "text-neutral-400 hover:text-zinc-900"
               }
             >
               Submissions
+            </Link>
+
+            <Link
+              href="/admin/community"
+              className={
+                pathname.startsWith(
+                  "/admin/community"
+                )
+                  ? "text-brand-text"
+                  : "text-neutral-400 hover:text-zinc-900"
+              }
+            >
+              Community
             </Link>
 
             <Link
@@ -92,7 +105,7 @@ export default function AdminLayout({
                 pathname.startsWith(
                   "/admin/keywords"
                 )
-                  ? "text-brand"
+                  ? "text-brand-text"
                   : "text-neutral-400 hover:text-zinc-900"
               }
             >
@@ -105,7 +118,7 @@ export default function AdminLayout({
                 pathname.startsWith(
                   "/admin/structures"
                 )
-                  ? "text-brand"
+                  ? "text-brand-text"
                   : "text-neutral-400 hover:text-zinc-900"
               }
             >

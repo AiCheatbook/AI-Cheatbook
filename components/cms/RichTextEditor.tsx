@@ -72,7 +72,7 @@ export default function RichTextEditor({
       Link.configure({
         openOnClick: false,
         HTMLAttributes: {
-          class: "text-brand underline",
+          class: "text-brand-text underline",
         },
       }),
       FigureImage,

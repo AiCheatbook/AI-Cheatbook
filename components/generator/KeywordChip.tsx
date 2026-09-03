@@ -20,7 +20,7 @@ export default function KeywordChip({
       className={`rounded-full border px-4 py-2 text-sm transition ${
         selected
           ? "border-brand bg-brand text-white"
-          : "border-zinc-700 bg-zinc-900 text-zinc-300 hover:border-brand hover:text-brand"
+          : "border-zinc-700 bg-zinc-900 text-zinc-300 hover:border-brand hover:text-brand-text"
       }`}
     >
       {selected ? "✓ " : ""}

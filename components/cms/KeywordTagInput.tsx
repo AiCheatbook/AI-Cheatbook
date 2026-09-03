@@ -136,7 +136,7 @@ export default function KeywordTagInput({
         {value.map((keyword) => (
           <span
             key={keyword.id}
-            className="flex items-center gap-1 rounded-full bg-brand/15 px-3 py-1 text-xs text-brand"
+            className="flex items-center gap-1 rounded-full bg-brand/15 px-3 py-1 text-xs text-brand-text"
           >
             {keyword.label}
             <button
@@ -144,7 +144,7 @@ export default function KeywordTagInput({
               onClick={() =>
                 removeKeyword(keyword.id)
               }
-              className="text-brand hover:text-brand"
+              className="text-brand-text hover:text-brand-text"
             >
               ×
             </button>

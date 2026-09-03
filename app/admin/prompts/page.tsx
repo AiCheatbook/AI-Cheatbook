@@ -80,7 +80,7 @@ export default function AdminPromptsPage() {
 
         <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-wider text-brand">
+            <p className="text-sm font-semibold uppercase tracking-wider text-brand-text">
               Admin
             </p>
 
@@ -209,13 +209,13 @@ export default function AdminPromptsPage() {
 
                         <div className="mt-1 flex gap-2">
                           {item.is_featured && (
-                            <span className="text-xs text-brand">
+                            <span className="text-xs text-brand-text">
                               Featured
                             </span>
                           )}
 
                           {item.is_trending && (
-                            <span className="text-xs text-brand">
+                            <span className="text-xs text-brand-text">
                               Trending
                             </span>
                           )}
@@ -246,7 +246,7 @@ export default function AdminPromptsPage() {
 
                       <Link
                         href={`/admin/prompts/${item.id}`}
-                        className="text-sm font-medium text-brand transition hover:text-brand"
+                        className="text-sm font-medium text-brand-text transition hover:text-brand-text"
                       >
                         Edit
                       </Link>

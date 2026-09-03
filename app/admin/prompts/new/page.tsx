@@ -518,7 +518,7 @@ export default function NewPromptPage() {
                   }
                   className={`rounded-full border px-4 py-2 text-sm transition ${
                     selected
-                      ? "border-brand bg-brand/15 text-brand"
+                      ? "border-brand bg-brand/15 text-brand-text"
                       : "border-zinc-200 text-zinc-600 hover:border-zinc-600"
                   }`}
                 >

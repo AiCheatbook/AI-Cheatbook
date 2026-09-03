@@ -62,7 +62,7 @@ export default function StructurePopover({
         onClick={() => setOpen((v) => !v)}
         className={`rounded-full border px-3 py-1.5 text-xs transition ${
           selected
-            ? "border-brand bg-brand/10 text-brand"
+            ? "border-brand bg-brand/10 text-brand-text"
             : "border-zinc-300 text-zinc-600 hover:border-zinc-500 hover:text-zinc-900"
         }`}
       >

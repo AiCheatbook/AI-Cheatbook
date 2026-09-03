@@ -40,11 +40,11 @@ export default function NewsCard({
 
       <div className="flex min-h-0 flex-1 flex-col p-4">
 
-        <span className="text-xs font-medium text-brand">
+        <span className="text-xs font-medium text-brand-text">
           AI News
         </span>
 
-        <h3 className="mt-2 line-clamp-2 text-lg font-semibold leading-snug text-zinc-900 transition group-hover:text-brand">
+        <h3 className="mt-2 line-clamp-2 text-lg font-semibold leading-snug text-zinc-900 transition group-hover:text-brand-text">
           {title}
         </h3>
 
@@ -61,7 +61,7 @@ export default function NewsCard({
 
           <button
             type="button"
-            className="text-xs font-medium text-brand transition hover:text-brand-dark"
+            className="-m-2 p-2 text-xs font-medium text-brand-text transition hover:text-brand-text-hover"
           >
             Read →
           </button>
