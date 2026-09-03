@@ -40,6 +40,20 @@ export default function RotatingPollWidget() {
         .eq("user_id", uid),
     ]);
 
+    if (pollsRes.error) {
+      console.error(
+        "RotatingPollWidget: failed to load polls:",
+        pollsRes.error.message
+      );
+    }
+
+    if (myVotesRes.error) {
+      console.error(
+        "RotatingPollWidget: failed to load my votes:",
+        myVotesRes.error.message
+      );
+    }
+
     const answeredIds = new Set(
       (myVotesRes.data || []).map((v) => v.poll_id)
     );

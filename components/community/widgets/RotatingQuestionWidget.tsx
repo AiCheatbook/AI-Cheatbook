@@ -36,6 +36,20 @@ export default function RotatingQuestionWidget() {
         .eq("user_id", uid),
     ]);
 
+    if (threadsRes.error) {
+      console.error(
+        "RotatingQuestionWidget: failed to load questions:",
+        threadsRes.error.message
+      );
+    }
+
+    if (myRepliesRes.error) {
+      console.error(
+        "RotatingQuestionWidget: failed to load my replies:",
+        myRepliesRes.error.message
+      );
+    }
+
     const answeredThreadIds = new Set(
       (myRepliesRes.data || []).map((r) => r.thread_id)
     );
