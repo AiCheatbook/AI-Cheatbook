@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase/client";
+import RotatingPollWidget from "@/components/community/widgets/RotatingPollWidget";
+import RotatingQuestionWidget from "@/components/community/widgets/RotatingQuestionWidget";
 
 type Contributor = {
   id: string;
@@ -123,6 +125,9 @@ export default function CommunityRightSidebar() {
   return (
     <aside className="hidden w-72 shrink-0 xl:block">
       <div className="sticky top-20 space-y-4">
+        <RotatingPollWidget />
+        <RotatingQuestionWidget />
+
         <div className="rounded-2xl border border-zinc-200 bg-white p-4">
           <h3 className="text-sm font-semibold text-zinc-900">
             Community Stats
