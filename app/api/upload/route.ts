@@ -6,17 +6,26 @@ import path from "path";
 /*
  * Where uploaded files live on the server.
  *
- * This is OUTSIDE the app's public/ folder on
- * purpose — it's excluded from Git, so a new
- * deployment (git pull) never touches, replaces,
- * or deletes what's already been uploaded.
+ * Confirmed via server logs: Hostinger builds
+ * this app into a NEW folder for every single
+ * deployment —
+ *   .../hbuilds/versions/{unique-id}/nodejs/
+ * — so anything saved relative to
+ * process.cwd() only survives until the next
+ * deploy, then becomes permanently orphaned.
+ *
+ * This now uses a fixed, absolute path OUTSIDE
+ * that versioned build folder — a sibling of
+ * hbuilds/ at the persistent domain root, which
+ * Hostinger's deployment system does not
+ * recreate. Override with the UPLOAD_DIR env
+ * var if this exact path needs adjusting for
+ * your account.
  */
 
-const UPLOAD_DIR = path.join(
-  process.cwd(),
-  "storage",
-  "uploads"
-);
+const UPLOAD_DIR =
+  process.env.UPLOAD_DIR ||
+  "/home/u187217900/domains/aicheatbook.com/persistent-storage/uploads";
 
 const ALLOWED_TYPES = [
   "image/jpeg",
@@ -105,6 +114,7 @@ export async function POST(
     const filename = `${crypto.randomUUID()}.${extension}`;
 
     const filePath = path.join(
+      /* turbopackIgnore: true */
       UPLOAD_DIR,
       filename
     );

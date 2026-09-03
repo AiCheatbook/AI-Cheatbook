@@ -14,11 +14,16 @@ import path from "path";
  * image has been 404ing until now.
  */
 
-const UPLOAD_DIR = path.join(
-  process.cwd(),
-  "storage",
-  "uploads"
-);
+/*
+ * Must match the UPLOAD_DIR in
+ * app/api/upload/route.ts exactly — a fixed
+ * absolute path outside the versioned build
+ * folder Hostinger recreates on every deploy.
+ */
+
+const UPLOAD_DIR =
+  process.env.UPLOAD_DIR ||
+  "/home/u187217900/domains/aicheatbook.com/persistent-storage/uploads";
 
 const CONTENT_TYPES: Record<
   string,
@@ -78,6 +83,7 @@ export async function GET(
   }
 
   const filePath = path.join(
+    /* turbopackIgnore: true */
     UPLOAD_DIR,
     filename
   );
