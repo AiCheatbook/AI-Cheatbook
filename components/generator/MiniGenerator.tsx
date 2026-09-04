@@ -1,41 +1,23 @@
 "use client";
 
 import { useState } from "react";
-import dynamic from "next/dynamic";
+import MiniPromptGenerator from "./MiniPromptGenerator";
 
 /*
- * The Mini/Quick Generator — a compact
- * floating panel that renders the EXACT
- * SAME PromptComposer as the full /generator
- * page, just inside a smaller container.
- *
- * This guarantees real feature parity, not
- * just similar features: there is only one
- * generator implementation in the whole
- * codebase, so Main and Mini can never
- * silently drift apart again.
- *
- * PromptComposer is loaded dynamically —
- * this component renders on EVERY page site-
- * wide (it's in the root layout), so a static
- * import would ship the entire generator
- * bundle (TipTap and its extensions, the
- * Gemini integration) to every single page
- * load even when the panel is never opened.
- * This was a real, measured contributor to
- * the "unused JavaScript" PageSpeed finding.
+ * The Mini/Quick Generator — a genuinely
+ * lighter, separate experience from the full
+ * /generator page, per spec: no dynamic
+ * keyword search/selector, just whatever was
+ * already picked while Browsing the
+ * Promptbook. This is a static import (not
+ * lazy-loaded like the old PromptComposer-
+ * reusing version) because MiniPromptGenerator
+ * doesn't include TipTap or any other heavy
+ * dependency — it's small enough that lazy-
+ * loading would add more overhead (an extra
+ * network round-trip + loading flash) than it
+ * saves.
  */
-
-const PromptComposer = dynamic(
-  () => import("./PromptComposer"),
-  {
-    loading: () => (
-      <div className="flex h-40 items-center justify-center text-sm text-zinc-500">
-        Loading...
-      </div>
-    ),
-  }
-);
 
 export default function MiniGenerator() {
   const [open, setOpen] = useState(false);
@@ -70,8 +52,8 @@ export default function MiniGenerator() {
         </button>
       </div>
 
-      <div className="max-h-[75vh] overflow-y-auto p-4">
-        <PromptComposer compact />
+      <div className="max-h-[75vh] overflow-y-auto">
+        <MiniPromptGenerator />
       </div>
     </div>
   );

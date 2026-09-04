@@ -15,7 +15,7 @@ import type {
   PromptStructureSpec,
 } from "@/components/generator/aiProvider";
 
-const REGISTERED_DAILY_LIMIT = 50;
+const REGISTERED_DAILY_LIMIT = 15;
 
 type IncomingAttachment = {
   base64: string;
@@ -31,6 +31,7 @@ type GenerateRequest = {
   aiTool: AITool;
   plan?: UserPlan;
   mode?: "builtin" | "real-ai";
+  modelId?: string;
   attachments?: IncomingAttachment[];
   structure?: PromptStructureSpec | null;
   referenceImageMode?: ReferenceImageMode;
@@ -158,6 +159,7 @@ export async function POST(
       aiTool,
       plan = "free",
       mode = "real-ai",
+      modelId,
       attachments,
       structure,
       referenceImageMode = "none",
@@ -321,7 +323,22 @@ export async function POST(
      * usage consumed, per spec: "Built-in
      * generation does not consume the
      * Real AI quota."
+     *
+     * Real AI is a registered-users-only
+     * feature (per spec section 30). A
+     * logged-out request claiming
+     * mode: "real-ai" is silently
+     * downgraded to the built-in provider
+     * here — this used to only be
+     * prevented client-side (the toggle
+     * button), which meant a direct API
+     * call could bypass it entirely and
+     * get unmetered real Gemini calls.
      */
+
+    if (!isLoggedIn && mode !== "builtin") {
+      provider = localProvider;
+    }
 
     if (user && mode !== "builtin") {
       const { data: usageResult } =
@@ -353,6 +370,7 @@ export async function POST(
         keywords: generatorKeywords,
         aiTool,
         plan,
+        modelId,
         inlineKeywords: inlineKeywords.filter(
           (k) => typeof k === "string" && k.trim()
         ),

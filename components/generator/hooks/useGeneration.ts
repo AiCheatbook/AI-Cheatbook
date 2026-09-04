@@ -23,6 +23,7 @@ export type GenerateParams = {
   aiTool: AITool;
   plan: UserPlan;
   mode?: "builtin" | "real-ai";
+  modelId?: string;
   referenceImageMode?: ReferenceImageMode;
   referenceImageBase64?: string | null;
   referenceImageMimeType?: string | null;
@@ -92,6 +93,7 @@ export function useGeneration(options?: {
             aiTool: params.aiTool,
             plan: params.plan,
             mode: params.mode || "real-ai",
+            modelId: params.modelId,
             referenceImageMode:
               params.referenceImageMode ||
               "none",

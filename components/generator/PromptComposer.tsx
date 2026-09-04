@@ -8,7 +8,6 @@ import Text from "@tiptap/extension-text";
 import History from "@tiptap/extension-history";
 import Placeholder from "@tiptap/extension-placeholder";
 import { supabaseAuthClient } from "@/lib/supabase/auth-client";
-import type { AITool } from "./types";
 import KeywordChip from "./extensions/KeywordChip";
 import { getInlineKeywordsFromDoc } from "./getInlineKeywords";
 import { useAuthState } from "./hooks/useAuthState";
@@ -25,40 +24,9 @@ import AttachmentPopover, {
 import StructurePopover from "./ui/StructurePopover";
 import GenerationResult from "./ui/GenerationResult";
 import type { PromptStructureSpec } from "./aiProvider";
+import { getAvailableModels } from "./modelSelector";
 
-type PromptType = {
-  value: string;
-  label: string;
-  aiTool: AITool;
-};
-
-const PROMPT_TYPES: PromptType[] = [
-  {
-    value: "image",
-    label: "Image Generation",
-    aiTool: "Midjourney",
-  },
-  {
-    value: "video",
-    label: "Video Generation",
-    aiTool: "Veo",
-  },
-  {
-    value: "writing",
-    label: "Writing",
-    aiTool: "ChatGPT",
-  },
-  {
-    value: "code",
-    label: "Coding",
-    aiTool: "ChatGPT",
-  },
-  {
-    value: "marketing",
-    label: "Marketing",
-    aiTool: "ChatGPT",
-  },
-];
+import { PROMPT_TYPES, type PromptType } from "./promptTypes";
 
 type PromptComposerProps = {
   /*
@@ -100,6 +68,37 @@ export default function PromptComposer({
   const [globalKeywords, setGlobalKeywords] =
     useState<string[]>([]);
 
+  // Browse Promptbook (/search) saves keywords the user picks
+  // into this localStorage key via AddKeywordButton, so they
+  // carry over here without needing to re-select them — this is
+  // the "select keywords, then open the generator" handoff.
+  const SAVED_KEYWORDS_STORAGE_KEY = "ai-cheatbook-saved-keywords";
+  const KEYWORDS_UPDATED_EVENT = "ai-cheatbook-keywords-updated";
+
+  useEffect(() => {
+    function loadSavedKeywords() {
+      try {
+        const stored = JSON.parse(
+          window.localStorage.getItem(SAVED_KEYWORDS_STORAGE_KEY) || "[]"
+        );
+        if (Array.isArray(stored)) {
+          setGlobalKeywords(stored);
+        }
+      } catch (err) {
+        console.error(
+          "PromptComposer: failed to read saved keywords:",
+          err
+        );
+      }
+    }
+
+    loadSavedKeywords();
+
+    window.addEventListener(KEYWORDS_UPDATED_EVENT, loadSavedKeywords);
+    return () =>
+      window.removeEventListener(KEYWORDS_UPDATED_EVENT, loadSavedKeywords);
+  }, []);
+
   const [attachments, setAttachments] =
     useState<ComposerAttachment[]>([]);
   const [attachmentMode, setAttachmentMode] =
@@ -109,10 +108,23 @@ export default function PromptComposer({
       null
     );
 
+  const availableModels = getAvailableModels("free");
+  const [selectedModelId, setSelectedModelId] = useState(
+    availableModels[0]?.id
+  );
+
   const [generationMode, setGenerationMode] =
     useState<"builtin" | "real-ai">(
       "real-ai"
     );
+
+  // Real AI is registered-users-only — derived here rather than
+  // synced via an effect, so there's no risk of stale state if
+  // login status changes while "real-ai" was selected. The raw
+  // generationMode is still what the toggle button reads/writes,
+  // preserving the user's preference for if/when they log in.
+  const effectiveGenerationMode: "builtin" | "real-ai" =
+    isLoggedIn ? generationMode : "builtin";
 
   const [saving, setSaving] =
     useState(false);
@@ -200,22 +212,40 @@ export default function PromptComposer({
     setSearchOpen(false);
   }
 
+  function persistSavedKeywords(next: string[]) {
+    try {
+      window.localStorage.setItem(
+        SAVED_KEYWORDS_STORAGE_KEY,
+        JSON.stringify(next)
+      );
+    } catch (err) {
+      console.error(
+        "PromptComposer: failed to persist saved keywords:",
+        err
+      );
+    }
+  }
+
   function addGlobalKeyword(
     label: string
   ) {
-    setGlobalKeywords((current) =>
-      current.includes(label)
+    setGlobalKeywords((current) => {
+      const next = current.includes(label)
         ? current
-        : [...current, label]
-    );
+        : [...current, label];
+      persistSavedKeywords(next);
+      return next;
+    });
   }
 
   function removeGlobalKeyword(
     label: string
   ) {
-    setGlobalKeywords((current) =>
-      current.filter((k) => k !== label)
-    );
+    setGlobalKeywords((current) => {
+      const next = current.filter((k) => k !== label);
+      persistSavedKeywords(next);
+      return next;
+    });
   }
 
   const taskText = editor
@@ -227,7 +257,9 @@ export default function PromptComposer({
       return;
     }
 
-    if (!canGenerateNow()) {
+    // The daily cap is a Real AI limit only — the built-in
+    // generator (no external API call) is never rate-limited.
+    if (effectiveGenerationMode === "real-ai" && !canGenerateNow()) {
       setLimitNotice(true);
       return;
     }
@@ -252,7 +284,8 @@ export default function PromptComposer({
       structure,
       aiTool: promptType.aiTool,
       plan: "free",
-      mode: generationMode,
+      mode: effectiveGenerationMode,
+      modelId: selectedModelId,
       referenceImageMode: attachmentMode,
     });
   }
@@ -422,11 +455,29 @@ export default function PromptComposer({
               onChange={setStructure}
               isLoggedIn={isLoggedIn}
             />
+
+            {availableModels.length > 0 && (
+              <select
+                value={selectedModelId}
+                onChange={(e) =>
+                  setSelectedModelId(e.target.value)
+                }
+                title="Which AI model generates this prompt"
+                className="rounded-full border border-zinc-300 bg-white px-3 py-1.5 text-xs text-zinc-600 outline-none transition hover:border-zinc-500"
+              >
+                {availableModels.map((m) => (
+                  <option key={m.id} value={m.id}>
+                    {m.name}
+                  </option>
+                ))}
+              </select>
+            )}
           </div>
 
           <div className="flex items-center gap-2">
             <button
               type="button"
+              disabled={!isLoggedIn}
               onClick={() =>
                 setGenerationMode(
                   (m) =>
@@ -436,17 +487,21 @@ export default function PromptComposer({
                 )
               }
               title={
-                generationMode ===
-                "real-ai"
-                  ? "Using Real AI (Gemini) — click to switch to the free built-in generator"
-                  : "Using the free built-in generator — click to switch to Real AI"
+                !isLoggedIn
+                  ? "Log in to use Real AI — anyone can use the free built-in generator"
+                  : generationMode ===
+                    "real-ai"
+                    ? "Using Real AI (Gemini) — click to switch to the free built-in generator"
+                    : "Using the free built-in generator — click to switch to Real AI"
               }
-              className="rounded-full border border-zinc-300 px-3 py-1.5 text-xs text-zinc-600 transition hover:border-zinc-500 hover:text-zinc-900"
+              className="rounded-full border border-zinc-300 px-3 py-1.5 text-xs text-zinc-600 transition hover:border-zinc-500 hover:text-zinc-900 disabled:cursor-not-allowed disabled:opacity-50"
             >
-              {generationMode ===
-              "real-ai"
-                ? "✨ Real AI"
-                : "⚙ Built-in"}
+              {!isLoggedIn
+                ? "⚙ Built-in (log in for Real AI)"
+                : generationMode ===
+                  "real-ai"
+                  ? "✨ Real AI"
+                  : "⚙ Built-in"}
             </button>
 
             <button

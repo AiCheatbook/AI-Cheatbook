@@ -6,7 +6,7 @@ import type {
 import { buildPrompt } from "./promptBuilder";
 
 import {
-  getDefaultModel,
+  getModelById,
 } from "./modelSelector";
 
 import type {
@@ -56,6 +56,7 @@ export type AIProviderRequest = {
   keywords: GeneratorKeyword[];
   aiTool: AITool;
   plan: UserPlan;
+  modelId?: string;
 
   /*
    * Richer, semantic fields used by the
@@ -121,9 +122,10 @@ export const localProvider: AIProvider = {
     keywords,
     aiTool,
     plan,
+    modelId,
   }: AIProviderRequest) {
     const model =
-      getDefaultModel(plan);
+      getModelById(modelId, plan);
 
     const prompt = buildPrompt({
       task,

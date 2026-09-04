@@ -8,7 +8,7 @@ import {
 } from "../usageConfig";
 import type { UserPlan } from "../modelConfig";
 
-const REGISTERED_DAILY_LIMIT = 50;
+const REGISTERED_DAILY_LIMIT = 15;
 
 export type UsageInfo = {
   used: number;
