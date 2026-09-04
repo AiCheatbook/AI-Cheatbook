@@ -121,6 +121,18 @@ export default function PostComposer({
         );
       }
 
+      const { data: myProfile } = await supabaseAuthClient
+        .from("profiles")
+        .select("is_disabled")
+        .eq("id", user.id)
+        .single();
+
+      if (myProfile?.is_disabled) {
+        throw new Error(
+          "Your account has been disabled and can't post right now. Contact support if you think this is a mistake."
+        );
+      }
+
       const { data: inserted, error: insertError } = await supabaseAuthClient
         .from("community_threads")
         .insert({

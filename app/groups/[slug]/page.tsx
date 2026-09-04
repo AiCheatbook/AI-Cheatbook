@@ -232,6 +232,20 @@ export default function GroupDetailPage() {
     if (!userId || !group || joinBusy) return;
     setJoinBusy(true);
 
+    const { data: myProfile } = await supabaseAuthClient
+      .from("profiles")
+      .select("is_disabled")
+      .eq("id", userId)
+      .single();
+
+    if (myProfile?.is_disabled) {
+      alert(
+        "Your account has been disabled and can't join communities right now."
+      );
+      setJoinBusy(false);
+      return;
+    }
+
     const status = group.visibility === "public" ? "active" : "pending";
 
     const { data: inserted, error } = await supabaseAuthClient
