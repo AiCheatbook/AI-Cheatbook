@@ -27,7 +27,7 @@ export default function AdminLayout({
 
   return (
     <div>
-      <div className="flex items-center justify-between border-b border-white/10 bg-neutral-950 px-6 py-3">
+      <div className="flex items-center justify-between border-b border-white/10 bg-neutral-950 px-6 py-3 text-white">
         <div className="flex items-center gap-6">
           <span className="text-sm text-neutral-400">
             AI Cheatbook Admin
@@ -192,13 +192,15 @@ export default function AdminLayout({
 
         <button
           onClick={handleLogout}
-          className="rounded-md border border-white/10 px-3 py-1 text-sm text-zinc-900 hover:bg-white/10"
+          className="rounded-md border border-white/10 px-3 py-1 text-sm text-neutral-300 hover:bg-white/10 hover:text-white"
         >
           Log Out
         </button>
       </div>
 
-      {children}
+      <div className="min-h-screen bg-neutral-950 text-white">
+        {children}
+      </div>
     </div>
   );
 }

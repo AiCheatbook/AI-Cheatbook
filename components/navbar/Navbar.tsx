@@ -49,7 +49,7 @@ export default function Navbar() {
   }
 
   return (
-    <header className="sticky top-0 z-50 border-b border-zinc-800 bg-black/95 backdrop-blur">
+    <header className="sticky top-0 z-50 border-b border-zinc-800 bg-black/95 text-white backdrop-blur">
       <div className="mx-auto flex h-16 max-w-7xl items-center gap-4 px-6">
 
         {/* Logo */}
@@ -120,7 +120,7 @@ export default function Navbar() {
           need another way to reach those pages. */}
 
       {menuOpen && (
-        <div className="border-t border-zinc-800 bg-black px-6 py-4 md:hidden">
+        <div className="border-t border-zinc-800 bg-black px-6 py-4 text-white md:hidden">
 
           <div className="mb-3">
             <NavbarSearch />
