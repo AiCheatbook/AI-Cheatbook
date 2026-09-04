@@ -99,7 +99,7 @@ export default function RichTextEditor({
     editorProps: {
       attributes: {
         class:
-          "prose prose-invert max-w-none min-h-[300px] rounded-b-xl border border-t-0 border-zinc-200 bg-white px-4 py-4 outline-none focus:border-brand",
+          "prose max-w-none min-h-[300px] rounded-b-xl border border-t-0 border-zinc-200 bg-white px-4 py-4 outline-none focus:border-brand",
       },
     },
     onUpdate: ({ editor }) => {

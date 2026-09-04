@@ -512,7 +512,7 @@ export default function AdminSubmissionsPage() {
                     )}
 
                     <div
-                      className="prose prose-invert prose-sm mt-3 max-h-64 overflow-y-auto rounded-xl bg-white p-3"
+                      className="prose prose-sm mt-3 max-h-64 overflow-y-auto rounded-xl bg-white p-3"
                       dangerouslySetInnerHTML={{
                         __html:
                           item.content_html ||
