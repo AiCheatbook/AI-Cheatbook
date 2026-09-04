@@ -46,11 +46,13 @@ const TYPE_OPTIONS: {
 type PostComposerProps = {
   onClose: () => void;
   isLoggedIn: boolean;
+  groupId?: string;
 };
 
 export default function PostComposer({
   onClose,
   isLoggedIn,
+  groupId,
 }: PostComposerProps) {
   const router = useRouter();
 
@@ -136,6 +138,7 @@ export default function PostComposer({
           media_urls: media.imageUrls,
           video_url: media.videoUrl,
           youtube_url: media.youtubeUrl,
+          group_id: groupId || null,
         })
         .select("id")
         .single();
@@ -162,7 +165,11 @@ export default function PostComposer({
         );
       }
 
-      router.push(`/discussions/${inserted.id}`);
+      if (groupId) {
+        onClose();
+      } else {
+        router.push(`/discussions/${inserted.id}`);
+      }
     } catch (err) {
       setError(
         err instanceof Error

@@ -6,6 +6,7 @@ import { supabase } from "@/lib/supabase/client";
 import { supabaseAuthClient } from "@/lib/supabase/auth-client";
 import CommunityLayout from "@/components/community/layout/CommunityLayout";
 import CommunityHero from "@/components/community/CommunityHero";
+import CommunitySwitcher from "@/components/community/CommunitySwitcher";
 import ContentTypeFilter from "@/components/community/ContentTypeFilter";
 import DiscussionCard from "@/components/community/cards/DiscussionCard";
 import QuestionCard from "@/components/community/cards/QuestionCard";
@@ -50,6 +51,8 @@ type FeedItem = {
   mediaUrls?: string[] | null;
   videoUrl?: string | null;
   youtubeUrl?: string | null;
+  groupName?: string | null;
+  groupSlug?: string | null;
   href?: string;
 };
 
@@ -81,8 +84,36 @@ export default function HomePage() {
   const [composerOpen, setComposerOpen] =
     useState(false);
 
-  async function loadFeed() {
+  async function loadFeed(userId: string | null) {
     setLoading(true);
+
+    /*
+     * Feed model: a user who hasn't joined any community sees
+     * exactly what they always have (group_id IS NULL — today's
+     * general/official content, unchanged). Joining a community
+     * adds that community's posts into the same feed alongside
+     * it, tagged with the community name — this is "My Feed" per
+     * the community spec, not a separate page.
+     */
+    let joinedGroupIds: string[] = [];
+
+    if (userId) {
+      const { data: membershipRows, error: membershipError } =
+        await supabaseAuthClient
+          .from("group_members")
+          .select("group_id")
+          .eq("user_id", userId)
+          .eq("status", "active");
+
+      if (membershipError) {
+        console.error(
+          "Failed to load joined communities:",
+          membershipError.message
+        );
+      } else {
+        joinedGroupIds = (membershipRows || []).map((m) => m.group_id);
+      }
+    }
 
     /*
      * Fetch threads/polls without
@@ -125,11 +156,18 @@ export default function HomePage() {
             youtube_url,
             featured_in_library,
             created_at,
+            group_id,
+            groups ( name, slug ),
             profiles ( display_name, email )
           `
         )
         .eq("is_hidden", false)
         .is("deleted_at", null)
+        .or(
+          joinedGroupIds.length > 0
+            ? `group_id.is.null,group_id.in.(${joinedGroupIds.join(",")})`
+            : "group_id.is.null"
+        )
         .order("created_at", {
           ascending: false,
         }),
@@ -254,6 +292,8 @@ export default function HomePage() {
         youtube_url: string | null;
         featured_in_library: boolean;
         created_at: string;
+        group_id: string | null;
+        groups: { name: string; slug: string } | null;
         profiles: {
           display_name: string | null;
           email: string | null;
@@ -288,6 +328,8 @@ export default function HomePage() {
         mediaUrls: t.media_urls,
         videoUrl: t.video_url,
         youtubeUrl: t.youtube_url,
+        groupName: t.groups?.name || null,
+        groupSlug: t.groups?.slug || null,
         featuredInLibrary:
           t.featured_in_library,
         score: trendingScore(
@@ -437,7 +479,7 @@ export default function HomePage() {
 
       setIsLoggedIn(Boolean(user));
 
-      await loadFeed();
+      await loadFeed(user?.id || null);
     }
 
     init();
@@ -621,6 +663,8 @@ export default function HomePage() {
 
   return (
     <CommunityLayout>
+      <CommunitySwitcher />
+
       <CommunityHero
         memberCount={memberCount}
         discussionCount={items.length}
@@ -681,7 +725,19 @@ export default function HomePage() {
             )}
 
           {!loading &&
-            sorted.map(renderCard)}
+            sorted.map((item) => (
+              <div key={item.id}>
+                {item.groupName && item.groupSlug && (
+                  <Link
+                    href={`/groups/${item.groupSlug}`}
+                    className="mb-1.5 ml-1 inline-flex items-center gap-1 text-xs text-zinc-500 hover:text-brand-text"
+                  >
+                    🤝 Posted in {item.groupName}
+                  </Link>
+                )}
+                {renderCard(item)}
+              </div>
+            ))}
         </div>
       )}
 

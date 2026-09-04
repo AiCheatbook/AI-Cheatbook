@@ -13,6 +13,12 @@ type Profile = {
 
 const NAV_ITEMS = [
   {
+    href: "/groups",
+    icon: "🤝",
+    label: "Communities",
+    subtitle: "Join or Start an AI Community",
+  },
+  {
     href: "/notebook",
     icon: "📓",
     label: "AI Notebook",
@@ -133,7 +139,10 @@ export default function CommunitySidebar() {
 
         <nav className="space-y-2">
           {NAV_ITEMS.map((item) => {
-            const active = pathname === item.href;
+            const active =
+              item.href === "/groups"
+                ? pathname === "/groups" || pathname.startsWith("/groups/")
+                : pathname === item.href;
 
             return (
               <Link
