@@ -39,7 +39,7 @@ export default function AdminLayout({
               className={
                 pathname === "/admin"
                   ? "text-brand-text"
-                  : "text-neutral-400 hover:text-zinc-900"
+                  : "text-neutral-400 hover:text-white"
               }
             >
               Dashboard
@@ -52,7 +52,7 @@ export default function AdminLayout({
                   "/admin/news"
                 )
                   ? "text-brand-text"
-                  : "text-neutral-400 hover:text-zinc-900"
+                  : "text-neutral-400 hover:text-white"
               }
             >
               News
@@ -65,7 +65,7 @@ export default function AdminLayout({
                   "/admin/prompts"
                 )
                   ? "text-brand-text"
-                  : "text-neutral-400 hover:text-zinc-900"
+                  : "text-neutral-400 hover:text-white"
               }
             >
               Prompt Library
@@ -78,7 +78,7 @@ export default function AdminLayout({
                   "/admin/learning-cards"
                 )
                   ? "text-brand-text"
-                  : "text-neutral-400 hover:text-zinc-900"
+                  : "text-neutral-400 hover:text-white"
               }
             >
               Learning Cards
@@ -91,7 +91,7 @@ export default function AdminLayout({
                   "/admin/submissions"
                 )
                   ? "text-brand-text"
-                  : "text-neutral-400 hover:text-zinc-900"
+                  : "text-neutral-400 hover:text-white"
               }
             >
               Submissions
@@ -104,7 +104,7 @@ export default function AdminLayout({
                   "/admin/community"
                 )
                   ? "text-brand-text"
-                  : "text-neutral-400 hover:text-zinc-900"
+                  : "text-neutral-400 hover:text-white"
               }
             >
               Community
@@ -117,7 +117,7 @@ export default function AdminLayout({
                   "/admin/artwork"
                 )
                   ? "text-brand-text"
-                  : "text-neutral-400 hover:text-zinc-900"
+                  : "text-neutral-400 hover:text-white"
               }
             >
               Artwork
@@ -130,7 +130,7 @@ export default function AdminLayout({
                   "/admin/users"
                 )
                   ? "text-brand-text"
-                  : "text-neutral-400 hover:text-zinc-900"
+                  : "text-neutral-400 hover:text-white"
               }
             >
               Users
@@ -143,7 +143,7 @@ export default function AdminLayout({
                   "/admin/audit-log"
                 )
                   ? "text-brand-text"
-                  : "text-neutral-400 hover:text-zinc-900"
+                  : "text-neutral-400 hover:text-white"
               }
             >
               Audit Log
@@ -156,7 +156,7 @@ export default function AdminLayout({
                   "/admin/trending"
                 )
                   ? "text-brand-text"
-                  : "text-neutral-400 hover:text-zinc-900"
+                  : "text-neutral-400 hover:text-white"
               }
             >
               Trending
@@ -169,7 +169,7 @@ export default function AdminLayout({
                   "/admin/keywords"
                 )
                   ? "text-brand-text"
-                  : "text-neutral-400 hover:text-zinc-900"
+                  : "text-neutral-400 hover:text-white"
               }
             >
               Keywords
@@ -182,7 +182,7 @@ export default function AdminLayout({
                   "/admin/structures"
                 )
                   ? "text-brand-text"
-                  : "text-neutral-400 hover:text-zinc-900"
+                  : "text-neutral-400 hover:text-white"
               }
             >
               Structures
