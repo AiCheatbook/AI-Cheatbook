@@ -18,6 +18,8 @@ type Group = {
   cover_image_url: string | null;
   owner_id: string;
   member_count: number;
+  posting_permission: "all_members" | "owner_and_authorized";
+  guidelines: string | null;
 };
 
 type MemberRow = {
@@ -55,6 +57,11 @@ export default function GroupDetailPage() {
   const [group, setGroup] = useState<Group | null>(null);
   const [notFound, setNotFound] = useState(false);
   const [myMembership, setMyMembership] = useState<MemberRow | null>(null);
+  const [myBan, setMyBan] = useState<{
+    is_permanent: boolean;
+    expires_at: string | null;
+  } | null>(null);
+  const [isAuthorizedPoster, setIsAuthorizedPoster] = useState(false);
   const [tab, setTab] = useState<Tab>("feed");
   const [posts, setPosts] = useState<PostRow[]>([]);
   const [members, setMembers] = useState<MemberRow[]>([]);
@@ -66,6 +73,11 @@ export default function GroupDetailPage() {
   const isOwner = Boolean(userId && group && userId === group.owner_id);
   const isActiveMember =
     isOwner || myMembership?.status === "active";
+  const canPost =
+    isOwner ||
+    (isActiveMember &&
+      (group?.posting_permission !== "owner_and_authorized" ||
+        isAuthorizedPoster));
 
   async function loadEverything() {
     const {
@@ -76,7 +88,7 @@ export default function GroupDetailPage() {
     const { data: groupRow, error: groupError } = await supabaseAuthClient
       .from("groups")
       .select(
-        "id, slug, name, description, category, visibility, cover_image_url, owner_id, member_count"
+        "id, slug, name, description, category, visibility, cover_image_url, owner_id, member_count, posting_permission, guidelines"
       )
       .eq("slug", slug)
       .is("deleted_at", null)
@@ -97,7 +109,8 @@ export default function GroupDetailPage() {
 
     setGroup(groupRow as Group);
 
-    const [membershipRes, membersRes, postsRes] = await Promise.all([
+    const [membershipRes, membersRes, postsRes, banRes, authorizedRes] =
+      await Promise.all([
       user
         ? supabaseAuthClient
             .from("group_members")
@@ -128,7 +141,36 @@ export default function GroupDetailPage() {
         .eq("is_hidden", false)
         .is("deleted_at", null)
         .order("created_at", { ascending: false }),
+      user
+        ? supabaseAuthClient
+            .from("group_bans")
+            .select("is_permanent, expires_at")
+            .eq("group_id", groupRow.id)
+            .eq("user_id", user.id)
+            .maybeSingle()
+        : Promise.resolve({ data: null }),
+      user
+        ? supabaseAuthClient
+            .from("group_authorized_posters")
+            .select("id")
+            .eq("group_id", groupRow.id)
+            .eq("user_id", user.id)
+            .maybeSingle()
+        : Promise.resolve({ data: null }),
     ]);
+
+    if (banRes.data) {
+      const notExpired =
+        banRes.data.is_permanent ||
+        (banRes.data.expires_at &&
+          new Date(banRes.data.expires_at) > new Date());
+
+      setMyBan(notExpired ? banRes.data : null);
+    } else {
+      setMyBan(null);
+    }
+
+    setIsAuthorizedPoster(Boolean(authorizedRes.data));
 
     if (membershipRes.data) {
       const m = membershipRes.data as unknown as {
@@ -357,6 +399,28 @@ export default function GroupDetailPage() {
     );
   }
 
+  if (myBan && !isOwner) {
+    return (
+      <main className="flex min-h-screen items-center justify-center bg-white px-4 text-center text-zinc-900">
+        <div>
+          <h1 className="text-xl font-semibold">
+            You&apos;ve been banned from {group.name}
+          </h1>
+          <p className="mt-1 text-sm text-zinc-600">
+            {myBan.is_permanent
+              ? "This is a permanent ban from this community only — your AI Cheatbook account is unaffected."
+              : `You can rejoin after ${new Date(
+                  myBan.expires_at!
+                ).toLocaleString()}. Your AI Cheatbook account is unaffected.`}
+          </p>
+          <Link href="/groups" className="mt-3 inline-block text-brand-text">
+            ← Back to Communities
+          </Link>
+        </div>
+      </main>
+    );
+  }
+
   return (
     <main className="min-h-screen bg-white px-4 py-8 text-zinc-900 sm:px-6">
       <div className="mx-auto max-w-4xl">
@@ -399,6 +463,15 @@ export default function GroupDetailPage() {
               {group.member_count === 1 ? "member" : "members"}
               {group.category && ` · ${group.category}`}
             </p>
+
+            {group.guidelines && (
+              <details className="mt-2 max-w-xl text-xs text-zinc-600">
+                <summary className="cursor-pointer font-medium text-zinc-700">
+                  Community Guidelines
+                </summary>
+                <p className="mt-1 whitespace-pre-wrap">{group.guidelines}</p>
+              </details>
+            )}
           </div>
 
           {!isOwner && userId && (
@@ -434,9 +507,17 @@ export default function GroupDetailPage() {
           )}
 
           {isOwner && (
-            <span className="rounded-xl border border-brand/40 bg-brand/10 px-5 py-2.5 text-sm font-semibold text-brand-text">
-              You own this community
-            </span>
+            <div className="flex items-center gap-2">
+              <span className="rounded-xl border border-brand/40 bg-brand/10 px-5 py-2.5 text-sm font-semibold text-brand-text">
+                You own this community
+              </span>
+              <Link
+                href={`/groups/${group.slug}/manage`}
+                className="rounded-xl border border-zinc-300 px-5 py-2.5 text-sm font-semibold text-zinc-600 transition hover:border-brand/50"
+              >
+                Manage
+              </Link>
+            </div>
           )}
 
           {!userId && (
@@ -476,7 +557,7 @@ export default function GroupDetailPage() {
 
         {tab === "feed" && (
           <div className="mt-4">
-            {isActiveMember ? (
+            {canPost ? (
               <button
                 type="button"
                 onClick={() => setComposerOpen(true)}
@@ -487,6 +568,11 @@ export default function GroupDetailPage() {
                 </span>
                 Share something with {group.name}
               </button>
+            ) : isActiveMember ? (
+              <div className="mb-4 rounded-2xl border border-zinc-200 bg-zinc-50 p-4 text-center text-sm text-zinc-600">
+                Only the owner and authorized posters can post in this
+                community.
+              </div>
             ) : (
               <div className="mb-4 rounded-2xl border border-zinc-200 bg-zinc-50 p-4 text-center text-sm text-zinc-600">
                 {myMembership?.status === "pending"
