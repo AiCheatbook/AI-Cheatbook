@@ -35,6 +35,17 @@ export default function AdminLayout({
 
           <nav className="flex items-center gap-4 text-sm">
             <Link
+              href="/admin"
+              className={
+                pathname === "/admin"
+                  ? "text-brand-text"
+                  : "text-neutral-400 hover:text-zinc-900"
+              }
+            >
+              Dashboard
+            </Link>
+
+            <Link
               href="/admin/news"
               className={
                 pathname.startsWith(
