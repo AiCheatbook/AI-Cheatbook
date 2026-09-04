@@ -5,6 +5,7 @@ import "./globals.css";
 
 import Navbar from "@/components/navbar/Navbar";
 import CommunitySidebar from "@/components/community/layout/CommunitySidebar";
+import PageViewTracker from "@/components/analytics/PageViewTracker";
 import MiniGenerator from "@/components/generator/MiniGenerator";
 import { SITE_URL, SITE_NAME } from "@/lib/seo/metadata";
 import JsonLd from "@/components/seo/JsonLd";
@@ -83,6 +84,7 @@ export default function RootLayout({
           <div className="min-w-0 flex-1">{children}</div>
         </div>
 
+        <PageViewTracker />
         <MiniGenerator />
       </body>
     </html>

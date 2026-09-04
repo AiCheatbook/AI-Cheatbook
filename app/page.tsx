@@ -53,6 +53,7 @@ type FeedItem = {
   youtubeUrl?: string | null;
   groupName?: string | null;
   groupSlug?: string | null;
+  isTrending?: boolean;
   href?: string;
 };
 
@@ -157,6 +158,7 @@ export default function HomePage() {
             featured_in_library,
             created_at,
             group_id,
+            is_trending,
             groups ( name, slug ),
             profiles ( display_name, email )
           `
@@ -293,6 +295,7 @@ export default function HomePage() {
         featured_in_library: boolean;
         created_at: string;
         group_id: string | null;
+        is_trending: boolean;
         groups: { name: string; slug: string } | null;
         profiles: {
           display_name: string | null;
@@ -330,6 +333,7 @@ export default function HomePage() {
         youtubeUrl: t.youtube_url,
         groupName: t.groups?.name || null,
         groupSlug: t.groups?.slug || null,
+        isTrending: t.is_trending,
         featuredInLibrary:
           t.featured_in_library,
         score: trendingScore(
@@ -491,7 +495,7 @@ export default function HomePage() {
         // Polls and Questions get their own dedicated tab (see
         // PollsQuestionsPanel) with rotating-answered-status
         // sub-filters — they no longer appear in the live/All feed.
-        if (filter === "all") {
+        if (filter === "all" || filter === "trending") {
           return item.kind !== "poll" && item.kind !== "question";
         }
         return item.kind === filter;
@@ -499,11 +503,23 @@ export default function HomePage() {
     [items, filter]
   );
 
-  const sorted = [...filtered].sort(
-    (a, b) =>
-      new Date(b.createdAt).getTime() -
-      new Date(a.createdAt).getTime()
-  );
+  const sorted =
+    filter === "trending"
+      ? [...filtered].sort((a, b) => {
+          // Manually-pinned posts always come first (this is the
+          // "admin overrides the algorithm" part) — then whatever's
+          // left is ranked by the algorithmic recency+engagement
+          // score from lib/community/trending.ts.
+          const aPinned = a.isTrending ? 1 : 0;
+          const bPinned = b.isTrending ? 1 : 0;
+          if (aPinned !== bPinned) return bPinned - aPinned;
+          return (b.score || 0) - (a.score || 0);
+        })
+      : [...filtered].sort(
+          (a, b) =>
+            new Date(b.createdAt).getTime() -
+            new Date(a.createdAt).getTime()
+        );
 
   function renderCard(item: FeedItem) {
     if (item.kind === "news") {

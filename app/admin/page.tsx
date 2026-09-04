@@ -18,12 +18,20 @@ type Counts = {
   pendingGroupRequests: number;
 };
 
+type VisitorStats = {
+  totalViews: number;
+  viewsToday: number;
+  uniqueVisitors30d: number;
+  dailyViews: { label: string; count: number }[];
+};
+
 export default function AdminDashboardPage() {
   const router = useRouter();
 
   const [checking, setChecking] = useState(true);
   const [loading, setLoading] = useState(true);
   const [counts, setCounts] = useState<Counts | null>(null);
+  const [visitorStats, setVisitorStats] = useState<VisitorStats | null>(null);
 
   useEffect(() => {
     async function init() {
@@ -137,6 +145,74 @@ export default function AdminDashboardPage() {
         pendingGroupRequests: pendingGroupRequestsRes.count || 0,
       });
       setLoading(false);
+
+      await loadVisitorStats();
+    }
+
+    async function loadVisitorStats() {
+      const now = new Date();
+      const startOfToday = new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate()
+      );
+      const start30d = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+      const start7d = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+
+      const [totalRes, todayRes, last30dRes, last7dRes] = await Promise.all([
+        supabaseAuthClient
+          .from("page_views")
+          .select("id", { count: "exact", head: true }),
+        supabaseAuthClient
+          .from("page_views")
+          .select("id", { count: "exact", head: true })
+          .gte("created_at", startOfToday.toISOString()),
+        supabaseAuthClient
+          .from("page_views")
+          .select("visitor_id")
+          .gte("created_at", start30d.toISOString()),
+        supabaseAuthClient
+          .from("page_views")
+          .select("created_at")
+          .gte("created_at", start7d.toISOString()),
+      ]);
+
+      if (totalRes.error) {
+        console.error(
+          "AdminDashboard: failed to load page_views:",
+          totalRes.error.message
+        );
+      }
+
+      const uniqueVisitors30d = new Set(
+        (last30dRes.data || []).map((r) => r.visitor_id)
+      ).size;
+
+      const dailyBuckets: Record<string, number> = {};
+      for (let i = 6; i >= 0; i--) {
+        const d = new Date(now.getTime() - i * 24 * 60 * 60 * 1000);
+        const key = d.toISOString().slice(0, 10);
+        dailyBuckets[key] = 0;
+      }
+
+      for (const row of last7dRes.data || []) {
+        const key = row.created_at.slice(0, 10);
+        if (key in dailyBuckets) {
+          dailyBuckets[key] += 1;
+        }
+      }
+
+      setVisitorStats({
+        totalViews: totalRes.count || 0,
+        viewsToday: todayRes.count || 0,
+        uniqueVisitors30d,
+        dailyViews: Object.entries(dailyBuckets).map(([date, cnt]) => ({
+          label: new Date(date).toLocaleDateString(undefined, {
+            weekday: "short",
+          }),
+          count: cnt,
+        })),
+      });
     }
 
     init();
@@ -212,6 +288,58 @@ export default function AdminDashboardPage() {
           )}
 
           <h2 className="mt-8 text-sm font-semibold text-neutral-300">
+            Visitors
+          </h2>
+          {visitorStats ? (
+            <>
+              <div className="mt-2 grid grid-cols-2 gap-4 sm:grid-cols-3">
+                <StatCard label="Total Page Views" value={visitorStats.totalViews} />
+                <StatCard label="Views Today" value={visitorStats.viewsToday} />
+                <StatCard
+                  label="Unique Visitors (30d)"
+                  value={visitorStats.uniqueVisitors30d}
+                />
+              </div>
+
+              <div className="mt-3 rounded-2xl border border-white/10 bg-neutral-900 p-4">
+                <p className="mb-3 text-xs text-neutral-500">
+                  Page views, last 7 days
+                </p>
+                <div className="flex h-24 items-end gap-2">
+                  {visitorStats.dailyViews.map((d, i) => {
+                    const max = Math.max(
+                      1,
+                      ...visitorStats.dailyViews.map((x) => x.count)
+                    );
+                    const heightPct = (d.count / max) * 100;
+                    return (
+                      <div
+                        key={i}
+                        className="flex flex-1 flex-col items-center gap-1"
+                      >
+                        <div className="flex h-16 w-full items-end">
+                          <div
+                            style={{ height: `${heightPct}%` }}
+                            className="w-full rounded-t bg-brand"
+                            title={`${d.count} views`}
+                          />
+                        </div>
+                        <span className="text-[10px] text-neutral-500">
+                          {d.label}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </>
+          ) : (
+            <p className="mt-2 text-sm text-neutral-500">
+              Loading visitor stats...
+            </p>
+          )}
+
+          <h2 className="mt-8 text-sm font-semibold text-neutral-300">
             Content Totals
           </h2>
           <div className="mt-2 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
@@ -246,12 +374,11 @@ export default function AdminDashboardPage() {
           </div>
 
           <p className="mt-8 text-xs text-neutral-600">
-            Note: this dashboard shows real content and moderation counts
-            from the database. It does not include visitor/traffic
-            analytics (page views, unique visitors, etc.) — that would
-            require a separate analytics integration (e.g. Plausible or
-            Google Analytics), which isn&apos;t wired into this codebase
-            today.
+            Visitor counts are first-party (tracked directly into your own
+            database, not a third-party service like Plausible/GA). Unique
+            visitors are counted by an anonymous ID stored in the browser —
+            same limitation every analytics tool has, since one person using
+            two browsers/devices counts as two visitors.
           </p>
         </>
       )}
