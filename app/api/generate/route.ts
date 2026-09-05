@@ -340,8 +340,10 @@ export async function POST(
       provider = localProvider;
     }
 
+    let realAiUnavailableReason: string | null = null;
+
     if (user && mode !== "builtin") {
-      const { data: usageResult } =
+      const { data: usageResult, error: usageError } =
         await supabase.rpc(
           "increment_real_ai_usage",
           {
@@ -350,15 +352,36 @@ export async function POST(
           }
         );
 
-      const allowed =
-        (
-          usageResult as {
-            allowed?: boolean;
-          } | null
-        )?.allowed === true;
-
-      if (!allowed) {
+      if (usageError) {
+        /*
+         * This used to be silently discarded — if the RPC
+         * failed for ANY reason (including the function not
+         * existing at all; see database/051_fix_real_ai_usage_rpc.sql),
+         * the code fell back to the built-in generator with
+         * zero visibility into why. Real AI would look like
+         * it was "always using built-in" with no error
+         * anywhere. Now it's at minimum loud in server logs,
+         * and the reason rides along in the response so the
+         * client can potentially surface it too.
+         */
+        console.error(
+          "generate: increment_real_ai_usage RPC failed — falling back to built-in:",
+          usageError.message
+        );
+        realAiUnavailableReason = `usage_check_failed: ${usageError.message}`;
         provider = localProvider;
+      } else {
+        const allowed =
+          (
+            usageResult as {
+              allowed?: boolean;
+            } | null
+          )?.allowed === true;
+
+        if (!allowed) {
+          realAiUnavailableReason = "daily_limit_reached";
+          provider = localProvider;
+        }
       }
     }
 
@@ -413,6 +436,8 @@ export async function POST(
       prompt: response.prompt,
       provider: response.provider,
       model: response.model,
+      realAiUnavailableReason:
+        response.fallbackReason || realAiUnavailableReason,
     });
   } catch (error) {
     console.error(

@@ -242,9 +242,14 @@ export const geminiProvider: AIProvider = {
         "GEMINI_API_KEY is not set — falling back to local generation."
       );
 
-      return localProvider.generate(
+      const localResult = await localProvider.generate(
         request
       );
+
+      return {
+        ...localResult,
+        fallbackReason: "gemini_api_key_missing",
+      };
     }
 
     try {
@@ -355,14 +360,24 @@ export const geminiProvider: AIProvider = {
         model: GEMINI_MODEL,
       };
     } catch (error) {
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : String(error);
+
       console.error(
-        "Gemini request failed:",
-        error
+        "Gemini request failed — falling back to local generation:",
+        errorMessage
       );
 
-      return localProvider.generate(
+      const localResult = await localProvider.generate(
         request
       );
+
+      return {
+        ...localResult,
+        fallbackReason: `gemini_call_failed: ${errorMessage}`,
+      };
     }
   },
 };

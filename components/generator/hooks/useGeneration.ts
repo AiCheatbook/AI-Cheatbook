@@ -33,6 +33,7 @@ export type GenerationResult = {
   prompt: string;
   provider: string;
   model: string;
+  realAiUnavailableReason: string | null;
 };
 
 /*
@@ -116,6 +117,7 @@ export function useGeneration(options?: {
         prompt?: string;
         provider?: string;
         model?: string;
+        realAiUnavailableReason?: string | null;
         error?: string;
       };
 
@@ -145,6 +147,8 @@ export function useGeneration(options?: {
           prompt: data.prompt,
           provider: data.provider || "",
           model: data.model || "",
+          realAiUnavailableReason:
+            data.realAiUnavailableReason || null,
         };
 
       setResult(finalResult);

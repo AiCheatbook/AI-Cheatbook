@@ -195,8 +195,19 @@ export default function GenerationResult({
               {result.provider ===
                 "local" && (
                 <p className="mt-4 text-xs text-zinc-600">
-                  Generated with the
-                  built-in generator.
+                  {result.realAiUnavailableReason?.startsWith(
+                    "usage_check_failed"
+                  ) ||
+                  result.realAiUnavailableReason ===
+                    "gemini_api_key_missing" ||
+                  result.realAiUnavailableReason?.startsWith(
+                    "gemini_call_failed"
+                  )
+                    ? "Generated with the built-in generator — Real AI is temporarily unavailable due to a technical issue. Please try again shortly."
+                    : result.realAiUnavailableReason ===
+                        "daily_limit_reached"
+                      ? "Generated with the built-in generator — you've reached today's Real AI limit."
+                      : "Generated with the built-in generator."}
                 </p>
               )}
             </div>

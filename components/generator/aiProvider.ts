@@ -94,6 +94,7 @@ export type AIProviderResponse = {
   prompt: string;
   provider: AIProviderName;
   model: string;
+  fallbackReason?: string;
 };
 
 export interface AIProvider {
