@@ -115,13 +115,16 @@ body {
 figure.image-align-left {
   float: left;
   margin: 0.5rem 1.5rem 1rem 0;
-  max-width: 50%;
+  width: 50%; /* sensible default — overridden by an inline
+                 width style once the user picks a size */
+  max-width: 100%;
 }
 
 figure.image-align-right {
   float: right;
   margin: 0.5rem 0 1rem 1.5rem;
-  max-width: 50%;
+  width: 50%;
+  max-width: 100%;
 }
 
 figure.image-align-center {

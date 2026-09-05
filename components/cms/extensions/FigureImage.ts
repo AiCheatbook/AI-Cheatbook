@@ -19,6 +19,9 @@ declare module "@tiptap/core" {
       setImageCaption: (
         caption: string
       ) => ReturnType;
+      setImageWidth: (
+        width: number | null
+      ) => ReturnType;
     };
   }
 }
@@ -54,6 +57,12 @@ export const FigureImage = Node.create({
       align: {
         default: "center",
       },
+      width: {
+        // Percentage (25/50/75/100), null = auto/100%,
+        // matching current behavior exactly for any
+        // existing image that predates this feature.
+        default: null,
+      },
     };
   },
 
@@ -88,6 +97,15 @@ export const FigureImage = Node.create({
               element.getAttribute(
                 "data-align"
               ) || "center",
+            width: element.getAttribute(
+              "data-width"
+            )
+              ? Number(
+                  element.getAttribute(
+                    "data-width"
+                  )
+                )
+              : null,
           };
         },
       },
@@ -100,6 +118,7 @@ export const FigureImage = Node.create({
       alt,
       caption,
       align,
+      width,
     } = HTMLAttributes;
 
     const children: unknown[] = [
@@ -117,12 +136,19 @@ export const FigureImage = Node.create({
       ]);
     }
 
+    const attrs: Record<string, string> = {
+      "data-align": align,
+      class: `image-align-${align}`,
+    };
+
+    if (width) {
+      attrs["data-width"] = String(width);
+      attrs.style = `width: ${width}%;`;
+    }
+
     return [
       "figure",
-      mergeAttributes(
-        { "data-align": align },
-        { class: `image-align-${align}` }
-      ),
+      mergeAttributes(attrs),
       ...children,
     ] as never;
   },
@@ -174,6 +200,15 @@ export const FigureImage = Node.create({
           return commands.updateAttributes(
             this.name,
             { caption }
+          );
+        },
+
+      setImageWidth:
+        (width) =>
+        ({ commands }) => {
+          return commands.updateAttributes(
+            this.name,
+            { width }
           );
         },
     };

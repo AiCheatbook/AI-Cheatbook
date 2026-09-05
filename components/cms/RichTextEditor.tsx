@@ -444,18 +444,43 @@ export default function RichTextEditor({
           🖼 Image URL
         </button>
 
+        <span className="text-xs italic text-zinc-500">
+          (click an inserted image to align, wrap text, or resize it)
+        </span>
+
         {editor.isActive("figureImage") && (
           <>
-            <button type="button" onClick={() => editor.chain().focus().setImageAlign("left").run()} className={buttonClass(false)} title="Align image left">
+            <button type="button" onClick={() => editor.chain().focus().setImageAlign("left").run()} className={buttonClass(false)} title="Align image left (wraps text around it)">
               🖼⬅
             </button>
             <button type="button" onClick={() => editor.chain().focus().setImageAlign("center").run()} className={buttonClass(false)} title="Align image center">
               🖼⬌
             </button>
-            <button type="button" onClick={() => editor.chain().focus().setImageAlign("right").run()} className={buttonClass(false)} title="Align image right">
+            <button type="button" onClick={() => editor.chain().focus().setImageAlign("right").run()} className={buttonClass(false)} title="Align image right (wraps text around it)">
               🖼➡
             </button>
+
+            <span className="mx-1 text-xs text-zinc-400">Size:</span>
+
+            <button type="button" onClick={() => editor.chain().focus().setImageWidth(25).run()} className={buttonClass(false)} title="25% width">
+              25%
+            </button>
+            <button type="button" onClick={() => editor.chain().focus().setImageWidth(50).run()} className={buttonClass(false)} title="50% width">
+              50%
+            </button>
+            <button type="button" onClick={() => editor.chain().focus().setImageWidth(75).run()} className={buttonClass(false)} title="75% width">
+              75%
+            </button>
+            <button type="button" onClick={() => editor.chain().focus().setImageWidth(100).run()} className={buttonClass(false)} title="100% width">
+              100%
+            </button>
           </>
+        )}
+
+        {editor.isActive("figureImage") && (
+          <span className="ml-2 text-xs text-zinc-500">
+            ← Align &amp; resize options for the selected image
+          </span>
         )}
 
         <button type="button" onClick={insertYoutube} className={buttonClass(false)}>
