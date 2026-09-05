@@ -8,6 +8,7 @@ import {
   awardCommunityPoints,
   POINTS_FOR_POLL_VOTE,
 } from "@/lib/community/awardPoints";
+import { isUserDisabled } from "@/lib/community/checkDisabled";
 
 type PollRow = {
   id: string;
@@ -211,6 +212,13 @@ export default function PollDetailClient() {
     }
 
     if (selected.size === 0) {
+      return;
+    }
+
+    if (await isUserDisabled(currentUserId)) {
+      setError(
+        "Your account has been disabled and can't vote right now."
+      );
       return;
     }
 

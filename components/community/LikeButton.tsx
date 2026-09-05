@@ -6,6 +6,7 @@ import {
   awardCommunityPoints,
   POINTS_FOR_RECEIVING_LIKE,
 } from "@/lib/community/awardPoints";
+import { isUserDisabled } from "@/lib/community/checkDisabled";
 
 type LikeButtonProps = {
   threadId: string;
@@ -72,6 +73,11 @@ export default function LikeButton({
     if (!userId || submitting) return;
 
     setSubmitting(true);
+
+    if (!liked && (await isUserDisabled(userId))) {
+      setSubmitting(false);
+      return;
+    }
 
     if (liked) {
       const { error } = await supabaseAuthClient

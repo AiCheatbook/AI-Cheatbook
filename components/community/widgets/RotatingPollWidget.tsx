@@ -8,6 +8,7 @@ import {
   awardCommunityPoints,
   POINTS_FOR_POLL_VOTE,
 } from "@/lib/community/awardPoints";
+import { isUserDisabled } from "@/lib/community/checkDisabled";
 
 type PollSummary = {
   id: string;
@@ -164,6 +165,8 @@ function PollVoteCard({
 
   async function submitVote() {
     if (selected.size === 0) return;
+
+    if (await isUserDisabled(userId)) return;
 
     setSubmitting(true);
 

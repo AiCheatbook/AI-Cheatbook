@@ -8,6 +8,7 @@ import {
   awardCommunityPoints,
   POINTS_FOR_REPLY,
 } from "@/lib/community/awardPoints";
+import { isUserDisabled } from "@/lib/community/checkDisabled";
 
 type QuestionSummary = {
   id: string;
@@ -123,6 +124,8 @@ function QuestionReplyCard({
 
   async function submitReply() {
     if (!replyText.trim()) return;
+
+    if (await isUserDisabled(userId)) return;
 
     setSubmitting(true);
 

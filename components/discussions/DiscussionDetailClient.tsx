@@ -10,6 +10,7 @@ import {
   POINTS_FOR_REPLY,
   POINTS_FOR_RECEIVING_LIKE,
 } from "@/lib/community/awardPoints";
+import { isUserDisabled } from "@/lib/community/checkDisabled";
 import CommunityLayout from "@/components/community/layout/CommunityLayout";
 
 type ThreadRow = {
@@ -281,6 +282,10 @@ export default function DiscussionDetailClient() {
       setMyThreadVote(false);
       setThreadVoteCount((n) => n - 1);
     } else {
+      if (await isUserDisabled(currentUserId)) {
+        return;
+      }
+
       await supabaseAuthClient
         .from("community_thread_votes")
         .insert({
@@ -367,6 +372,13 @@ export default function DiscussionDetailClient() {
     if (!currentUserId) {
       setError(
         "Please log in to reply."
+      );
+      return;
+    }
+
+    if (await isUserDisabled(currentUserId)) {
+      setError(
+        "Your account has been disabled and can't post replies right now."
       );
       return;
     }
