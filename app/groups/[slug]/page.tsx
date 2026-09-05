@@ -579,6 +579,13 @@ export default function GroupDetailPage() {
           >
             📚 Courses
           </Link>
+
+          <Link
+            href={`/groups/${group.slug}/events`}
+            className="px-4 py-2.5 text-sm font-medium text-zinc-500 hover:text-zinc-900"
+          >
+            📅 Events
+          </Link>
         </div>
 
         {tab === "feed" && (
