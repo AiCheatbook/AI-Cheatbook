@@ -4,12 +4,17 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { supabaseAuthClient } from "@/lib/supabase/auth-client";
 import { useRotatingContent } from "@/lib/community/useRotatingContent";
+import {
+  awardCommunityPoints,
+  POINTS_FOR_REPLY,
+} from "@/lib/community/awardPoints";
 
 type QuestionSummary = {
   id: string;
   title: string;
   body: string;
   category: string;
+  group_id: string | null;
 };
 
 export default function RotatingQuestionWidget() {
@@ -25,7 +30,7 @@ export default function RotatingQuestionWidget() {
     const [threadsRes, myRepliesRes] = await Promise.all([
       supabaseAuthClient
         .from("community_threads")
-        .select("id, title, body, category, created_at")
+        .select("id, title, body, category, group_id, created_at")
         .eq("content_kind", "question")
         .eq("is_hidden", false)
         .is("deleted_at", null)
@@ -133,6 +138,13 @@ function QuestionReplyCard({
     setSubmitting(false);
 
     if (!error) {
+      if (question.group_id) {
+        await awardCommunityPoints(
+          question.group_id,
+          userId,
+          POINTS_FOR_REPLY
+        );
+      }
       onAnswered();
     }
   }

@@ -2,6 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { supabaseAuthClient } from "@/lib/supabase/auth-client";
+import {
+  awardCommunityPoints,
+  POINTS_FOR_RECEIVING_LIKE,
+} from "@/lib/community/awardPoints";
 
 type LikeButtonProps = {
   threadId: string;
@@ -90,6 +94,28 @@ export default function LikeButton({
       if (!error) {
         setLiked(true);
         setCount((n) => n + 1);
+
+        const { data: threadRow, error: threadError } = await supabaseAuthClient
+          .from("community_threads")
+          .select("user_id, group_id")
+          .eq("id", threadId)
+          .maybeSingle();
+
+        if (threadError) {
+          console.error(
+            "LikeButton: failed to look up thread for points:",
+            threadError.message
+          );
+        } else if (
+          threadRow?.group_id &&
+          threadRow.user_id !== userId
+        ) {
+          await awardCommunityPoints(
+            threadRow.group_id,
+            threadRow.user_id,
+            POINTS_FOR_RECEIVING_LIKE
+          );
+        }
       } else {
         console.error("LikeButton: failed to add like:", error.message);
       }

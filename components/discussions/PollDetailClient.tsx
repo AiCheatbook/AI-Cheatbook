@@ -4,6 +4,10 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { supabaseAuthClient } from "@/lib/supabase/auth-client";
+import {
+  awardCommunityPoints,
+  POINTS_FOR_POLL_VOTE,
+} from "@/lib/community/awardPoints";
 
 type PollRow = {
   id: string;
@@ -13,6 +17,7 @@ type PollRow = {
   is_multiple_choice: boolean;
   expires_at: string | null;
   user_id: string;
+  group_id: string | null;
   created_at: string;
   profiles: {
     display_name: string | null;
@@ -72,6 +77,7 @@ export default function PollDetailClient() {
             is_multiple_choice,
             expires_at,
             user_id,
+            group_id,
             created_at,
             profiles (
               display_name,
@@ -234,6 +240,15 @@ export default function PollDetailClient() {
       }
 
       setMyVotes(new Set(selected));
+
+      if (poll?.group_id) {
+        await awardCommunityPoints(
+          poll.group_id,
+          currentUserId,
+          POINTS_FOR_POLL_VOTE
+        );
+      }
+
       await loadPoll();
     } catch (err) {
       setError(

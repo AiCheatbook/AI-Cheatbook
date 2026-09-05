@@ -5,6 +5,13 @@ import { supabaseAuthClient } from "@/lib/supabase/auth-client";
 // for why replies/likes/poll-votes aren't included yet).
 export const POINTS_FOR_POST = 5;
 
+// Extended values — replies, receiving a like, and casting a
+// poll vote, all scoped to whichever community the thread/poll
+// itself belongs to (group_id null means main feed, no points).
+export const POINTS_FOR_REPLY = 2;
+export const POINTS_FOR_RECEIVING_LIKE = 1;
+export const POINTS_FOR_POLL_VOTE = 1;
+
 /*
  * Awards points to a user within one specific community.
  * Read-then-write, same pattern (and same disclosed

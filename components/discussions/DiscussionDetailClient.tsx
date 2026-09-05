@@ -5,6 +5,11 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { supabaseAuthClient } from "@/lib/supabase/auth-client";
 import { createNotification } from "@/lib/notifications/createNotification";
+import {
+  awardCommunityPoints,
+  POINTS_FOR_REPLY,
+  POINTS_FOR_RECEIVING_LIKE,
+} from "@/lib/community/awardPoints";
 import CommunityLayout from "@/components/community/layout/CommunityLayout";
 
 type ThreadRow = {
@@ -17,6 +22,7 @@ type ThreadRow = {
     | "discussion"
     | "discovery";
   user_id: string;
+  group_id: string | null;
   accepted_reply_id: string | null;
   created_at: string;
   profiles: {
@@ -106,6 +112,7 @@ export default function DiscussionDetailClient() {
             category,
             content_kind,
             user_id,
+            group_id,
             accepted_reply_id,
             created_at,
             profiles (
@@ -283,6 +290,17 @@ export default function DiscussionDetailClient() {
 
       setMyThreadVote(true);
       setThreadVoteCount((n) => n + 1);
+
+      if (
+        thread?.group_id &&
+        thread.user_id !== currentUserId
+      ) {
+        await awardCommunityPoints(
+          thread.group_id,
+          thread.user_id,
+          POINTS_FOR_RECEIVING_LIKE
+        );
+      }
     }
   }
 
@@ -368,6 +386,14 @@ export default function DiscussionDetailClient() {
     setPosting(false);
 
     if (!insertError) {
+      if (thread?.group_id) {
+        await awardCommunityPoints(
+          thread.group_id,
+          currentUserId,
+          POINTS_FOR_REPLY
+        );
+      }
+
       if (parentReplyId) {
         setNestedReplyText("");
         setReplyingTo(null);

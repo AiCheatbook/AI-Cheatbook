@@ -4,12 +4,17 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { supabaseAuthClient } from "@/lib/supabase/auth-client";
 import { useRotatingContent } from "@/lib/community/useRotatingContent";
+import {
+  awardCommunityPoints,
+  POINTS_FOR_POLL_VOTE,
+} from "@/lib/community/awardPoints";
 
 type PollSummary = {
   id: string;
   question: string;
   category: string;
   is_multiple_choice: boolean;
+  group_id: string | null;
 };
 
 type OptionRow = {
@@ -31,7 +36,7 @@ export default function RotatingPollWidget() {
     const [pollsRes, myVotesRes] = await Promise.all([
       supabaseAuthClient
         .from("community_polls")
-        .select("id, question, category, is_multiple_choice, created_at")
+        .select("id, question, category, is_multiple_choice, group_id, created_at")
         .eq("is_hidden", false)
         .order("created_at", { ascending: false }),
       supabaseAuthClient
@@ -175,6 +180,13 @@ function PollVoteCard({
     setSubmitting(false);
 
     if (!error) {
+      if (poll.group_id) {
+        await awardCommunityPoints(
+          poll.group_id,
+          userId,
+          POINTS_FOR_POLL_VOTE
+        );
+      }
       onAnswered();
     }
   }
