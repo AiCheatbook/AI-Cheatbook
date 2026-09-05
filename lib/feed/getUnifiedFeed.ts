@@ -1,4 +1,5 @@
 import { supabase } from "@/lib/supabase/client";
+import { resolveThumbnailUrl } from "@/lib/cms/mediaDisplay";
 import {
   FeedItem,
   FeedItemType,
@@ -111,7 +112,7 @@ async function fetchNews(
   const { data, error } = await supabase
     .from("news")
     .select(
-      "id, title, excerpt, category, author, cover_image_url, slug, published_at"
+      "id, title, excerpt, category, author, cover_image_url, media_source, thumbnail_url, slug, published_at"
     )
     .eq("is_published", true)
     .is("deleted_at", null)
@@ -135,7 +136,11 @@ async function fetchNews(
     excerpt: item.excerpt,
     authorName: item.author,
     category: item.category,
-    imageUrl: item.cover_image_url,
+    imageUrl: resolveThumbnailUrl(
+      item.thumbnail_url,
+      item.cover_image_url,
+      item.media_source
+    ),
     publishedAt: item.published_at,
     href: `/news/${item.slug}`,
     voteCount: 0,
@@ -153,7 +158,7 @@ async function fetchNewsPage(
   const { data, error, count } = await supabase
     .from("news")
     .select(
-      "id, title, excerpt, category, author, cover_image_url, slug, published_at",
+      "id, title, excerpt, category, author, cover_image_url, media_source, thumbnail_url, slug, published_at",
       { count: "exact" }
     )
     .eq("is_published", true)
@@ -180,7 +185,11 @@ async function fetchNewsPage(
     excerpt: item.excerpt,
     authorName: item.author,
     category: item.category,
-    imageUrl: item.cover_image_url,
+    imageUrl: resolveThumbnailUrl(
+      item.thumbnail_url,
+      item.cover_image_url,
+      item.media_source
+    ),
     publishedAt: item.published_at,
     href: `/news/${item.slug}`,
     voteCount: 0,
@@ -200,7 +209,7 @@ async function fetchLearning(
   const { data, error } = await supabase
     .from("learning_cards")
     .select(
-      "id, title, summary, category, author, cover_image_url, slug, published_at"
+      "id, title, summary, category, author, cover_image_url, media_source, thumbnail_url, slug, published_at"
     )
     .eq("is_published", true)
     .is("deleted_at", null)
@@ -224,7 +233,11 @@ async function fetchLearning(
     excerpt: item.summary,
     authorName: item.author,
     category: item.category,
-    imageUrl: item.cover_image_url,
+    imageUrl: resolveThumbnailUrl(
+      item.thumbnail_url,
+      item.cover_image_url,
+      item.media_source
+    ),
     publishedAt: item.published_at,
     href: `/learning/${item.slug}`,
     voteCount: 0,
@@ -242,7 +255,7 @@ async function fetchLearningPage(
   const { data, error, count } = await supabase
     .from("learning_cards")
     .select(
-      "id, title, summary, category, author, cover_image_url, slug, published_at",
+      "id, title, summary, category, author, cover_image_url, media_source, thumbnail_url, slug, published_at",
       { count: "exact" }
     )
     .eq("is_published", true)
@@ -269,7 +282,11 @@ async function fetchLearningPage(
     excerpt: item.summary,
     authorName: item.author,
     category: item.category,
-    imageUrl: item.cover_image_url,
+    imageUrl: resolveThumbnailUrl(
+      item.thumbnail_url,
+      item.cover_image_url,
+      item.media_source
+    ),
     publishedAt: item.published_at,
     href: `/learning/${item.slug}`,
     voteCount: 0,
