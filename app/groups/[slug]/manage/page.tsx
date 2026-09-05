@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
+import { getLevelForPoints } from "@/lib/community/levels";
 import { supabaseAuthClient } from "@/lib/supabase/auth-client";
 
 type Group = {
@@ -26,6 +27,7 @@ type MemberRow = {
   status: string;
   display_name: string | null;
   email: string | null;
+  points: number;
 };
 
 type BanRow = {
@@ -136,7 +138,7 @@ export default function GroupManagePage() {
     ] = await Promise.all([
       supabaseAuthClient
         .from("group_members")
-        .select("id, user_id, role, status, profiles(display_name, email)")
+        .select("id, user_id, role, status, points, profiles(display_name, email)")
         .eq("group_id", groupId)
         .order("joined_at", { ascending: true }),
       supabaseAuthClient
@@ -173,6 +175,7 @@ export default function GroupManagePage() {
         user_id: string;
         role: string;
         status: string;
+        points: number;
         profiles: { display_name: string | null; email: string | null } | null;
       }>
     ).map((m) => ({
@@ -180,6 +183,7 @@ export default function GroupManagePage() {
       user_id: m.user_id,
       role: m.role,
       status: m.status,
+      points: m.points || 0,
       display_name: m.profiles?.display_name || null,
       email: m.profiles?.email || null,
     }));
@@ -695,6 +699,9 @@ export default function GroupManagePage() {
                     <div className="flex items-center gap-2">
                       <span className="text-sm">
                         {m.display_name || m.email}
+                      </span>
+                      <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-xs text-zinc-600">
+                        Lvl {getLevelForPoints(m.points).level} · {m.points} pts
                       </span>
                       {m.role === "moderator" && (
                         <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-xs text-zinc-600">

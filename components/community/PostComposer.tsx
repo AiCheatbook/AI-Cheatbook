@@ -3,6 +3,10 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabaseAuthClient } from "@/lib/supabase/auth-client";
+import {
+  awardCommunityPoints,
+  POINTS_FOR_POST,
+} from "@/lib/community/awardPoints";
 import MediaUploader, {
   type MediaValue,
 } from "@/components/community/MediaUploader";
@@ -187,6 +191,7 @@ export default function PostComposer({
       }
 
       if (groupId) {
+        await awardCommunityPoints(groupId, user.id, POINTS_FOR_POST);
         onClose();
       } else {
         router.push(`/discussions/${inserted.id}`);

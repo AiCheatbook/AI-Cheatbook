@@ -7,6 +7,7 @@ import { supabaseAuthClient } from "@/lib/supabase/auth-client";
 import PostComposer from "@/components/community/PostComposer";
 import DiscussionCard from "@/components/community/cards/DiscussionCard";
 import CommunitySwitcher from "@/components/community/CommunitySwitcher";
+import { getLevelForPoints, getProgressToNextLevel } from "@/lib/community/levels";
 
 type Group = {
   id: string;
@@ -30,6 +31,7 @@ type MemberRow = {
   joined_at: string;
   display_name: string | null;
   email: string | null;
+  points: number;
 };
 
 type PostRow = {
@@ -47,7 +49,7 @@ type PostRow = {
   youtubeUrl: string | null;
 };
 
-type Tab = "feed" | "members";
+type Tab = "feed" | "members" | "leaderboard";
 
 export default function GroupDetailPage() {
   const params = useParams();
@@ -115,7 +117,7 @@ export default function GroupDetailPage() {
         ? supabaseAuthClient
             .from("group_members")
             .select(
-              "id, user_id, role, status, joined_at, profiles(display_name, email)"
+              "id, user_id, role, status, joined_at, points, profiles(display_name, email)"
             )
             .eq("group_id", groupRow.id)
             .eq("user_id", user.id)
@@ -124,7 +126,7 @@ export default function GroupDetailPage() {
       supabaseAuthClient
         .from("group_members")
         .select(
-          "id, user_id, role, status, joined_at, profiles(display_name, email)"
+          "id, user_id, role, status, joined_at, points, profiles(display_name, email)"
         )
         .eq("group_id", groupRow.id)
         .order("joined_at", { ascending: true }),
@@ -179,6 +181,7 @@ export default function GroupDetailPage() {
         role: string;
         status: string;
         joined_at: string;
+        points: number;
         profiles: { display_name: string | null; email: string | null } | null;
       };
       setMyMembership({
@@ -187,6 +190,7 @@ export default function GroupDetailPage() {
         role: m.role,
         status: m.status,
         joined_at: m.joined_at,
+        points: m.points || 0,
         display_name: m.profiles?.display_name || null,
         email: m.profiles?.email || null,
       });
@@ -199,6 +203,7 @@ export default function GroupDetailPage() {
         role: string;
         status: string;
         joined_at: string;
+        points: number;
         profiles: { display_name: string | null; email: string | null } | null;
       }>
     ).map((m) => ({
@@ -207,6 +212,7 @@ export default function GroupDetailPage() {
       role: m.role,
       status: m.status,
       joined_at: m.joined_at,
+      points: m.points || 0,
       display_name: m.profiles?.display_name || null,
       email: m.profiles?.email || null,
     }));
@@ -304,6 +310,7 @@ export default function GroupDetailPage() {
     if (!error && inserted) {
       setMyMembership({
         ...inserted,
+        points: 0,
         display_name: null,
         email: null,
       });
@@ -553,6 +560,18 @@ export default function GroupDetailPage() {
           >
             Members ({group.member_count})
           </button>
+
+          <button
+            type="button"
+            onClick={() => setTab("leaderboard")}
+            className={`px-4 py-2.5 text-sm font-medium ${
+              tab === "leaderboard"
+                ? "border-b-2 border-brand text-zinc-900"
+                : "text-zinc-500"
+            }`}
+          >
+            🏆 Leaderboard
+          </button>
         </div>
 
         {tab === "feed" && (
@@ -664,6 +683,9 @@ export default function GroupDetailPage() {
                     <span className="text-sm text-zinc-900">
                       {m.display_name || m.email || "Community Member"}
                     </span>
+                    <span className="rounded-full bg-brand/10 px-2 py-0.5 text-xs text-brand-text">
+                      Lvl {getLevelForPoints(m.points).level}
+                    </span>
                     {m.role !== "member" && (
                       <span className="ml-auto rounded-full bg-zinc-100 px-2 py-0.5 text-xs text-zinc-600">
                         {m.role}
@@ -672,6 +694,90 @@ export default function GroupDetailPage() {
                   </div>
                 ))}
               </div>
+            </div>
+          </div>
+        )}
+
+        {tab === "leaderboard" && (
+          <div className="mt-4">
+            {myMembership && (
+              <div className="mb-4 rounded-2xl border border-brand/30 bg-brand/5 p-4">
+                {(() => {
+                  const progress = getProgressToNextLevel(myMembership.points);
+                  return (
+                    <>
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm font-semibold text-zinc-900">
+                          Your Level: {progress.current.level} —{" "}
+                          {progress.current.label}
+                        </span>
+                        <span className="text-xs text-zinc-600">
+                          {myMembership.points} pts
+                        </span>
+                      </div>
+
+                      {progress.next && (
+                        <>
+                          <div className="mt-2 h-2 overflow-hidden rounded-full bg-zinc-200">
+                            <div
+                              style={{ width: `${progress.percent}%` }}
+                              className="h-full rounded-full bg-brand"
+                            />
+                          </div>
+                          <p className="mt-1 text-xs text-zinc-500">
+                            {progress.pointsForNextLevel! - progress.pointsIntoLevel}{" "}
+                            pts to Level {progress.next.level} (
+                            {progress.next.label})
+                          </p>
+                        </>
+                      )}
+
+                      {!progress.next && (
+                        <p className="mt-1 text-xs text-zinc-500">
+                          Max level reached 🎉
+                        </p>
+                      )}
+                    </>
+                  );
+                })()}
+              </div>
+            )}
+
+            <h3 className="text-sm font-semibold text-zinc-900">
+              Top Members
+            </h3>
+
+            <div className="mt-2 space-y-2">
+              {[...members]
+                .sort((a, b) => b.points - a.points)
+                .map((m, i) => (
+                  <div
+                    key={m.id}
+                    className="flex items-center gap-3 rounded-xl border border-zinc-200 bg-white px-4 py-3"
+                  >
+                    <span className="w-5 shrink-0 text-center text-sm font-semibold text-zinc-400">
+                      {i + 1}
+                    </span>
+                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand/20 text-sm font-bold text-brand-text">
+                      {(m.display_name || m.email || "?").charAt(0).toUpperCase()}
+                    </span>
+                    <span className="min-w-0 flex-1 truncate text-sm text-zinc-900">
+                      {m.display_name || m.email || "Community Member"}
+                    </span>
+                    <span className="shrink-0 rounded-full bg-brand/10 px-2 py-0.5 text-xs text-brand-text">
+                      Lvl {getLevelForPoints(m.points).level}
+                    </span>
+                    <span className="shrink-0 text-xs text-zinc-500">
+                      {m.points} pts
+                    </span>
+                  </div>
+                ))}
+
+              {members.length === 0 && (
+                <div className="rounded-2xl border border-zinc-200 bg-white p-8 text-center text-sm text-zinc-600">
+                  No members yet.
+                </div>
+              )}
             </div>
           </div>
         )}
