@@ -47,12 +47,14 @@ type PostComposerProps = {
   onClose: () => void;
   isLoggedIn: boolean;
   groupId?: string;
+  groupSlug?: string;
 };
 
 export default function PostComposer({
   onClose,
   isLoggedIn,
   groupId,
+  groupSlug,
 }: PostComposerProps) {
   const router = useRouter();
 
@@ -75,7 +77,14 @@ export default function PostComposer({
   function selectType(value: (typeof TYPE_OPTIONS)[number]) {
     if (value.external) {
       onClose();
-      router.push(value.external);
+
+      const isPollLink = value.value === "poll";
+      const destination =
+        isPollLink && groupId && groupSlug
+          ? `${value.external}?groupId=${groupId}&groupSlug=${groupSlug}`
+          : value.external;
+
+      router.push(destination);
       return;
     }
     setPostType(value.value as PostType);

@@ -685,6 +685,7 @@ export default function GroupDetailPage() {
           }}
           isLoggedIn={Boolean(userId)}
           groupId={group.id}
+          groupSlug={group.slug}
         />
       )}
     </main>

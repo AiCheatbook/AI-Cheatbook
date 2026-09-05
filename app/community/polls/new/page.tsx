@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { Suspense, useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { supabaseAuthClient } from "@/lib/supabase/auth-client";
 
 const CATEGORIES = [
@@ -12,8 +12,11 @@ const CATEGORIES = [
   { value: "showcase", label: "Showcase" },
 ];
 
-export default function NewPollPage() {
+function NewPollForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const groupId = searchParams.get("groupId");
+  const groupSlug = searchParams.get("groupSlug");
 
   const [checkingAuth, setCheckingAuth] =
     useState(true);
@@ -153,6 +156,7 @@ export default function NewPollPage() {
           is_multiple_choice:
             multipleChoice,
           expires_at: expiresAt,
+          group_id: groupId || null,
         })
         .select("id")
         .single();
@@ -185,7 +189,9 @@ export default function NewPollPage() {
       }
 
       router.push(
-        `/community/polls/${poll.id}`
+        groupSlug
+          ? `/groups/${groupSlug}`
+          : `/community/polls/${poll.id}`
       );
     } catch (err) {
       setError(
@@ -404,5 +410,13 @@ export default function NewPollPage() {
         </button>
       </form>
     </main>
+  );
+}
+
+export default function NewPollPage() {
+  return (
+    <Suspense fallback={null}>
+      <NewPollForm />
+    </Suspense>
   );
 }

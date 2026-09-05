@@ -41,6 +41,7 @@ type BanRow = {
 
 type PostRow = {
   id: string;
+  kind: "thread" | "poll";
   title: string;
   content_kind: string;
   created_at: string;
@@ -131,6 +132,7 @@ export default function GroupManagePage() {
       bansRes,
       authorizedRes,
       postsRes,
+      pollsRes,
     ] = await Promise.all([
       supabaseAuthClient
         .from("group_members")
@@ -155,6 +157,13 @@ export default function GroupManagePage() {
         )
         .eq("group_id", groupId)
         .is("deleted_at", null)
+        .order("created_at", { ascending: false }),
+      supabaseAuthClient
+        .from("community_polls")
+        .select(
+          "id, question, created_at, is_hidden, profiles(display_name, email)"
+        )
+        .eq("group_id", groupId)
         .order("created_at", { ascending: false }),
     ]);
 
@@ -205,25 +214,50 @@ export default function GroupManagePage() {
       new Set((authorizedRes.data || []).map((r) => r.user_id))
     );
 
+    const threadRows = (
+      (postsRes.data || []) as unknown as Array<{
+        id: string;
+        title: string;
+        content_kind: string;
+        created_at: string;
+        is_hidden: boolean;
+        profiles: { display_name: string | null; email: string | null } | null;
+      }>
+    ).map((p) => ({
+      id: p.id,
+      kind: "thread" as const,
+      title: p.title,
+      content_kind: p.content_kind,
+      created_at: p.created_at,
+      is_hidden: p.is_hidden,
+      authorName:
+        p.profiles?.display_name || p.profiles?.email || "Community Member",
+    }));
+
+    const pollRows = (
+      (pollsRes.data || []) as unknown as Array<{
+        id: string;
+        question: string;
+        created_at: string;
+        is_hidden: boolean;
+        profiles: { display_name: string | null; email: string | null } | null;
+      }>
+    ).map((p) => ({
+      id: p.id,
+      kind: "poll" as const,
+      title: p.question,
+      content_kind: "poll",
+      created_at: p.created_at,
+      is_hidden: p.is_hidden,
+      authorName:
+        p.profiles?.display_name || p.profiles?.email || "Community Member",
+    }));
+
     setPosts(
-      (
-        (postsRes.data || []) as unknown as Array<{
-          id: string;
-          title: string;
-          content_kind: string;
-          created_at: string;
-          is_hidden: boolean;
-          profiles: { display_name: string | null; email: string | null } | null;
-        }>
-      ).map((p) => ({
-        id: p.id,
-        title: p.title,
-        content_kind: p.content_kind,
-        created_at: p.created_at,
-        is_hidden: p.is_hidden,
-        authorName:
-          p.profiles?.display_name || p.profiles?.email || "Community Member",
-      }))
+      [...threadRows, ...pollRows].sort(
+        (a, b) =>
+          new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+      )
     );
   }
 
@@ -465,8 +499,9 @@ export default function GroupManagePage() {
 
   async function toggleHidePost(p: PostRow) {
     setBusyId(p.id);
+    const table = p.kind === "poll" ? "community_polls" : "community_threads";
     const { error } = await supabaseAuthClient
-      .from("community_threads")
+      .from(table)
       .update({ is_hidden: !p.is_hidden })
       .eq("id", p.id);
 
@@ -779,12 +814,16 @@ export default function GroupManagePage() {
 
             {posts.map((p) => (
               <div
-                key={p.id}
+                key={`${p.kind}-${p.id}`}
                 className="flex items-center justify-between gap-3 rounded-xl border border-zinc-200 bg-white px-4 py-3"
               >
                 <div className="min-w-0">
                   <Link
-                    href={`/discussions/${p.id}`}
+                    href={
+                      p.kind === "poll"
+                        ? `/community/polls/${p.id}`
+                        : `/discussions/${p.id}`
+                    }
                     className="truncate text-sm font-medium text-zinc-900 hover:text-brand-text"
                   >
                     {p.title}
