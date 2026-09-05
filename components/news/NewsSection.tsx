@@ -19,69 +19,77 @@ type NewsSectionProps = {
   headingLevel?: "h1" | "h2";
 };
 
+const PAGE_SIZE = 9;
+
 export default function NewsSection({
   headingLevel = "h2",
 }: NewsSectionProps = {}) {
   const HeadingTag = headingLevel;
   const [news, setNews] = useState<NewsItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
   const [errorMessage, setErrorMessage] =
     useState("");
 
+  async function loadNews(page: number) {
+    const { data, error } =
+      await supabase
+        .from("news")
+        .select(
+          `
+            id,
+            slug,
+            title,
+            cover_image_url,
+            media_source,
+            thumbnail_url,
+            published_at
+          `
+        )
+        .eq("is_published", true)
+        .order("published_at", {
+          ascending: false,
+        })
+        .range(
+          page * PAGE_SIZE,
+          page * PAGE_SIZE + PAGE_SIZE - 1
+        );
+
+    if (error) {
+      console.error(
+        "Failed to load news:",
+        error
+      );
+
+      setErrorMessage(error.message);
+      return;
+    }
+
+    const rows = (data || []) as NewsItem[];
+
+    setNews((prev) =>
+      page === 0 ? rows : [...prev, ...rows]
+    );
+    setHasMore(rows.length === PAGE_SIZE);
+  }
+
   useEffect(() => {
-    async function loadNews() {
+    async function init() {
       setLoading(true);
       setErrorMessage("");
-
-      const { data, error } =
-        await supabase
-          .from("news")
-          .select(
-            `
-              id,
-              slug,
-              title,
-              cover_image_url,
-              media_source,
-              thumbnail_url,
-              published_at
-            `
-          )
-          .eq("is_published", true)
-          .order("published_at", {
-            ascending: false,
-          })
-          .limit(6);
-
-      if (error) {
-        console.error(
-          "Failed to load news:",
-          error
-        );
-
-        setNews([]);
-        setErrorMessage(
-          error.message
-        );
-        setLoading(false);
-
-        return;
-      }
-
-      console.log(
-        "NEWS FROM SUPABASE:",
-        data
-      );
-
-      setNews(
-        (data || []) as NewsItem[]
-      );
-
+      await loadNews(0);
       setLoading(false);
     }
 
-    loadNews();
+    init();
   }, []);
+
+  async function handleLoadMore() {
+    setLoadingMore(true);
+    await loadNews(Math.ceil(news.length / PAGE_SIZE));
+    setLoadingMore(false);
+  }
 
   return (
     <section className="bg-white px-6 py-8 sm:py-10">
@@ -152,39 +160,56 @@ export default function NewsSection({
         {!loading &&
           !errorMessage &&
           news.length > 0 && (
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
 
-              {news.map((item) => (
-                <div
-                  key={item.id}
-                  className="w-full"
-                >
-
-                  <Link
-                    href={`/news/${item.slug}`}
-                    className="block"
+                {news.map((item) => (
+                  <div
+                    key={item.id}
+                    className="w-full"
                   >
 
-                    <NewsCard
-                      title={item.title}
-                      image={
-                        item.cover_image_url ||
-                        "/news/news1.jpg"
-                      }
-                      mediaSource={
-                        item.media_source
-                      }
-                      thumbnailUrl={
-                        item.thumbnail_url
-                      }
-                    />
+                    <Link
+                      href={`/news/${item.slug}`}
+                      className="block"
+                    >
 
-                  </Link>
+                      <NewsCard
+                        title={item.title}
+                        image={
+                          item.cover_image_url ||
+                          "/news/news1.jpg"
+                        }
+                        mediaSource={
+                          item.media_source
+                        }
+                        thumbnailUrl={
+                          item.thumbnail_url
+                        }
+                      />
 
+                    </Link>
+
+                  </div>
+                ))}
+
+              </div>
+
+              {hasMore && (
+                <div className="mt-8 flex justify-center">
+                  <button
+                    type="button"
+                    onClick={handleLoadMore}
+                    disabled={loadingMore}
+                    className="rounded-xl border border-zinc-300 bg-white px-6 py-2.5 text-sm font-semibold text-zinc-700 transition hover:border-brand hover:text-brand-text disabled:cursor-not-allowed disabled:opacity-50"
+                  >
+                    {loadingMore
+                      ? "Loading..."
+                      : "Load More News"}
+                  </button>
                 </div>
-              ))}
-
-            </div>
+              )}
+            </>
           )}
 
         {/* =========================
