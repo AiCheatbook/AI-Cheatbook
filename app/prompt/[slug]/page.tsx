@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 import { getLibraryItem } from "@/lib/supabase/library";
 import RichContentRenderer from "@/components/cms/RichContentRenderer";
 import RelatedContentSection from "@/components/cms/RelatedContentSection";
+import CustomFieldsPublicZone from "@/components/cms/CustomFieldsPublicZone";
 import CommentSection from "@/components/comments/CommentSection";
 import RatingSection from "@/components/prompt/RatingSection";
 import { buildContentMetadata } from "@/lib/seo/metadata";
@@ -179,15 +180,21 @@ export default async function PromptDetailsPage({
 
           </div>
 
+          <CustomFieldsPublicZone fields={item.custom_fields || []} zone="above_title" />
+
           <h1 className="mt-6 text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl">
             {item.title}
           </h1>
+
+          <CustomFieldsPublicZone fields={item.custom_fields || []} zone="below_title" />
 
           {item.description && (
             <p className="mt-5 max-w-3xl text-lg leading-8 text-zinc-600">
               {item.description}
             </p>
           )}
+
+          <CustomFieldsPublicZone fields={item.custom_fields || []} zone="below_description" />
 
           {item.description_html && (
             <div className="mt-6 max-w-3xl">
@@ -301,6 +308,7 @@ export default async function PromptDetailsPage({
           </section>
         )}
 
+        <CustomFieldsPublicZone fields={item.custom_fields || []} zone="below_prompt" />
 
         {/* Actions */}
 
@@ -511,6 +519,8 @@ export default async function PromptDetailsPage({
 
             </section>
           )}
+
+        <CustomFieldsPublicZone fields={item.custom_fields || []} zone="bottom" />
 
         <RelatedContentSection
           items={item.related_content || []}

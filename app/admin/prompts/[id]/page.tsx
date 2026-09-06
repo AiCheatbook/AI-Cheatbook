@@ -10,6 +10,13 @@ import KeywordTagInput, {
 } from "@/components/cms/KeywordTagInput";
 import TaxonomyPicker from "@/components/cms/TaxonomyPicker";
 import ConceptKeywordPicker from "@/components/cms/ConceptKeywordPicker";
+import CustomFieldsDndContext from "@/components/cms/CustomFieldsDndContext";
+import CustomFieldsZoneView from "@/components/cms/CustomFieldsZoneView";
+import {
+  ZONES,
+  newCustomField,
+  type CustomField,
+} from "@/lib/cms/customFields";
 import {
   emptySeoFields,
   seoFieldsToRow,
@@ -123,6 +130,7 @@ export default function EditPromptPage() {
   const [aiTools, setAiTools] = useState<string[]>([]);
   const [keywords, setKeywords] = useState<SelectedKeyword[]>([]);
   const [conceptId, setConceptId] = useState<string | null>(null);
+  const [customFields, setCustomFields] = useState<CustomField[]>([]);
 
   const [isFeatured, setIsFeatured] = useState(false);
   const [isTrending, setIsTrending] = useState(false);
@@ -180,7 +188,8 @@ export default function EditPromptPage() {
                 media_source,
                 media_aspect_ratio,
                 thumbnail_url,
-                concept_id
+                concept_id,
+                custom_fields
               `)
               .eq("id", promptId)
               .single(),
@@ -253,6 +262,10 @@ export default function EditPromptPage() {
         setConceptId(
           (data as { concept_id?: string | null })
             .concept_id || null
+        );
+        setCustomFields(
+          (data as { custom_fields?: CustomField[] | null })
+            .custom_fields || []
         );
 
         const keywordRows =
@@ -348,6 +361,7 @@ export default function EditPromptPage() {
           ...mediaFieldsToRow(media),
           thumbnail_url: thumbnailUrl.trim() || null,
           concept_id: conceptId,
+          custom_fields: customFields,
         })
         .eq("id", promptId);
 
@@ -450,9 +464,29 @@ export default function EditPromptPage() {
     );
   }
 
+  function updateCustomField(id: string, patch: Partial<CustomField>) {
+    setCustomFields((prev) =>
+      prev.map((f) => (f.id === id ? { ...f, ...patch } : f))
+    );
+  }
+
+  function deleteCustomField(id: string) {
+    setCustomFields((prev) => prev.filter((f) => f.id !== id));
+  }
+
+  function addCustomField() {
+    const bottomFields = customFields.filter((f) => f.zone === "bottom");
+    const maxOrder = Math.max(-1, ...bottomFields.map((f) => f.sortOrder));
+    setCustomFields((prev) => [...prev, newCustomField("bottom", maxOrder + 1)]);
+  }
+
   return (
     <main className="min-h-screen bg-white px-6 py-10 text-zinc-900">
       <div className="mx-auto max-w-4xl">
+        <CustomFieldsDndContext
+          fields={customFields}
+          onChange={setCustomFields}
+        >
         {indexNowBanner && (
           <div
             role="status"
@@ -503,6 +537,14 @@ export default function EditPromptPage() {
           <h2 className="text-xl font-semibold">Details</h2>
 
           <div className="mt-4 grid gap-5">
+            <CustomFieldsZoneView
+              zone="above_title"
+              label={ZONES.find((z) => z.key === "above_title")!.label}
+              allFields={customFields}
+              onUpdate={updateCustomField}
+              onDelete={deleteCustomField}
+            />
+
             <div>
               <label className="text-sm font-medium text-zinc-600">
                 Title
@@ -513,6 +555,14 @@ export default function EditPromptPage() {
                 className={inputClass}
               />
             </div>
+
+            <CustomFieldsZoneView
+              zone="below_title"
+              label={ZONES.find((z) => z.key === "below_title")!.label}
+              allFields={customFields}
+              onUpdate={updateCustomField}
+              onDelete={deleteCustomField}
+            />
 
             <div>
               <label className="text-sm font-medium text-zinc-600">
@@ -578,6 +628,14 @@ export default function EditPromptPage() {
               />
             </div>
 
+            <CustomFieldsZoneView
+              zone="below_description"
+              label={ZONES.find((z) => z.key === "below_description")!.label}
+              allFields={customFields}
+              onUpdate={updateCustomField}
+              onDelete={deleteCustomField}
+            />
+
             <div>
               <label className="text-sm font-medium text-zinc-600">
                 Full Details{" "}
@@ -614,6 +672,14 @@ export default function EditPromptPage() {
                 className={textareaClass}
               />
             </div>
+
+            <CustomFieldsZoneView
+              zone="below_prompt"
+              label={ZONES.find((z) => z.key === "below_prompt")!.label}
+              allFields={customFields}
+              onUpdate={updateCustomField}
+              onDelete={deleteCustomField}
+            />
 
             <div>
               <MediaPicker
@@ -755,6 +821,29 @@ export default function EditPromptPage() {
             {deleting ? "Deleting..." : "Delete Prompt"}
           </button>
         </div>
+
+        <div className="mt-6">
+          <p className="text-sm font-semibold text-zinc-900">Custom Fields</p>
+          <p className="mt-1 text-xs text-zinc-600">
+            Add extra details specific to this prompt — drag any field to
+            place it wherever you like in the form above.
+          </p>
+          <CustomFieldsZoneView
+            zone="bottom"
+            label={ZONES.find((z) => z.key === "bottom")!.label}
+            allFields={customFields}
+            onUpdate={updateCustomField}
+            onDelete={deleteCustomField}
+          />
+          <button
+            type="button"
+            onClick={addCustomField}
+            className="mt-1 rounded-lg border border-dashed border-zinc-300 px-3 py-2 text-xs text-zinc-600 hover:border-brand/50 hover:text-brand-text"
+          >
+            + Add Custom Field
+          </button>
+        </div>
+        </CustomFieldsDndContext>
       </div>
     </main>
   );
