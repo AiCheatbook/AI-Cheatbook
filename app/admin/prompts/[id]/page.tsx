@@ -8,6 +8,8 @@ import SeoPanel from "@/components/cms/SeoPanel";
 import KeywordTagInput, {
   type SelectedKeyword,
 } from "@/components/cms/KeywordTagInput";
+import TaxonomyPicker from "@/components/cms/TaxonomyPicker";
+import ConceptKeywordPicker from "@/components/cms/ConceptKeywordPicker";
 import {
   emptySeoFields,
   seoFieldsToRow,
@@ -120,6 +122,7 @@ export default function EditPromptPage() {
   const [authorName, setAuthorName] = useState("");
   const [aiTools, setAiTools] = useState<string[]>([]);
   const [keywords, setKeywords] = useState<SelectedKeyword[]>([]);
+  const [conceptId, setConceptId] = useState<string | null>(null);
 
   const [isFeatured, setIsFeatured] = useState(false);
   const [isTrending, setIsTrending] = useState(false);
@@ -176,7 +179,8 @@ export default function EditPromptPage() {
                 is_indexed,
                 media_source,
                 media_aspect_ratio,
-                thumbnail_url
+                thumbnail_url,
+                concept_id
               `)
               .eq("id", promptId)
               .single(),
@@ -245,6 +249,10 @@ export default function EditPromptPage() {
         setThumbnailUrl(
           (data as { thumbnail_url?: string | null })
             .thumbnail_url || ""
+        );
+        setConceptId(
+          (data as { concept_id?: string | null })
+            .concept_id || null
         );
 
         const keywordRows =
@@ -339,6 +347,7 @@ export default function EditPromptPage() {
           ...seoFieldsToRow(seo),
           ...mediaFieldsToRow(media),
           thumbnail_url: thumbnailUrl.trim() || null,
+          concept_id: conceptId,
         })
         .eq("id", promptId);
 
@@ -663,10 +672,20 @@ export default function EditPromptPage() {
         </section>
 
         <section className="mt-8">
-          <h2 className="text-xl font-semibold">Keywords</h2>
+          <TaxonomyPicker value={conceptId} onChange={setConceptId} />
+
+          <h2 className="mt-8 text-xl font-semibold">Keywords</h2>
 
           <div className="mt-4">
             <KeywordTagInput value={keywords} onChange={setKeywords} />
+          </div>
+
+          <div className="mt-4 rounded-2xl border border-zinc-200 bg-zinc-50 p-4">
+            <ConceptKeywordPicker
+              conceptId={conceptId}
+              value={keywords}
+              onChange={setKeywords}
+            />
           </div>
         </section>
 

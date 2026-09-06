@@ -8,6 +8,8 @@ import SeoPanel from "@/components/cms/SeoPanel";
 import KeywordTagInput, {
   type SelectedKeyword,
 } from "@/components/cms/KeywordTagInput";
+import TaxonomyPicker from "@/components/cms/TaxonomyPicker";
+import ConceptKeywordPicker from "@/components/cms/ConceptKeywordPicker";
 import { pingIndexNow, buildLiveUrl } from "@/lib/seo/indexNow";
 import {
   emptySeoFields,
@@ -118,6 +120,7 @@ export default function NewPromptPage() {
   const [keywords, setKeywords] = useState<
     SelectedKeyword[]
   >([]);
+  const [conceptId, setConceptId] = useState<string | null>(null);
 
   const [isFeatured, setIsFeatured] =
     useState(false);
@@ -215,6 +218,7 @@ export default function NewPromptPage() {
             ...mediaFieldsToRow(media),
             thumbnail_url:
               thumbnailUrl.trim() || null,
+            concept_id: conceptId,
           });
 
       if (insertError) {
@@ -542,7 +546,12 @@ export default function NewPromptPage() {
         {/* KEYWORDS */}
 
         <section className="mt-8">
-          <h2 className="text-xl font-semibold">
+          <TaxonomyPicker
+            value={conceptId}
+            onChange={setConceptId}
+          />
+
+          <h2 className="mt-8 text-xl font-semibold">
             Keywords
           </h2>
 
@@ -553,6 +562,14 @@ export default function NewPromptPage() {
 
           <div className="mt-4">
             <KeywordTagInput
+              value={keywords}
+              onChange={setKeywords}
+            />
+          </div>
+
+          <div className="mt-4 rounded-2xl border border-zinc-200 bg-zinc-50 p-4">
+            <ConceptKeywordPicker
+              conceptId={conceptId}
               value={keywords}
               onChange={setKeywords}
             />
