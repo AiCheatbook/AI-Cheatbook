@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import SeoPanel from "@/components/cms/SeoPanel";
 import {
   emptySeoFields,
@@ -13,6 +13,12 @@ import MediaPicker from "@/components/cms/MediaPicker";
 import ThumbnailPicker from "@/components/cms/ThumbnailPicker";
 import RichTextEditor from "@/components/cms/RichTextEditor";
 import RelatedContentPicker from "@/components/cms/RelatedContentPicker";
+import {
+  pingIndexNow,
+  buildLiveUrl,
+  readIndexNowParam,
+  cleanIndexNowParam,
+} from "@/lib/seo/indexNow";
 import type { RelatedContentItem } from "@/lib/cms/relatedContent";
 import {
   emptyMediaFields,
@@ -256,6 +262,10 @@ export default function EditLearningCardPage() {
 
   const [isPublished, setIsPublished] =
     useState(false);
+  const wasPublishedRef = useRef(false);
+  const [indexNowBanner, setIndexNowBanner] = useState<
+    "ok" | "fail" | null
+  >(readIndexNowParam);
 
   const [blocks, setBlocks] =
     useState<LearningCardBlock[]>([]);
@@ -386,6 +396,9 @@ export default function EditLearningCardPage() {
         setIsPublished(
           Boolean(cardData.is_published)
         );
+        wasPublishedRef.current = Boolean(
+          cardData.is_published
+        );
         setSeo(
           rowToSeoFields(
             cardData as unknown as Record<
@@ -438,6 +451,10 @@ export default function EditLearningCardPage() {
       cancelled = true;
     };
   }, [cardId]);
+
+  useEffect(() => {
+    cleanIndexNowParam();
+  }, []);
 
   /*
    * PREVIEW
@@ -926,6 +943,14 @@ export default function EditLearningCardPage() {
           ].join("\n")
         );
       }
+
+      if (!wasPublishedRef.current && isPublished) {
+        const result = await pingIndexNow([
+          buildLiveUrl(`/learning/${updateData.slug}`),
+        ]);
+        setIndexNowBanner(result.ok ? "ok" : "fail");
+      }
+      wasPublishedRef.current = isPublished;
 
       /*
        * STEP 4

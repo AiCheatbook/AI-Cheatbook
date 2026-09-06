@@ -8,6 +8,7 @@ import SeoPanel from "@/components/cms/SeoPanel";
 import KeywordTagInput, {
   type SelectedKeyword,
 } from "@/components/cms/KeywordTagInput";
+import { pingIndexNow, buildLiveUrl } from "@/lib/seo/indexNow";
 import {
   emptySeoFields,
   seoFieldsToRow,
@@ -243,8 +244,17 @@ export default function NewPromptPage() {
         );
       }
 
+      let indexNowParam = "";
+
+      if (publish) {
+        const result = await pingIndexNow([
+          buildLiveUrl(`/prompt/${cleanSlug}`),
+        ]);
+        indexNowParam = `?indexnow=${result.ok ? "ok" : "fail"}`;
+      }
+
       router.push(
-        `/admin/prompts/${promptId}`
+        `/admin/prompts/${promptId}${indexNowParam}`
       );
 
       router.refresh();

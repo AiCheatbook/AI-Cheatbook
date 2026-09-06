@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import SeoPanel from "@/components/cms/SeoPanel";
 import {
   emptySeoFields,
@@ -13,6 +13,12 @@ import MediaPicker from "@/components/cms/MediaPicker";
 import ThumbnailPicker from "@/components/cms/ThumbnailPicker";
 import RichTextEditor from "@/components/cms/RichTextEditor";
 import RelatedContentPicker from "@/components/cms/RelatedContentPicker";
+import {
+  pingIndexNow,
+  buildLiveUrl,
+  readIndexNowParam,
+  cleanIndexNowParam,
+} from "@/lib/seo/indexNow";
 import type { RelatedContentItem } from "@/lib/cms/relatedContent";
 import {
   emptyMediaFields,
@@ -254,6 +260,10 @@ export default function EditNewsPage() {
 
   const [isPublished, setIsPublished] =
     useState(false);
+  const wasPublishedRef = useRef(false);
+  const [indexNowBanner, setIndexNowBanner] = useState<
+    "ok" | "fail" | null
+  >(readIndexNowParam);
 
   const [blocks, setBlocks] =
     useState<NewsBlock[]>([]);
@@ -380,6 +390,9 @@ export default function EditNewsPage() {
         setIsPublished(
           Boolean(newsData.is_published)
         );
+        wasPublishedRef.current = Boolean(
+          newsData.is_published
+        );
         setSeo(
           rowToSeoFields(
             newsData as unknown as Record<
@@ -432,6 +445,10 @@ export default function EditNewsPage() {
       cancelled = true;
     };
   }, [newsId]);
+
+  useEffect(() => {
+    cleanIndexNowParam();
+  }, []);
 
   /*
    * PREVIEW
@@ -917,6 +934,14 @@ export default function EditNewsPage() {
         );
       }
 
+      if (!wasPublishedRef.current && isPublished) {
+        const result = await pingIndexNow([
+          buildLiveUrl(`/news/${updateData.slug}`),
+        ]);
+        setIndexNowBanner(result.ok ? "ok" : "fail");
+      }
+      wasPublishedRef.current = isPublished;
+
       /*
        * STEP 4
        * UPDATE LOCAL STATE
@@ -1030,6 +1055,21 @@ export default function EditNewsPage() {
   return (
     <main className="min-h-screen bg-white px-6 py-10 text-zinc-900">
       <div className="mx-auto max-w-5xl">
+
+        {indexNowBanner && (
+          <div
+            role="status"
+            className={`mb-4 rounded-xl border px-4 py-3 text-sm ${
+              indexNowBanner === "ok"
+                ? "border-green-200 bg-green-50 text-green-700"
+                : "border-amber-200 bg-amber-50 text-amber-700"
+            }`}
+          >
+            {indexNowBanner === "ok"
+              ? "✓ Search engines notified (Bing, Yandex, and others)."
+              : "⚠ Couldn't notify search engines — publish still succeeded, this only affects how fast Bing/Yandex discover it."}
+          </div>
+        )}
 
         {/* Header */}
 

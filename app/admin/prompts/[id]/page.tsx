@@ -18,6 +18,12 @@ import MediaPicker from "@/components/cms/MediaPicker";
 import ThumbnailPicker from "@/components/cms/ThumbnailPicker";
 import RichTextEditor from "@/components/cms/RichTextEditor";
 import RelatedContentPicker from "@/components/cms/RelatedContentPicker";
+import {
+  pingIndexNow,
+  buildLiveUrl,
+  readIndexNowParam,
+  cleanIndexNowParam,
+} from "@/lib/seo/indexNow";
 import type { RelatedContentItem } from "@/lib/cms/relatedContent";
 import {
   emptyMediaFields,
@@ -118,6 +124,9 @@ export default function EditPromptPage() {
   const [isFeatured, setIsFeatured] = useState(false);
   const [isTrending, setIsTrending] = useState(false);
   const [isPublished, setIsPublished] = useState(false);
+  const [indexNowBanner, setIndexNowBanner] = useState<
+    "ok" | "fail" | null
+  >(readIndexNowParam);
   const [originalPublishedAt, setOriginalPublishedAt] = useState<string | null>(null);
 
   const [seo, setSeo] = useState(emptySeoFields());
@@ -281,6 +290,10 @@ export default function EditPromptPage() {
     };
   }, [promptId]);
 
+  useEffect(() => {
+    cleanIndexNowParam();
+  }, []);
+
   function toggleAiTool(tool: string) {
     setAiTools((current) =>
       current.includes(tool)
@@ -342,6 +355,13 @@ export default function EditPromptPage() {
       }
 
       await saveLibraryItemKeywords(promptId, keywords);
+
+      if (!isPublished && publish) {
+        const result = await pingIndexNow([
+          buildLiveUrl(`/prompt/${cleanSlug}`),
+        ]);
+        setIndexNowBanner(result.ok ? "ok" : "fail");
+      }
 
       setIsPublished(publish);
       setOriginalPublishedAt(
@@ -424,6 +444,21 @@ export default function EditPromptPage() {
   return (
     <main className="min-h-screen bg-white px-6 py-10 text-zinc-900">
       <div className="mx-auto max-w-4xl">
+        {indexNowBanner && (
+          <div
+            role="status"
+            className={`mb-4 rounded-xl border px-4 py-3 text-sm ${
+              indexNowBanner === "ok"
+                ? "border-green-200 bg-green-50 text-green-700"
+                : "border-amber-200 bg-amber-50 text-amber-700"
+            }`}
+          >
+            {indexNowBanner === "ok"
+              ? "✓ Search engines notified (Bing, Yandex, and others)."
+              : "⚠ Couldn't notify search engines — publish still succeeded, this only affects how fast Bing/Yandex discover it."}
+          </div>
+        )}
+
         <div className="flex items-center justify-between">
           <div>
             <Link

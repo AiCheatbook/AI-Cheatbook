@@ -13,6 +13,7 @@ import MediaPicker from "@/components/cms/MediaPicker";
 import ThumbnailPicker from "@/components/cms/ThumbnailPicker";
 import RichTextEditor from "@/components/cms/RichTextEditor";
 import RelatedContentPicker from "@/components/cms/RelatedContentPicker";
+import { pingIndexNow, buildLiveUrl } from "@/lib/seo/indexNow";
 import type { RelatedContentItem } from "@/lib/cms/relatedContent";
 import {
   emptyMediaFields,
@@ -434,8 +435,17 @@ export default function CreateNewsPage() {
        * =====================================================
        */
 
+      let indexNowParam = "";
+
+      if (publish) {
+        const result = await pingIndexNow([
+          buildLiveUrl(`/news/${cleanSlug}`),
+        ]);
+        indexNowParam = `?indexnow=${result.ok ? "ok" : "fail"}`;
+      }
+
       router.push(
-        `/admin/news/${newsId}`
+        `/admin/news/${newsId}${indexNowParam}`
       );
 
       router.refresh();

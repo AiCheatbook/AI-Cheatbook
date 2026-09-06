@@ -13,6 +13,7 @@ import MediaPicker from "@/components/cms/MediaPicker";
 import ThumbnailPicker from "@/components/cms/ThumbnailPicker";
 import RichTextEditor from "@/components/cms/RichTextEditor";
 import RelatedContentPicker from "@/components/cms/RelatedContentPicker";
+import { pingIndexNow, buildLiveUrl } from "@/lib/seo/indexNow";
 import type { RelatedContentItem } from "@/lib/cms/relatedContent";
 import {
   emptyMediaFields,
@@ -439,8 +440,17 @@ export default function CreateLearningCardPage() {
        * =====================================================
        */
 
+      let indexNowParam = "";
+
+      if (publish) {
+        const result = await pingIndexNow([
+          buildLiveUrl(`/learning/${cleanSlug}`),
+        ]);
+        indexNowParam = `?indexnow=${result.ok ? "ok" : "fail"}`;
+      }
+
       router.push(
-        `/admin/learning-cards/${cardId}`
+        `/admin/learning-cards/${cardId}${indexNowParam}`
       );
 
       router.refresh();
