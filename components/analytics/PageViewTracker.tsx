@@ -7,6 +7,22 @@ import { supabaseAuthClient } from "@/lib/supabase/auth-client";
 
 const VISITOR_ID_KEY = "aicheatbook_visitor_id";
 
+function getReferrerHost(): string | null {
+  try {
+    if (!document.referrer) return null;
+
+    const referrerUrl = new URL(document.referrer);
+
+    // Same-site referrers are just internal navigation, not a
+    // real external traffic source — don't count them.
+    if (referrerUrl.host === window.location.host) return null;
+
+    return referrerUrl.host;
+  } catch {
+    return null;
+  }
+}
+
 function getOrCreateVisitorId(): string {
   try {
     const existing = window.localStorage.getItem(VISITOR_ID_KEY);
@@ -50,6 +66,7 @@ export default function PageViewTracker() {
         path: pathname,
         visitor_id: visitorId,
         user_id: user?.id || null,
+        referrer_host: getReferrerHost(),
       });
 
       if (error) {

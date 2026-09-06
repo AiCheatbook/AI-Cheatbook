@@ -24,6 +24,8 @@ type VisitorStats = {
   viewsToday: number;
   uniqueVisitors30d: number;
   dailyViews: { label: string; count: number }[];
+  topPages: { path: string; count: number }[];
+  trafficSources: { source: string; count: number }[];
 };
 
 export default function AdminDashboardPage() {
@@ -172,7 +174,7 @@ export default function AdminDashboardPage() {
           .gte("created_at", startOfToday.toISOString()),
         supabaseAuthClient
           .from("page_views")
-          .select("visitor_id")
+          .select("visitor_id, path, referrer_host")
           .gte("created_at", start30d.toISOString()),
         supabaseAuthClient
           .from("page_views")
@@ -190,6 +192,26 @@ export default function AdminDashboardPage() {
       const uniqueVisitors30d = new Set(
         (last30dRes.data || []).map((r) => r.visitor_id)
       ).size;
+
+      const pageCounts: Record<string, number> = {};
+      const sourceCounts: Record<string, number> = {};
+
+      for (const row of last30dRes.data || []) {
+        pageCounts[row.path] = (pageCounts[row.path] || 0) + 1;
+
+        const source = row.referrer_host || "Direct / Unknown";
+        sourceCounts[source] = (sourceCounts[source] || 0) + 1;
+      }
+
+      const topPages = Object.entries(pageCounts)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 10)
+        .map(([path, count]) => ({ path, count }));
+
+      const trafficSources = Object.entries(sourceCounts)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 10)
+        .map(([source, count]) => ({ source, count }));
 
       const dailyBuckets: Record<string, number> = {};
       for (let i = 6; i >= 0; i--) {
@@ -215,6 +237,8 @@ export default function AdminDashboardPage() {
           }),
           count: cnt,
         })),
+        topPages,
+        trafficSources,
       });
     }
 
@@ -391,6 +415,58 @@ export default function AdminDashboardPage() {
                       </div>
                     );
                   })}
+                </div>
+              </div>
+
+              <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div className="rounded-2xl border border-white/10 bg-neutral-900 p-4">
+                  <p className="mb-3 text-xs text-neutral-500">
+                    Top pages (last 30 days)
+                  </p>
+                  {visitorStats.topPages.length === 0 ? (
+                    <p className="text-xs text-neutral-600">No data yet.</p>
+                  ) : (
+                    <div className="space-y-2">
+                      {visitorStats.topPages.map((p) => (
+                        <div
+                          key={p.path}
+                          className="flex items-center justify-between gap-2 text-sm"
+                        >
+                          <span className="truncate text-neutral-300">
+                            {p.path}
+                          </span>
+                          <span className="shrink-0 font-semibold text-white">
+                            {p.count}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                <div className="rounded-2xl border border-white/10 bg-neutral-900 p-4">
+                  <p className="mb-3 text-xs text-neutral-500">
+                    Traffic sources (last 30 days)
+                  </p>
+                  {visitorStats.trafficSources.length === 0 ? (
+                    <p className="text-xs text-neutral-600">No data yet.</p>
+                  ) : (
+                    <div className="space-y-2">
+                      {visitorStats.trafficSources.map((s) => (
+                        <div
+                          key={s.source}
+                          className="flex items-center justify-between gap-2 text-sm"
+                        >
+                          <span className="truncate text-neutral-300">
+                            {s.source}
+                          </span>
+                          <span className="shrink-0 font-semibold text-white">
+                            {s.count}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
             </>
