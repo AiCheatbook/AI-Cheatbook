@@ -7,6 +7,8 @@ import { supabaseAuthClient } from "@/lib/supabase/auth-client";
 import PostComposer from "@/components/community/PostComposer";
 import DiscussionCard from "@/components/community/cards/DiscussionCard";
 import CommunitySwitcher from "@/components/community/CommunitySwitcher";
+import PostTypeQuickBar from "@/components/community/PostTypeQuickBar";
+import { type PostType } from "@/components/community/postTypeOptions";
 import { getLevelForPoints, getProgressToNextLevel } from "@/lib/community/levels";
 
 type Group = {
@@ -71,6 +73,9 @@ export default function GroupDetailPage() {
   const [loading, setLoading] = useState(true);
   const [joinBusy, setJoinBusy] = useState(false);
   const [composerOpen, setComposerOpen] = useState(false);
+  const [quickPostType, setQuickPostType] = useState<
+    PostType | undefined
+  >(undefined);
 
   const isOwner = Boolean(userId && group && userId === group.owner_id);
   const isActiveMember =
@@ -591,16 +596,28 @@ export default function GroupDetailPage() {
         {tab === "feed" && (
           <div className="mt-4">
             {canPost ? (
-              <button
-                type="button"
-                onClick={() => setComposerOpen(true)}
-                className="mb-4 flex w-full items-center gap-3 rounded-2xl border border-zinc-200 bg-white px-5 py-4 text-left text-zinc-500 transition hover:border-brand/50"
-              >
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-brand/10 text-brand-text">
-                  ✎
-                </span>
-                Share something with {group.name}
-              </button>
+              <>
+                <PostTypeQuickBar
+                  onSelect={(type) => {
+                    setQuickPostType(type);
+                    setComposerOpen(true);
+                  }}
+                />
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setQuickPostType(undefined);
+                    setComposerOpen(true);
+                  }}
+                  className="mb-4 mt-4 flex w-full items-center gap-3 rounded-2xl border border-zinc-200 bg-white px-5 py-4 text-left text-zinc-500 transition hover:border-brand/50"
+                >
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-brand/10 text-brand-text">
+                    ✎
+                  </span>
+                  Share something with {group.name}
+                </button>
+              </>
             ) : isActiveMember ? (
               <div className="mb-4 rounded-2xl border border-zinc-200 bg-zinc-50 p-4 text-center text-sm text-zinc-600">
                 Only the owner and authorized posters can post in this
@@ -801,10 +818,12 @@ export default function GroupDetailPage() {
         <PostComposer
           onClose={() => {
             setComposerOpen(false);
+            setQuickPostType(undefined);
             loadEverything();
           }}
           isLoggedIn={Boolean(userId)}
           groupId={group.id}
+          initialType={quickPostType}
         />
       )}
     </main>
