@@ -1,29 +1,27 @@
 import { SITE_URL } from "@/lib/seo/metadata";
 
-/*
- * This key is meant to be public — it's hosted as a plain text
- * file at the domain root (public/<key>.txt) specifically so
- * search engines can verify it. It is NOT a secret and doesn't
- * need to be an environment variable; the actual protection
- * against abuse is that only your own server can trigger a ping
- * in the first place (this function is only ever called from
- * your own publish flows, not exposed as a public endpoint).
- */
-const INDEXNOW_KEY = "f3b309da4bc8703ababc40db140df8ba";
-
 export type IndexNowResult = {
   ok: boolean;
   message: string;
 };
 
 /*
- * Pings the IndexNow universal endpoint, which fans out to every
- * participating search engine in one call — Bing, Yandex, Naver,
- * and Seznam (Seznam and Yep/DuckDuckGo's index are reached via
- * the same shared network). Google does NOT participate in
- * IndexNow as of 2026 and never receives this ping — see the
- * conversation this was built from for why that's a deliberate,
- * confirmed limitation, not an oversight.
+ * Pings IndexNow, which fans out to every participating search
+ * engine in one call — Bing, Yandex, Naver, and Seznam. Google
+ * does NOT participate in IndexNow as of 2026 and never receives
+ * this ping — a deliberate, confirmed limitation, not an
+ * oversight.
+ *
+ * This calls OUR OWN /api/indexnow route rather than
+ * api.indexnow.org directly. The direct-call version failed with
+ * "Failed to fetch" for every caller, because every caller here
+ * is a "use client" component — meaning the fetch ran in the
+ * browser, and IndexNow's endpoint isn't set up to accept
+ * requests from arbitrary browser JavaScript (no CORS headers
+ * for it). Routing through our own server-side API endpoint
+ * avoids that entirely — the browser talks to our own server
+ * (same-origin, no CORS issue), and our server is the one that
+ * actually calls IndexNow.
  */
 export async function pingIndexNow(
   urls: string[]
@@ -33,39 +31,22 @@ export async function pingIndexNow(
   }
 
   try {
-    const response = await fetch("https://api.indexnow.org/indexnow", {
+    const response = await fetch("/api/indexnow", {
       method: "POST",
-      headers: { "Content-Type": "application/json; charset=utf-8" },
-      body: JSON.stringify({
-        host: new URL(SITE_URL).host,
-        key: INDEXNOW_KEY,
-        keyLocation: `${SITE_URL}/${INDEXNOW_KEY}.txt`,
-        urlList: urls,
-      }),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ urls }),
     });
 
-    /*
-     * IndexNow returns 200 or 202 on success. Anything else
-     * (including 4xx for a malformed key/host) is a real failure
-     * worth surfacing, not swallowing.
-     */
-    if (response.ok || response.status === 202) {
-      return {
-        ok: true,
-        message: "Search engines notified (Bing, Yandex, and others).",
-      };
-    }
-
+    const data = await response.json();
     return {
-      ok: false,
-      message: `IndexNow responded with status ${response.status}.`,
+      ok: Boolean(data.ok),
+      message: data.message || "Unknown response from IndexNow.",
     };
   } catch (err) {
     /*
-     * Network failure, DNS issue, etc. Never throw from here —
-     * a failed indexing ping should never block or break the
-     * actual publish action, which already succeeded by the
-     * time this runs.
+     * Never throw from here — a failed indexing ping should
+     * never block or break the actual publish action, which
+     * already succeeded by the time this runs.
      */
     console.error("pingIndexNow: request failed:", err);
 
@@ -73,8 +54,8 @@ export async function pingIndexNow(
       ok: false,
       message:
         err instanceof Error
-          ? `Could not reach IndexNow: ${err.message}`
-          : "Could not reach IndexNow.",
+          ? `Could not reach the indexing service: ${err.message}`
+          : "Could not reach the indexing service.",
     };
   }
 }
