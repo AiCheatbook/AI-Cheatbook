@@ -213,7 +213,7 @@ export default async function PromptDetailsPage({
 
                   <Image
                     src={item.media_url}
-                    alt={item.title}
+                    alt={item.image_alt_text || item.title}
                     width={1200}
                     height={700}
                     priority

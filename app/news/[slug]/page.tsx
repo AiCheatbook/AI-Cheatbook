@@ -252,7 +252,7 @@ export default async function NewsDetailPage({
                     news.cover_image_url,
                     news.media_source
                   )}
-                  alt={news.title}
+                  alt={news.image_alt_text || news.title}
                   className="h-auto max-h-[680px] w-full object-cover"
                 />
               )}

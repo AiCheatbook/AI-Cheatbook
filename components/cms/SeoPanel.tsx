@@ -114,9 +114,22 @@ export default function SeoPanel({
       {tab === "seo" && (
         <div className="space-y-4 p-4">
           <div>
-            <label className={labelClass}>
-              Meta Title
-            </label>
+            <div className="flex items-center justify-between">
+              <label className={labelClass}>
+                Meta Title
+              </label>
+              <span
+                className={`text-xs ${
+                  seo.metaTitle.length > 60
+                    ? "text-red-500"
+                    : seo.metaTitle.length > 50
+                      ? "text-amber-500"
+                      : "text-zinc-500"
+                }`}
+              >
+                {seo.metaTitle.length}/60
+              </span>
+            </div>
             <input
               className={inputClass}
               value={seo.metaTitle}
@@ -133,9 +146,22 @@ export default function SeoPanel({
           </div>
 
           <div>
-            <label className={labelClass}>
-              Meta Description
-            </label>
+            <div className="flex items-center justify-between">
+              <label className={labelClass}>
+                Meta Description
+              </label>
+              <span
+                className={`text-xs ${
+                  seo.metaDescription.length > 155
+                    ? "text-red-500"
+                    : seo.metaDescription.length > 140
+                      ? "text-amber-500"
+                      : "text-zinc-500"
+                }`}
+              >
+                {seo.metaDescription.length}/155
+              </span>
+            </div>
             <textarea
               className={`${inputClass} min-h-20 resize-y`}
               value={seo.metaDescription}

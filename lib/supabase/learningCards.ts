@@ -49,6 +49,7 @@ export async function getLearningCardItem(
       summary,
       cover_image_url,
       media_source,
+      image_alt_text,
       thumbnail_url,
       category,
       tags,

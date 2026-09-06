@@ -249,7 +249,7 @@ export default async function LearningCardDetailPage({
                     card.cover_image_url,
                     card.media_source
                   )}
-                  alt={card.title}
+                  alt={card.image_alt_text || card.title}
                   className="h-auto max-h-[680px] w-full object-cover"
                 />
               )}

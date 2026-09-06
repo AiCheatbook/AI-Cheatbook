@@ -45,6 +45,7 @@ export async function getNewsItem(slug: string) {
       excerpt,
       cover_image_url,
       media_source,
+      image_alt_text,
       category,
       author,
       published_at,
