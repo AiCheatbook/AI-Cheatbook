@@ -93,12 +93,21 @@ export default function AdminPromptsPage() {
             </p>
           </div>
 
-          <Link
-            href="/admin/prompts/new"
-            className="inline-flex h-11 items-center justify-center rounded-xl bg-brand px-5 text-sm font-semibold text-zinc-900 transition hover:bg-brand-dark"
-          >
-            + Create Prompt
-          </Link>
+          <div className="flex gap-2">
+            <Link
+              href="/admin/prompts/taxonomy"
+              className="inline-flex h-11 items-center justify-center rounded-xl border border-zinc-300 px-5 text-sm font-semibold text-zinc-700 transition hover:border-brand/50"
+            >
+              Taxonomy
+            </Link>
+
+            <Link
+              href="/admin/prompts/new"
+              className="inline-flex h-11 items-center justify-center rounded-xl bg-brand px-5 text-sm font-semibold text-zinc-900 transition hover:bg-brand-dark"
+            >
+              + Create Prompt
+            </Link>
+          </div>
         </div>
 
         {/* ERROR */}
