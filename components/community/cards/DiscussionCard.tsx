@@ -16,6 +16,7 @@ type DiscussionCardProps = {
   mediaUrls?: string[] | null;
   videoUrl?: string | null;
   youtubeUrl?: string | null;
+  priority?: boolean;
 };
 
 function timeAgo(dateString: string): string {
@@ -50,6 +51,7 @@ export default function DiscussionCard({
   mediaUrls,
   videoUrl,
   youtubeUrl,
+  priority = false,
 }: DiscussionCardProps) {
   return (
     <Link
@@ -85,6 +87,7 @@ export default function DiscussionCard({
         imageUrls={mediaUrls}
         videoUrl={videoUrl}
         youtubeUrl={youtubeUrl}
+        priority={priority}
       />
 
       <div className="mt-3 flex items-center justify-between text-xs text-zinc-600">

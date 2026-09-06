@@ -18,10 +18,10 @@ const STATUS_STYLES: Record<
   string
 > = {
   pending:
-    "bg-yellow-500/10 text-yellow-400",
+    "bg-yellow-500/10 text-yellow-600",
   approved:
-    "bg-green-500/10 text-green-400",
-  rejected: "bg-red-500/10 text-red-400",
+    "bg-green-500/10 text-green-600",
+  rejected: "bg-red-500/10 text-red-600",
 };
 
 export default function MySubmissionsPage() {

@@ -15,6 +15,7 @@ type ResourcePostCardProps = {
   mediaUrls?: string[] | null;
   videoUrl?: string | null;
   youtubeUrl?: string | null;
+  priority?: boolean;
 };
 
 function getDomain(url: string): string {
@@ -37,6 +38,7 @@ export default function ResourcePostCard({
   mediaUrls,
   videoUrl,
   youtubeUrl,
+  priority = false,
 }: ResourcePostCardProps) {
   return (
     <Link
@@ -44,7 +46,7 @@ export default function ResourcePostCard({
       className="block rounded-2xl border border-indigo-500/30 bg-white p-5 transition hover:border-indigo-500/60"
     >
       <div className="flex items-center gap-2">
-        <span className="rounded-full bg-indigo-500/10 px-2.5 py-1 text-xs font-semibold text-indigo-400">
+        <span className="rounded-full bg-indigo-500/10 px-2.5 py-1 text-xs font-semibold text-indigo-600">
           🔗 RESOURCE
         </span>
 
@@ -69,6 +71,7 @@ export default function ResourcePostCard({
         imageUrls={mediaUrls}
         videoUrl={videoUrl}
         youtubeUrl={youtubeUrl}
+        priority={priority}
       />
 
       <div className="mt-3 flex items-center justify-between text-xs text-zinc-600">

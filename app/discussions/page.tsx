@@ -187,7 +187,7 @@ export default function DiscussionsPage() {
                     <div className="min-w-0">
                       <div className="flex items-center gap-2">
                         {thread.accepted_reply_id && (
-                          <span className="rounded-full bg-green-500/10 px-2 py-0.5 text-xs text-green-400">
+                          <span className="rounded-full bg-green-500/10 px-2 py-0.5 text-xs text-green-600">
                             ✓ Answered
                           </span>
                         )}

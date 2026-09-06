@@ -197,7 +197,7 @@ function PollVoteCard({
   return (
     <div className="rounded-2xl border border-green-500/30 bg-white p-4">
       <div className="flex items-center justify-between">
-        <span className="rounded-full bg-green-500/10 px-2.5 py-1 text-xs font-semibold text-green-400">
+        <span className="rounded-full bg-green-500/10 px-2.5 py-1 text-xs font-semibold text-green-600">
           📊 POLL
         </span>
         <Link

@@ -164,7 +164,7 @@ export default function FeatureInLibraryButton({
 
   if (featured) {
     return (
-      <span className="rounded-full bg-green-500/10 px-3 py-1.5 text-xs font-semibold text-green-400">
+      <span className="rounded-full bg-green-500/10 px-3 py-1.5 text-xs font-semibold text-green-600">
         ✓ Featured in Library
       </span>
     );

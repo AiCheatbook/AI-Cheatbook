@@ -503,7 +503,7 @@ export default function HomePage() {
             new Date(a.createdAt).getTime()
         );
 
-  function renderCard(item: FeedItem) {
+  function renderCard(item: FeedItem, isFirst: boolean) {
     if (item.kind === "news") {
       return (
         <NewsFeedCard
@@ -576,6 +576,7 @@ export default function HomePage() {
           mediaUrls={item.mediaUrls}
           videoUrl={item.videoUrl}
           youtubeUrl={item.youtubeUrl}
+          priority={isFirst}
         />
       );
     }
@@ -599,6 +600,7 @@ export default function HomePage() {
           mediaUrls={item.mediaUrls}
           videoUrl={item.videoUrl}
           youtubeUrl={item.youtubeUrl}
+          priority={isFirst}
         />
       );
     }
@@ -618,6 +620,7 @@ export default function HomePage() {
           mediaUrls={item.mediaUrls}
           videoUrl={item.videoUrl}
           youtubeUrl={item.youtubeUrl}
+          priority={isFirst}
         />
       );
     }
@@ -637,6 +640,7 @@ export default function HomePage() {
           mediaUrls={item.mediaUrls}
           videoUrl={item.videoUrl}
           youtubeUrl={item.youtubeUrl}
+          priority={isFirst}
         />
       );
     }
@@ -655,6 +659,7 @@ export default function HomePage() {
         mediaUrls={item.mediaUrls}
         videoUrl={item.videoUrl}
         youtubeUrl={item.youtubeUrl}
+        priority={isFirst}
       />
     );
   }
@@ -727,7 +732,7 @@ export default function HomePage() {
             )}
 
           {!loading &&
-            sorted.map((item) => (
+            sorted.map((item, index) => (
               <div key={item.id}>
                 {item.groupName && item.groupSlug && (
                   <Link
@@ -737,7 +742,7 @@ export default function HomePage() {
                     🤝 Posted in {item.groupName}
                   </Link>
                 )}
-                {renderCard(item)}
+                {renderCard(item, index === 0)}
               </div>
             ))}
         </div>

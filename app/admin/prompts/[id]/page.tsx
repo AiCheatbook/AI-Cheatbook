@@ -474,7 +474,7 @@ export default function EditPromptPage() {
           <span
             className={`rounded-full px-3 py-1 text-xs font-medium ${
               isPublished
-                ? "bg-green-500/10 text-green-400"
+                ? "bg-green-500/10 text-green-600"
                 : "bg-zinc-100 text-zinc-600"
             }`}
           >

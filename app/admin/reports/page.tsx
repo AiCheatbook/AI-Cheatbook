@@ -288,7 +288,7 @@ export default function AdminReportsPage() {
                       }
                     </span>
 
-                    <span className="rounded-full bg-red-500/10 px-2.5 py-1 text-xs text-red-400">
+                    <span className="rounded-full bg-red-500/10 px-2.5 py-1 text-xs text-red-600">
                       {report.reason}
                     </span>
 
@@ -296,10 +296,10 @@ export default function AdminReportsPage() {
                       className={`rounded-full px-2.5 py-1 text-xs ${
                         report.status ===
                         "pending"
-                          ? "bg-yellow-500/10 text-yellow-400"
+                          ? "bg-yellow-500/10 text-yellow-600"
                           : report.status ===
                               "reviewed"
-                            ? "bg-green-500/10 text-green-400"
+                            ? "bg-green-500/10 text-green-600"
                             : "bg-zinc-100 text-zinc-600"
                       }`}
                     >
@@ -347,7 +347,7 @@ export default function AdminReportsPage() {
                               report
                             )
                           }
-                          className="rounded-lg border border-yellow-700/50 px-3 py-1.5 text-xs text-yellow-400 hover:bg-yellow-500/10"
+                          className="rounded-lg border border-yellow-700/50 px-3 py-1.5 text-xs text-yellow-600 hover:bg-yellow-500/10"
                         >
                           Hide
                         </button>
@@ -359,7 +359,7 @@ export default function AdminReportsPage() {
                               report
                             )
                           }
-                          className="rounded-lg border border-red-700/50 px-3 py-1.5 text-xs text-red-400 hover:bg-red-500/10"
+                          className="rounded-lg border border-red-700/50 px-3 py-1.5 text-xs text-red-600 hover:bg-red-500/10"
                         >
                           Delete
                         </button>

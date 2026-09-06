@@ -16,6 +16,7 @@ type QuestionCardProps = {
   mediaUrls?: string[] | null;
   videoUrl?: string | null;
   youtubeUrl?: string | null;
+  priority?: boolean;
 };
 
 function timeAgo(dateString: string): string {
@@ -51,6 +52,7 @@ export default function QuestionCard({
   mediaUrls,
   videoUrl,
   youtubeUrl,
+  priority = false,
 }: QuestionCardProps) {
   return (
     <Link
@@ -62,14 +64,14 @@ export default function QuestionCard({
       }`}
     >
       <div className="flex items-center gap-2">
-        <span className="rounded-full bg-blue-500/10 px-2.5 py-1 text-xs font-semibold text-blue-400">
+        <span className="rounded-full bg-blue-500/10 px-2.5 py-1 text-xs font-semibold text-blue-600">
           💡 QUESTION
         </span>
 
         <span
           className={`rounded-full px-2.5 py-1 text-xs ${
             isAnswered
-              ? "bg-green-500/10 text-green-400"
+              ? "bg-green-500/10 text-green-600"
               : "bg-zinc-100 text-zinc-600"
           }`}
         >
@@ -97,6 +99,7 @@ export default function QuestionCard({
         imageUrls={mediaUrls}
         videoUrl={videoUrl}
         youtubeUrl={youtubeUrl}
+        priority={priority}
       />
 
       <div className="mt-3 flex items-center justify-between text-xs text-zinc-600">

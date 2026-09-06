@@ -619,7 +619,7 @@ export default function DiscussionDetailClient() {
         }`}
       >
         {isAccepted && (
-          <p className="mb-2 text-xs font-semibold text-green-400">
+          <p className="mb-2 text-xs font-semibold text-green-600">
             ✓ Accepted Answer
           </p>
         )}
@@ -718,7 +718,7 @@ export default function DiscussionDetailClient() {
               }
               className={`text-xs ${
                 isAccepted
-                  ? "text-green-400 hover:text-green-300"
+                  ? "text-green-600 hover:text-green-300"
                   : "text-zinc-600 hover:text-zinc-900"
               }`}
             >
@@ -782,20 +782,20 @@ export default function DiscussionDetailClient() {
         <div className="mt-3 flex items-center gap-2">
           {thread.content_kind ===
             "question" && (
-            <span className="rounded-full bg-blue-500/10 px-2.5 py-1 text-xs font-semibold text-blue-400">
+            <span className="rounded-full bg-blue-500/10 px-2.5 py-1 text-xs font-semibold text-blue-600">
               💡 QUESTION
             </span>
           )}
 
           {thread.content_kind ===
             "discovery" && (
-            <span className="rounded-full bg-purple-500/10 px-2.5 py-1 text-xs font-semibold text-purple-400">
+            <span className="rounded-full bg-purple-500/10 px-2.5 py-1 text-xs font-semibold text-purple-600">
               🚀 DISCOVERY
             </span>
           )}
 
           {thread.accepted_reply_id && (
-            <span className="rounded-full bg-green-500/10 px-2.5 py-1 text-xs text-green-400">
+            <span className="rounded-full bg-green-500/10 px-2.5 py-1 text-xs text-green-600">
               ✓ Answered
             </span>
           )}

@@ -21,6 +21,7 @@ type PromptPostCardProps = {
   mediaUrls?: string[] | null;
   videoUrl?: string | null;
   youtubeUrl?: string | null;
+  priority?: boolean;
 };
 
 function timeAgo(dateString: string): string {
@@ -57,6 +58,7 @@ export default function PromptPostCard({
   mediaUrls,
   videoUrl,
   youtubeUrl,
+  priority = false,
 }: PromptPostCardProps) {
   const [copied, setCopied] =
     useState(false);
@@ -88,7 +90,7 @@ export default function PromptPostCard({
       className="block rounded-2xl border border-amber-500/30 bg-white p-5 transition hover:border-amber-500/60"
     >
       <div className="flex items-center gap-2">
-        <span className="rounded-full bg-amber-500/10 px-2.5 py-1 text-xs font-semibold text-amber-400">
+        <span className="rounded-full bg-amber-500/10 px-2.5 py-1 text-xs font-semibold text-amber-600">
           ✨ PROMPT
         </span>
 
@@ -110,6 +112,7 @@ export default function PromptPostCard({
         imageUrls={mediaUrls}
         videoUrl={videoUrl}
         youtubeUrl={youtubeUrl}
+        priority={priority}
       />
 
       <div className="mt-3 flex items-center justify-between">
@@ -117,7 +120,7 @@ export default function PromptPostCard({
           <button
             type="button"
             onClick={handleCopy}
-            className="rounded-full border border-amber-500/40 px-3 py-1.5 text-xs font-semibold text-amber-400 transition hover:bg-amber-500/10"
+            className="rounded-full border border-amber-500/40 px-3 py-1.5 text-xs font-semibold text-amber-600 transition hover:bg-amber-500/10"
           >
             {copied
               ? "✓ Copied"
