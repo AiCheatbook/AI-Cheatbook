@@ -39,6 +39,7 @@ function BrowseLibrary() {
 
   const [prompts, setPrompts] = useState<PromptSummary[]>([]);
   const [loadingPrompts, setLoadingPrompts] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const categorySlug = searchParams.get("category") || "";
   const subcategorySlug = searchParams.get("subcategory") || "";
@@ -194,9 +195,23 @@ function BrowseLibrary() {
         query = query.in("concept_id", conceptIds);
       }
 
-      const { data, error } = await query
-        .order("published_at", { ascending: false })
-        .limit(60);
+      const trimmedSearch = searchQuery.trim();
+      if (trimmedSearch) {
+        const term = `%${trimmedSearch}%`;
+        query = query.or(
+          `title.ilike.${term},description.ilike.${term},prompt.ilike.${term}`
+        );
+      }
+
+      /*
+       * No .limit() here on purpose — matching the existing
+       * /search page's behavior (which also fetches everything
+       * matching, no pagination) rather than cycling through
+       * pages. Every matching prompt shows on this one page.
+       */
+      const { data, error } = await query.order("published_at", {
+        ascending: false,
+      });
 
       if (error) {
         console.error("BrowseLibrary: failed to load prompts:", error.message);
@@ -206,8 +221,18 @@ function BrowseLibrary() {
       setLoadingPrompts(false);
     }
 
+    let cancelled = false;
+
+    async function runLoad() {
+      if (!cancelled) await load();
+    }
+
     if (!loadingTaxonomy) {
-      load();
+      const timeout = setTimeout(runLoad, searchQuery ? 300 : 0);
+      return () => {
+        cancelled = true;
+        clearTimeout(timeout);
+      };
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
@@ -216,6 +241,7 @@ function BrowseLibrary() {
     selectedSubcategory?.id,
     selectedConcept?.id,
     keywordId,
+    searchQuery,
   ]);
 
   const visibleSubcategories = selectedCategory
@@ -331,6 +357,13 @@ function BrowseLibrary() {
             </>
           )}
         </div>
+
+        <input
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          placeholder="Search the Prompt Library..."
+          className="mt-6 w-full rounded-xl border border-zinc-200 px-4 py-3 text-sm outline-none focus:border-brand"
+        />
 
         {/* Cascading selectors */}
         {loadingTaxonomy ? (
