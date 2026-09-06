@@ -81,17 +81,20 @@ export default function ConceptKeywordPicker({
   }
 
   async function createKeyword() {
-    const label = newKeywordLabel.trim();
-    if (!label || !conceptId) return;
+    const rawLabels = newKeywordLabel
+      .split(",")
+      .map((l) => l.trim())
+      .filter(Boolean);
+
+    if (rawLabels.length === 0 || !conceptId) return;
 
     setCreating(true);
     setError("");
 
     const { data, error: err } = await supabase
       .from("library_keywords")
-      .insert({ label, concept_id: conceptId })
-      .select("id, label")
-      .single();
+      .insert(rawLabels.map((label) => ({ label, concept_id: conceptId })))
+      .select("id, label");
 
     if (err) {
       setError(err.message);
@@ -99,10 +102,40 @@ export default function ConceptKeywordPicker({
       return;
     }
 
-    setConceptKeywords((prev) => [...prev, data]);
-    onChange([...value, data]);
+    const created = data || [];
+    setConceptKeywords((prev) => [...prev, ...created]);
+    onChange([...value, ...created]);
     setNewKeywordLabel("");
     setCreating(false);
+  }
+
+  async function deleteKeyword(keyword: KeywordRow) {
+    if (
+      !confirm(
+        `Delete "${keyword.label}"? This removes it everywhere it's used, not just from this prompt.`
+      )
+    ) {
+      return;
+    }
+
+    setError("");
+
+    const { error: err } = await supabase
+      .from("library_keywords")
+      .delete()
+      .eq("id", keyword.id);
+
+    if (err) {
+      setError(
+        err.code === "23503"
+          ? `Couldn't delete "${keyword.label}" — it's still linked to something that requires it.`
+          : err.message
+      );
+      return;
+    }
+
+    setConceptKeywords((prev) => prev.filter((k) => k.id !== keyword.id));
+    onChange(value.filter((k) => k.id !== keyword.id));
   }
 
   if (!conceptId) {
@@ -126,18 +159,28 @@ export default function ConceptKeywordPicker({
       ) : (
         <div className="mt-2 flex flex-wrap gap-2">
           {conceptKeywords.map((k) => (
-            <label
+            <div
               key={k.id}
-              className="flex cursor-pointer items-center gap-1.5 rounded-full border border-zinc-200 px-3 py-1.5 text-xs has-checked:border-brand has-checked:bg-brand/10 has-checked:text-brand-text"
+              className="flex items-center gap-1.5 rounded-full border border-zinc-200 px-3 py-1.5 text-xs has-[input:checked]:border-brand has-[input:checked]:bg-brand/10 has-[input:checked]:text-brand-text"
             >
-              <input
-                type="checkbox"
-                checked={isSelected(k.id)}
-                onChange={() => toggle(k)}
-                className="sr-only"
-              />
-              {k.label}
-            </label>
+              <label className="flex cursor-pointer items-center gap-1.5">
+                <input
+                  type="checkbox"
+                  checked={isSelected(k.id)}
+                  onChange={() => toggle(k)}
+                  className="sr-only"
+                />
+                {k.label}
+              </label>
+              <button
+                type="button"
+                onClick={() => deleteKeyword(k)}
+                title="Delete this keyword everywhere"
+                className="text-zinc-400 hover:text-red-500"
+              >
+                ×
+              </button>
+            </div>
           ))}
         </div>
       )}
@@ -152,7 +195,7 @@ export default function ConceptKeywordPicker({
               createKeyword();
             }
           }}
-          placeholder="+ Create New Keyword"
+          placeholder="+ Create New Keyword (comma-separate to add several at once)"
           className="flex-1 rounded-lg border border-zinc-200 px-3 py-2 text-sm outline-none focus:border-brand"
         />
         <button
