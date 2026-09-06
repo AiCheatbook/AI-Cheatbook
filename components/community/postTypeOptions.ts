@@ -1,0 +1,79 @@
+import {
+  MessageCircle,
+  HelpCircle,
+  BarChart3,
+  Sparkles,
+  BookOpen,
+  Compass,
+  Link2,
+  Palette,
+  type LucideIcon,
+} from "lucide-react";
+
+export type PostType =
+  | "question"
+  | "discussion"
+  | "prompt"
+  | "learning"
+  | "resource"
+  | "discovery"
+  | "poll"
+  | "work";
+
+export type PostTypeOption = {
+  value: PostType;
+  label: string;
+  icon: LucideIcon;
+  color: string;
+};
+
+export const TYPE_OPTIONS: PostTypeOption[] = [
+  {
+    value: "discussion",
+    label: "Discussion",
+    icon: MessageCircle,
+    color: "bg-blue-500/10 text-blue-600",
+  },
+  {
+    value: "question",
+    label: "Question",
+    icon: HelpCircle,
+    color: "bg-amber-500/10 text-amber-600",
+  },
+  {
+    value: "poll",
+    label: "Poll",
+    icon: BarChart3,
+    color: "bg-green-500/10 text-green-600",
+  },
+  {
+    value: "prompt",
+    label: "Prompt",
+    icon: Sparkles,
+    color: "bg-brand/10 text-brand-text",
+  },
+  {
+    value: "learning",
+    label: "Learning",
+    icon: BookOpen,
+    color: "bg-cyan-500/10 text-cyan-600",
+  },
+  {
+    value: "discovery",
+    label: "AI Discovery",
+    icon: Compass,
+    color: "bg-purple-500/10 text-purple-600",
+  },
+  {
+    value: "resource",
+    label: "Resource",
+    icon: Link2,
+    color: "bg-indigo-500/10 text-indigo-600",
+  },
+  {
+    value: "work",
+    label: "Share Work",
+    icon: Palette,
+    color: "bg-pink-500/10 text-pink-600",
+  },
+];

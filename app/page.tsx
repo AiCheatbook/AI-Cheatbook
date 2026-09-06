@@ -16,6 +16,8 @@ import ResourcePostCard from "@/components/community/cards/ResourcePostCard";
 import NewsFeedCard from "@/components/community/cards/NewsFeedCard";
 import LearningFeedCard from "@/components/community/cards/LearningFeedCard";
 import PostComposer from "@/components/community/PostComposer";
+import PostTypeQuickBar from "@/components/community/PostTypeQuickBar";
+import { type PostType } from "@/components/community/postTypeOptions";
 import PollsQuestionsPanel from "@/components/community/PollsQuestionsPanel";
 import { trendingScore } from "@/lib/community/trending";
 import { getUnifiedFeed } from "@/lib/feed/getUnifiedFeed";
@@ -75,14 +77,12 @@ export default function HomePage() {
     useState(true);
   const [filter, setFilter] =
     useState("all");
-  const [memberCount, setMemberCount] =
-    useState(0);
-  const [answerCount, setAnswerCount] =
-    useState(0);
   const [isLoggedIn, setIsLoggedIn] =
     useState(false);
   const [composerOpen, setComposerOpen] =
     useState(false);
+  const [quickPostType, setQuickPostType] =
+    useState<PostType | undefined>(undefined);
 
   async function loadFeed(userId: string | null) {
     setLoading(true);
@@ -137,7 +137,6 @@ export default function HomePage() {
       threadVotesResponse,
       repliesResponse,
       pollVotesResponse,
-      membersResponse,
     ] = await Promise.all([
       supabase
         .from("community_threads")
@@ -197,12 +196,6 @@ export default function HomePage() {
       supabase
         .from("community_poll_votes")
         .select("poll_id"),
-      supabase
-        .from("profiles")
-        .select("id", {
-          count: "exact",
-          head: true,
-        }),
     ]);
 
     if (threadsResponse.error) {
@@ -460,16 +453,6 @@ export default function HomePage() {
       ...learningCardItems,
     ]);
 
-    setAnswerCount(
-      threadItems.filter(
-        (t) => t.isAnswered
-      ).length
-    );
-
-    setMemberCount(
-      membersResponse.count || 0
-    );
-
     setLoading(false);
   }
 
@@ -680,10 +663,20 @@ export default function HomePage() {
     <CommunityLayout>
       <CommunitySwitcher />
 
+      <PostTypeQuickBar
+        onSelect={(type) => {
+          setQuickPostType(type);
+          setComposerOpen(true);
+        }}
+      />
+
       <button
         type="button"
-        onClick={() => setComposerOpen(true)}
-        className="mt-6 flex w-full items-center gap-3 rounded-2xl border border-zinc-200 bg-white px-5 py-4 text-left text-zinc-500 transition hover:border-brand/50"
+        onClick={() => {
+          setQuickPostType(undefined);
+          setComposerOpen(true);
+        }}
+        className="mt-4 flex w-full items-center gap-3 rounded-2xl border border-zinc-200 bg-white px-5 py-4 text-left text-zinc-500 transition hover:border-brand/50"
       >
         <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-brand/10 text-brand-text">
           ✎
@@ -753,9 +746,11 @@ export default function HomePage() {
       {composerOpen && (
         <PostComposer
           isLoggedIn={isLoggedIn}
-          onClose={() =>
-            setComposerOpen(false)
-          }
+          initialType={quickPostType}
+          onClose={() => {
+            setComposerOpen(false);
+            setQuickPostType(undefined);
+          }}
         />
       )}
     </CommunityLayout>

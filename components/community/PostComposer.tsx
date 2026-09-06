@@ -13,26 +13,9 @@ import MediaUploader, {
 import PollInlineForm from "@/components/community/PollInlineForm";
 import ArtworkInlineForm from "@/components/community/ArtworkInlineForm";
 import {
-  MessageCircle,
-  HelpCircle,
-  BarChart3,
-  Sparkles,
-  BookOpen,
-  Compass,
-  Link2,
-  Palette,
-  type LucideIcon,
-} from "lucide-react";
-
-type PostType =
-  | "question"
-  | "discussion"
-  | "prompt"
-  | "learning"
-  | "resource"
-  | "discovery"
-  | "poll"
-  | "work";
+  TYPE_OPTIONS,
+  type PostType,
+} from "@/components/community/postTypeOptions";
 
 const CATEGORIES = [
   { value: "general", label: "General" },
@@ -47,77 +30,28 @@ const CATEGORIES = [
 // standalone pages; they now reuse that same insert logic via
 // PollInlineForm/ArtworkInlineForm instead, so every option
 // behaves the same way (pick a tile, fill it in, submit).
-const TYPE_OPTIONS: {
-  value: PostType;
-  label: string;
-  icon: LucideIcon;
-  color: string;
-}[] = [
-  {
-    value: "discussion",
-    label: "Discussion",
-    icon: MessageCircle,
-    color: "bg-blue-500/10 text-blue-600",
-  },
-  {
-    value: "question",
-    label: "Question",
-    icon: HelpCircle,
-    color: "bg-amber-500/10 text-amber-600",
-  },
-  {
-    value: "poll",
-    label: "Poll",
-    icon: BarChart3,
-    color: "bg-green-500/10 text-green-600",
-  },
-  {
-    value: "prompt",
-    label: "Prompt",
-    icon: Sparkles,
-    color: "bg-brand/10 text-brand-text",
-  },
-  {
-    value: "learning",
-    label: "Learning",
-    icon: BookOpen,
-    color: "bg-cyan-500/10 text-cyan-600",
-  },
-  {
-    value: "discovery",
-    label: "AI Discovery",
-    icon: Compass,
-    color: "bg-purple-500/10 text-purple-600",
-  },
-  {
-    value: "resource",
-    label: "Resource",
-    icon: Link2,
-    color: "bg-indigo-500/10 text-indigo-600",
-  },
-  {
-    value: "work",
-    label: "Share Work",
-    icon: Palette,
-    color: "bg-pink-500/10 text-pink-600",
-  },
-];
 
 type PostComposerProps = {
   onClose: () => void;
   isLoggedIn: boolean;
   groupId?: string;
+  initialType?: PostType;
 };
 
 export default function PostComposer({
   onClose,
   isLoggedIn,
   groupId,
+  initialType,
 }: PostComposerProps) {
   const router = useRouter();
 
-  const [step, setStep] = useState<"type" | "compose">("type");
-  const [postType, setPostType] = useState<PostType>("discussion");
+  const [step, setStep] = useState<"type" | "compose">(
+    initialType ? "compose" : "type"
+  );
+  const [postType, setPostType] = useState<PostType>(
+    initialType || "discussion"
+  );
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [aiTool, setAiTool] = useState("");
