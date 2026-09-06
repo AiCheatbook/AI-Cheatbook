@@ -6,6 +6,7 @@ import "./globals.css";
 import Navbar from "@/components/navbar/Navbar";
 import CommunitySidebar from "@/components/community/layout/CommunitySidebar";
 import PageViewTracker from "@/components/analytics/PageViewTracker";
+import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
 import MiniGenerator from "@/components/generator/MiniGenerator";
 import { SITE_URL, SITE_NAME } from "@/lib/seo/metadata";
 import JsonLd from "@/components/seo/JsonLd";
@@ -85,6 +86,7 @@ export default function RootLayout({
         </div>
 
         <PageViewTracker />
+        <GoogleAnalytics />
         <MiniGenerator />
       </body>
     </html>
