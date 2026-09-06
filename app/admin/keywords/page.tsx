@@ -47,6 +47,7 @@ export default function AdminKeywordsPage() {
   }
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     loadKeywords();
   }, []);
 
@@ -104,6 +105,37 @@ export default function AdminKeywordsPage() {
     setSavingId(null);
   }
 
+  async function handleDelete(keyword: Keyword) {
+    if (
+      !confirm(
+        `Delete "${keyword.label}"? This removes it everywhere it's used across the site, not just here.`
+      )
+    ) {
+      return;
+    }
+
+    setSavingId(keyword.id);
+    setError("");
+
+    const { error: err } = await supabase
+      .from("library_keywords")
+      .delete()
+      .eq("id", keyword.id);
+
+    if (err) {
+      setError(
+        err.code === "23503"
+          ? `Couldn't delete "${keyword.label}" — other keywords are nested under it. Reassign them first.`
+          : err.message
+      );
+      setSavingId(null);
+      return;
+    }
+
+    setKeywords((current) => current.filter((k) => k.id !== keyword.id));
+    setSavingId(null);
+  }
+
   const topLevel = keywords.filter(
     (k) => !k.parent_id
   );
@@ -132,15 +164,15 @@ export default function AdminKeywordsPage() {
             paddingLeft: depth * 24,
           }}
         >
-          <div className="min-w-0">
-            <span className="text-sm text-zinc-900">
+          <div className="min-w-0 flex-1">
+            <span className="block truncate text-sm text-zinc-900">
               {parent.label}
+              {parent.category && (
+                <span className="ml-2 text-xs text-zinc-600">
+                  {parent.category}
+                </span>
+              )}
             </span>
-            {parent.category && (
-              <span className="ml-2 text-xs text-zinc-600">
-                {parent.category}
-              </span>
-            )}
           </div>
 
           <select
@@ -211,6 +243,15 @@ export default function AdminKeywordsPage() {
                   "global"
                 ? "Global"
                 : "Both"}
+          </button>
+
+          <button
+            type="button"
+            disabled={savingId === parent.id}
+            onClick={() => handleDelete(parent)}
+            className="shrink-0 text-xs text-zinc-400 hover:text-red-500 disabled:opacity-40"
+          >
+            Delete
           </button>
         </div>
 
