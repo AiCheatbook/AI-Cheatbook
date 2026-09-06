@@ -10,6 +10,19 @@ import {
 import MediaUploader, {
   type MediaValue,
 } from "@/components/community/MediaUploader";
+import PollInlineForm from "@/components/community/PollInlineForm";
+import ArtworkInlineForm from "@/components/community/ArtworkInlineForm";
+import {
+  MessageCircle,
+  HelpCircle,
+  BarChart3,
+  Sparkles,
+  BookOpen,
+  Compass,
+  Link2,
+  Palette,
+  type LucideIcon,
+} from "lucide-react";
 
 type PostType =
   | "question"
@@ -17,7 +30,9 @@ type PostType =
   | "prompt"
   | "learning"
   | "resource"
-  | "discovery";
+  | "discovery"
+  | "poll"
+  | "work";
 
 const CATEGORIES = [
   { value: "general", label: "General" },
@@ -27,38 +42,77 @@ const CATEGORIES = [
   { value: "showcase", label: "Showcase" },
 ];
 
-// Internal types are composed right here. Poll and Share Work
-// already have their own dedicated, fully-built flows elsewhere
-// (poll options/expiry; artwork's upload+moderation workflow) —
-// rather than duplicate that, selecting them just routes there.
+// All 8 types now compose inline, right here in the same
+// popup — Poll and Share Work used to route away to their own
+// standalone pages; they now reuse that same insert logic via
+// PollInlineForm/ArtworkInlineForm instead, so every option
+// behaves the same way (pick a tile, fill it in, submit).
 const TYPE_OPTIONS: {
-  value: PostType | "poll" | "work";
+  value: PostType;
   label: string;
-  emoji: string;
-  external?: string;
+  icon: LucideIcon;
+  color: string;
 }[] = [
-  { value: "discussion", label: "Discussion", emoji: "💬" },
-  { value: "question", label: "Question", emoji: "💡" },
-  { value: "poll", label: "Poll", emoji: "📊", external: "/community/polls/new" },
-  { value: "prompt", label: "Prompt", emoji: "✨" },
-  { value: "learning", label: "Learning", emoji: "📘" },
-  { value: "discovery", label: "AI Discovery", emoji: "🔍" },
-  { value: "resource", label: "Resource", emoji: "🔗" },
-  { value: "work", label: "Share Work", emoji: "🎨", external: "/submit/artwork" },
+  {
+    value: "discussion",
+    label: "Discussion",
+    icon: MessageCircle,
+    color: "bg-blue-500/10 text-blue-600",
+  },
+  {
+    value: "question",
+    label: "Question",
+    icon: HelpCircle,
+    color: "bg-amber-500/10 text-amber-600",
+  },
+  {
+    value: "poll",
+    label: "Poll",
+    icon: BarChart3,
+    color: "bg-green-500/10 text-green-600",
+  },
+  {
+    value: "prompt",
+    label: "Prompt",
+    icon: Sparkles,
+    color: "bg-brand/10 text-brand-text",
+  },
+  {
+    value: "learning",
+    label: "Learning",
+    icon: BookOpen,
+    color: "bg-cyan-500/10 text-cyan-600",
+  },
+  {
+    value: "discovery",
+    label: "AI Discovery",
+    icon: Compass,
+    color: "bg-purple-500/10 text-purple-600",
+  },
+  {
+    value: "resource",
+    label: "Resource",
+    icon: Link2,
+    color: "bg-indigo-500/10 text-indigo-600",
+  },
+  {
+    value: "work",
+    label: "Share Work",
+    icon: Palette,
+    color: "bg-pink-500/10 text-pink-600",
+  },
 ];
 
 type PostComposerProps = {
   onClose: () => void;
   isLoggedIn: boolean;
   groupId?: string;
-  groupSlug?: string;
 };
 
 export default function PostComposer({
   onClose,
   isLoggedIn,
   groupId,
-  groupSlug,
 }: PostComposerProps) {
   const router = useRouter();
 
@@ -79,19 +133,7 @@ export default function PostComposer({
   const [error, setError] = useState("");
 
   function selectType(value: (typeof TYPE_OPTIONS)[number]) {
-    if (value.external) {
-      onClose();
-
-      const isPollLink = value.value === "poll";
-      const destination =
-        isPollLink && groupId && groupSlug
-          ? `${value.external}?groupId=${groupId}&groupSlug=${groupSlug}`
-          : value.external;
-
-      router.push(destination);
-      return;
-    }
-    setPostType(value.value as PostType);
+    setPostType(value.value);
     setStep("compose");
   }
 
@@ -233,23 +275,30 @@ export default function PostComposer({
             </p>
 
             <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4">
-              {TYPE_OPTIONS.map((option) => (
-                <button
-                  key={option.value}
-                  type="button"
-                  onClick={() => selectType(option)}
-                  className="flex flex-col items-center gap-1.5 rounded-xl border border-zinc-300 px-3 py-4 text-xs text-zinc-600 transition hover:border-brand hover:text-brand-text"
-                >
-                  <span className="text-xl">{option.emoji}</span>
-                  {option.label}
-                </button>
-              ))}
+              {TYPE_OPTIONS.map((option) => {
+                const Icon = option.icon;
+                return (
+                  <button
+                    key={option.value}
+                    type="button"
+                    onClick={() => selectType(option)}
+                    className="flex flex-col items-center gap-2 rounded-xl border border-zinc-300 px-3 py-4 text-xs text-zinc-600 transition hover:border-brand hover:text-brand-text"
+                  >
+                    <span
+                      className={`flex h-10 w-10 items-center justify-center rounded-full ${option.color}`}
+                    >
+                      <Icon className="h-5 w-5" strokeWidth={2} />
+                    </span>
+                    {option.label}
+                  </button>
+                );
+              })}
             </div>
           </div>
         )}
 
         {step === "compose" && (
-          <form onSubmit={handleSubmit} className="mt-4">
+          <div className="mt-4">
             <button
               type="button"
               onClick={() => setStep("type")}
@@ -258,93 +307,140 @@ export default function PostComposer({
               ← Change post type
             </button>
 
-            <div className="mt-3 flex flex-wrap gap-2">
-              {CATEGORIES.map((c) => (
-                <button
-                  key={c.value}
-                  type="button"
-                  onClick={() => setCategory(c.value)}
-                  className={`rounded-full border px-3 py-1 text-xs transition ${
-                    category === c.value
-                      ? "border-brand bg-brand/10 text-brand-text"
-                      : "border-zinc-300 text-zinc-600"
-                  }`}
-                >
-                  {c.label}
-                </button>
-              ))}
-            </div>
+            {postType === "poll" ? (
+              <div className="mt-3">
+                <PollInlineForm
+                  groupId={groupId}
+                  onDone={async () => {
+                    if (groupId) {
+                      const {
+                        data: { user },
+                      } = await supabaseAuthClient.auth.getUser();
 
-            <input
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              placeholder={
-                postType === "question"
-                  ? "What's your question?"
-                  : postType === "prompt"
-                    ? "Name your prompt"
-                    : postType === "resource"
-                      ? "What is this resource?"
-                      : postType === "learning"
-                        ? "What are you explaining?"
-                        : postType === "discovery"
-                          ? "What did you discover?"
-                          : "What do you want to talk about?"
-              }
-              className="mt-4 w-full rounded-xl border border-zinc-200 bg-white px-4 py-3 text-zinc-900 outline-none focus:border-brand"
-            />
-
-            {postType === "prompt" && (
-              <input
-                value={aiTool}
-                onChange={(e) => setAiTool(e.target.value)}
-                placeholder="Which AI tool is this for? (e.g. Midjourney, Veo)"
-                className="mt-3 w-full rounded-xl border border-zinc-200 bg-white px-4 py-3 text-zinc-900 outline-none focus:border-brand"
-              />
-            )}
-
-            {postType === "resource" && (
-              <input
-                value={resourceUrl}
-                onChange={(e) => setResourceUrl(e.target.value)}
-                placeholder="Link to the article, video, or tool"
-                className="mt-3 w-full rounded-xl border border-zinc-200 bg-white px-4 py-3 text-zinc-900 outline-none focus:border-brand"
-              />
-            )}
-
-            <textarea
-              value={body}
-              onChange={(e) => setBody(e.target.value)}
-              rows={5}
-              placeholder={
-                postType === "prompt"
-                  ? "Paste the full prompt text..."
-                  : postType === "resource"
-                    ? "What's useful about it?"
-                    : "Add details..."
-              }
-              className="mt-3 w-full rounded-xl border border-zinc-200 bg-white px-4 py-3 text-zinc-900 outline-none focus:border-brand"
-            />
-
-            <MediaUploader onChange={setMedia} />
-
-            {error && (
-              <div
-                role="alert"
-                className="mt-3 rounded-xl border border-red-900/50 bg-red-950/20 px-4 py-3 text-sm text-red-400"
-              >
-                {error}
+                      if (user) {
+                        await awardCommunityPoints(
+                          groupId,
+                          user.id,
+                          POINTS_FOR_POST
+                        );
+                      }
+                    }
+                    onClose();
+                  }}
+                />
               </div>
-            )}
+            ) : postType === "work" ? (
+              <div className="mt-3">
+                <ArtworkInlineForm
+                  onDone={async () => {
+                    if (groupId) {
+                      const {
+                        data: { user },
+                      } = await supabaseAuthClient.auth.getUser();
 
-            <button
-              type="submit"
-              disabled={submitting}
-              className="mt-4 w-full rounded-xl bg-brand py-3 font-semibold text-zinc-900 transition hover:bg-brand-dark disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              {submitting ? "Posting..." : "Post"}
-            </button>
-          </form>
+                      if (user) {
+                        await awardCommunityPoints(
+                          groupId,
+                          user.id,
+                          POINTS_FOR_POST
+                        );
+                      }
+                    }
+                    onClose();
+                  }}
+                />
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit}>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {CATEGORIES.map((c) => (
+                    <button
+                      key={c.value}
+                      type="button"
+                      onClick={() => setCategory(c.value)}
+                      className={`rounded-full border px-3 py-1 text-xs transition ${
+                        category === c.value
+                          ? "border-brand bg-brand/10 text-brand-text"
+                          : "border-zinc-300 text-zinc-600"
+                      }`}
+                    >
+                      {c.label}
+                    </button>
+                  ))}
+                </div>
+
+                <input
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  placeholder={
+                    postType === "question"
+                      ? "What's your question?"
+                      : postType === "prompt"
+                        ? "Name your prompt"
+                        : postType === "resource"
+                          ? "What is this resource?"
+                          : postType === "learning"
+                            ? "What are you explaining?"
+                            : postType === "discovery"
+                              ? "What did you discover?"
+                              : "What do you want to talk about?"
+                  }
+                  className="mt-4 w-full rounded-xl border border-zinc-200 bg-white px-4 py-3 text-zinc-900 outline-none focus:border-brand"
+                />
+
+                {postType === "prompt" && (
+                  <input
+                    value={aiTool}
+                    onChange={(e) => setAiTool(e.target.value)}
+                    placeholder="Which AI tool is this for? (e.g. Midjourney, Veo)"
+                    className="mt-3 w-full rounded-xl border border-zinc-200 bg-white px-4 py-3 text-zinc-900 outline-none focus:border-brand"
+                  />
+                )}
+
+                {postType === "resource" && (
+                  <input
+                    value={resourceUrl}
+                    onChange={(e) => setResourceUrl(e.target.value)}
+                    placeholder="Link to the article, video, or tool"
+                    className="mt-3 w-full rounded-xl border border-zinc-200 bg-white px-4 py-3 text-zinc-900 outline-none focus:border-brand"
+                  />
+                )}
+
+                <textarea
+                  value={body}
+                  onChange={(e) => setBody(e.target.value)}
+                  rows={5}
+                  placeholder={
+                    postType === "prompt"
+                      ? "Paste the full prompt text..."
+                      : postType === "resource"
+                        ? "What's useful about it?"
+                        : "Add details..."
+                  }
+                  className="mt-3 w-full rounded-xl border border-zinc-200 bg-white px-4 py-3 text-zinc-900 outline-none focus:border-brand"
+                />
+
+                <MediaUploader onChange={setMedia} />
+
+                {error && (
+                  <div
+                    role="alert"
+                    className="mt-3 rounded-xl border border-red-900/50 bg-red-950/20 px-4 py-3 text-sm text-red-400"
+                  >
+                    {error}
+                  </div>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={submitting}
+                  className="mt-4 w-full rounded-xl bg-brand py-3 font-semibold text-zinc-900 transition hover:bg-brand-dark disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  {submitting ? "Posting..." : "Post"}
+                </button>
+              </form>
+            )}
+          </div>
         )}
       </div>
     </div>

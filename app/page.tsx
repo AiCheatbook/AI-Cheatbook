@@ -5,7 +5,6 @@ import Link from "next/link";
 import { supabase } from "@/lib/supabase/client";
 import { supabaseAuthClient } from "@/lib/supabase/auth-client";
 import CommunityLayout from "@/components/community/layout/CommunityLayout";
-import CommunityHero from "@/components/community/CommunityHero";
 import CommunitySwitcher from "@/components/community/CommunitySwitcher";
 import ContentTypeFilter from "@/components/community/ContentTypeFilter";
 import DiscussionCard from "@/components/community/cards/DiscussionCard";
@@ -680,12 +679,6 @@ export default function HomePage() {
   return (
     <CommunityLayout>
       <CommunitySwitcher />
-
-      <CommunityHero
-        memberCount={memberCount}
-        discussionCount={items.length}
-        answerCount={answerCount}
-      />
 
       <button
         type="button"
