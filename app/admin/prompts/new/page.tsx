@@ -5,9 +5,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { supabaseAuthClient as supabase } from "@/lib/supabase/auth-client";
 import SeoPanel from "@/components/cms/SeoPanel";
-import KeywordTagInput, {
-  type SelectedKeyword,
-} from "@/components/cms/KeywordTagInput";
+import { type SelectedKeyword } from "@/components/cms/KeywordTagInput";
 import TaxonomyPicker from "@/components/cms/TaxonomyPicker";
 import ConceptKeywordPicker from "@/components/cms/ConceptKeywordPicker";
 import CustomFieldsDndContext from "@/components/cms/CustomFieldsDndContext";
@@ -617,16 +615,9 @@ export default function NewPromptPage() {
           </h2>
 
           <p className="mt-1 text-sm text-zinc-600">
-            Type an existing keyword to reuse
-            it, or a new one to create it.
+            Search and select from the Global Keyword Library, or
+            create a new one — it&apos;s shared with Prompt Designer too.
           </p>
-
-          <div className="mt-4">
-            <KeywordTagInput
-              value={keywords}
-              onChange={setKeywords}
-            />
-          </div>
 
           <div className="mt-4 rounded-2xl border border-zinc-200 bg-zinc-50 p-4">
             <ConceptKeywordPicker

@@ -5,9 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { supabaseAuthClient as supabase } from "@/lib/supabase/auth-client";
 import SeoPanel from "@/components/cms/SeoPanel";
-import KeywordTagInput, {
-  type SelectedKeyword,
-} from "@/components/cms/KeywordTagInput";
+import { type SelectedKeyword } from "@/components/cms/KeywordTagInput";
 import TaxonomyPicker from "@/components/cms/TaxonomyPicker";
 import ConceptKeywordPicker from "@/components/cms/ConceptKeywordPicker";
 import CustomFieldsDndContext from "@/components/cms/CustomFieldsDndContext";
@@ -742,9 +740,10 @@ export default function EditPromptPage() {
 
           <h2 className="mt-8 text-xl font-semibold">Keywords</h2>
 
-          <div className="mt-4">
-            <KeywordTagInput value={keywords} onChange={setKeywords} />
-          </div>
+          <p className="mt-1 text-sm text-zinc-600">
+            Search and select from the Global Keyword Library, or
+            create a new one — it&apos;s shared with Prompt Designer too.
+          </p>
 
           <div className="mt-4 rounded-2xl border border-zinc-200 bg-zinc-50 p-4">
             <ConceptKeywordPicker

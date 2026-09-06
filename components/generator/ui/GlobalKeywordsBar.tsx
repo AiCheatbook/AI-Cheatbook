@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase/client";
+import { findOrCreateKeyword } from "@/lib/cms/keywordLibrary";
 
 type GlobalKeywordRow = {
   id: string;
@@ -39,6 +40,8 @@ export default function GlobalKeywordsBar({
     useState<GlobalKeywordRow[]>([]);
   const [loaded, setLoaded] =
     useState(false);
+  const [creating, setCreating] = useState(false);
+  const [createError, setCreateError] = useState("");
 
   useEffect(() => {
     if (!pickerOpen || loaded) {
@@ -79,6 +82,30 @@ export default function GlobalKeywordsBar({
     onAdd(label);
     setQuery("");
     setPickerOpen(false);
+  }
+
+  async function handleCreate() {
+    const label = query.trim();
+    if (!label) return;
+
+    setCreating(true);
+    setCreateError("");
+
+    try {
+      const keyword = await findOrCreateKeyword(label);
+      setAllKeywords((prev) =>
+        prev.some((k) => k.id === keyword.id) ? prev : [...prev, keyword]
+      );
+      handlePick(keyword.label);
+    } catch (err) {
+      setCreateError(
+        err instanceof Error
+          ? err.message
+          : "Failed to create keyword. Make sure you're logged in."
+      );
+    }
+
+    setCreating(false);
   }
 
   return (
@@ -147,11 +174,34 @@ export default function GlobalKeywordsBar({
 
                 {loaded &&
                   matches.length ===
-                    0 && (
+                    0 &&
+                  trimmedQuery.length > 0 && (
+                    <button
+                      type="button"
+                      disabled={creating}
+                      onClick={handleCreate}
+                      className="block w-full px-3 py-2 text-left text-xs text-zinc-600 hover:bg-zinc-100 disabled:opacity-50"
+                    >
+                      {creating
+                        ? "Creating..."
+                        : `+ Create "${query.trim()}" as a new keyword`}
+                    </button>
+                  )}
+
+                {loaded &&
+                  matches.length ===
+                    0 &&
+                  trimmedQuery.length === 0 && (
                     <p className="px-3 py-2 text-xs text-zinc-600">
                       No matches.
                     </p>
                   )}
+
+                {loaded && createError && (
+                  <p className="border-t border-zinc-200 px-3 py-2 text-xs text-red-600">
+                    {createError}
+                  </p>
+                )}
 
                 {matches.map((k) => (
                   <button

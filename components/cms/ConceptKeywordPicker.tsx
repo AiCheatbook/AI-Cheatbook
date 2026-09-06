@@ -2,11 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { supabaseAuthClient as supabase } from "@/lib/supabase/auth-client";
-
-type KeywordRow = {
-  id: string;
-  label: string;
-};
+import { findOrCreateKeywords, type KeywordRow } from "@/lib/cms/keywordLibrary";
 
 type ConceptKeywordPickerProps = {
   conceptId: string | null;
@@ -91,21 +87,31 @@ export default function ConceptKeywordPicker({
     setCreating(true);
     setError("");
 
-    const { data, error: err } = await supabase
-      .from("library_keywords")
-      .insert(rawLabels.map((label) => ({ label, concept_id: conceptId })))
-      .select("id, label");
+    try {
+      const created = await findOrCreateKeywords(rawLabels, {
+        conceptId,
+      });
 
-    if (err) {
-      setError(err.message);
-      setCreating(false);
-      return;
+      // Only genuinely-new-to-this-list keywords need adding to
+      // the concept's own display set — a reused existing keyword
+      // from elsewhere in the library might not have belonged to
+      // this concept before, so still surface it here too.
+      const newToThisConcept = created.filter(
+        (k) => !conceptKeywords.some((existing) => existing.id === k.id)
+      );
+
+      setConceptKeywords((prev) => [...prev, ...newToThisConcept]);
+
+      const newToSelection = created.filter(
+        (k) => !value.some((existing) => existing.id === k.id)
+      );
+      onChange([...value, ...newToSelection]);
+
+      setNewKeywordLabel("");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to create keyword.");
     }
 
-    const created = data || [];
-    setConceptKeywords((prev) => [...prev, ...created]);
-    onChange([...value, ...created]);
-    setNewKeywordLabel("");
     setCreating(false);
   }
 

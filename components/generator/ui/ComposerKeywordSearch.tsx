@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { supabase } from "@/lib/supabase/client";
+import { findOrCreateKeyword } from "@/lib/cms/keywordLibrary";
 
 type KeywordRow = {
   id: string;
@@ -51,6 +52,8 @@ export default function ComposerKeywordSearch({
     useState<KeywordRow[]>([]);
   const [loaded, setLoaded] =
     useState(false);
+  const [creating, setCreating] = useState(false);
+  const [createError, setCreateError] = useState("");
 
   useEffect(() => {
     async function load() {
@@ -113,6 +116,41 @@ export default function ComposerKeywordSearch({
     return path.join(" → ");
   }
 
+  async function handleCreate() {
+    const label = query.trim();
+    if (!label) return;
+
+    setCreating(true);
+    setCreateError("");
+
+    try {
+      const keyword = await findOrCreateKeyword(label);
+      setAllKeywords((prev) =>
+        prev.some((k) => k.id === keyword.id)
+          ? prev
+          : [
+              ...prev,
+              {
+                id: keyword.id,
+                label: keyword.label,
+                category: null,
+                parent_id: null,
+                placement: "both",
+              },
+            ]
+      );
+      onSelect({ label: keyword.label, breadcrumb: keyword.label });
+    } catch (err) {
+      setCreateError(
+        err instanceof Error
+          ? err.message
+          : "Failed to create keyword. Make sure you're logged in."
+      );
+    }
+
+    setCreating(false);
+  }
+
   const trimmedQuery = query
     .trim()
     .toLowerCase();
@@ -132,12 +170,32 @@ export default function ComposerKeywordSearch({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [trimmedQuery, allKeywords]);
 
-  if (
-    trimmedQuery.length < 2 ||
-    !loaded ||
-    matches.length === 0
-  ) {
+  if (trimmedQuery.length < 2 || !loaded) {
     return null;
+  }
+
+  if (matches.length === 0) {
+    return (
+      <div className="absolute z-30 mt-2 w-full overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-xl">
+        <button
+          type="button"
+          disabled={creating}
+          onClick={handleCreate}
+          className="flex w-full items-center justify-between px-4 py-2.5 text-left text-sm hover:bg-zinc-100 disabled:opacity-50"
+        >
+          <span className="truncate text-zinc-600">
+            {creating
+              ? "Creating..."
+              : `+ Create "${query.trim()}" as a new keyword`}
+          </span>
+        </button>
+        {createError && (
+          <p className="border-t border-zinc-200 px-4 py-2 text-xs text-red-600">
+            {createError}
+          </p>
+        )}
+      </div>
+    );
   }
 
   return (
