@@ -31,7 +31,7 @@ const NAV_ITEMS = [
     subtitle: "Your Interactive Prompt Engine",
   },
   {
-    href: "/search",
+    href: "/prompts",
     icon: "📚",
     label: "Browse Prompt Book",
     subtitle: "Browse Thousands of Proven Prompts",
