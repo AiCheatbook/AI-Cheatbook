@@ -111,19 +111,6 @@ export default function AdminLayout({
             </Link>
 
             <Link
-              href="/admin/community"
-              className={
-                pathname.startsWith(
-                  "/admin/community"
-                )
-                  ? "text-brand-text"
-                  : "text-neutral-400 hover:text-white"
-              }
-            >
-              Community
-            </Link>
-
-            <Link
               href="/admin/artwork"
               className={
                 pathname.startsWith(
