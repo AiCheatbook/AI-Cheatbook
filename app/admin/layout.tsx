@@ -172,7 +172,7 @@ export default function AdminLayout({
                   : "text-neutral-400 hover:text-white"
               }
             >
-              Keywords
+              Keyword Library
             </Link>
 
             <Link
