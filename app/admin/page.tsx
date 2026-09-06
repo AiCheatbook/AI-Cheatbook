@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabaseAuthClient } from "@/lib/supabase/auth-client";
+import { pingIndexNow, buildLiveUrl } from "@/lib/seo/indexNow";
 
 type Counts = {
   users: number;
@@ -32,6 +33,8 @@ export default function AdminDashboardPage() {
   const [loading, setLoading] = useState(true);
   const [counts, setCounts] = useState<Counts | null>(null);
   const [visitorStats, setVisitorStats] = useState<VisitorStats | null>(null);
+  const [backfillRunning, setBackfillRunning] = useState(false);
+  const [backfillResult, setBackfillResult] = useState<string | null>(null);
 
   useEffect(() => {
     async function init() {
@@ -224,6 +227,64 @@ export default function AdminDashboardPage() {
     );
   }
 
+  async function runIndexNowBackfill() {
+    setBackfillRunning(true);
+    setBackfillResult(null);
+
+    try {
+      const [newsRes, learningRes, promptsRes] = await Promise.all([
+        supabaseAuthClient
+          .from("news")
+          .select("slug")
+          .eq("is_published", true),
+        supabaseAuthClient
+          .from("learning_cards")
+          .select("slug")
+          .eq("is_published", true),
+        supabaseAuthClient
+          .from("library_items")
+          .select("slug")
+          .eq("is_published", true),
+      ]);
+
+      const urls = [
+        ...(newsRes.data || []).map((r) => buildLiveUrl(`/news/${r.slug}`)),
+        ...(learningRes.data || []).map((r) =>
+          buildLiveUrl(`/learning/${r.slug}`)
+        ),
+        ...(promptsRes.data || []).map((r) =>
+          buildLiveUrl(`/prompt/${r.slug}`)
+        ),
+      ];
+
+      if (urls.length === 0) {
+        setBackfillResult("No published content found to submit.");
+        return;
+      }
+
+      /*
+       * IndexNow supports up to 10,000 URLs per submission — one
+       * bulk call covers everything already published, rather
+       * than looping and pinging one at a time.
+       */
+      const result = await pingIndexNow(urls);
+
+      setBackfillResult(
+        result.ok
+          ? `✓ Submitted ${urls.length} already-published URLs to Bing, Yandex, and others.`
+          : `⚠ Submission failed: ${result.message}`
+      );
+    } catch (err) {
+      setBackfillResult(
+        err instanceof Error
+          ? `⚠ Backfill failed: ${err.message}`
+          : "⚠ Backfill failed for an unknown reason."
+      );
+    } finally {
+      setBackfillRunning(false);
+    }
+  }
+
   const totalPending = counts
     ? counts.pendingReports +
       counts.pendingArtwork +
@@ -372,6 +433,28 @@ export default function AdminDashboardPage() {
             <ActionLink href="/admin/submissions" label="Review Submissions" />
             <ActionLink href="/admin/audit-log" label="Audit Log" />
           </div>
+
+          <h2 className="mt-8 text-sm font-semibold text-neutral-300">
+            Search Engine Indexing
+          </h2>
+          <p className="mt-1 text-xs text-neutral-500">
+            New publishes now automatically notify Bing/Yandex/others. This
+            is a one-time catch-up for everything published before that
+            automation existed.
+          </p>
+          <button
+            type="button"
+            onClick={runIndexNowBackfill}
+            disabled={backfillRunning}
+            className="mt-2 rounded-xl border border-white/10 bg-neutral-900 px-4 py-2 text-sm text-white hover:border-brand/50 disabled:opacity-50"
+          >
+            {backfillRunning
+              ? "Submitting..."
+              : "Submit all already-published content to IndexNow"}
+          </button>
+          {backfillResult && (
+            <p className="mt-2 text-xs text-neutral-400">{backfillResult}</p>
+          )}
 
           <p className="mt-8 text-xs text-neutral-600">
             Visitor counts are first-party (tracked directly into your own
