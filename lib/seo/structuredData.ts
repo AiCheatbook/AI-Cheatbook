@@ -123,8 +123,24 @@ export function buildOrganizationSchema() {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: SITE_NAME,
+    /*
+     * Genuine spelling/spacing/casing variants of the same brand
+     * name — helps Google associate searches like "AiCheatbook"
+     * or "Cheatbook AI" with this specific site. Deliberately
+     * does NOT include "AI Cheatsheets" here — that's a different
+     * phrase, not a variant spelling of this brand, and listing
+     * it as an alternateName would be inaccurate (closer to
+     * keyword-stuffing than a real alternate name Google should
+     * trust). Ranking for that term is a content/SEO question,
+     * not a structured-data one.
+     */
+    alternateName: [
+      "AiCheatbook",
+      "Cheatbookai",
+      "Cheatbook AI",
+    ],
     url: SITE_URL,
-    logo: `${SITE_URL}/favicon.ico`,
+    logo: `${SITE_URL}/logo.png`,
   };
 }
 

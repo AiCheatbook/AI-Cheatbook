@@ -28,11 +28,11 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
     default:
-      "AI Cheatbook — Verified AI Prompts That Actually Work",
+      "AI Cheatbook — Learn, Create & Grow with AI",
     template: "%s | AI Cheatbook",
   },
   description:
-    "Browse verified AI prompts, learning cards, and the latest AI news for ChatGPT, Gemini, Claude, Midjourney and more.",
+    "Join AI creator communities, discover powerful prompts and keywords, and learn AI concepts through practical guides, resources, and the latest AI news.",
   applicationName: SITE_NAME,
   alternates: {
     canonical: "/",
@@ -42,16 +42,16 @@ export const metadata: Metadata = {
     siteName: SITE_NAME,
     url: SITE_URL,
     title:
-      "AI Cheatbook — Verified AI Prompts That Actually Work",
+      "AI Cheatbook — Learn, Create & Grow with AI",
     description:
-      "Browse verified AI prompts, learning cards, and the latest AI news for ChatGPT, Gemini, Claude, Midjourney and more.",
+      "Join AI creator communities, discover powerful prompts and keywords, and learn AI concepts through practical guides, resources, and the latest AI news.",
   },
   twitter: {
     card: "summary_large_image",
     title:
-      "AI Cheatbook — Verified AI Prompts That Actually Work",
+      "AI Cheatbook — Learn, Create & Grow with AI",
     description:
-      "Browse verified AI prompts, learning cards, and the latest AI news.",
+      "Join AI creator communities, discover powerful prompts and keywords, and learn AI concepts through practical guides, resources, and the latest AI news.",
   },
   robots: {
     index: true,
