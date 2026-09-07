@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import { CheckCircle2, Lightbulb, Rocket } from "lucide-react";
 import { supabaseAuthClient } from "@/lib/supabase/auth-client";
 import { createNotification } from "@/lib/notifications/createNotification";
 import {
@@ -619,8 +620,9 @@ export default function DiscussionDetailClient() {
         }`}
       >
         {isAccepted && (
-          <p className="mb-2 text-xs font-semibold text-green-600">
-            ✓ Accepted Answer
+          <p className="mb-2 flex items-center gap-1 text-xs font-semibold text-green-600">
+            <CheckCircle2 className="h-3.5 w-3.5" strokeWidth={1.75} />
+            Accepted Answer
           </p>
         )}
 
@@ -716,15 +718,16 @@ export default function DiscussionDetailClient() {
                   reply.id
                 )
               }
-              className={`text-xs ${
+              className={`inline-flex items-center gap-1 text-xs ${
                 isAccepted
                   ? "text-green-600 hover:text-green-300"
                   : "text-zinc-600 hover:text-zinc-900"
               }`}
             >
-              {isAccepted
-                ? "✓ Accepted"
-                : "Mark as answer"}
+              {isAccepted && (
+                <CheckCircle2 className="h-3.5 w-3.5" strokeWidth={1.75} />
+              )}
+              {isAccepted ? "Accepted" : "Mark as answer"}
             </button>
           )}
         </div>
@@ -782,21 +785,24 @@ export default function DiscussionDetailClient() {
         <div className="mt-3 flex items-center gap-2">
           {thread.content_kind ===
             "question" && (
-            <span className="rounded-full bg-blue-500/10 px-2.5 py-1 text-xs font-semibold text-blue-600">
-              💡 QUESTION
+            <span className="inline-flex items-center gap-1 rounded-full bg-blue-500/10 px-2.5 py-1 text-xs font-semibold text-blue-600">
+              <Lightbulb className="h-3.5 w-3.5" strokeWidth={1.75} />
+              QUESTION
             </span>
           )}
 
           {thread.content_kind ===
             "discovery" && (
-            <span className="rounded-full bg-purple-500/10 px-2.5 py-1 text-xs font-semibold text-purple-600">
-              🚀 DISCOVERY
+            <span className="inline-flex items-center gap-1 rounded-full bg-purple-500/10 px-2.5 py-1 text-xs font-semibold text-purple-600">
+              <Rocket className="h-3.5 w-3.5" strokeWidth={1.75} />
+              DISCOVERY
             </span>
           )}
 
           {thread.accepted_reply_id && (
-            <span className="rounded-full bg-green-500/10 px-2.5 py-1 text-xs text-green-600">
-              ✓ Answered
+            <span className="inline-flex items-center gap-1 rounded-full bg-green-500/10 px-2.5 py-1 text-xs text-green-600">
+              <CheckCircle2 className="h-3.5 w-3.5" strokeWidth={1.75} />
+              Answered
             </span>
           )}
 

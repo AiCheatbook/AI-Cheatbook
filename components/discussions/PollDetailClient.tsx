@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { BarChart3, Check } from "lucide-react";
 import { useParams } from "next/navigation";
 import { supabaseAuthClient } from "@/lib/supabase/auth-client";
 import {
@@ -320,8 +321,9 @@ export default function PollDetailClient() {
         </Link>
 
         <div className="mt-4 rounded-2xl border border-green-500/30 bg-white p-6">
-          <span className="rounded-full bg-zinc-100 px-2.5 py-1 text-xs text-zinc-600">
-            📊 Poll
+          <span className="inline-flex items-center gap-1 rounded-full bg-zinc-100 px-2.5 py-1 text-xs text-zinc-600">
+            <BarChart3 className="h-3.5 w-3.5" strokeWidth={1.75} />
+            Poll
           </span>
 
           <h1 className="mt-3 text-xl font-bold">
@@ -389,7 +391,12 @@ export default function PollDetailClient() {
                         }{" "}
                         {myVotes.has(
                           option.id
-                        ) && "✓"}
+                        ) && (
+                          <Check
+                            className="inline h-3.5 w-3.5 align-text-bottom"
+                            strokeWidth={2}
+                          />
+                        )}
                       </span>
                       <span className="text-zinc-600">
                         {percent}% (
