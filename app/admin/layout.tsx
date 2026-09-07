@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { supabaseAuthClient } from "@/lib/supabase/auth-client";
+import NavDropdown from "@/components/admin/NavDropdown";
 
 export default function AdminLayout({
   children,
@@ -33,7 +34,7 @@ export default function AdminLayout({
             AI Cheatbook Admin
           </span>
 
-          <nav className="flex items-center gap-4 text-sm">
+          <nav className="flex items-center gap-5 text-sm">
             <Link
               href="/admin"
               className={
@@ -45,148 +46,45 @@ export default function AdminLayout({
               Dashboard
             </Link>
 
-            <Link
-              href="/admin/posts"
-              className={
-                pathname.startsWith(
-                  "/admin/posts"
-                )
-                  ? "text-brand-text"
-                  : "text-neutral-400 hover:text-white"
-              }
-            >
-              Posts
-            </Link>
+            <NavDropdown
+              label="Content"
+              pathname={pathname}
+              items={[
+                { href: "/admin/posts", label: "Posts" },
+                { href: "/admin/news", label: "News" },
+                { href: "/admin/learning-cards", label: "Learning Cards" },
+                { href: "/admin/artwork", label: "Artwork" },
+              ]}
+            />
 
-            <Link
-              href="/admin/news"
-              className={
-                pathname.startsWith(
-                  "/admin/news"
-                )
-                  ? "text-brand-text"
-                  : "text-neutral-400 hover:text-white"
-              }
-            >
-              News
-            </Link>
+            <NavDropdown
+              label="Prompt Library"
+              pathname={pathname}
+              items={[
+                { href: "/admin/prompts", label: "Prompts" },
+                { href: "/admin/prompts/taxonomy", label: "Taxonomy" },
+                { href: "/admin/keywords", label: "Keyword Library" },
+                { href: "/admin/structures", label: "Structures" },
+              ]}
+            />
 
-            <Link
-              href="/admin/prompts"
-              className={
-                pathname.startsWith(
-                  "/admin/prompts"
-                )
-                  ? "text-brand-text"
-                  : "text-neutral-400 hover:text-white"
-              }
-            >
-              Prompt Library
-            </Link>
+            <NavDropdown
+              label="Moderation"
+              pathname={pathname}
+              items={[
+                { href: "/admin/submissions", label: "Submissions" },
+                { href: "/admin/trending", label: "Trending" },
+              ]}
+            />
 
-            <Link
-              href="/admin/learning-cards"
-              className={
-                pathname.startsWith(
-                  "/admin/learning-cards"
-                )
-                  ? "text-brand-text"
-                  : "text-neutral-400 hover:text-white"
-              }
-            >
-              Learning Cards
-            </Link>
-
-            <Link
-              href="/admin/submissions"
-              className={
-                pathname.startsWith(
-                  "/admin/submissions"
-                )
-                  ? "text-brand-text"
-                  : "text-neutral-400 hover:text-white"
-              }
-            >
-              Submissions
-            </Link>
-
-            <Link
-              href="/admin/artwork"
-              className={
-                pathname.startsWith(
-                  "/admin/artwork"
-                )
-                  ? "text-brand-text"
-                  : "text-neutral-400 hover:text-white"
-              }
-            >
-              Artwork
-            </Link>
-
-            <Link
-              href="/admin/users"
-              className={
-                pathname.startsWith(
-                  "/admin/users"
-                )
-                  ? "text-brand-text"
-                  : "text-neutral-400 hover:text-white"
-              }
-            >
-              Users
-            </Link>
-
-            <Link
-              href="/admin/audit-log"
-              className={
-                pathname.startsWith(
-                  "/admin/audit-log"
-                )
-                  ? "text-brand-text"
-                  : "text-neutral-400 hover:text-white"
-              }
-            >
-              Audit Log
-            </Link>
-
-            <Link
-              href="/admin/trending"
-              className={
-                pathname.startsWith(
-                  "/admin/trending"
-                )
-                  ? "text-brand-text"
-                  : "text-neutral-400 hover:text-white"
-              }
-            >
-              Trending
-            </Link>
-
-            <Link
-              href="/admin/keywords"
-              className={
-                pathname.startsWith(
-                  "/admin/keywords"
-                )
-                  ? "text-brand-text"
-                  : "text-neutral-400 hover:text-white"
-              }
-            >
-              Keyword Library
-            </Link>
-
-            <Link
-              href="/admin/structures"
-              className={
-                pathname.startsWith(
-                  "/admin/structures"
-                )
-                  ? "text-brand-text"
-                  : "text-neutral-400 hover:text-white"
-              }
-            >
-              Structures
-            </Link>
+            <NavDropdown
+              label="Admin"
+              pathname={pathname}
+              items={[
+                { href: "/admin/users", label: "Users" },
+                { href: "/admin/audit-log", label: "Audit Log" },
+              ]}
+            />
           </nav>
         </div>
 
