@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { CheckCircle2, Lightbulb, Rocket } from "lucide-react";
 import { supabaseAuthClient } from "@/lib/supabase/auth-client";
 import { createNotification } from "@/lib/notifications/createNotification";
@@ -60,6 +60,7 @@ const CATEGORY_LABELS: Record<
 };
 
 export default function DiscussionDetailClient() {
+  const router = useRouter();
   const params = useParams();
   const threadId = params.id as string;
 
@@ -513,8 +514,7 @@ export default function DiscussionDetailClient() {
       .delete()
       .eq("id", threadId);
 
-    window.location.href =
-      "/discussions";
+    router.push("/discussions");
   }
 
   async function handleDeleteReply(

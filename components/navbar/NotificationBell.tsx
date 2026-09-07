@@ -82,6 +82,7 @@ export default function NotificationBell() {
   }
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     loadNotifications();
 
     const interval = window.setInterval(

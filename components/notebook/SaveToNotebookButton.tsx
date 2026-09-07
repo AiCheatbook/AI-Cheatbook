@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Bookmark } from "lucide-react";
 import { supabaseAuthClient } from "@/lib/supabase/auth-client";
 
@@ -29,6 +30,7 @@ export default function SaveToNotebookButton({
   title,
   compact = false,
 }: SaveToNotebookButtonProps) {
+  const router = useRouter();
   const [saved, setSaved] = useState(false);
   const [checking, setChecking] =
     useState(true);
@@ -102,9 +104,9 @@ export default function SaveToNotebookButton({
       await supabaseAuthClient.auth.getUser();
 
     if (!user) {
-      window.location.href =
-        "/login?redirect=" +
-        window.location.pathname;
+      router.push(
+        "/login?redirect=" + window.location.pathname
+      );
       return;
     }
 
