@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { Home, Handshake, Search } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { supabaseAuthClient } from "@/lib/supabase/auth-client";
 
@@ -82,7 +83,8 @@ export default function CommunitySwitcher() {
         onClick={() => setOpen((v) => !v)}
         className="flex items-center gap-2 rounded-xl border border-zinc-200 bg-white px-4 py-2 text-sm font-semibold text-zinc-900 transition hover:border-brand/50"
       >
-        🏠 My Feed
+        <Home className="h-4 w-4" strokeWidth={1.75} />
+        My Feed
         <span className="text-xs text-zinc-400">▾</span>
       </button>
 
@@ -91,9 +93,10 @@ export default function CommunitySwitcher() {
           <Link
             href="/"
             onClick={() => setOpen(false)}
-            className="block px-4 py-3 text-sm font-medium text-zinc-900 hover:bg-zinc-50"
+            className="flex items-center gap-2 px-4 py-3 text-sm font-medium text-zinc-900 hover:bg-zinc-50"
           >
-            🏠 My Feed
+            <Home className="h-4 w-4" strokeWidth={1.75} />
+            My Feed
           </Link>
 
           <div className="border-t border-zinc-100 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-zinc-400">
@@ -128,18 +131,20 @@ export default function CommunitySwitcher() {
                 key={g.id}
                 href={`/groups/${g.slug}`}
                 onClick={() => setOpen(false)}
-                className="block truncate px-4 py-2.5 text-sm text-zinc-700 hover:bg-zinc-50"
+                className="flex items-center gap-2 truncate px-4 py-2.5 text-sm text-zinc-700 hover:bg-zinc-50"
               >
-                🤝 {g.name}
+                <Handshake className="h-4 w-4 shrink-0" strokeWidth={1.75} />
+                {g.name}
               </Link>
             ))}
 
           <Link
             href="/groups"
             onClick={() => setOpen(false)}
-            className="block border-t border-zinc-100 px-4 py-3 text-sm font-medium text-brand-text hover:bg-zinc-50"
+            className="flex items-center gap-2 border-t border-zinc-100 px-4 py-3 text-sm font-medium text-brand-text hover:bg-zinc-50"
           >
-            🔎 Explore Communities
+            <Search className="h-4 w-4" strokeWidth={1.75} />
+            Explore Communities
           </Link>
         </div>
       )}

@@ -7,6 +7,14 @@ import {
   useState,
 } from "react";
 import { useRouter } from "next/navigation";
+import {
+  Sparkles,
+  Newspaper,
+  Lightbulb,
+  MessageCircle,
+  BarChart3,
+  type LucideIcon,
+} from "lucide-react";
 import { supabase } from "@/lib/supabase/client";
 
 type SearchResult = {
@@ -15,16 +23,16 @@ type SearchResult = {
   description: string | null;
   href: string;
   sourceLabel: string;
-  icon: string;
+  icon: LucideIcon;
 };
 
-const SOURCE_ICON: Record<string, string> = {
-  "AI Library": "✦",
-  "AI News": "📰",
-  Learning: "💡",
-  Community: "💬",
-  Discussion: "💬",
-  Poll: "📊",
+const SOURCE_ICON: Record<string, LucideIcon> = {
+  "AI Library": Sparkles,
+  "AI News": Newspaper,
+  Learning: Lightbulb,
+  Community: MessageCircle,
+  Discussion: MessageCircle,
+  Poll: BarChart3,
 };
 
 /*
@@ -319,8 +327,8 @@ export default function NavbarSearch() {
                   }
                   className="flex w-full items-start gap-3 border-b border-zinc-100 px-4 py-3 text-left transition last:border-b-0 hover:bg-brand-light"
                 >
-                  <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-zinc-200 bg-zinc-50 text-sm">
-                    {item.icon}
+                  <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-zinc-200 bg-zinc-50">
+                    <item.icon className="h-4 w-4" strokeWidth={1.75} />
                   </div>
 
                   <div className="min-w-0 flex-1">

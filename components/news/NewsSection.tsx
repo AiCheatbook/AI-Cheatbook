@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { Newspaper } from "lucide-react";
 import { supabase } from "@/lib/supabase/client";
 import NewsCard from "./NewsCard";
 
@@ -105,8 +106,9 @@ export default function NewsSection({
             Stay Updated
           </p>
 
-          <HeadingTag className="text-3xl font-bold leading-tight text-zinc-900 sm:text-4xl">
-            📰 Latest AI News
+          <HeadingTag className="flex items-center gap-2.5 text-3xl font-bold leading-tight text-zinc-900 sm:text-4xl">
+            <Newspaper className="h-7 w-7 shrink-0 sm:h-8 sm:w-8" strokeWidth={1.5} />
+            Latest AI News
           </HeadingTag>
 
           <p className="mt-1 max-w-full overflow-hidden text-ellipsis whitespace-nowrap text-zinc-600">

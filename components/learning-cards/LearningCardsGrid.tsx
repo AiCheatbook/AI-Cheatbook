@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { BookOpen } from "lucide-react";
 import { supabase } from "@/lib/supabase/client";
 import LearningCardCard from "./LearningCardCard";
 
@@ -85,8 +86,9 @@ export default function LearningCardsGrid() {
             Learn AI
           </p>
 
-          <h1 className="text-3xl font-bold leading-tight text-zinc-900 sm:text-4xl">
-            📚 Learning Cards
+          <h1 className="flex items-center gap-2.5 text-3xl font-bold leading-tight text-zinc-900 sm:text-4xl">
+            <BookOpen className="h-7 w-7 shrink-0 sm:h-8 sm:w-8" strokeWidth={1.5} />
+            Learning Cards
           </h1>
 
           <p className="mt-1 text-zinc-600">

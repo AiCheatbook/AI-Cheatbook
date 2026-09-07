@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { Bell, MessageCircle, CheckCircle2, Star, type LucideIcon } from "lucide-react";
 import { supabaseAuthClient } from "@/lib/supabase/auth-client";
 
 type NotificationRow = {
@@ -30,10 +31,10 @@ function timeAgo(dateString: string): string {
   return `${days}d ago`;
 }
 
-const TYPE_ICON: Record<string, string> = {
-  reply: "💬",
-  answer_accepted: "✓",
-  featured_in_library: "⭐",
+const TYPE_ICON: Record<string, LucideIcon> = {
+  reply: MessageCircle,
+  answer_accepted: CheckCircle2,
+  featured_in_library: Star,
 };
 
 export default function NotificationBell() {
@@ -182,7 +183,7 @@ export default function NotificationBell() {
         aria-label="Notifications"
         className="relative flex h-10 w-10 items-center justify-center rounded-xl border border-zinc-700 text-zinc-300 transition hover:border-brand hover:text-brand-text"
       >
-        🔔
+        <Bell className="h-5 w-5" strokeWidth={1.75} />
         {unreadCount > 0 && (
           <span className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-red-500 px-1 text-[10px] font-semibold text-white">
             {unreadCount > 9
@@ -246,11 +247,14 @@ export default function NotificationBell() {
                         : "bg-brand-light/40"
                     }`}
                   >
-                    <span className="mt-0.5 text-lg">
-                      {TYPE_ICON[
-                        notification
-                          .type
-                      ] || "🔔"}
+                    <span className="mt-0.5">
+                      {(() => {
+                        const Icon =
+                          TYPE_ICON[notification.type] || Bell;
+                        return (
+                          <Icon className="h-4 w-4" strokeWidth={1.75} />
+                        );
+                      })()}
                     </span>
 
                     <div className="min-w-0 flex-1">

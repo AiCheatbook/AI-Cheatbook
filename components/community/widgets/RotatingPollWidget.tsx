@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { BarChart3 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { supabaseAuthClient } from "@/lib/supabase/auth-client";
 import { useRotatingContent } from "@/lib/community/useRotatingContent";
@@ -197,8 +198,9 @@ function PollVoteCard({
   return (
     <div className="rounded-2xl border border-green-500/30 bg-white p-4">
       <div className="flex items-center justify-between">
-        <span className="rounded-full bg-green-500/10 px-2.5 py-1 text-xs font-semibold text-green-600">
-          📊 POLL
+        <span className="inline-flex items-center gap-1 rounded-full bg-green-500/10 px-2.5 py-1 text-xs font-semibold text-green-600">
+          <BarChart3 className="h-3.5 w-3.5" strokeWidth={1.75} />
+          POLL
         </span>
         <Link
           href={`/community/polls/${poll.id}`}

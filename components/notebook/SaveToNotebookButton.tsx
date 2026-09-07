@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { Bookmark } from "lucide-react";
 import { supabaseAuthClient } from "@/lib/supabase/auth-client";
 
 type ContentType =
@@ -217,15 +218,18 @@ export default function SaveToNotebookButton({
           e.stopPropagation();
           handleOpenPicker();
         }}
-        className={`rounded-full border px-3 py-1.5 text-xs font-medium transition ${
+        className={`inline-flex items-center gap-1 rounded-full border px-3 py-1.5 text-xs font-medium transition ${
           saved
             ? "border-brand bg-brand/10 text-brand-text"
             : "border-zinc-300 text-zinc-600 hover:border-zinc-500 hover:text-zinc-900"
         } ${compact ? "px-2 py-1" : ""}`}
       >
-        {saved
-          ? "📓 Saved"
-          : "📓 Save"}
+        <Bookmark
+          className="h-3.5 w-3.5"
+          strokeWidth={1.75}
+          fill={saved ? "currentColor" : "none"}
+        />
+        {saved ? "Saved" : "Save"}
       </button>
 
       {pickerOpen && (

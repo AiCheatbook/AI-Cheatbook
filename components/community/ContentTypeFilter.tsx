@@ -1,5 +1,7 @@
 "use client";
 
+import { Flame } from "lucide-react";
+
 type ContentTypeFilterProps = {
   value: string;
   onChange: (value: string) => void;
@@ -7,7 +9,7 @@ type ContentTypeFilterProps = {
 
 const TYPES = [
   { value: "all", label: "All" },
-  { value: "trending", label: "🔥 Trending" },
+  { value: "trending", label: "Trending" },
   { value: "news", label: "News" },
   { value: "learning_card", label: "Learning" },
   { value: "question", label: "Questions" },
@@ -43,6 +45,9 @@ export default function ContentTypeFilter({
               : "border-zinc-300 text-zinc-600 hover:border-zinc-500 hover:text-zinc-900"
           }`}
         >
+          {type.value === "trending" && (
+            <Flame className="mr-1 inline h-3.5 w-3.5" strokeWidth={1.75} />
+          )}
           {type.label}
         </button>
       ))}
