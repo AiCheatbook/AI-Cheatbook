@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { Newspaper, MessageCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase/client";
 import SaveToNotebookButton from "@/components/notebook/SaveToNotebookButton";
@@ -92,8 +93,9 @@ export default function NewsFeedCard({
 
         <div className="p-5 pb-3">
           <div className="flex items-center gap-2">
-            <span className="rounded-full bg-brand-light px-2.5 py-1 text-xs font-semibold text-brand-text">
-              📰 NEWS
+            <span className="inline-flex items-center gap-1 rounded-full bg-brand-light px-2.5 py-1 text-xs font-semibold text-brand-text">
+              <Newspaper className="h-3.5 w-3.5" strokeWidth={1.75} />
+              NEWS
             </span>
 
             {category && (
@@ -121,8 +123,9 @@ export default function NewsFeedCard({
       <div className="flex items-center justify-between px-5 pb-4 text-xs text-zinc-600">
         <span className="flex items-center gap-3">
           <ContentReactionBar contentType="news" contentId={id} />
-          <Link href={href} className="hover:text-brand-text">
-            💬 {commentCount ?? "…"}{" "}
+          <Link href={href} className="inline-flex items-center gap-1 hover:text-brand-text">
+            <MessageCircle className="h-3.5 w-3.5" strokeWidth={1.75} />
+            {commentCount ?? "…"}{" "}
             {commentCount === 1 ? "comment" : "comments"}
           </Link>
         </span>

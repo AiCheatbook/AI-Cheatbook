@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Link2, MessageCircle } from "lucide-react";
 import SaveToNotebookButton from "@/components/notebook/SaveToNotebookButton";
 import LikeButton from "@/components/community/LikeButton";
 import PostMedia from "@/components/community/PostMedia";
@@ -46,8 +47,9 @@ export default function ResourcePostCard({
       className="block rounded-2xl border border-indigo-500/30 bg-white p-5 transition hover:border-indigo-500/60"
     >
       <div className="flex items-center gap-2">
-        <span className="rounded-full bg-indigo-500/10 px-2.5 py-1 text-xs font-semibold text-indigo-600">
-          🔗 RESOURCE
+        <span className="inline-flex items-center gap-1 rounded-full bg-indigo-500/10 px-2.5 py-1 text-xs font-semibold text-indigo-600">
+          <Link2 className="h-3.5 w-3.5" strokeWidth={1.75} />
+          RESOURCE
         </span>
 
         {resourceUrl && (
@@ -81,7 +83,10 @@ export default function ResourcePostCard({
 
         <span className="flex items-center gap-3">
           <LikeButton threadId={id} initialCount={voteCount} compact />
-          <span>💬 {replyCount}</span>
+          <span className="inline-flex items-center gap-1">
+            <MessageCircle className="h-3.5 w-3.5" strokeWidth={1.75} />
+            {replyCount}
+          </span>
           <SaveToNotebookButton
             contentType="community_thread"
             contentId={id}

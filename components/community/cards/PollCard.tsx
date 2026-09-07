@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { BarChart3 } from "lucide-react";
 
 type PollCardProps = {
   id: string;
@@ -43,8 +44,9 @@ export default function PollCard({
       className="block rounded-2xl border border-green-500/30 bg-white p-5 transition hover:border-green-500/60"
     >
       <div className="flex items-center gap-2">
-        <span className="rounded-full bg-green-500/10 px-2.5 py-1 text-xs font-semibold text-green-600">
-          📊 POLL
+        <span className="inline-flex items-center gap-1 rounded-full bg-green-500/10 px-2.5 py-1 text-xs font-semibold text-green-600">
+          <BarChart3 className="h-3.5 w-3.5" strokeWidth={1.75} />
+          POLL
         </span>
         <span className="text-xs text-zinc-600">
           {category}
