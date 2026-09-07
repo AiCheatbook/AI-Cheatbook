@@ -406,7 +406,7 @@ export default function PromptLibraryPage() {
       {/* Two-pane body */}
       <div className="flex min-h-0 flex-1">
         {/* LEFT — results list */}
-        <div className="flex w-full shrink-0 flex-col border-r border-zinc-200 bg-brand/15 sm:w-80">
+        <div className="flex w-full shrink-0 flex-col border-r border-zinc-200 sm:w-80">
           <p className="shrink-0 px-4 py-2 text-xs text-zinc-500">
             {loadingResults
               ? "Searching..."
