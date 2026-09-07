@@ -7,52 +7,60 @@ import { findOrCreateKeyword } from "@/lib/cms/keywordLibrary";
 type Keyword = {
   id: string;
   label: string;
-  category: string | null;
   parent_id: string | null;
   placement: "inline" | "global" | "both";
   concept_id: string | null;
 };
 
+type Category = { id: string; name: string };
+type Subcategory = { id: string; category_id: string; name: string };
+type Concept = { id: string; subcategory_id: string; name: string };
+
 type UsagePrompt = { title: string; slug: string };
 
 export default function AdminKeywordsPage() {
-  const [keywords, setKeywords] = useState<
-    Keyword[]
-  >([]);
-  const [loading, setLoading] =
-    useState(true);
+  const [keywords, setKeywords] = useState<Keyword[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [subcategories, setSubcategories] = useState<Subcategory[]>([]);
+  const [concepts, setConcepts] = useState<Concept[]>([]);
+
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [savingId, setSavingId] = useState<
-    string | null
-  >(null);
+  const [savingId, setSavingId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [usageCounts, setUsageCounts] = useState<Record<string, number>>({});
-  const [conceptNames, setConceptNames] = useState<Record<string, string>>({});
   const [expandedUsageId, setExpandedUsageId] = useState<string | null>(null);
   const [loadingUsageId, setLoadingUsageId] = useState<string | null>(null);
-  const [usageDetails, setUsageDetails] = useState<
-    Record<string, UsagePrompt[]>
-  >({});
+  const [usageDetails, setUsageDetails] = useState<Record<string, UsagePrompt[]>>({});
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editLabel, setEditLabel] = useState("");
   const [newKeywordLabel, setNewKeywordLabel] = useState("");
   const [creating, setCreating] = useState(false);
 
-  async function loadKeywords() {
+  async function loadAll() {
     setLoading(true);
     setError("");
 
-    const [keywordsRes, linksRes] = await Promise.all([
-      supabase
-        .from("library_keywords")
-        .select(
-          "id, label, category, parent_id, placement, concept_id"
-        )
-        .order("label", {
-          ascending: true,
-        }),
-      supabase.from("library_item_keywords").select("keyword_id"),
-    ]);
+    const [keywordsRes, linksRes, categoriesRes, subcategoriesRes, conceptsRes] =
+      await Promise.all([
+        supabase
+          .from("library_keywords")
+          .select("id, label, parent_id, placement, concept_id")
+          .order("label", { ascending: true }),
+        supabase.from("library_item_keywords").select("keyword_id"),
+        supabase
+          .from("prompt_categories")
+          .select("id, name")
+          .order("sort_order", { ascending: true }),
+        supabase
+          .from("prompt_subcategories")
+          .select("id, category_id, name")
+          .order("sort_order", { ascending: true }),
+        supabase
+          .from("prompt_concepts")
+          .select("id, subcategory_id, name")
+          .order("sort_order", { ascending: true }),
+      ]);
 
     if (keywordsRes.error) {
       setError(keywordsRes.error.message);
@@ -60,8 +68,10 @@ export default function AdminKeywordsPage() {
       return;
     }
 
-    const loadedKeywords = (keywordsRes.data || []) as Keyword[];
-    setKeywords(loadedKeywords);
+    setKeywords((keywordsRes.data || []) as Keyword[]);
+    setCategories(categoriesRes.data || []);
+    setSubcategories(subcategoriesRes.data || []);
+    setConcepts(conceptsRes.data || []);
 
     const counts: Record<string, number> = {};
     for (const row of linksRes.data || []) {
@@ -69,58 +79,45 @@ export default function AdminKeywordsPage() {
     }
     setUsageCounts(counts);
 
-    const conceptIds = Array.from(
-      new Set(
-        loadedKeywords
-          .map((k) => k.concept_id)
-          .filter((id): id is string => Boolean(id))
-      )
-    );
-
-    if (conceptIds.length > 0) {
-      const { data: concepts } = await supabase
-        .from("prompt_concepts")
-        .select("id, name")
-        .in("id", conceptIds);
-
-      const names: Record<string, string> = {};
-      for (const c of concepts || []) {
-        names[c.id] = c.name;
-      }
-      setConceptNames(names);
-    }
-
     setLoading(false);
   }
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    loadKeywords();
+    loadAll();
   }, []);
 
-  async function handleSetParent(
-    keywordId: string,
-    parentId: string
-  ) {
+  async function handleSetConcept(keywordId: string, conceptId: string) {
     setSavingId(keywordId);
 
-    const { error } = await supabase
+    const { error: err } = await supabase
       .from("library_keywords")
-      .update({
-        parent_id: parentId || null,
-      })
+      .update({ concept_id: conceptId || null })
       .eq("id", keywordId);
 
-    if (!error) {
+    if (!err) {
       setKeywords((current) =>
         current.map((k) =>
-          k.id === keywordId
-            ? {
-                ...k,
-                parent_id:
-                  parentId || null,
-              }
-            : k
+          k.id === keywordId ? { ...k, concept_id: conceptId || null } : k
+        )
+      );
+    }
+
+    setSavingId(null);
+  }
+
+  async function handleSetParent(keywordId: string, parentId: string) {
+    setSavingId(keywordId);
+
+    const { error: err } = await supabase
+      .from("library_keywords")
+      .update({ parent_id: parentId || null })
+      .eq("id", keywordId);
+
+    if (!err) {
+      setKeywords((current) =>
+        current.map((k) =>
+          k.id === keywordId ? { ...k, parent_id: parentId || null } : k
         )
       );
     }
@@ -134,18 +131,14 @@ export default function AdminKeywordsPage() {
   ) {
     setSavingId(keywordId);
 
-    const { error } = await supabase
+    const { error: err } = await supabase
       .from("library_keywords")
       .update({ placement })
       .eq("id", keywordId);
 
-    if (!error) {
+    if (!err) {
       setKeywords((current) =>
-        current.map((k) =>
-          k.id === keywordId
-            ? { ...k, placement }
-            : k
-        )
+        current.map((k) => (k.id === keywordId ? { ...k, placement } : k))
       );
     }
 
@@ -223,9 +216,7 @@ export default function AdminKeywordsPage() {
 
     setExpandedUsageId(keyword.id);
 
-    if (usageDetails[keyword.id]) {
-      return;
-    }
+    if (usageDetails[keyword.id]) return;
 
     setLoadingUsageId(keyword.id);
 
@@ -254,34 +245,6 @@ export default function AdminKeywordsPage() {
     setLoadingUsageId(null);
   }
 
-  const topLevel = keywords.filter(
-    (k) => !k.parent_id
-  );
-
-  function childrenOf(
-    parentId: string
-  ): Keyword[] {
-    return keywords.filter(
-      (k) => k.parent_id === parentId
-    );
-  }
-
-  function breadcrumbFor(keyword: Keyword): string {
-    const path = [keyword.label];
-    let current = keyword;
-    let depth = 0;
-
-    while (current.parent_id && depth < 6) {
-      const parent = keywords.find((k) => k.id === current.parent_id);
-      if (!parent) break;
-      path.unshift(parent.label);
-      current = parent;
-      depth += 1;
-    }
-
-    return path.join(" → ");
-  }
-
   async function handleCreate() {
     const trimmed = newKeywordLabel.trim();
     if (!trimmed) return;
@@ -291,7 +254,7 @@ export default function AdminKeywordsPage() {
 
     try {
       await findOrCreateKeyword(trimmed);
-      await loadKeywords();
+      await loadAll();
       setNewKeywordLabel("");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to create keyword.");
@@ -300,163 +263,144 @@ export default function AdminKeywordsPage() {
     setCreating(false);
   }
 
-  function renderTree(
-    parent: Keyword,
-    depth: number
-  ): React.ReactNode {
-    const children = childrenOf(
-      parent.id
-    );
+  function conceptBreadcrumb(conceptId: string): string {
+    const concept = concepts.find((c) => c.id === conceptId);
+    if (!concept) return "";
+    const sub = subcategories.find((s) => s.id === concept.subcategory_id);
+    const cat = sub ? categories.find((c) => c.id === sub.category_id) : null;
+    return [cat?.name, sub?.name, concept.name].filter(Boolean).join(" → ");
+  }
 
+  function keywordBreadcrumb(keyword: Keyword): string {
+    const path = keyword.concept_id ? conceptBreadcrumb(keyword.concept_id) : "";
+    return path ? `${path} → ${keyword.label}` : keyword.label;
+  }
+
+  function KeywordRow({ keyword }: { keyword: Keyword }) {
     return (
-      <div key={parent.id}>
-        <div
-          className="flex items-center justify-between gap-3 border-b border-zinc-200 py-2"
-          style={{
-            paddingLeft: depth * 24,
-          }}
-        >
+      <div>
+        <div className="flex flex-wrap items-center gap-2 border-b border-zinc-100 py-2">
           <div className="min-w-0 flex-1">
-            {editingId === parent.id ? (
+            {editingId === keyword.id ? (
               <input
                 autoFocus
                 value={editLabel}
                 onChange={(e) => setEditLabel(e.target.value)}
                 onKeyDown={(e) => {
-                  if (e.key === "Enter") handleRename(parent);
+                  if (e.key === "Enter") handleRename(keyword);
                   if (e.key === "Escape") setEditingId(null);
                 }}
-                onBlur={() => handleRename(parent)}
+                onBlur={() => handleRename(keyword)}
                 className="w-full rounded-lg border border-brand bg-white px-2 py-1 text-sm text-zinc-900 outline-none"
               />
             ) : (
               <button
                 type="button"
                 onClick={() => {
-                  setEditingId(parent.id);
-                  setEditLabel(parent.label);
+                  setEditingId(keyword.id);
+                  setEditLabel(keyword.label);
                 }}
                 className="block truncate text-left text-sm text-zinc-900 hover:underline"
                 title="Click to rename"
               >
-                {parent.label}
-                {parent.category && (
-                  <span className="ml-2 text-xs text-zinc-600">
-                    {parent.category}
-                  </span>
-                )}
-                {parent.concept_id && conceptNames[parent.concept_id] && (
-                  <span className="ml-2 text-xs text-brand-text">
-                    Concept: {conceptNames[parent.concept_id]}
-                  </span>
-                )}
+                {keyword.label}
               </button>
             )}
           </div>
 
           <button
             type="button"
-            onClick={() => toggleUsage(parent)}
+            onClick={() => toggleUsage(keyword)}
             className="shrink-0 rounded-full bg-zinc-100 px-2.5 py-1 text-xs text-zinc-600 hover:bg-zinc-200"
           >
-            {usageCounts[parent.id] || 0} prompt
-            {usageCounts[parent.id] === 1 ? "" : "s"}
+            {usageCounts[keyword.id] || 0} prompt
+            {usageCounts[keyword.id] === 1 ? "" : "s"}
           </button>
 
           <select
-            value={
-              parent.parent_id || ""
-            }
-            disabled={
-              savingId === parent.id
-            }
-            onChange={(e) =>
-              handleSetParent(
-                parent.id,
-                e.target.value
-              )
-            }
+            value={keyword.concept_id || ""}
+            disabled={savingId === keyword.id}
+            onChange={(e) => handleSetConcept(keyword.id, e.target.value)}
+            title="Move to a different Concept"
             className="shrink-0 rounded-lg border border-zinc-200 bg-white px-2 py-1 text-xs text-zinc-900 outline-none"
           >
-            <option value="">
-              (top level)
-            </option>
-            {keywords
-              .filter(
-                (k) =>
-                  k.id !== parent.id
-              )
-              .map((k) => (
-                <option
-                  key={k.id}
-                  value={k.id}
-                >
-                  {k.label}
-                </option>
-              ))}
+            <option value="">Uncategorized</option>
+            {concepts.map((c) => (
+              <option key={c.id} value={c.id}>
+                {conceptBreadcrumb(c.id)}
+              </option>
+            ))}
           </select>
 
           <button
             type="button"
-            disabled={
-              savingId === parent.id
-            }
+            disabled={savingId === keyword.id}
             onClick={() =>
               handleSetPlacement(
-                parent.id,
-                parent.placement ===
-                  "inline"
+                keyword.id,
+                keyword.placement === "inline"
                   ? "global"
-                  : parent.placement ===
-                      "global"
+                  : keyword.placement === "global"
                     ? "both"
                     : "inline"
               )
             }
-            title="Inline: inserted directly into the sentence (e.g. camera/shot). Global: appears in the 'Global Keywords' box, applied to the whole prompt. Both: usable either way."
+            title="Where this keyword can appear in the Prompt Designer: Inline (inserted directly into the sentence), Global (shown in the 'Global Keywords' box), or Both."
             className={`shrink-0 rounded-full px-2.5 py-1 text-xs font-medium transition ${
-              parent.placement ===
-              "inline"
+              keyword.placement === "inline"
                 ? "bg-brand/15 text-brand-text"
-                : parent.placement ===
-                    "global"
+                : keyword.placement === "global"
                   ? "bg-zinc-100 text-zinc-600"
-                  : "bg-blue-500/15 text-blue-400"
+                  : "bg-blue-500/15 text-blue-600"
             }`}
           >
-            {parent.placement ===
-            "inline"
+            {keyword.placement === "inline"
               ? "Inline"
-              : parent.placement ===
-                  "global"
+              : keyword.placement === "global"
                 ? "Global"
                 : "Both"}
           </button>
 
           <button
             type="button"
-            disabled={savingId === parent.id}
-            onClick={() => handleDelete(parent)}
+            disabled={savingId === keyword.id}
+            onClick={() => handleDelete(keyword)}
             className="shrink-0 text-xs text-zinc-400 hover:text-red-500 disabled:opacity-40"
           >
             Delete
           </button>
         </div>
 
-        {expandedUsageId === parent.id && (
-          <div
-            className="border-b border-zinc-100 bg-zinc-50 px-3 py-2"
-            style={{ paddingLeft: depth * 24 + 12 }}
+        <div className="flex items-center gap-2 pb-2 pl-1">
+          <span className="text-[10px] uppercase tracking-wide text-zinc-400">
+            Designer parent (optional):
+          </span>
+          <select
+            value={keyword.parent_id || ""}
+            disabled={savingId === keyword.id}
+            onChange={(e) => handleSetParent(keyword.id, e.target.value)}
+            className="rounded-lg border border-zinc-200 bg-white px-2 py-0.5 text-[11px] text-zinc-600 outline-none"
           >
-            {loadingUsageId === parent.id ? (
+            <option value="">(none)</option>
+            {keywords
+              .filter((k) => k.id !== keyword.id)
+              .map((k) => (
+                <option key={k.id} value={k.id}>
+                  {k.label}
+                </option>
+              ))}
+          </select>
+        </div>
+
+        {expandedUsageId === keyword.id && (
+          <div className="border-b border-zinc-100 bg-zinc-50 px-3 py-2">
+            {loadingUsageId === keyword.id ? (
               <p className="text-xs text-zinc-500">Loading...</p>
-            ) : (usageDetails[parent.id] || []).length === 0 ? (
-              <p className="text-xs text-zinc-500">
-                Not used by any prompt yet.
-              </p>
+            ) : (usageDetails[keyword.id] || []).length === 0 ? (
+              <p className="text-xs text-zinc-500">Not used by any prompt yet.</p>
             ) : (
               <ul className="space-y-1">
-                {(usageDetails[parent.id] || []).map((p) => (
+                {(usageDetails[keyword.id] || []).map((p) => (
                   <li key={p.slug}>
                     <a
                       href={`/prompt/${p.slug}`}
@@ -472,58 +416,38 @@ export default function AdminKeywordsPage() {
             )}
           </div>
         )}
-
-        {children.map((child) =>
-          renderTree(child, depth + 1)
-        )}
       </div>
     );
   }
 
+  const uncategorizedKeywords = keywords.filter((k) => !k.concept_id);
+  const searchMatches = searchQuery.trim()
+    ? keywords.filter((k) =>
+        k.label.toLowerCase().includes(searchQuery.trim().toLowerCase())
+      )
+    : [];
+
   return (
     <main className="min-h-screen bg-white px-6 py-10 text-zinc-900">
-      <div className="mx-auto max-w-3xl">
+      <div className="mx-auto max-w-4xl">
         <p className="text-sm font-semibold uppercase tracking-wider text-brand-text">
           Admin
         </p>
 
-        <h1 className="mt-1 text-3xl font-bold">
-          Global Keyword Library
-        </h1>
+        <h1 className="mt-1 text-3xl font-bold">Global Keyword Library</h1>
 
         <p className="mt-2 text-zinc-600">
-          The single source of truth for keywords across the whole
-          site — shared by Prompt Library and Prompt Designer.
-          Search, create, rename, or delete any keyword, and see
-          exactly how many prompts use it.
+          Organized by the same Category → Subcategory → Concept taxonomy
+          that governs the Prompt Library — not a separate hierarchy.
+          Search, create, rename, or delete any keyword, move it to a
+          different Concept, and see exactly how many prompts use it.
         </p>
 
-        <p className="mt-2 text-zinc-600">
-          Organize keywords into a tree
-          (e.g. Camera → Camera Movement →
-          Dolly Shot) by picking a parent
-          for each one. Click the badge to
-          cycle through where each keyword
-          can appear in the Prompt
-          Composer:{" "}
-          <span className="text-brand-text">
-            Inline
-          </span>{" "}
-          (inserted directly into the
-          sentence — camera/shot
-          instructions),{" "}
-          <span className="text-zinc-600">
-            Global
-          </span>{" "}
-          (shown in the &quot;Global
-          Keywords&quot; box, applied to
-          the whole prompt — style/mood
-          qualities), or{" "}
-          <span className="text-blue-400">
-            Both
-          </span>{" "}
-          (usable either way — the default
-          for new keywords).
+        <p className="mt-2 text-xs text-zinc-500">
+          The small &quot;Designer parent&quot; control on each keyword is
+          separate — it only affects the breadcrumb suggestions shown while
+          typing in the Prompt Designer, and doesn&apos;t need to match the
+          taxonomy above.
         </p>
 
         <div className="mt-6 flex gap-2">
@@ -556,62 +480,132 @@ export default function AdminKeywordsPage() {
         </div>
 
         {error && (
-          <div className="mt-6 rounded-xl border border-red-900/50 bg-white p-4">
-            <p className="text-sm text-red-400">
-              {error}
-            </p>
+          <div className="mt-6 rounded-xl border border-red-200 bg-red-50 p-4">
+            <p className="text-sm text-red-600">{error}</p>
           </div>
         )}
 
         {loading && (
-          <div className="mt-6 h-64 animate-pulse rounded-2xl bg-white" />
+          <div className="mt-6 h-64 animate-pulse rounded-2xl bg-zinc-100" />
         )}
 
-        {!loading &&
-          !error &&
-          keywords.length === 0 && (
-            <p className="mt-8 text-center text-zinc-600">
-              No keywords yet.
-            </p>
-          )}
+        {!loading && !error && keywords.length === 0 && (
+          <p className="mt-8 text-center text-zinc-600">No keywords yet.</p>
+        )}
 
-        {!loading && !error && keywords.length > 0 && searchQuery.trim() && (
+        {!loading && !error && searchQuery.trim() && (
           <div className="mt-6 rounded-2xl border border-zinc-200 bg-white p-4">
-            {keywords
-              .filter((k) =>
-                k.label.toLowerCase().includes(searchQuery.trim().toLowerCase())
-              )
-              .map((k) => (
-                <div
-                  key={k.id}
-                  className="flex items-center justify-between gap-3 border-b border-zinc-100 py-2 last:border-b-0"
-                >
-                  <span className="min-w-0 flex-1 truncate text-sm text-zinc-900">
-                    {breadcrumbFor(k)}
-                  </span>
-                  <button
-                    type="button"
-                    onClick={() => toggleUsage(k)}
-                    className="shrink-0 rounded-full bg-zinc-100 px-2.5 py-1 text-xs text-zinc-600 hover:bg-zinc-200"
-                  >
-                    {usageCounts[k.id] || 0} prompt
-                    {usageCounts[k.id] === 1 ? "" : "s"}
-                  </button>
+            {searchMatches.length === 0 ? (
+              <p className="text-sm text-zinc-500">No matches.</p>
+            ) : (
+              searchMatches.map((k) => (
+                <div key={k.id} className="border-b border-zinc-100 py-1 last:border-b-0">
+                  <p className="px-1 pt-2 text-xs text-zinc-500">
+                    {keywordBreadcrumb(k)}
+                  </p>
+                  <KeywordRow keyword={k} />
                 </div>
-              ))}
+              ))
+            )}
           </div>
         )}
 
-        {!loading &&
-          !error &&
-          keywords.length > 0 &&
-          !searchQuery.trim() && (
-            <div className="mt-6 rounded-2xl border border-zinc-200 bg-white p-4">
-              {topLevel.map((keyword) =>
-                renderTree(keyword, 0)
+        {!loading && !error && !searchQuery.trim() && (
+          <div className="mt-6 space-y-6">
+            {categories.map((category) => {
+              const categorySubcategories = subcategories.filter(
+                (s) => s.category_id === category.id
+              );
+
+              return (
+                <div
+                  key={category.id}
+                  className="rounded-2xl border border-zinc-200 bg-white p-4"
+                >
+                  <h2 className="text-lg font-bold text-zinc-900">
+                    {category.name}
+                  </h2>
+
+                  {categorySubcategories.length === 0 && (
+                    <p className="mt-2 text-xs text-zinc-400">
+                      No subcategories yet.
+                    </p>
+                  )}
+
+                  <div className="mt-3 space-y-4 pl-4">
+                    {categorySubcategories.map((subcategory) => {
+                      const subcategoryConcepts = concepts.filter(
+                        (c) => c.subcategory_id === subcategory.id
+                      );
+
+                      return (
+                        <div key={subcategory.id}>
+                          <h3 className="text-sm font-semibold text-zinc-700">
+                            {subcategory.name}
+                          </h3>
+
+                          {subcategoryConcepts.length === 0 && (
+                            <p className="mt-1 text-xs text-zinc-400">
+                              No concepts yet.
+                            </p>
+                          )}
+
+                          <div className="mt-2 space-y-3 pl-4">
+                            {subcategoryConcepts.map((concept) => {
+                              const conceptKeywords = keywords.filter(
+                                (k) => k.concept_id === concept.id
+                              );
+
+                              return (
+                                <div key={concept.id}>
+                                  <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
+                                    {concept.name}
+                                  </p>
+
+                                  {conceptKeywords.length === 0 ? (
+                                    <p className="mt-1 text-xs text-zinc-400">
+                                      No keywords yet.
+                                    </p>
+                                  ) : (
+                                    <div className="mt-1">
+                                      {conceptKeywords.map((k) => (
+                                        <KeywordRow key={k.id} keyword={k} />
+                                      ))}
+                                    </div>
+                                  )}
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              );
+            })}
+
+            <div className="rounded-2xl border border-dashed border-zinc-300 bg-zinc-50 p-4">
+              <h2 className="text-sm font-semibold text-zinc-700">
+                Uncategorized Keywords
+              </h2>
+              <p className="mt-1 text-xs text-zinc-500">
+                Not yet assigned to a Concept — use the dropdown on each one
+                to move it in.
+              </p>
+
+              {uncategorizedKeywords.length === 0 ? (
+                <p className="mt-2 text-xs text-zinc-400">None — every keyword is categorized.</p>
+              ) : (
+                <div className="mt-2">
+                  {uncategorizedKeywords.map((k) => (
+                    <KeywordRow key={k.id} keyword={k} />
+                  ))}
+                </div>
               )}
             </div>
-          )}
+          </div>
+        )}
       </div>
     </main>
   );
