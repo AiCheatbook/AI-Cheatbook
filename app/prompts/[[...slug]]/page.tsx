@@ -22,6 +22,7 @@ type PromptResult = {
   description: string | null;
   prompt: string | null;
   ai_tools: string[] | null;
+  media_type: string | null;
   media_url: string | null;
   media_source: string | null;
   thumbnail_url: string | null;
@@ -43,6 +44,26 @@ type Concept = { id: string; subcategory_id: string; name: string; slug: string 
 type Keyword = { id: string; label: string };
 
 type SortOption = "newest" | "title";
+
+function getYouTubeEmbedUrl(url: string) {
+  try {
+    const parsedUrl = new URL(url);
+
+    if (parsedUrl.hostname.includes("youtube.com")) {
+      const videoId = parsedUrl.searchParams.get("v");
+      if (videoId) return `https://www.youtube.com/embed/${videoId}`;
+    }
+
+    if (parsedUrl.hostname === "youtu.be") {
+      const videoId = parsedUrl.pathname.slice(1);
+      if (videoId) return `https://www.youtube.com/embed/${videoId}`;
+    }
+
+    return url;
+  } catch {
+    return url;
+  }
+}
 
 export default function PromptLibraryPage() {
   const params = useParams();
@@ -185,7 +206,7 @@ export default function PromptLibraryPage() {
       .select(
         `
         id, title, slug, description, prompt, ai_tools,
-        media_url, media_source, thumbnail_url,
+        media_type, media_url, media_source, thumbnail_url,
         concept_id,
         prompt_concepts (
           id, name, subcategory_id,
@@ -226,6 +247,7 @@ export default function PromptLibraryPage() {
         description: data.description,
         prompt: data.prompt,
         ai_tools: data.ai_tools,
+        media_type: data.media_type,
         media_url: data.media_url,
         media_source: data.media_source,
         thumbnail_url: data.thumbnail_url,
@@ -445,7 +467,7 @@ export default function PromptLibraryPage() {
               </p>
             </div>
           ) : (
-            <div className="mx-auto max-w-2xl px-8 py-8">
+            <div className="mx-auto max-w-5xl px-8 py-8">
               <div className="flex items-center justify-between gap-3">
                 <p className="truncate text-xs text-zinc-500">
                   {[selected.category_name, selected.subcategory_name, selected.concept_name]
@@ -477,71 +499,92 @@ export default function PromptLibraryPage() {
 
               <CustomFieldsPublicZone fields={selected.custom_fields || []} zone="above_title" />
 
-              <h1 className="mt-2 text-2xl font-bold text-zinc-900">
-                {selected.title}
-              </h1>
+              <div className="mt-2 grid grid-cols-1 gap-8 lg:grid-cols-2">
+                <div className="min-w-0">
+                  <h1 className="text-2xl font-bold text-zinc-900">
+                    {selected.title}
+                  </h1>
 
-              <CustomFieldsPublicZone fields={selected.custom_fields || []} zone="below_title" />
+                  <CustomFieldsPublicZone fields={selected.custom_fields || []} zone="below_title" />
 
-              {selected.description && (
-                <p className="mt-1.5 text-sm text-zinc-600">
-                  {selected.description}
-                </p>
-              )}
-
-              <CustomFieldsPublicZone fields={selected.custom_fields || []} zone="below_description" />
-
-              {selected.description_html && (
-                <div className="mt-4">
-                  <RichContentRenderer html={selected.description_html} />
-                </div>
-              )}
-
-              {selected.media_url && (
-                <div className="relative mt-5 aspect-video overflow-hidden rounded-xl bg-zinc-100">
-                  <Image
-                    src={resolveThumbnailUrl(
-                      selected.thumbnail_url,
-                      selected.media_url,
-                      selected.media_source
-                    )}
-                    alt=""
-                    fill
-                    className="object-cover"
-                    unoptimized
-                  />
-                </div>
-              )}
-
-              {selected.prompt && (
-                <div className="mt-5">
-                  <div className="flex items-center justify-between">
-                    <p className="text-sm font-semibold text-zinc-900">
-                      Prompt
+                  {selected.description && (
+                    <p className="mt-1.5 text-sm text-zinc-600">
+                      {selected.description}
                     </p>
-                  </div>
-                  <div className="mt-2 rounded-xl border border-zinc-200 bg-zinc-50 p-4 text-sm leading-relaxed text-zinc-700">
-                    {selected.prompt}
-                  </div>
-                  <button
-                    type="button"
-                    onClick={handleCopy}
-                    className="mt-3 inline-flex items-center gap-1.5 rounded-xl bg-brand px-4 py-2 text-sm font-semibold text-white hover:bg-brand-dark"
-                  >
-                    {copied ? (
-                      <>
-                        <Check className="h-4 w-4" strokeWidth={2} />
-                        Copied
-                      </>
-                    ) : (
-                      <>
-                        <Copy className="h-4 w-4" strokeWidth={1.75} />
-                        Copy Prompt
-                      </>
-                    )}
-                  </button>
+                  )}
+
+                  <CustomFieldsPublicZone fields={selected.custom_fields || []} zone="below_description" />
+
+                  {selected.description_html && (
+                    <div className="mt-4">
+                      <RichContentRenderer html={selected.description_html} />
+                    </div>
+                  )}
+
+                  {selected.prompt && (
+                    <div className="mt-5">
+                      <div className="flex items-center justify-between">
+                        <p className="text-sm font-semibold text-zinc-900">
+                          Prompt
+                        </p>
+                      </div>
+                      <div className="mt-2 rounded-xl border border-zinc-200 bg-zinc-50 p-4 text-sm leading-relaxed text-zinc-700">
+                        {selected.prompt}
+                      </div>
+                      <button
+                        type="button"
+                        onClick={handleCopy}
+                        className="mt-3 inline-flex items-center gap-1.5 rounded-xl bg-brand px-4 py-2 text-sm font-semibold text-white hover:bg-brand-dark"
+                      >
+                        {copied ? (
+                          <>
+                            <Check className="h-4 w-4" strokeWidth={2} />
+                            Copied
+                          </>
+                        ) : (
+                          <>
+                            <Copy className="h-4 w-4" strokeWidth={1.75} />
+                            Copy Prompt
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  )}
                 </div>
-              )}
+
+                <div className="min-w-0">
+                  {selected.media_url && (
+                    <div className="relative aspect-video overflow-hidden rounded-xl border border-zinc-200 bg-zinc-100">
+                      {selected.media_type === "youtube" ? (
+                        <iframe
+                          src={getYouTubeEmbedUrl(selected.media_url)}
+                          title={selected.title}
+                          className="h-full w-full"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                          allowFullScreen
+                        />
+                      ) : selected.media_type === "hosted_video" ? (
+                        <video controls preload="metadata" className="h-full w-full object-cover">
+                          <source src={selected.media_url} type="video/mp4" />
+                          Your browser does not support the video tag.
+                        </video>
+                      ) : (
+                        <Image
+                          src={resolveThumbnailUrl(
+                            selected.thumbnail_url,
+                            selected.media_url,
+                            selected.media_source
+                          )}
+                          alt=""
+                          fill
+                          className="object-cover"
+                          unoptimized
+                        />
+                      )}
+                    </div>
+                  )}
+                </div>
+              </div>
 
               <CustomFieldsPublicZone fields={selected.custom_fields || []} zone="below_prompt" />
 
