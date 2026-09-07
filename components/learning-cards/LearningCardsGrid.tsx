@@ -88,7 +88,7 @@ export default function LearningCardsGrid() {
 
           <h1 className="flex items-center gap-2.5 text-3xl font-bold leading-tight text-zinc-900 sm:text-4xl">
             <BookOpen className="h-7 w-7 shrink-0 sm:h-8 sm:w-8" strokeWidth={1.5} />
-            Learning Cards
+            Learn AI
           </h1>
 
           <p className="mt-1 text-zinc-600">
