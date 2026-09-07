@@ -11,6 +11,7 @@ import RelatedContentSection from "@/components/cms/RelatedContentSection";
 import CustomFieldsPublicZone from "@/components/cms/CustomFieldsPublicZone";
 import CommentSection from "@/components/comments/CommentSection";
 import RatingSection from "@/components/prompt/RatingSection";
+import AddKeywordButton from "@/components/prompt/AddKeywordButton";
 import type { RelatedContentItem } from "@/lib/cms/relatedContent";
 import type { CustomField } from "@/lib/cms/customFields";
 
@@ -383,7 +384,7 @@ export default function PromptLibraryPage() {
       {/* Two-pane body */}
       <div className="flex min-h-0 flex-1">
         {/* LEFT — results list */}
-        <div className="flex w-full shrink-0 flex-col border-r border-zinc-200 sm:w-[34%]">
+        <div className="flex w-full shrink-0 flex-col border-r border-zinc-200 sm:w-80">
           <p className="shrink-0 px-4 py-2 text-xs text-zinc-500">
             {loadingResults
               ? "Searching..."
@@ -549,13 +550,17 @@ export default function PromptLibraryPage() {
                   <p className="text-sm font-semibold text-zinc-900">
                     Keywords
                   </p>
+                  <p className="mt-1 text-xs text-zinc-500">
+                    Click the + button to add keywords directly to the Prompt Builder.
+                  </p>
                   <div className="mt-2 flex flex-wrap gap-1.5">
                     {selectedKeywords.map((k) => (
                       <span
                         key={k.id}
-                        className="rounded-full bg-zinc-100 px-3 py-1 text-xs text-zinc-700"
+                        className="flex items-center gap-1 rounded-full border border-zinc-300 bg-white pl-4 pr-1 py-1 text-sm text-zinc-600"
                       >
-                        {k.label}
+                        <span>{k.label}</span>
+                        <AddKeywordButton keyword={k.label} />
                       </span>
                     ))}
                   </div>
