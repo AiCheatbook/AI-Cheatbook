@@ -1,12 +1,18 @@
 "use client";
 
-import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "next/navigation";
 import { Search, Bookmark, Share2, Copy, Check } from "lucide-react";
 import { supabase } from "@/lib/supabase/client";
 import { resolveThumbnailUrl } from "@/lib/cms/mediaDisplay";
+import RichContentRenderer from "@/components/cms/RichContentRenderer";
+import RelatedContentSection from "@/components/cms/RelatedContentSection";
+import CustomFieldsPublicZone from "@/components/cms/CustomFieldsPublicZone";
+import CommentSection from "@/components/comments/CommentSection";
+import RatingSection from "@/components/prompt/RatingSection";
+import type { RelatedContentItem } from "@/lib/cms/relatedContent";
+import type { CustomField } from "@/lib/cms/customFields";
 
 type PromptResult = {
   id: string;
@@ -25,6 +31,9 @@ type PromptResult = {
   concept_id: string | null;
   concept_name: string | null;
   published_at: string | null;
+  description_html?: string | null;
+  related_content?: RelatedContentItem[];
+  custom_fields?: CustomField[];
 };
 
 type Category = { id: string; name: string; slug: string };
@@ -242,16 +251,36 @@ export default function PromptLibraryPage() {
       window.history.pushState(null, "", `/prompts/${prompt.slug}`);
     }
 
-    const { data } = await supabase
-      .from("library_item_keywords")
-      .select("library_keywords ( id, label )")
-      .eq("library_item_id", prompt.id);
+    const [keywordsRes, detailRes] = await Promise.all([
+      supabase
+        .from("library_item_keywords")
+        .select("library_keywords ( id, label )")
+        .eq("library_item_id", prompt.id),
+      supabase
+        .from("library_items")
+        .select("description_html, related_content, custom_fields")
+        .eq("id", prompt.id)
+        .single(),
+    ]);
 
-    const keywords = (data || [])
+    const keywords = (keywordsRes.data || [])
       .map((row) => row.library_keywords as unknown as Keyword | null)
       .filter((k): k is Keyword => Boolean(k));
 
     setSelectedKeywords(keywords);
+
+    if (detailRes.data) {
+      setSelected((prev) =>
+        prev && prev.id === prompt.id
+          ? {
+              ...prev,
+              description_html: detailRes.data.description_html,
+              related_content: detailRes.data.related_content || [],
+              custom_fields: detailRes.data.custom_fields || [],
+            }
+          : prev
+      );
+    }
   }
 
   function handleCopy() {
@@ -277,7 +306,7 @@ export default function PromptLibraryPage() {
   });
 
   return (
-    <main className="fixed inset-x-0 bottom-0 top-16 z-40 flex flex-col bg-white text-zinc-900">
+    <main className="flex h-[calc(100vh-4rem)] flex-col bg-white text-zinc-900">
       {/* Top bar: search + filters */}
       <div className="shrink-0 border-b border-zinc-200 px-6 py-4">
         <div className="relative">
@@ -445,14 +474,26 @@ export default function PromptLibraryPage() {
                 </div>
               </div>
 
+              <CustomFieldsPublicZone fields={selected.custom_fields || []} zone="above_title" />
+
               <h1 className="mt-2 text-2xl font-bold text-zinc-900">
                 {selected.title}
               </h1>
+
+              <CustomFieldsPublicZone fields={selected.custom_fields || []} zone="below_title" />
 
               {selected.description && (
                 <p className="mt-1.5 text-sm text-zinc-600">
                   {selected.description}
                 </p>
+              )}
+
+              <CustomFieldsPublicZone fields={selected.custom_fields || []} zone="below_description" />
+
+              {selected.description_html && (
+                <div className="mt-4">
+                  <RichContentRenderer html={selected.description_html} />
+                </div>
               )}
 
               {selected.media_url && (
@@ -501,6 +542,8 @@ export default function PromptLibraryPage() {
                 </div>
               )}
 
+              <CustomFieldsPublicZone fields={selected.custom_fields || []} zone="below_prompt" />
+
               {selectedKeywords.length > 0 && (
                 <div className="mt-6">
                   <p className="text-sm font-semibold text-zinc-900">
@@ -537,14 +580,13 @@ export default function PromptLibraryPage() {
                 </div>
               )}
 
-              <div className="mt-8 border-t border-zinc-100 pt-4">
-                <Link
-                  href={`/prompt/${selected.slug}`}
-                  className="text-xs text-zinc-400 hover:text-brand-text hover:underline"
-                >
-                  Open full page →
-                </Link>
-              </div>
+              <CustomFieldsPublicZone fields={selected.custom_fields || []} zone="bottom" />
+
+              <RelatedContentSection items={selected.related_content || []} />
+
+              <RatingSection libraryItemId={selected.id} />
+
+              <CommentSection contentType="prompt" contentId={selected.id} />
             </div>
           )}
         </div>
