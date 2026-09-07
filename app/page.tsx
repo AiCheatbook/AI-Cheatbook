@@ -17,6 +17,7 @@ import NewsFeedCard from "@/components/community/cards/NewsFeedCard";
 import LearningFeedCard from "@/components/community/cards/LearningFeedCard";
 import PostComposer from "@/components/community/PostComposer";
 import PostTypeQuickBar from "@/components/community/PostTypeQuickBar";
+import FirstVisitIntro from "@/components/home/FirstVisitIntro";
 import { type PostType } from "@/components/community/postTypeOptions";
 import PollsQuestionsPanel from "@/components/community/PollsQuestionsPanel";
 import { trendingScore } from "@/lib/community/trending";
@@ -79,6 +80,7 @@ export default function HomePage() {
     useState("all");
   const [isLoggedIn, setIsLoggedIn] =
     useState(false);
+  const [showIntro, setShowIntro] = useState(false);
   const [composerOpen, setComposerOpen] =
     useState(false);
   const [quickPostType, setQuickPostType] =
@@ -465,6 +467,10 @@ export default function HomePage() {
 
       setIsLoggedIn(Boolean(user));
 
+      if (!user && !sessionStorage.getItem("introSeen")) {
+        setShowIntro(true);
+      }
+
       await loadFeed(user?.id || null);
     }
 
@@ -665,7 +671,12 @@ export default function HomePage() {
   }
 
   return (
-    <CommunityLayout>
+    <>
+      {showIntro && (
+        <FirstVisitIntro onDismiss={() => setShowIntro(false)} />
+      )}
+
+      <CommunityLayout>
       <CommunitySwitcher />
 
       <PostTypeQuickBar
@@ -759,5 +770,6 @@ export default function HomePage() {
         />
       )}
     </CommunityLayout>
+    </>
   );
 }

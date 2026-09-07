@@ -22,7 +22,9 @@ function LoginPageContent() {
     searchParams.get("redirect") || "/";
 
   const [mode, setMode] =
-    useState<Mode>("login");
+    useState<Mode>(
+      searchParams.get("mode") === "signup" ? "signup" : "login"
+    );
 
   const [email, setEmail] = useState("");
   const [password, setPassword] =
