@@ -247,7 +247,7 @@ export default function AdminDashboardPage() {
 
   if (checking) {
     return (
-      <div className="p-8 text-sm text-neutral-400">Checking access...</div>
+      <div className="p-8 text-sm text-zinc-500">Checking access...</div>
     );
   }
 
@@ -318,13 +318,13 @@ export default function AdminDashboardPage() {
 
   return (
     <div className="p-6">
-      <h1 className="text-xl font-semibold text-white">Dashboard</h1>
-      <p className="mt-1 text-sm text-neutral-400">
+      <h1 className="text-xl font-semibold text-zinc-900">Dashboard</h1>
+      <p className="mt-1 text-sm text-zinc-500">
         Platform overview and quick actions.
       </p>
 
       {loading && (
-        <p className="mt-6 text-sm text-neutral-500">Loading counts...</p>
+        <p className="mt-6 text-sm text-zinc-400">Loading counts...</p>
       )}
 
       {!loading && counts && (
@@ -372,7 +372,7 @@ export default function AdminDashboardPage() {
             </div>
           )}
 
-          <h2 className="mt-8 text-sm font-semibold text-neutral-300">
+          <h2 className="mt-8 text-sm font-semibold text-zinc-600">
             Visitors
           </h2>
           {visitorStats ? (
@@ -386,8 +386,8 @@ export default function AdminDashboardPage() {
                 />
               </div>
 
-              <div className="mt-3 rounded-2xl border border-white/10 bg-neutral-900 p-4">
-                <p className="mb-3 text-xs text-neutral-500">
+              <div className="mt-3 rounded-2xl border border-zinc-200 bg-white p-4">
+                <p className="mb-3 text-xs text-zinc-400">
                   Page views, last 7 days
                 </p>
                 <div className="flex h-24 items-end gap-2">
@@ -409,7 +409,7 @@ export default function AdminDashboardPage() {
                             title={`${d.count} views`}
                           />
                         </div>
-                        <span className="text-[10px] text-neutral-500">
+                        <span className="text-[10px] text-zinc-400">
                           {d.label}
                         </span>
                       </div>
@@ -419,12 +419,12 @@ export default function AdminDashboardPage() {
               </div>
 
               <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
-                <div className="rounded-2xl border border-white/10 bg-neutral-900 p-4">
-                  <p className="mb-3 text-xs text-neutral-500">
+                <div className="rounded-2xl border border-zinc-200 bg-white p-4">
+                  <p className="mb-3 text-xs text-zinc-400">
                     Top pages (last 30 days)
                   </p>
                   {visitorStats.topPages.length === 0 ? (
-                    <p className="text-xs text-neutral-600">No data yet.</p>
+                    <p className="text-xs text-zinc-400">No data yet.</p>
                   ) : (
                     <div className="space-y-2">
                       {visitorStats.topPages.map((p) => (
@@ -432,10 +432,10 @@ export default function AdminDashboardPage() {
                           key={p.path}
                           className="flex items-center justify-between gap-2 text-sm"
                         >
-                          <span className="truncate text-neutral-300">
+                          <span className="truncate text-zinc-600">
                             {p.path}
                           </span>
-                          <span className="shrink-0 font-semibold text-white">
+                          <span className="shrink-0 font-semibold text-zinc-900">
                             {p.count}
                           </span>
                         </div>
@@ -444,12 +444,12 @@ export default function AdminDashboardPage() {
                   )}
                 </div>
 
-                <div className="rounded-2xl border border-white/10 bg-neutral-900 p-4">
-                  <p className="mb-3 text-xs text-neutral-500">
+                <div className="rounded-2xl border border-zinc-200 bg-white p-4">
+                  <p className="mb-3 text-xs text-zinc-400">
                     Traffic sources (last 30 days)
                   </p>
                   {visitorStats.trafficSources.length === 0 ? (
-                    <p className="text-xs text-neutral-600">No data yet.</p>
+                    <p className="text-xs text-zinc-400">No data yet.</p>
                   ) : (
                     <div className="space-y-2">
                       {visitorStats.trafficSources.map((s) => (
@@ -457,10 +457,10 @@ export default function AdminDashboardPage() {
                           key={s.source}
                           className="flex items-center justify-between gap-2 text-sm"
                         >
-                          <span className="truncate text-neutral-300">
+                          <span className="truncate text-zinc-600">
                             {s.source}
                           </span>
-                          <span className="shrink-0 font-semibold text-white">
+                          <span className="shrink-0 font-semibold text-zinc-900">
                             {s.count}
                           </span>
                         </div>
@@ -471,12 +471,12 @@ export default function AdminDashboardPage() {
               </div>
             </>
           ) : (
-            <p className="mt-2 text-sm text-neutral-500">
+            <p className="mt-2 text-sm text-zinc-400">
               Loading visitor stats...
             </p>
           )}
 
-          <h2 className="mt-8 text-sm font-semibold text-neutral-300">
+          <h2 className="mt-8 text-sm font-semibold text-zinc-600">
             Content Totals
           </h2>
           <div className="mt-2 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
@@ -496,7 +496,7 @@ export default function AdminDashboardPage() {
             />
           </div>
 
-          <h2 className="mt-8 text-sm font-semibold text-neutral-300">
+          <h2 className="mt-8 text-sm font-semibold text-zinc-600">
             Quick Actions
           </h2>
           <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-4">
@@ -510,10 +510,10 @@ export default function AdminDashboardPage() {
             <ActionLink href="/admin/audit-log" label="Audit Log" />
           </div>
 
-          <h2 className="mt-8 text-sm font-semibold text-neutral-300">
+          <h2 className="mt-8 text-sm font-semibold text-zinc-600">
             Search Engine Indexing
           </h2>
-          <p className="mt-1 text-xs text-neutral-500">
+          <p className="mt-1 text-xs text-zinc-400">
             New publishes now automatically notify Bing/Yandex/others. This
             is a one-time catch-up for everything published before that
             automation existed.
@@ -522,17 +522,17 @@ export default function AdminDashboardPage() {
             type="button"
             onClick={runIndexNowBackfill}
             disabled={backfillRunning}
-            className="mt-2 rounded-xl border border-white/10 bg-neutral-900 px-4 py-2 text-sm text-white hover:border-brand/50 disabled:opacity-50"
+            className="mt-2 rounded-xl border border-zinc-200 bg-white px-4 py-2 text-sm text-zinc-900 hover:border-brand/50 disabled:opacity-50"
           >
             {backfillRunning
               ? "Submitting..."
               : "Submit all already-published content to IndexNow"}
           </button>
           {backfillResult && (
-            <p className="mt-2 text-xs text-neutral-400">{backfillResult}</p>
+            <p className="mt-2 text-xs text-zinc-500">{backfillResult}</p>
           )}
 
-          <p className="mt-8 text-xs text-neutral-600">
+          <p className="mt-8 text-xs text-zinc-400">
             Visitor counts are first-party (tracked directly into your own
             database, not a third-party service like Plausible/GA). Unique
             visitors are counted by an anonymous ID stored in the browser —
@@ -555,9 +555,9 @@ function StatCard({
   href?: string;
 }) {
   const content = (
-    <div className="rounded-2xl border border-white/10 bg-neutral-900 p-4 transition hover:border-brand/50">
-      <p className="text-2xl font-bold text-white">{value}</p>
-      <p className="text-xs text-neutral-500">{label}</p>
+    <div className="rounded-2xl border border-zinc-200 bg-white p-4 transition hover:border-brand/50">
+      <p className="text-2xl font-bold text-zinc-900">{value}</p>
+      <p className="text-xs text-zinc-400">{label}</p>
     </div>
   );
 
@@ -568,7 +568,7 @@ function ActionLink({ href, label }: { href: string; label: string }) {
   return (
     <Link
       href={href}
-      className="rounded-xl border border-white/10 px-4 py-3 text-center text-sm text-neutral-300 transition hover:border-brand/50 hover:text-white"
+      className="rounded-xl border border-zinc-200 px-4 py-3 text-center text-sm text-zinc-600 transition hover:border-brand/50 hover:text-zinc-900"
     >
       {label}
     </Link>

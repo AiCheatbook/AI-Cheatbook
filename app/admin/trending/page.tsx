@@ -207,20 +207,20 @@ export default function AdminTrendingPage() {
 
   if (checking) {
     return (
-      <div className="p-8 text-sm text-neutral-400">Checking access...</div>
+      <div className="p-8 text-sm text-zinc-500">Checking access...</div>
     );
   }
 
   return (
     <div className="p-6">
-      <h1 className="text-xl font-semibold text-white">Trending Management</h1>
-      <p className="mt-1 text-sm text-neutral-400">
+      <h1 className="text-xl font-semibold text-zinc-900">Trending Management</h1>
+      <p className="mt-1 text-sm text-zinc-500">
         Manually pin content to the top of its Trending section, overriding
         the recency+engagement algorithm. Community Posts are ranked here
         exactly as the live Trending tab on the homepage ranks them.
       </p>
 
-      <div className="mt-4 flex gap-2 border-b border-white/10">
+      <div className="mt-4 flex gap-2 border-b border-zinc-200">
         {(
           [
             { id: "posts", label: `Community Posts (${threads.length})` },
@@ -234,8 +234,8 @@ export default function AdminTrendingPage() {
             onClick={() => setTab(t.id)}
             className={`px-3 py-2.5 text-sm font-medium ${
               tab === t.id
-                ? "border-b-2 border-brand text-white"
-                : "text-neutral-500"
+                ? "border-b-2 border-brand text-zinc-900"
+                : "text-zinc-400"
             }`}
           >
             {t.label}
@@ -244,7 +244,7 @@ export default function AdminTrendingPage() {
       </div>
 
       {loading && (
-        <p className="mt-4 text-sm text-neutral-500">Loading...</p>
+        <p className="mt-4 text-sm text-zinc-400">Loading...</p>
       )}
 
       {!loading && tab === "posts" && (
@@ -252,16 +252,16 @@ export default function AdminTrendingPage() {
           {threads.map((t) => (
             <div
               key={t.id}
-              className="flex items-center justify-between gap-3 rounded-xl border border-white/10 bg-neutral-900 px-4 py-3"
+              className="flex items-center justify-between gap-3 rounded-xl border border-zinc-200 bg-white px-4 py-3"
             >
               <div className="min-w-0">
                 <Link
                   href={`/discussions/${t.id}`}
-                  className="truncate text-sm font-medium text-white hover:text-brand-text"
+                  className="truncate text-sm font-medium text-zinc-900 hover:text-brand-text"
                 >
                   {t.title}
                 </Link>
-                <p className="flex items-center gap-1 text-xs text-neutral-500">
+                <p className="flex items-center gap-1 text-xs text-zinc-400">
                   {t.content_kind} · ▲{t.voteCount} ·{" "}
                   <MessageCircle className="inline h-3 w-3" strokeWidth={1.75} />
                   {t.replyCount}
@@ -274,7 +274,7 @@ export default function AdminTrendingPage() {
                 className={`shrink-0 rounded-lg px-3 py-1.5 text-xs font-semibold disabled:opacity-50 ${
                   t.is_trending
                     ? "bg-brand text-zinc-900"
-                    : "border border-white/10 text-neutral-300 hover:border-brand/50"
+                    : "border border-zinc-200 text-zinc-600 hover:border-brand/50"
                 }`}
               >
                 {t.is_trending && (
@@ -292,9 +292,9 @@ export default function AdminTrendingPage() {
           {prompts.map((p) => (
             <div
               key={p.id}
-              className="flex items-center justify-between gap-3 rounded-xl border border-white/10 bg-neutral-900 px-4 py-3"
+              className="flex items-center justify-between gap-3 rounded-xl border border-zinc-200 bg-white px-4 py-3"
             >
-              <span className="truncate text-sm text-white">{p.title}</span>
+              <span className="truncate text-sm text-zinc-900">{p.title}</span>
               <button
                 type="button"
                 disabled={busyId === p.id}
@@ -302,7 +302,7 @@ export default function AdminTrendingPage() {
                 className={`shrink-0 rounded-lg px-3 py-1.5 text-xs font-semibold disabled:opacity-50 ${
                   p.is_trending
                     ? "bg-brand text-zinc-900"
-                    : "border border-white/10 text-neutral-300 hover:border-brand/50"
+                    : "border border-zinc-200 text-zinc-600 hover:border-brand/50"
                 }`}
               >
                 {p.is_trending && (
@@ -318,16 +318,16 @@ export default function AdminTrendingPage() {
       {!loading && tab === "artwork" && (
         <div className="mt-4 space-y-2">
           {artwork.length === 0 && (
-            <p className="text-sm text-neutral-500">
+            <p className="text-sm text-zinc-400">
               No published artwork yet.
             </p>
           )}
           {artwork.map((a) => (
             <div
               key={a.id}
-              className="flex items-center justify-between gap-3 rounded-xl border border-white/10 bg-neutral-900 px-4 py-3"
+              className="flex items-center justify-between gap-3 rounded-xl border border-zinc-200 bg-white px-4 py-3"
             >
-              <span className="truncate text-sm text-white">{a.title}</span>
+              <span className="truncate text-sm text-zinc-900">{a.title}</span>
               <button
                 type="button"
                 disabled={busyId === a.id}
@@ -335,7 +335,7 @@ export default function AdminTrendingPage() {
                 className={`shrink-0 rounded-lg px-3 py-1.5 text-xs font-semibold disabled:opacity-50 ${
                   a.is_trending
                     ? "bg-brand text-zinc-900"
-                    : "border border-white/10 text-neutral-300 hover:border-brand/50"
+                    : "border border-zinc-200 text-zinc-600 hover:border-brand/50"
                 }`}
               >
                 {a.is_trending && (

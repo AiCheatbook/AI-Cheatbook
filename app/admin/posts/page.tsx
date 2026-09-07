@@ -265,14 +265,14 @@ export default function AdminPostsPage() {
 
   if (checking) {
     return (
-      <div className="p-8 text-sm text-neutral-400">Checking access...</div>
+      <div className="p-8 text-sm text-zinc-500">Checking access...</div>
     );
   }
 
   return (
     <div className="p-6">
-      <h1 className="text-xl font-semibold text-white">Posts Management</h1>
-      <p className="mt-1 text-sm text-neutral-400">
+      <h1 className="text-xl font-semibold text-zinc-900">Posts Management</h1>
+      <p className="mt-1 text-sm text-zinc-500">
         Every discussion, question, poll, prompt, resource and discovery —
         from the main feed and every community — in one place.
       </p>
@@ -281,7 +281,7 @@ export default function AdminPostsPage() {
         <select
           value={typeFilter}
           onChange={(e) => setTypeFilter(e.target.value)}
-          className="rounded-lg border border-white/10 bg-neutral-900 px-3 py-2 text-sm text-white"
+          className="rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900"
         >
           {TYPE_FILTERS.map((t) => (
             <option key={t.value} value={t.value}>
@@ -293,7 +293,7 @@ export default function AdminPostsPage() {
         <select
           value={communityFilter}
           onChange={(e) => setCommunityFilter(e.target.value)}
-          className="rounded-lg border border-white/10 bg-neutral-900 px-3 py-2 text-sm text-white"
+          className="rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900"
         >
           <option value="all">All (main feed + communities)</option>
           <option value="main">Main Feed Only</option>
@@ -308,13 +308,13 @@ export default function AdminPostsPage() {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search title or author..."
-          className="w-64 rounded-lg border border-white/10 bg-neutral-900 px-3 py-2 text-sm text-white outline-none placeholder:text-neutral-500 focus:border-brand"
+          className="w-64 rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 outline-none placeholder:text-zinc-400 focus:border-brand"
         />
       </div>
 
-      <div className="mt-4 overflow-hidden rounded-2xl border border-white/10">
+      <div className="mt-4 overflow-hidden rounded-2xl border border-zinc-200">
         <table className="w-full text-left text-sm">
-          <thead className="bg-neutral-900 text-xs uppercase tracking-wide text-neutral-500">
+          <thead className="bg-zinc-50 text-xs uppercase tracking-wide text-zinc-400">
             <tr>
               <th className="px-4 py-3">Post</th>
               <th className="px-4 py-3">Type</th>
@@ -328,7 +328,7 @@ export default function AdminPostsPage() {
           <tbody>
             {loading && (
               <tr>
-                <td colSpan={7} className="px-4 py-8 text-center text-neutral-500">
+                <td colSpan={7} className="px-4 py-8 text-center text-zinc-400">
                   Loading...
                 </td>
               </tr>
@@ -336,7 +336,7 @@ export default function AdminPostsPage() {
 
             {!loading && filtered.length === 0 && (
               <tr>
-                <td colSpan={7} className="px-4 py-8 text-center text-neutral-500">
+                <td colSpan={7} className="px-4 py-8 text-center text-zinc-400">
                   No posts match that filter.
                 </td>
               </tr>
@@ -344,23 +344,23 @@ export default function AdminPostsPage() {
 
             {!loading &&
               filtered.map((p) => (
-                <tr key={`${p.kind}-${p.id}`} className="border-t border-white/5">
+                <tr key={`${p.kind}-${p.id}`} className="border-t border-zinc-100">
                   <td className="max-w-xs px-4 py-3">
                     <Link
                       href={p.href}
-                      className="truncate text-white hover:text-brand-text"
+                      className="truncate text-zinc-900 hover:text-brand-text"
                     >
                       {p.title}
                     </Link>
                   </td>
-                  <td className="px-4 py-3 text-neutral-400">{p.kind}</td>
-                  <td className="px-4 py-3 text-neutral-400">{p.authorName}</td>
-                  <td className="px-4 py-3 text-neutral-400">
+                  <td className="px-4 py-3 text-zinc-500">{p.kind}</td>
+                  <td className="px-4 py-3 text-zinc-500">{p.authorName}</td>
+                  <td className="px-4 py-3 text-zinc-500">
                     {p.groupName || (
-                      <span className="text-neutral-600">Main Feed</span>
+                      <span className="text-zinc-400">Main Feed</span>
                     )}
                   </td>
-                  <td className="whitespace-nowrap px-4 py-3 text-neutral-400">
+                  <td className="whitespace-nowrap px-4 py-3 text-zinc-500">
                     {new Date(p.createdAt).toLocaleDateString()}
                   </td>
                   <td className="px-4 py-3">
@@ -380,7 +380,7 @@ export default function AdminPostsPage() {
                         type="button"
                         disabled={busyId === p.id}
                         onClick={() => toggleHide(p)}
-                        className="rounded-lg border border-white/10 px-2.5 py-1 text-xs text-neutral-300 hover:border-brand/50 disabled:opacity-40"
+                        className="rounded-lg border border-zinc-200 px-2.5 py-1 text-xs text-zinc-600 hover:border-brand/50 disabled:opacity-40"
                       >
                         {p.isHidden ? "Unhide" : "Hide"}
                       </button>
@@ -390,7 +390,7 @@ export default function AdminPostsPage() {
                           type="button"
                           disabled={busyId === p.id}
                           onClick={() => deletePost(p)}
-                          className="rounded-lg border border-white/10 px-2.5 py-1 text-xs text-neutral-300 hover:border-red-400 hover:text-red-400 disabled:opacity-40"
+                          className="rounded-lg border border-zinc-200 px-2.5 py-1 text-xs text-zinc-600 hover:border-red-400 hover:text-red-400 disabled:opacity-40"
                         >
                           Delete
                         </button>
@@ -403,7 +403,7 @@ export default function AdminPostsPage() {
         </table>
       </div>
 
-      <p className="mt-4 text-xs text-neutral-600">
+      <p className="mt-4 text-xs text-zinc-400">
         Showing up to 300 most recent items per type. Polls can be hidden but
         not deleted here yet — they don&apos;t have a soft-delete column.
       </p>

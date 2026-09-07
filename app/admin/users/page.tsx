@@ -159,7 +159,7 @@ export default function AdminUsersPage() {
 
   if (checking) {
     return (
-      <div className="p-8 text-sm text-neutral-400">Checking access...</div>
+      <div className="p-8 text-sm text-zinc-500">Checking access...</div>
     );
   }
 
@@ -176,8 +176,8 @@ export default function AdminUsersPage() {
     <div className="p-6">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h1 className="text-xl font-semibold text-white">User Management</h1>
-          <p className="mt-1 text-sm text-neutral-400">
+          <h1 className="text-xl font-semibold text-zinc-900">User Management</h1>
+          <p className="mt-1 text-sm text-zinc-500">
             {users.length} registered {users.length === 1 ? "user" : "users"}
           </p>
         </div>
@@ -186,13 +186,13 @@ export default function AdminUsersPage() {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search name or email..."
-          className="w-64 rounded-xl border border-white/10 bg-neutral-900 px-4 py-2 text-sm text-white outline-none placeholder:text-neutral-500 focus:border-brand"
+          className="w-64 rounded-xl border border-zinc-200 bg-white px-4 py-2 text-sm text-zinc-900 outline-none placeholder:text-zinc-400 focus:border-brand"
         />
       </div>
 
-      <div className="mt-6 overflow-hidden rounded-2xl border border-white/10">
+      <div className="mt-6 overflow-hidden rounded-2xl border border-zinc-200">
         <table className="w-full text-left text-sm">
-          <thead className="bg-neutral-900 text-xs uppercase tracking-wide text-neutral-500">
+          <thead className="bg-zinc-50 text-xs uppercase tracking-wide text-zinc-400">
             <tr>
               <th className="px-4 py-3">User</th>
               <th className="px-4 py-3">Role</th>
@@ -204,7 +204,7 @@ export default function AdminUsersPage() {
           <tbody>
             {loading && (
               <tr>
-                <td colSpan={5} className="px-4 py-8 text-center text-neutral-500">
+                <td colSpan={5} className="px-4 py-8 text-center text-zinc-400">
                   Loading users...
                 </td>
               </tr>
@@ -212,7 +212,7 @@ export default function AdminUsersPage() {
 
             {!loading && filtered.length === 0 && (
               <tr>
-                <td colSpan={5} className="px-4 py-8 text-center text-neutral-500">
+                <td colSpan={5} className="px-4 py-8 text-center text-zinc-400">
                   No users match that search.
                 </td>
               </tr>
@@ -220,9 +220,9 @@ export default function AdminUsersPage() {
 
             {!loading &&
               filtered.map((u) => (
-                <tr key={u.id} className="border-t border-white/5">
+                <tr key={u.id} className="border-t border-zinc-100">
                   <td className="px-4 py-3">
-                    <div className="font-medium text-white">
+                    <div className="font-medium text-zinc-900">
                       {u.display_name || "—"}
                       {u.id === myUserId && (
                         <span className="ml-2 text-xs text-brand-text">
@@ -230,7 +230,7 @@ export default function AdminUsersPage() {
                         </span>
                       )}
                     </div>
-                    <div className="text-xs text-neutral-500">{u.email}</div>
+                    <div className="text-xs text-zinc-400">{u.email}</div>
                   </td>
 
                   <td className="px-4 py-3">
@@ -240,7 +240,7 @@ export default function AdminUsersPage() {
                       onChange={(e) =>
                         changeRole(u, e.target.value as Role)
                       }
-                      className="rounded-lg border border-white/10 bg-neutral-900 px-2 py-1 text-sm text-white disabled:opacity-50"
+                      className="rounded-lg border border-zinc-200 bg-white px-2 py-1 text-sm text-zinc-900 disabled:opacity-50"
                     >
                       {ROLES.map((r) => (
                         <option key={r} value={r}>
@@ -262,7 +262,7 @@ export default function AdminUsersPage() {
                     </span>
                   </td>
 
-                  <td className="px-4 py-3 text-neutral-400">
+                  <td className="px-4 py-3 text-zinc-500">
                     {new Date(u.created_at).toLocaleDateString()}
                   </td>
 
@@ -271,7 +271,7 @@ export default function AdminUsersPage() {
                       type="button"
                       disabled={busyId === u.id || u.id === myUserId}
                       onClick={() => toggleDisabled(u)}
-                      className="rounded-lg border border-white/10 px-3 py-1.5 text-xs text-neutral-300 transition hover:border-red-400 hover:text-red-400 disabled:cursor-not-allowed disabled:opacity-40"
+                      className="rounded-lg border border-zinc-200 px-3 py-1.5 text-xs text-zinc-600 transition hover:border-red-400 hover:text-red-400 disabled:cursor-not-allowed disabled:opacity-40"
                     >
                       {u.is_disabled ? "Enable" : "Disable"}
                     </button>
@@ -282,7 +282,7 @@ export default function AdminUsersPage() {
         </table>
       </div>
 
-      <p className="mt-4 text-xs text-neutral-500">
+      <p className="mt-4 text-xs text-zinc-400">
         Disabling a user currently blocks them from creating new posts and
         joining communities. It does not yet block commenting, voting, or
         other actions — see database/042_user_management.sql for the exact

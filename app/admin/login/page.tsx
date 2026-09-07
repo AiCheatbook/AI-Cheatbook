@@ -46,13 +46,13 @@ export default function AdminLoginPage() {
     <main className="flex min-h-screen items-center justify-center bg-white px-4">
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-sm rounded-xl border border-white/10 bg-neutral-900 p-8"
+        className="w-full max-w-sm rounded-xl border border-zinc-200 bg-white p-8 shadow-sm"
       >
         <h1 className="mb-6 text-xl font-semibold text-zinc-900">
           Admin Login
         </h1>
 
-        <label className="mb-1 block text-sm text-neutral-400">
+        <label className="mb-1 block text-sm text-zinc-600">
           Email
         </label>
         <input
@@ -62,10 +62,10 @@ export default function AdminLoginPage() {
           onChange={(e) =>
             setEmail(e.target.value)
           }
-          className="mb-4 w-full rounded-md border border-white/10 bg-white px-3 py-2 text-zinc-900 outline-none focus:border-white/30"
+          className="mb-4 w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-zinc-900 outline-none focus:border-brand"
         />
 
-        <label className="mb-1 block text-sm text-neutral-400">
+        <label className="mb-1 block text-sm text-zinc-600">
           Password
         </label>
         <input
@@ -75,7 +75,7 @@ export default function AdminLoginPage() {
           onChange={(e) =>
             setPassword(e.target.value)
           }
-          className="mb-4 w-full rounded-md border border-white/10 bg-white px-3 py-2 text-zinc-900 outline-none focus:border-white/30"
+          className="mb-4 w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-zinc-900 outline-none focus:border-brand"
         />
 
         {error && (

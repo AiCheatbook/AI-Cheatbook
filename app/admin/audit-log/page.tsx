@@ -138,14 +138,14 @@ export default function AdminAuditLogPage() {
 
   if (checking) {
     return (
-      <div className="p-8 text-sm text-neutral-400">Checking access...</div>
+      <div className="p-8 text-sm text-zinc-500">Checking access...</div>
     );
   }
 
   return (
     <div className="p-6">
-      <h1 className="text-xl font-semibold text-white">Audit Log</h1>
-      <p className="mt-1 text-sm text-neutral-400">
+      <h1 className="text-xl font-semibold text-zinc-900">Audit Log</h1>
+      <p className="mt-1 text-sm text-zinc-500">
         Every logged admin and community-owner action, most recent first.
       </p>
 
@@ -153,7 +153,7 @@ export default function AdminAuditLogPage() {
         <select
           value={actionFilter}
           onChange={(e) => setActionFilter(e.target.value)}
-          className="rounded-lg border border-white/10 bg-neutral-900 px-3 py-2 text-sm text-white"
+          className="rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900"
         >
           <option value="all">All actions</option>
           {actionTypes.map((a) => (
@@ -166,7 +166,7 @@ export default function AdminAuditLogPage() {
         <select
           value={targetTypeFilter}
           onChange={(e) => setTargetTypeFilter(e.target.value)}
-          className="rounded-lg border border-white/10 bg-neutral-900 px-3 py-2 text-sm text-white"
+          className="rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900"
         >
           <option value="all">All target types</option>
           {targetTypes.map((t) => (
@@ -180,13 +180,13 @@ export default function AdminAuditLogPage() {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search actor, action, or target ID..."
-          className="w-64 rounded-lg border border-white/10 bg-neutral-900 px-3 py-2 text-sm text-white outline-none placeholder:text-neutral-500 focus:border-brand"
+          className="w-64 rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 outline-none placeholder:text-zinc-400 focus:border-brand"
         />
       </div>
 
-      <div className="mt-4 overflow-hidden rounded-2xl border border-white/10">
+      <div className="mt-4 overflow-hidden rounded-2xl border border-zinc-200">
         <table className="w-full text-left text-sm">
-          <thead className="bg-neutral-900 text-xs uppercase tracking-wide text-neutral-500">
+          <thead className="bg-zinc-50 text-xs uppercase tracking-wide text-zinc-400">
             <tr>
               <th className="px-4 py-3">When</th>
               <th className="px-4 py-3">Actor</th>
@@ -198,7 +198,7 @@ export default function AdminAuditLogPage() {
           <tbody>
             {loading && logs.length === 0 && (
               <tr>
-                <td colSpan={5} className="px-4 py-8 text-center text-neutral-500">
+                <td colSpan={5} className="px-4 py-8 text-center text-zinc-400">
                   Loading...
                 </td>
               </tr>
@@ -206,7 +206,7 @@ export default function AdminAuditLogPage() {
 
             {!loading && filtered.length === 0 && (
               <tr>
-                <td colSpan={5} className="px-4 py-8 text-center text-neutral-500">
+                <td colSpan={5} className="px-4 py-8 text-center text-zinc-400">
                   No matching log entries.
                 </td>
               </tr>
@@ -214,20 +214,20 @@ export default function AdminAuditLogPage() {
 
             {filtered.map((l) => (
               <Fragment key={l.id}>
-                <tr className="border-t border-white/5">
-                  <td className="whitespace-nowrap px-4 py-3 text-neutral-400">
+                <tr className="border-t border-zinc-100">
+                  <td className="whitespace-nowrap px-4 py-3 text-zinc-500">
                     {new Date(l.created_at).toLocaleString()}
                   </td>
-                  <td className="px-4 py-3 text-white">{l.actorName}</td>
+                  <td className="px-4 py-3 text-zinc-900">{l.actorName}</td>
                   <td className="px-4 py-3">
                     <span className="rounded-full bg-brand/10 px-2.5 py-1 text-xs font-medium text-brand-text">
                       {l.action}
                     </span>
                   </td>
-                  <td className="px-4 py-3 text-neutral-400">
+                  <td className="px-4 py-3 text-zinc-500">
                     {l.target_type || "—"}
                     {l.target_id && (
-                      <span className="ml-1 text-xs text-neutral-600">
+                      <span className="ml-1 text-xs text-zinc-400">
                         ({l.target_id.slice(0, 8)}...)
                       </span>
                     )}
@@ -239,7 +239,7 @@ export default function AdminAuditLogPage() {
                         onClick={() =>
                           setExpandedId(expandedId === l.id ? null : l.id)
                         }
-                        className="text-xs text-neutral-400 hover:text-white"
+                        className="text-xs text-zinc-500 hover:text-zinc-900"
                       >
                         {expandedId === l.id ? "Hide" : "Details"}
                       </button>
@@ -248,9 +248,9 @@ export default function AdminAuditLogPage() {
                 </tr>
 
                 {expandedId === l.id && l.details && (
-                  <tr className="border-t border-white/5 bg-neutral-950">
+                  <tr className="border-t border-zinc-100 bg-zinc-50">
                     <td colSpan={5} className="px-4 py-3">
-                      <pre className="overflow-x-auto text-xs text-neutral-400">
+                      <pre className="overflow-x-auto text-xs text-zinc-500">
                         {JSON.stringify(l.details, null, 2)}
                       </pre>
                     </td>
@@ -266,14 +266,14 @@ export default function AdminAuditLogPage() {
         <button
           type="button"
           onClick={loadMore}
-          className="mt-4 rounded-xl border border-white/10 px-4 py-2 text-sm text-neutral-300 hover:border-brand/50"
+          className="mt-4 rounded-xl border border-zinc-200 px-4 py-2 text-sm text-zinc-600 hover:border-brand/50"
         >
           Load more
         </button>
       )}
 
       {loading && logs.length > 0 && (
-        <p className="mt-4 text-sm text-neutral-500">Loading more...</p>
+        <p className="mt-4 text-sm text-zinc-400">Loading more...</p>
       )}
     </div>
   );
