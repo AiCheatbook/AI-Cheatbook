@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { BookOpen, MessageCircle } from "lucide-react";
 import SaveToNotebookButton from "@/components/notebook/SaveToNotebookButton";
 import LikeButton from "@/components/community/LikeButton";
 import PostMedia from "@/components/community/PostMedia";
@@ -36,8 +37,9 @@ export default function LearningPostCard({
       href={`/discussions/${id}`}
       className="block rounded-2xl border border-cyan-500/30 bg-white p-5 transition hover:border-cyan-500/60"
     >
-      <span className="rounded-full bg-cyan-500/10 px-2.5 py-1 text-xs font-semibold text-cyan-600">
-        📘 LEARNING
+      <span className="inline-flex items-center gap-1 rounded-full bg-cyan-500/10 px-2.5 py-1 text-xs font-semibold text-cyan-600">
+        <BookOpen className="h-3.5 w-3.5" strokeWidth={1.75} />
+        LEARNING
       </span>
 
       <h3 className="mt-2.5 text-lg font-semibold text-zinc-900">
@@ -64,7 +66,10 @@ export default function LearningPostCard({
 
         <span className="flex items-center gap-3">
           <LikeButton threadId={id} initialCount={voteCount} compact />
-          <span>💬 {replyCount}</span>
+          <span className="inline-flex items-center gap-1">
+            <MessageCircle className="h-3.5 w-3.5" strokeWidth={1.75} />
+            {replyCount}
+          </span>
           <SaveToNotebookButton
             contentType="community_thread"
             contentId={id}

@@ -3,6 +3,14 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
+import {
+  Handshake,
+  Notebook,
+  Sparkles,
+  Library,
+  Newspaper,
+  Globe,
+} from "lucide-react";
 import { supabaseAuthClient } from "@/lib/supabase/auth-client";
 
 type Profile = {
@@ -14,37 +22,37 @@ type Profile = {
 const NAV_ITEMS = [
   {
     href: "/groups",
-    icon: "🤝",
+    icon: Handshake,
     label: "Communities",
     subtitle: "Join or Start an AI Community",
   },
   {
     href: "/notebook",
-    icon: "📓",
+    icon: Notebook,
     label: "AI Notebook",
     subtitle: "Build Your Knowledge Vault",
   },
   {
     href: "/generator",
-    icon: "✨",
+    icon: Sparkles,
     label: "Prompt Designer",
     subtitle: "Your Interactive Prompt Engine",
   },
   {
     href: "/prompts",
-    icon: "📚",
+    icon: Library,
     label: "Browse Prompt Book",
     subtitle: "Browse Thousands of Proven Prompts",
   },
   {
     href: "/news",
-    icon: "📰",
+    icon: Newspaper,
     label: "Stay Ahead with AI",
     subtitle: "Latest AI News, Updates & Trends",
   },
   {
     href: "/learning",
-    icon: "🌐",
+    icon: Globe,
     label: "Learn AI with Community",
     subtitle: "Explore, Understand & Master AI",
   },
@@ -155,11 +163,11 @@ export default function CommunitySidebar() {
                 }`}
               >
                 <span
-                  className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-sm ${
+                  className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full ${
                     active ? "bg-white/30" : "bg-zinc-100"
                   }`}
                 >
-                  {item.icon}
+                  <item.icon className="h-4 w-4" strokeWidth={1.75} />
                 </span>
 
                 <span className="min-w-0">

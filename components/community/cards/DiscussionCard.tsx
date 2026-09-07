@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { MessageCircle } from "lucide-react";
 import SaveToNotebookButton from "@/components/notebook/SaveToNotebookButton";
 import ReportButton from "@/components/moderation/ReportButton";
 import LikeButton from "@/components/community/LikeButton";
@@ -93,7 +94,10 @@ export default function DiscussionCard({
       <div className="mt-3 flex items-center justify-between text-xs text-zinc-600">
         <span className="flex items-center gap-3">
           <LikeButton threadId={id} initialCount={voteCount} compact />
-          <span>💬 {replyCount} Comments</span>
+          <span className="inline-flex items-center gap-1">
+            <MessageCircle className="h-3.5 w-3.5" strokeWidth={1.75} />
+            {replyCount} Comments
+          </span>
         </span>
 
         <div className="flex items-center gap-3">

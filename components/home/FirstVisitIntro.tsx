@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { Sparkles, Users, BookOpen, BarChart3 } from "lucide-react";
 import { supabase } from "@/lib/supabase/client";
 import { supabaseAuthClient } from "@/lib/supabase/auth-client";
 
@@ -15,10 +16,10 @@ type ArtworkTile = {
 type Mode = "login" | "signup" | "magic-link";
 
 const FEATURES = [
-  { icon: "✨", label: "Prompts" },
-  { icon: "👥", label: "Community" },
-  { icon: "📖", label: "Learn" },
-  { icon: "📊", label: "Get Inspired" },
+  { Icon: Sparkles, label: "Prompts" },
+  { Icon: Users, label: "Community" },
+  { Icon: BookOpen, label: "Learn" },
+  { Icon: BarChart3, label: "Get Inspired" },
 ];
 
 // Rotation + pill label for each of up to 5 collage cards.
@@ -185,11 +186,11 @@ function FirstVisitIntroContent({ onDismiss }: { onDismiss: () => void }) {
           </p>
 
           <div className="mt-10 flex flex-wrap gap-8">
-            {FEATURES.map((f) => (
-              <div key={f.label} className="flex flex-col items-center gap-2">
-                <span className="text-xl">{f.icon}</span>
+            {FEATURES.map(({ Icon, label }) => (
+              <div key={label} className="flex flex-col items-center gap-2">
+                <Icon className="h-6 w-6 text-zinc-700" strokeWidth={1.5} />
                 <span className="text-xs font-medium text-zinc-600">
-                  {f.label}
+                  {label}
                 </span>
               </div>
             ))}
