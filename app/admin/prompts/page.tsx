@@ -14,6 +14,7 @@ type PromptItem = {
   is_published: boolean;
   is_featured: boolean;
   is_trending: boolean;
+  category_name: string | null;
 };
 
 export default function AdminPromptsPage() {
@@ -40,7 +41,12 @@ export default function AdminPromptsPage() {
           media_url,
           is_published,
           is_featured,
-          is_trending
+          is_trending,
+          prompt_concepts (
+            prompt_subcategories (
+              prompt_categories ( name )
+            )
+          )
         `)
         .order("created_at", {
           ascending: false,
@@ -50,8 +56,21 @@ export default function AdminPromptsPage() {
         throw error;
       }
 
+      type RawRow = Omit<PromptItem, "category_name"> & {
+        prompt_concepts?: {
+          prompt_subcategories?: {
+            prompt_categories?: { name: string } | null;
+          } | null;
+        } | null;
+      };
+
       setPrompts(
-        (data || []) as PromptItem[]
+        ((data || []) as RawRow[]).map((row) => ({
+          ...row,
+          category_name:
+            row.prompt_concepts?.prompt_subcategories?.prompt_categories
+              ?.name || null,
+        }))
       );
     } catch (err) {
       console.error(
@@ -241,7 +260,7 @@ export default function AdminPromptsPage() {
                     </div>
 
                     <div className="text-sm text-zinc-600">
-                      {item.category || "—"}
+                      {item.category_name || "Uncategorized"}
                     </div>
 
                     <div className="text-sm capitalize text-zinc-600">
