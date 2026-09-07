@@ -33,6 +33,7 @@ type PromptResult = {
   concept_id: string | null;
   concept_name: string | null;
   published_at: string | null;
+  total_count?: number;
   description_html?: string | null;
   related_content?: RelatedContentItem[];
   custom_fields?: CustomField[];
@@ -82,6 +83,11 @@ export default function PromptLibraryPage() {
 
   const [results, setResults] = useState<PromptResult[]>([]);
   const [loadingResults, setLoadingResults] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [totalCount, setTotalCount] = useState(0);
+
+  const PAGE_SIZE = 40;
+  const sentinelRef = useRef<HTMLDivElement | null>(null);
 
   const [selected, setSelected] = useState<PromptResult | null>(null);
   const [selectedKeywords, setSelectedKeywords] = useState<Keyword[]>([]);
@@ -137,26 +143,42 @@ export default function PromptLibraryPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchInput, categoryId, subcategoryId, conceptId]);
 
-  async function runSearch() {
-    setLoadingResults(true);
+  async function runSearch(offset = 0) {
+    if (offset === 0) {
+      setLoadingResults(true);
+    } else {
+      setLoadingMore(true);
+    }
 
     const { data, error } = await supabase.rpc("search_prompts", {
       search_query: searchInput.trim() || null,
       filter_category_id: categoryId || null,
       filter_subcategory_id: subcategoryId || null,
       filter_concept_id: conceptId || null,
-      result_limit: 60,
+      result_limit: PAGE_SIZE,
+      result_offset: offset,
     });
 
     if (error) {
       console.error("Prompt search failed:", error.message);
-      setResults([]);
+      if (offset === 0) setResults([]);
       setLoadingResults(false);
+      setLoadingMore(false);
       return;
     }
 
-    setResults((data || []) as PromptResult[]);
+    const rows = (data || []) as PromptResult[];
+    setTotalCount(rows[0]?.total_count ?? 0);
+
+    setResults((prev) => (offset === 0 ? rows : [...prev, ...rows]));
     setLoadingResults(false);
+    setLoadingMore(false);
+  }
+
+  function loadMore() {
+    if (loadingMore || loadingResults) return;
+    if (results.length >= totalCount) return;
+    void runSearch(results.length);
   }
 
   // Once results are in for the first time, honor a deep-linked
@@ -175,6 +197,26 @@ export default function PromptLibraryPage() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loadingResults]);
+
+  // Infinite scroll — loads the next page once the sentinel at
+  // the bottom of the results list scrolls into view.
+  useEffect(() => {
+    const node = sentinelRef.current;
+    if (!node) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0]?.isIntersecting) {
+          loadMore();
+        }
+      },
+      { rootMargin: "200px" }
+    );
+
+    observer.observe(node);
+    return () => observer.disconnect();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [results, totalCount, loadingMore, loadingResults]);
 
   // Back/forward browser navigation.
   useEffect(() => {
@@ -411,8 +453,8 @@ export default function PromptLibraryPage() {
             {loadingResults
               ? "Searching..."
               : searchInput.trim()
-                ? `${results.length} matching prompt${results.length === 1 ? "" : "s"}`
-                : `${results.length} prompt${results.length === 1 ? "" : "s"}`}
+                ? `${totalCount} matching prompt${totalCount === 1 ? "" : "s"}`
+                : `${totalCount} prompt${totalCount === 1 ? "" : "s"}`}
           </p>
 
           <div className="min-h-0 flex-1 overflow-y-auto">
@@ -452,6 +494,14 @@ export default function PromptLibraryPage() {
                 </p>
               </button>
             ))}
+
+            {!loadingResults && results.length < totalCount && (
+              <div ref={sentinelRef} className="px-4 py-3 text-center">
+                <p className="text-xs text-zinc-400">
+                  {loadingMore ? "Loading more..." : ""}
+                </p>
+              </div>
+            )}
           </div>
         </div>
 
