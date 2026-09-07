@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Sparkles, X } from "lucide-react";
 import MiniPromptGenerator from "./MiniPromptGenerator";
 
 /*
@@ -27,10 +28,10 @@ export default function MiniGenerator() {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="fixed bottom-6 right-6 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-brand text-2xl text-zinc-900 shadow-lg shadow-brand/30 transition hover:bg-brand-dark"
+        className="fixed bottom-6 right-6 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-brand text-zinc-900 shadow-lg shadow-brand/30 transition hover:bg-brand-dark"
         aria-label="Open Quick Prompt Builder"
       >
-        ✨
+        <Sparkles className="h-6 w-6" strokeWidth={1.75} />
       </button>
     );
   }
@@ -48,7 +49,7 @@ export default function MiniGenerator() {
           aria-label="Close"
           className="text-zinc-600 hover:text-zinc-900"
         >
-          ✕
+          <X className="h-4 w-4" strokeWidth={1.75} />
         </button>
       </div>
 

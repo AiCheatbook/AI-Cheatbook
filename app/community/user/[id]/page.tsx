@@ -3,6 +3,16 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
+import {
+  Lightbulb,
+  MessageCircle,
+  Rocket,
+  Sparkles,
+  BookOpen,
+  Link2,
+  Award,
+  type LucideIcon,
+} from "lucide-react";
 import { supabase } from "@/lib/supabase/client";
 import { supabaseAuthClient } from "@/lib/supabase/auth-client";
 import CommunityLayout from "@/components/community/layout/CommunityLayout";
@@ -28,14 +38,14 @@ type ThreadRow = {
 
 const CONTENT_KIND_ICON: Record<
   string,
-  string
+  LucideIcon
 > = {
-  question: "💡",
-  discussion: "💬",
-  discovery: "🚀",
-  prompt: "✨",
-  learning: "📘",
-  resource: "🔗",
+  question: Lightbulb,
+  discussion: MessageCircle,
+  discovery: Rocket,
+  prompt: Sparkles,
+  learning: BookOpen,
+  resource: Link2,
 };
 
 export default function UserProfilePage() {
@@ -263,8 +273,9 @@ export default function UserProfilePage() {
             </h1>
 
             <div className="mt-1 flex items-center gap-2">
-              <span className="rounded-full bg-brand/10 px-2.5 py-1 text-xs font-semibold text-brand-text">
-                🏅 {badge}
+              <span className="inline-flex items-center gap-1 rounded-full bg-brand/10 px-2.5 py-1 text-xs font-semibold text-brand-text">
+                <Award className="h-3.5 w-3.5" strokeWidth={1.75} />
+                {badge}
               </span>
               <span className="text-xs text-zinc-600">
                 {reputation} reputation
@@ -353,9 +364,13 @@ export default function UserProfilePage() {
               className="flex items-center gap-2 rounded-xl border border-zinc-200 bg-white px-4 py-3 transition hover:border-brand/40"
             >
               <span>
-                {CONTENT_KIND_ICON[
-                  thread.content_kind
-                ] || "💬"}
+                {(() => {
+                  const Icon =
+                    CONTENT_KIND_ICON[thread.content_kind] || MessageCircle;
+                  return (
+                    <Icon className="h-4 w-4" strokeWidth={1.75} />
+                  );
+                })()}
               </span>
               <span className="text-sm text-zinc-900">
                 {thread.title}

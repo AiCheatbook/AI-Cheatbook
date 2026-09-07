@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { MessageCircle, Flame } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabaseAuthClient } from "@/lib/supabase/auth-client";
@@ -260,8 +261,10 @@ export default function AdminTrendingPage() {
                 >
                   {t.title}
                 </Link>
-                <p className="text-xs text-neutral-500">
-                  {t.content_kind} · ▲{t.voteCount} · 💬{t.replyCount}
+                <p className="flex items-center gap-1 text-xs text-neutral-500">
+                  {t.content_kind} · ▲{t.voteCount} ·{" "}
+                  <MessageCircle className="inline h-3 w-3" strokeWidth={1.75} />
+                  {t.replyCount}
                 </p>
               </div>
               <button
@@ -274,7 +277,10 @@ export default function AdminTrendingPage() {
                     : "border border-white/10 text-neutral-300 hover:border-brand/50"
                 }`}
               >
-                {t.is_trending ? "🔥 Pinned" : "Pin as Trending"}
+                {t.is_trending && (
+                  <Flame className="mr-1 inline h-3.5 w-3.5" strokeWidth={1.75} />
+                )}
+                {t.is_trending ? "Pinned" : "Pin as Trending"}
               </button>
             </div>
           ))}
@@ -299,7 +305,10 @@ export default function AdminTrendingPage() {
                     : "border border-white/10 text-neutral-300 hover:border-brand/50"
                 }`}
               >
-                {p.is_trending ? "🔥 Pinned" : "Pin as Trending"}
+                {p.is_trending && (
+                  <Flame className="mr-1 inline h-3.5 w-3.5" strokeWidth={1.75} />
+                )}
+                {p.is_trending ? "Pinned" : "Pin as Trending"}
               </button>
             </div>
           ))}
@@ -329,7 +338,10 @@ export default function AdminTrendingPage() {
                     : "border border-white/10 text-neutral-300 hover:border-brand/50"
                 }`}
               >
-                {a.is_trending ? "🔥 Pinned" : "Pin as Trending"}
+                {a.is_trending && (
+                  <Flame className="mr-1 inline h-3.5 w-3.5" strokeWidth={1.75} />
+                )}
+                {a.is_trending ? "Pinned" : "Pin as Trending"}
               </button>
             </div>
           ))}

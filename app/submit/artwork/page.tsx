@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { Palette } from "lucide-react";
 import { supabaseAuthClient } from "@/lib/supabase/auth-client";
 
 const MAX_SIZE_BYTES = 100 * 1024 * 1024;
@@ -217,8 +218,8 @@ export default function SubmitArtworkPage() {
     return (
       <main className="min-h-screen bg-white px-6 py-16 text-center text-zinc-900">
         <div className="mx-auto max-w-md">
-          <div className="text-4xl">
-            🎨
+          <div className="flex justify-center text-brand-text">
+            <Palette className="h-10 w-10" strokeWidth={1.5} />
           </div>
           <h1 className="mt-4 text-xl font-bold">
             Artwork submitted!
@@ -237,8 +238,9 @@ export default function SubmitArtworkPage() {
   return (
     <main className="min-h-screen bg-white px-6 py-12 text-zinc-900">
       <div className="mx-auto max-w-lg">
-        <h1 className="text-2xl font-bold">
-          🎨 Submit Artwork
+        <h1 className="flex items-center gap-2 text-2xl font-bold">
+          <Palette className="h-6 w-6" strokeWidth={1.75} />
+          Submit Artwork
         </h1>
         <p className="mt-1 text-zinc-600">
           Share your AI-generated images,

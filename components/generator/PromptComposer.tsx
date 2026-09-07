@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { Settings, Sparkles } from "lucide-react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import Document from "@tiptap/extension-document";
 import Paragraph from "@tiptap/extension-paragraph";
@@ -494,14 +495,21 @@ export default function PromptComposer({
                     ? "Using Real AI (Gemini) — click to switch to the free built-in generator"
                     : "Using the free built-in generator — click to switch to Real AI"
               }
-              className="rounded-full border border-zinc-300 px-3 py-1.5 text-xs text-zinc-600 transition hover:border-zinc-500 hover:text-zinc-900 disabled:cursor-not-allowed disabled:opacity-50"
+              className="inline-flex items-center gap-1 rounded-full border border-zinc-300 px-3 py-1.5 text-xs text-zinc-600 transition hover:border-zinc-500 hover:text-zinc-900 disabled:cursor-not-allowed disabled:opacity-50"
             >
+              {!isLoggedIn ? (
+                <Settings className="h-3.5 w-3.5" strokeWidth={1.75} />
+              ) : generationMode === "real-ai" ? (
+                <Sparkles className="h-3.5 w-3.5" strokeWidth={1.75} />
+              ) : (
+                <Settings className="h-3.5 w-3.5" strokeWidth={1.75} />
+              )}
               {!isLoggedIn
-                ? "⚙ Built-in (log in for Real AI)"
+                ? "Built-in (log in for Real AI)"
                 : generationMode ===
                   "real-ai"
-                  ? "✨ Real AI"
-                  : "⚙ Built-in"}
+                  ? "Real AI"
+                  : "Built-in"}
             </button>
 
             <button

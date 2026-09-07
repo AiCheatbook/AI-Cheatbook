@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { X, Notebook } from "lucide-react";
 import { supabaseAuthClient } from "@/lib/supabase/auth-client";
 
 type Collection = {
@@ -358,9 +359,9 @@ export default function NotebookPage() {
                         collection.id
                       )
                     }
-                    className="hidden px-1 text-xs text-zinc-600 hover:text-red-400 group-hover:block"
+                    className="hidden items-center px-1 text-xs text-zinc-600 hover:text-red-400 group-hover:flex"
                   >
-                    ✕
+                    <X className="h-3.5 w-3.5" strokeWidth={1.75} />
                   </button>
                 </div>
               )
@@ -387,8 +388,9 @@ export default function NotebookPage() {
         </aside>
 
         <div className="min-w-0 flex-1">
-          <h1 className="text-2xl font-bold">
-            📓 My AI Notebook
+          <h1 className="flex items-center gap-2 text-2xl font-bold">
+            <Notebook className="h-6 w-6" strokeWidth={1.75} />
+            My AI Notebook
           </h1>
           <p className="mt-1 text-zinc-600">
             Save posts, prompts, and

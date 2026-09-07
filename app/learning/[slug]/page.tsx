@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Newspaper } from "lucide-react";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { supabase } from "@/lib/supabase/client";
@@ -358,8 +359,8 @@ export default async function LearningCardDetailPage({
                           className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
                         />
                       ) : (
-                        <div className="flex h-full items-center justify-center text-3xl">
-                          📰
+                        <div className="flex h-full items-center justify-center text-zinc-400">
+                          <Newspaper className="h-8 w-8" strokeWidth={1.5} />
                         </div>
                       )}
 

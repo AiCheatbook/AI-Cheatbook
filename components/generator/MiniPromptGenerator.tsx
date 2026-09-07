@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { X, Settings, Sparkles } from "lucide-react";
 import { useAuthState } from "./hooks/useAuthState";
 import { useUsageTracking } from "./hooks/useUsageTracking";
 import { useGeneration } from "./hooks/useGeneration";
@@ -145,9 +146,10 @@ export default function MiniPromptGenerator() {
                 type="button"
                 onClick={() => removeSavedKeyword(k)}
                 title="Remove"
-                className="rounded-full border border-brand/30 bg-brand/10 px-2.5 py-1 text-xs text-brand-text hover:bg-brand/20"
+                className="inline-flex items-center gap-1 rounded-full border border-brand/30 bg-brand/10 px-2.5 py-1 text-xs text-brand-text hover:bg-brand/20"
               >
-                {k} ✕
+                {k}
+                <X className="h-3 w-3" strokeWidth={1.75} />
               </button>
             ))}
           </div>
@@ -223,13 +225,20 @@ export default function MiniPromptGenerator() {
               ? "Log in to use Real AI"
               : undefined
           }
-          className="ml-auto rounded-full border border-zinc-300 px-2.5 py-1 text-xs text-zinc-600 disabled:cursor-not-allowed disabled:opacity-50"
+          className="ml-auto inline-flex items-center gap-1 rounded-full border border-zinc-300 px-2.5 py-1 text-xs text-zinc-600 disabled:cursor-not-allowed disabled:opacity-50"
         >
+          {!isLoggedIn ? (
+            <Settings className="h-3 w-3" strokeWidth={1.75} />
+          ) : effectiveGenerationMode === "real-ai" ? (
+            <Sparkles className="h-3 w-3" strokeWidth={1.75} />
+          ) : (
+            <Settings className="h-3 w-3" strokeWidth={1.75} />
+          )}
           {!isLoggedIn
-            ? "⚙ Built-in"
+            ? "Built-in"
             : effectiveGenerationMode === "real-ai"
-              ? "✨ Real AI"
-              : "⚙ Built-in"}
+              ? "Real AI"
+              : "Built-in"}
         </button>
       </div>
 

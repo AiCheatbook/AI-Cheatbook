@@ -1,6 +1,15 @@
 "use client";
 
 import { useEditor, EditorContent } from "@tiptap/react";
+import {
+  AlignLeft,
+  AlignCenter,
+  AlignRight,
+  Quote,
+  Link2,
+  ImagePlus,
+  ImageIcon,
+} from "lucide-react";
 import StarterKit from "@tiptap/starter-kit";
 import Link from "@tiptap/extension-link";
 import Underline from "@tiptap/extension-underline";
@@ -337,7 +346,7 @@ export default function RichTextEditor({
         >
           {TEXT_COLORS.map((c) => (
             <option key={c.value} value={c.value}>
-              🎨 {c.label}
+              {c.label}
             </option>
           ))}
         </select>
@@ -360,7 +369,7 @@ export default function RichTextEditor({
         >
           {HIGHLIGHT_COLORS.map((c) => (
             <option key={c.value} value={c.value}>
-              🖍 {c.label}
+              {c.label}
             </option>
           ))}
         </select>
@@ -370,15 +379,15 @@ export default function RichTextEditor({
         {/* Alignment */}
 
         <button type="button" onClick={() => editor.chain().focus().setTextAlign("left").run()} className={buttonClass(editor.isActive({ textAlign: "left" }))} title="Align left">
-          ⬅
+          <AlignLeft className="h-4 w-4" strokeWidth={1.75} />
         </button>
 
         <button type="button" onClick={() => editor.chain().focus().setTextAlign("center").run()} className={buttonClass(editor.isActive({ textAlign: "center" }))} title="Align center">
-          ⬌
+          <AlignCenter className="h-4 w-4" strokeWidth={1.75} />
         </button>
 
         <button type="button" onClick={() => editor.chain().focus().setTextAlign("right").run()} className={buttonClass(editor.isActive({ textAlign: "right" }))} title="Align right">
-          ➡
+          <AlignRight className="h-4 w-4" strokeWidth={1.75} />
         </button>
 
         <div className="mx-1 h-6 w-px bg-zinc-100" />
@@ -391,8 +400,9 @@ export default function RichTextEditor({
           1. List
         </button>
 
-        <button type="button" onClick={() => editor.chain().focus().toggleBlockquote().run()} className={buttonClass(editor.isActive("blockquote"))}>
-          ❝ Quote
+        <button type="button" onClick={() => editor.chain().focus().toggleBlockquote().run()} className={`inline-flex items-center gap-1 ${buttonClass(editor.isActive("blockquote"))}`}>
+          <Quote className="h-4 w-4" strokeWidth={1.75} />
+          Quote
         </button>
 
         <button type="button" onClick={() => editor.chain().focus().toggleCodeBlock().run()} className={buttonClass(editor.isActive("codeBlock"))}>
@@ -417,20 +427,28 @@ export default function RichTextEditor({
           title="Insert callout box"
         >
           <option value="">+ Callout</option>
-          <option value="note">📘 Note</option>
-          <option value="tip">💡 Tip</option>
-          <option value="warning">⚠️ Warning</option>
-          <option value="info">ℹ️ Info</option>
+          <option value="note">Note</option>
+          <option value="tip">Tip</option>
+          <option value="warning">Warning</option>
+          <option value="info">Info</option>
         </select>
 
         <div className="mx-1 h-6 w-px bg-zinc-100" />
 
-        <button type="button" onClick={insertLink} className={buttonClass(editor.isActive("link"))}>
-          🔗 Link
+        <button type="button" onClick={insertLink} className={`inline-flex items-center gap-1 ${buttonClass(editor.isActive("link"))}`}>
+          <Link2 className="h-4 w-4" strokeWidth={1.75} />
+          Link
         </button>
 
-        <label className={`cursor-pointer ${buttonClass(false)}`}>
-          {uploading ? "Uploading..." : "🖼 Upload Image"}
+        <label className={`inline-flex cursor-pointer items-center gap-1 ${buttonClass(false)}`}>
+          {uploading ? (
+            "Uploading..."
+          ) : (
+            <>
+              <ImagePlus className="h-4 w-4" strokeWidth={1.75} />
+              Upload Image
+            </>
+          )}
           <input
             type="file"
             accept="image/jpeg,image/png,image/webp,image/gif"
@@ -440,8 +458,9 @@ export default function RichTextEditor({
           />
         </label>
 
-        <button type="button" onClick={insertImageFromUrl} className={buttonClass(false)}>
-          🖼 Image URL
+        <button type="button" onClick={insertImageFromUrl} className={`inline-flex items-center gap-1 ${buttonClass(false)}`}>
+          <ImageIcon className="h-4 w-4" strokeWidth={1.75} />
+          Image URL
         </button>
 
         <span className="text-xs italic text-zinc-500">
@@ -451,13 +470,13 @@ export default function RichTextEditor({
         {editor.isActive("figureImage") && (
           <>
             <button type="button" onClick={() => editor.chain().focus().setImageAlign("left").run()} className={buttonClass(false)} title="Align image left (wraps text around it)">
-              🖼⬅
+              <AlignLeft className="h-4 w-4" strokeWidth={1.75} />
             </button>
             <button type="button" onClick={() => editor.chain().focus().setImageAlign("center").run()} className={buttonClass(false)} title="Align image center">
-              🖼⬌
+              <AlignCenter className="h-4 w-4" strokeWidth={1.75} />
             </button>
             <button type="button" onClick={() => editor.chain().focus().setImageAlign("right").run()} className={buttonClass(false)} title="Align image right (wraps text around it)">
-              🖼➡
+              <AlignRight className="h-4 w-4" strokeWidth={1.75} />
             </button>
 
             <span className="mx-1 text-xs text-zinc-400">Size:</span>
