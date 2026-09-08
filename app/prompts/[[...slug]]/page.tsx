@@ -25,6 +25,7 @@ type PromptResult = {
   media_type: string | null;
   media_url: string | null;
   media_source: string | null;
+  media_aspect_ratio: string | null;
   thumbnail_url: string | null;
   category_id: string | null;
   category_name: string | null;
@@ -64,6 +65,15 @@ function getYouTubeEmbedUrl(url: string) {
   } catch {
     return url;
   }
+}
+
+function getAspectRatioClass(ratio: string | null): string {
+  if (ratio === "9:16") return "aspect-[9/16]";
+  if (ratio === "4:5") return "aspect-[4/5]";
+  if (ratio === "16:9") return "aspect-video";
+  // No ratio stored — fall back to the previous default rather
+  // than an unconstrained box, so layout stays predictable.
+  return "aspect-video";
 }
 
 export default function PromptLibraryPage() {
@@ -248,7 +258,7 @@ export default function PromptLibraryPage() {
       .select(
         `
         id, title, slug, description, prompt, ai_tools,
-        media_type, media_url, media_source, thumbnail_url,
+        media_type, media_url, media_source, media_aspect_ratio, thumbnail_url,
         concept_id,
         prompt_concepts (
           id, name, subcategory_id,
@@ -292,6 +302,7 @@ export default function PromptLibraryPage() {
         media_type: data.media_type,
         media_url: data.media_url,
         media_source: data.media_source,
+        media_aspect_ratio: data.media_aspect_ratio,
         thumbnail_url: data.thumbnail_url,
         category_id: catJoin?.id || null,
         category_name: catJoin?.name || null,
@@ -604,7 +615,7 @@ export default function PromptLibraryPage() {
 
                 <div className="min-w-0">
                   {selected.media_url && (
-                    <div className="relative aspect-video overflow-hidden rounded-xl border border-zinc-200 bg-zinc-100">
+                    <div className={`relative ${getAspectRatioClass(selected.media_aspect_ratio)} overflow-hidden rounded-xl border border-zinc-200 bg-zinc-100`}>
                       {selected.media_type === "youtube" ? (
                         <iframe
                           src={getYouTubeEmbedUrl(selected.media_url)}
