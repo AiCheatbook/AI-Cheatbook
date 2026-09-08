@@ -136,6 +136,13 @@ export default function AdminPromptsPage() {
             </Link>
 
             <Link
+              href="/admin/prompts/bulk-images"
+              className="inline-flex h-11 items-center justify-center rounded-xl border border-zinc-300 px-5 text-sm font-semibold text-zinc-700 transition hover:border-brand/50"
+            >
+              Bulk Images
+            </Link>
+
+            <Link
               href="/admin/prompts/new"
               className="inline-flex h-11 items-center justify-center rounded-xl bg-brand px-5 text-sm font-semibold text-zinc-900 transition hover:bg-brand-dark"
             >
