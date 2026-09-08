@@ -15,11 +15,28 @@ type FileStatus = {
  * "001_Static_Shot.jpg" -> "Static Shot"
  * Strips extension, a leading numeric prefix (with any of _/-/space
  * as the separator), then turns remaining underscores into spaces.
+ * Used only for the human-readable preview column — actual
+ * matching uses normalizeForMatch() below, which is far more
+ * forgiving of punctuation differences.
  */
 function extractTitleFromFilename(fileName: string): string {
   const withoutExt = fileName.replace(/\.[^/.]+$/, "");
   const withoutPrefix = withoutExt.replace(/^\d+[\s_-]+/, "");
   return withoutPrefix.replace(/_/g, " ").trim();
+}
+
+/*
+ * Strips every non-alphanumeric character and lowercases, so
+ * "Pass-through objects" (title, has a hyphen) and
+ * "Pass_through_objects" (filename, underscore instead) both
+ * normalize to "passthroughobjects" and match correctly — the
+ * exact punctuation a filename uses for a title's dashes,
+ * apostrophes, etc. is never reliably guessable, so comparing
+ * this way sidesteps the problem entirely rather than trying to
+ * reconstruct it.
+ */
+function normalizeForMatch(value: string): string {
+  return value.toLowerCase().replace(/[^a-z0-9]/g, "");
 }
 
 export default function BulkImagesPage() {
@@ -48,6 +65,21 @@ export default function BulkImagesPage() {
 
     const fileObjects = fileObjectsRef.current;
 
+    const { data: allPrompts, error: fetchError } = await supabase
+      .from("library_items")
+      .select("id, title");
+
+    if (fetchError) {
+      setRunning(false);
+      alert(`Couldn't load prompts to match against: ${fetchError.message}`);
+      return;
+    }
+
+    const titleLookup = new Map<string, string>();
+    for (const p of allPrompts || []) {
+      titleLookup.set(normalizeForMatch(p.title), p.id);
+    }
+
     for (let i = 0; i < fileObjects.length; i++) {
       const file = fileObjects[i];
       const matchedTitle = extractTitleFromFilename(file.name);
@@ -58,13 +90,9 @@ export default function BulkImagesPage() {
         )
       );
 
-      const { data: prompt } = await supabase
-        .from("library_items")
-        .select("id")
-        .ilike("title", matchedTitle)
-        .maybeSingle();
+      const promptId = titleLookup.get(normalizeForMatch(matchedTitle));
 
-      if (!prompt) {
+      if (!promptId) {
         setFiles((prev) =>
           prev.map((f, idx) =>
             idx === i ? { ...f, status: "no-match" } : f
@@ -96,7 +124,7 @@ export default function BulkImagesPage() {
             media_source: "hostinger",
             media_aspect_ratio: "4:5",
           })
-          .eq("id", prompt.id);
+          .eq("id", promptId);
 
         if (updateError) {
           throw new Error(updateError.message);
