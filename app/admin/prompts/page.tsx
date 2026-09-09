@@ -121,8 +121,8 @@ export default function AdminPromptsPage() {
 
   const filteredPrompts = prompts
     .filter((p) => {
-      if (mediaFilter === "with" && p.category === "text") return false;
-      if (mediaFilter === "without" && p.category !== "text") return false;
+      if (mediaFilter === "with" && !p.media_url) return false;
+      if (mediaFilter === "without" && p.media_url) return false;
       if (categoryFilter === "uncategorized" && p.category_id) return false;
       if (
         categoryFilter !== "all" &&
@@ -248,8 +248,8 @@ export default function AdminPromptsPage() {
               className="rounded-lg border border-zinc-200 px-3 py-1.5 text-xs text-zinc-700 outline-none focus:border-brand"
             >
               <option value="all">All Media</option>
-              <option value="with">With Media (Image/Video/Audio)</option>
-              <option value="without">Without Media (Text Only)</option>
+              <option value="with">With Media</option>
+              <option value="without">Without Media</option>
             </select>
 
             <select
