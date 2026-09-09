@@ -191,6 +191,13 @@ export default function AdminPromptsPage() {
             </Link>
 
             <Link
+              href="/admin/prompts/deduplicate"
+              className="inline-flex h-11 items-center justify-center rounded-xl border border-red-300 px-5 text-sm font-semibold text-red-600 transition hover:bg-red-50"
+            >
+              Deduplicate
+            </Link>
+
+            <Link
               href="/admin/prompts/new"
               className="inline-flex h-11 items-center justify-center rounded-xl bg-brand px-5 text-sm font-semibold text-zinc-900 transition hover:bg-brand-dark"
             >
