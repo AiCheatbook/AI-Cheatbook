@@ -42,51 +42,70 @@ export default function AdminPromptsPage() {
       setLoading(true);
       setError("");
 
-      const { data, error } = await supabase
-        .from("library_items")
-        .select(`
-          id,
-          slug,
-          title,
-          type,
-          category,
-          media_url,
-          is_published,
-          is_featured,
-          is_trending,
-          created_at,
-          prompt_concepts (
-            prompt_subcategories (
-              prompt_categories ( id, name )
+      const [itemsRes, conceptsRes, subcategoriesRes, categoriesRes] =
+        await Promise.all([
+          supabase
+            .from("library_items")
+            .select(
+              `
+              id,
+              slug,
+              title,
+              type,
+              category,
+              media_url,
+              is_published,
+              is_featured,
+              is_trending,
+              created_at,
+              concept_id
+            `
             )
-          )
-        `)
-        .order("created_at", {
-          ascending: false,
-        });
+            .order("created_at", { ascending: false }),
+          supabase.from("prompt_concepts").select("id, subcategory_id"),
+          supabase.from("prompt_subcategories").select("id, category_id"),
+          supabase.from("prompt_categories").select("id, name"),
+        ]);
 
-      if (error) {
-        throw error;
+      if (itemsRes.error) {
+        throw itemsRes.error;
       }
 
-      type RawRow = Omit<PromptItem, "category_name" | "category_id"> & {
-        prompt_concepts?: {
-          prompt_subcategories?: {
-            prompt_categories?: { id: string; name: string } | null;
-          } | null;
-        } | null;
+      // concept_id -> category_id, and category_id -> name, built
+      // from three independent flat lists rather than a nested
+      // Supabase join — the same reliable pattern already proven
+      // to work correctly in the Taxonomy Diagnostic tool.
+      const subcategoryToCategoryId = new Map(
+        (subcategoriesRes.data || []).map((s) => [s.id, s.category_id])
+      );
+      const conceptToCategoryId = new Map(
+        (conceptsRes.data || []).map((c) => [
+          c.id,
+          subcategoryToCategoryId.get(c.subcategory_id) || null,
+        ])
+      );
+      const categoryIdToName = new Map(
+        (categoriesRes.data || []).map((c) => [c.id, c.name])
+      );
+
+      type ItemRow = Omit<PromptItem, "category_name" | "category_id"> & {
+        concept_id: string | null;
       };
 
       setPrompts(
-        ((data || []) as RawRow[]).map((row) => ({
-          ...row,
-          category_name:
-            row.prompt_concepts?.prompt_subcategories?.prompt_categories
-              ?.name || null,
-          category_id:
-            row.prompt_concepts?.prompt_subcategories?.prompt_categories
-              ?.id || null,
-        }))
+        ((itemsRes.data || []) as ItemRow[]).map((row) => {
+          const resolvedCategoryId = row.concept_id
+            ? conceptToCategoryId.get(row.concept_id) || null
+            : null;
+
+          return {
+            ...row,
+            category_id: resolvedCategoryId,
+            category_name: resolvedCategoryId
+              ? categoryIdToName.get(resolvedCategoryId) || null
+              : null,
+          };
+        })
       );
     } catch (err) {
       console.error(
@@ -202,6 +221,13 @@ export default function AdminPromptsPage() {
               className="inline-flex h-11 items-center justify-center rounded-xl border border-zinc-300 px-5 text-sm font-semibold text-zinc-700 transition hover:border-brand/50"
             >
               Diagnostic
+            </Link>
+
+            <Link
+              href="/admin/prompts/bulk-assign-taxonomy"
+              className="inline-flex h-11 items-center justify-center rounded-xl border border-zinc-300 px-5 text-sm font-semibold text-zinc-700 transition hover:border-brand/50"
+            >
+              Bulk Assign Taxonomy
             </Link>
 
             <Link
