@@ -23,79 +23,51 @@ export default function AdminPromptsPage() {
   const [prompts, setPrompts] = useState<
     PromptItem[]
   >([]);
+  const [categories, setCategories] = useState<
+    { id: string; name: string }[]
+  >([]);
   const [loading, setLoading] =
     useState(true);
   const [error, setError] = useState("");
+  const [searchInput, setSearchInput] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState("all");
+  const [sortOption, setSortOption] = useState<
+    "newest" | "oldest" | "title-az" | "title-za"
+  >("newest");
+
+  async function loadCategories() {
+    const { data } = await supabase
+      .from("prompt_categories")
+      .select("id, name")
+      .order("sort_order", { ascending: true });
+
+    setCategories(data || []);
+  }
 
   async function loadPrompts() {
     try {
       setLoading(true);
       setError("");
 
-      const [itemsRes, conceptsRes, subcategoriesRes, categoriesRes] =
-        await Promise.all([
-          supabase
-            .from("library_items")
-            .select(
-              `
-              id,
-              slug,
-              title,
-              type,
-              category,
-              media_url,
-              is_published,
-              is_featured,
-              is_trending,
-              created_at,
-              concept_id
-            `
-            )
-            .order("created_at", { ascending: false }),
-          supabase.from("prompt_concepts").select("id, subcategory_id"),
-          supabase.from("prompt_subcategories").select("id, category_id"),
-          supabase.from("prompt_categories").select("id, name"),
-        ]);
+      const { data, error } = await supabase.rpc("search_prompts_admin", {
+        search_query: searchInput.trim() || null,
+        filter_category_id:
+          categoryFilter !== "all" && categoryFilter !== "uncategorized"
+            ? categoryFilter
+            : null,
+        sort_option: sortOption,
+      });
 
-      if (itemsRes.error) {
-        throw itemsRes.error;
+      if (error) {
+        throw error;
       }
 
-      // concept_id -> category_id, and category_id -> name, built
-      // from three independent flat lists rather than a nested
-      // Supabase join — the same reliable pattern already proven
-      // to work correctly in the Taxonomy Diagnostic tool.
-      const subcategoryToCategoryId = new Map(
-        (subcategoriesRes.data || []).map((s) => [s.id, s.category_id])
-      );
-      const conceptToCategoryId = new Map(
-        (conceptsRes.data || []).map((c) => [
-          c.id,
-          subcategoryToCategoryId.get(c.subcategory_id) || null,
-        ])
-      );
-      const categoryIdToName = new Map(
-        (categoriesRes.data || []).map((c) => [c.id, c.name])
-      );
-
-      type ItemRow = Omit<PromptItem, "category_name" | "category_id"> & {
-        concept_id: string | null;
-      };
+      const rows = (data || []) as PromptItem[];
 
       setPrompts(
-        ((itemsRes.data || []) as ItemRow[]).map((row) => {
-          const resolvedCategoryId = row.concept_id
-            ? conceptToCategoryId.get(row.concept_id) || null
-            : null;
-
-          return {
-            ...row,
-            category_id: resolvedCategoryId,
-            category_name: resolvedCategoryId
-              ? categoryIdToName.get(resolvedCategoryId) || null
-              : null,
-          };
-        })
+        categoryFilter === "uncategorized"
+          ? rows.filter((r) => !r.category_id)
+          : rows
       );
     } catch (err) {
       console.error(
@@ -115,8 +87,19 @@ export default function AdminPromptsPage() {
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    loadPrompts();
+    loadCategories();
   }, []);
+
+  useEffect(() => {
+    const timeout = setTimeout(
+      () => {
+        loadPrompts();
+      },
+      searchInput ? 250 : 0
+    );
+    return () => clearTimeout(timeout);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchInput, categoryFilter, sortOption]);
 
   return (
     <main className="min-h-screen bg-white px-6 py-10 text-zinc-900">
@@ -234,6 +217,44 @@ export default function AdminPromptsPage() {
           </div>
         )}
 
+        {/* SEARCH + FILTER + SORT */}
+
+        <div className="mt-6 flex flex-wrap gap-2">
+          <input
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+            placeholder="Search prompts..."
+            className="min-w-[200px] flex-1 rounded-lg border border-zinc-200 px-3 py-2 text-sm outline-none focus:border-brand"
+          />
+
+          <select
+            value={categoryFilter}
+            onChange={(e) => setCategoryFilter(e.target.value)}
+            className="rounded-lg border border-zinc-200 px-3 py-2 text-sm text-zinc-700 outline-none focus:border-brand"
+          >
+            <option value="all">All Categories</option>
+            <option value="uncategorized">Uncategorized</option>
+            {categories.map((c) => (
+              <option key={c.id} value={c.id}>
+                {c.name}
+              </option>
+            ))}
+          </select>
+
+          <select
+            value={sortOption}
+            onChange={(e) =>
+              setSortOption(e.target.value as typeof sortOption)
+            }
+            className="rounded-lg border border-zinc-200 px-3 py-2 text-sm text-zinc-700 outline-none focus:border-brand"
+          >
+            <option value="newest">Newest First</option>
+            <option value="oldest">Oldest First</option>
+            <option value="title-az">Title A–Z</option>
+            <option value="title-za">Title Z–A</option>
+          </select>
+        </div>
+
         {/* EMPTY */}
 
         {!loading &&
@@ -241,19 +262,25 @@ export default function AdminPromptsPage() {
           prompts.length === 0 && (
             <div className="mt-8 rounded-2xl border border-zinc-200 bg-white p-12 text-center">
               <h2 className="text-lg font-semibold text-zinc-900">
-                No prompts yet
+                {searchInput.trim() || categoryFilter !== "all"
+                  ? "No prompts match"
+                  : "No prompts yet"}
               </h2>
 
               <p className="mt-2 text-sm text-zinc-600">
-                Create your first prompt.
+                {searchInput.trim() || categoryFilter !== "all"
+                  ? "Try a different search or filter."
+                  : "Create your first prompt."}
               </p>
 
-              <Link
-                href="/admin/prompts/new"
-                className="mt-5 inline-flex rounded-xl bg-brand px-5 py-2.5 text-sm font-semibold text-zinc-900 transition hover:bg-brand-dark"
-              >
-                Create Prompt
-              </Link>
+              {!(searchInput.trim() || categoryFilter !== "all") && (
+                <Link
+                  href="/admin/prompts/new"
+                  className="mt-5 inline-flex rounded-xl bg-brand px-5 py-2.5 text-sm font-semibold text-zinc-900 transition hover:bg-brand-dark"
+                >
+                  Create Prompt
+                </Link>
+              )}
             </div>
           )}
 
