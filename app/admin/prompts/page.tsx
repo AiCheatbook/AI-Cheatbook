@@ -23,19 +23,9 @@ export default function AdminPromptsPage() {
   const [prompts, setPrompts] = useState<
     PromptItem[]
   >([]);
-  const [categories, setCategories] = useState<
-    { id: string; name: string }[]
-  >([]);
   const [loading, setLoading] =
     useState(true);
   const [error, setError] = useState("");
-  const [mediaFilter, setMediaFilter] = useState<
-    "all" | "with" | "without"
-  >("all");
-  const [categoryFilter, setCategoryFilter] = useState("all");
-  const [sortOption, setSortOption] = useState<
-    "newest" | "oldest" | "title-az" | "title-za"
-  >("newest");
 
   async function loadPrompts() {
     try {
@@ -123,42 +113,10 @@ export default function AdminPromptsPage() {
     }
   }
 
-  async function loadCategories() {
-    const { data } = await supabase
-      .from("prompt_categories")
-      .select("id, name")
-      .order("sort_order", { ascending: true });
-
-    setCategories(data || []);
-  }
-
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     loadPrompts();
-    loadCategories();
   }, []);
-
-  const filteredPrompts = prompts
-    .filter((p) => {
-      if (mediaFilter === "with" && !p.media_url) return false;
-      if (mediaFilter === "without" && p.media_url) return false;
-      if (categoryFilter === "uncategorized" && p.category_id) return false;
-      if (
-        categoryFilter !== "all" &&
-        categoryFilter !== "uncategorized" &&
-        p.category_id !== categoryFilter
-      ) {
-        return false;
-      }
-      return true;
-    })
-    .sort((a, b) => {
-      if (sortOption === "title-az") return a.title.localeCompare(b.title);
-      if (sortOption === "title-za") return b.title.localeCompare(a.title);
-      const aTime = new Date(a.created_at).getTime();
-      const bTime = new Date(b.created_at).getTime();
-      return sortOption === "oldest" ? aTime - bTime : bTime - aTime;
-    });
 
   return (
     <main className="min-h-screen bg-white px-6 py-10 text-zinc-900">
@@ -276,51 +234,6 @@ export default function AdminPromptsPage() {
           </div>
         )}
 
-        {/* FILTERS */}
-
-        {!loading && !error && prompts.length > 0 && (
-          <div className="mt-6 flex flex-wrap gap-2">
-            <select
-              value={mediaFilter}
-              onChange={(e) =>
-                setMediaFilter(e.target.value as typeof mediaFilter)
-              }
-              className="rounded-lg border border-zinc-200 px-3 py-1.5 text-xs text-zinc-700 outline-none focus:border-brand"
-            >
-              <option value="all">All Media</option>
-              <option value="with">With Media</option>
-              <option value="without">Without Media</option>
-            </select>
-
-            <select
-              value={categoryFilter}
-              onChange={(e) => setCategoryFilter(e.target.value)}
-              className="rounded-lg border border-zinc-200 px-3 py-1.5 text-xs text-zinc-700 outline-none focus:border-brand"
-            >
-              <option value="all">All Categories</option>
-              <option value="uncategorized">Uncategorized</option>
-              {categories.map((c) => (
-                <option key={c.id} value={c.id}>
-                  {c.name}
-                </option>
-              ))}
-            </select>
-
-            <select
-              value={sortOption}
-              onChange={(e) =>
-                setSortOption(e.target.value as typeof sortOption)
-              }
-              className="ml-auto rounded-lg border border-zinc-200 px-3 py-1.5 text-xs text-zinc-700 outline-none focus:border-brand"
-            >
-              <option value="newest">Newest First</option>
-              <option value="oldest">Oldest First</option>
-              <option value="title-az">Title A–Z</option>
-              <option value="title-za">Title Z–A</option>
-            </select>
-          </div>
-        )}
-
         {/* EMPTY */}
 
         {!loading &&
@@ -344,27 +257,11 @@ export default function AdminPromptsPage() {
             </div>
           )}
 
-        {/* NO MATCHES */}
-
-        {!loading &&
-          !error &&
-          prompts.length > 0 &&
-          filteredPrompts.length === 0 && (
-            <div className="mt-8 rounded-2xl border border-zinc-200 bg-white p-12 text-center">
-              <h2 className="text-lg font-semibold text-zinc-900">
-                No prompts match these filters
-              </h2>
-              <p className="mt-2 text-sm text-zinc-600">
-                Try a different combination.
-              </p>
-            </div>
-          )}
-
         {/* LIST */}
 
         {!loading &&
           !error &&
-          filteredPrompts.length > 0 && (
+          prompts.length > 0 && (
             <div className="mt-8 overflow-hidden rounded-2xl border border-zinc-200 bg-white">
               <div className="hidden grid-cols-[1fr_120px_100px_150px] gap-4 border-b border-zinc-200 bg-zinc-50 px-5 py-3 text-xs font-semibold uppercase tracking-wider text-zinc-600 md:grid">
                 <span>Prompt</span>
@@ -374,7 +271,7 @@ export default function AdminPromptsPage() {
               </div>
 
               <div className="divide-y divide-zinc-800">
-                {filteredPrompts.map((item) => (
+                {prompts.map((item) => (
                   <div
                     key={item.id}
                     className="grid gap-4 px-5 py-5 transition hover:bg-white/50 md:grid-cols-[1fr_120px_100px_150px] md:items-center"
