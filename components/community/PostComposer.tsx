@@ -55,7 +55,6 @@ export default function PostComposer({
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [aiTool, setAiTool] = useState("");
-  const [resourceUrl, setResourceUrl] = useState("");
   const [category, setCategory] = useState("general");
   const [media, setMedia] = useState<MediaValue>({
     mode: "images",
@@ -77,11 +76,6 @@ export default function PostComposer({
 
     if (!title.trim() || !body.trim()) {
       setError("Title and details are both required.");
-      return;
-    }
-
-    if (postType === "resource" && !resourceUrl.trim()) {
-      setError("Please add a link for this resource.");
       return;
     }
 
@@ -132,10 +126,7 @@ export default function PostComposer({
           content_kind: postType,
           ai_tool:
             postType === "prompt" && aiTool.trim() ? aiTool.trim() : null,
-          resource_url:
-            postType === "resource" && resourceUrl.trim()
-              ? resourceUrl.trim()
-              : null,
+          resource_url: null,
           media_urls: media.imageUrls,
           video_url: media.videoUrl,
           youtube_url: media.youtubeUrl,
@@ -311,13 +302,7 @@ export default function PostComposer({
                       ? "What's your question?"
                       : postType === "prompt"
                         ? "Name your prompt"
-                        : postType === "resource"
-                          ? "What is this resource?"
-                          : postType === "learning"
-                            ? "What are you explaining?"
-                            : postType === "discovery"
-                              ? "What did you discover?"
-                              : "What do you want to talk about?"
+                        : "What do you want to talk about?"
                   }
                   className="mt-4 w-full rounded-xl border border-zinc-200 bg-white px-4 py-3 text-zinc-900 outline-none focus:border-brand"
                 />
@@ -331,15 +316,6 @@ export default function PostComposer({
                   />
                 )}
 
-                {postType === "resource" && (
-                  <input
-                    value={resourceUrl}
-                    onChange={(e) => setResourceUrl(e.target.value)}
-                    placeholder="Link to the article, video, or tool"
-                    className="mt-3 w-full rounded-xl border border-zinc-200 bg-white px-4 py-3 text-zinc-900 outline-none focus:border-brand"
-                  />
-                )}
-
                 <textarea
                   value={body}
                   onChange={(e) => setBody(e.target.value)}
@@ -347,9 +323,7 @@ export default function PostComposer({
                   placeholder={
                     postType === "prompt"
                       ? "Paste the full prompt text..."
-                      : postType === "resource"
-                        ? "What's useful about it?"
-                        : "Add details..."
+                      : "Add details..."
                   }
                   className="mt-3 w-full rounded-xl border border-zinc-200 bg-white px-4 py-3 text-zinc-900 outline-none focus:border-brand"
                 />

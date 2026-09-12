@@ -3,9 +3,6 @@ import {
   HelpCircle,
   BarChart3,
   Sparkles,
-  BookOpen,
-  Compass,
-  Link2,
   Palette,
   type LucideIcon,
 } from "lucide-react";
@@ -14,9 +11,6 @@ export type PostType =
   | "question"
   | "discussion"
   | "prompt"
-  | "learning"
-  | "resource"
-  | "discovery"
   | "poll"
   | "work";
 
@@ -51,24 +45,6 @@ export const TYPE_OPTIONS: PostTypeOption[] = [
     label: "Prompt",
     icon: Sparkles,
     color: "bg-brand/10 text-brand-text",
-  },
-  {
-    value: "learning",
-    label: "Learning",
-    icon: BookOpen,
-    color: "bg-cyan-500/10 text-cyan-600",
-  },
-  {
-    value: "discovery",
-    label: "AI Discovery",
-    icon: Compass,
-    color: "bg-purple-500/10 text-purple-600",
-  },
-  {
-    value: "resource",
-    label: "Resource",
-    icon: Link2,
-    color: "bg-indigo-500/10 text-indigo-600",
   },
   {
     value: "work",
