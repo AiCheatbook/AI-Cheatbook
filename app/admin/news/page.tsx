@@ -13,6 +13,7 @@ type NewsItem = {
   category: string | null;
   author: string | null;
   published_at: string | null;
+  scheduled_publish_at: string | null;
   is_published: boolean;
 };
 
@@ -37,6 +38,7 @@ export default function AdminNewsPage() {
             category,
             author,
             published_at,
+            scheduled_publish_at,
             is_published
           `)
           .order("published_at", {
@@ -99,6 +101,7 @@ export default function AdminNewsPage() {
           category,
           author,
           published_at,
+          scheduled_publish_at,
           is_published
         `)
         .order("published_at", {
@@ -125,6 +128,34 @@ export default function AdminNewsPage() {
     } finally {
       setLoading(false);
     }
+  }
+
+  async function updateSchedule(id: string, value: string) {
+    const scheduledAt = value ? new Date(value).toISOString() : null;
+
+    setNews((prev) =>
+      prev.map((item) =>
+        item.id === id
+          ? { ...item, scheduled_publish_at: scheduledAt }
+          : item
+      )
+    );
+
+    const { error } = await supabase
+      .from("news")
+      .update({ scheduled_publish_at: scheduledAt })
+      .eq("id", id);
+
+    if (error) {
+      console.error("Failed to update schedule:", error.message);
+      alert(`Couldn't save the schedule: ${error.message}`);
+      reloadNews();
+    }
+  }
+
+  function toLocalInputValue(iso: string | null): string {
+    if (!iso) return "";
+    return new Date(iso).toISOString().slice(0, 16);
   }
 
   function formatDate(
@@ -276,7 +307,7 @@ export default function AdminNewsPage() {
 
               {/* Table Header */}
 
-              <div className="hidden grid-cols-[1fr_140px_150px_140px] gap-4 border-b border-zinc-200 bg-zinc-50 px-5 py-3 text-xs font-semibold uppercase tracking-wider text-zinc-600 md:grid">
+              <div className="hidden grid-cols-[1fr_140px_150px_220px] gap-4 border-b border-zinc-200 bg-zinc-50 px-5 py-3 text-xs font-semibold uppercase tracking-wider text-zinc-600 md:grid">
 
                 <span>News</span>
 
@@ -295,7 +326,7 @@ export default function AdminNewsPage() {
                 {news.map((item) => (
                   <div
                     key={item.id}
-                    className="grid gap-4 px-5 py-5 transition hover:bg-white/50 md:grid-cols-[1fr_140px_150px_140px] md:items-center"
+                    className="grid gap-4 px-5 py-5 transition hover:bg-white/50 md:grid-cols-[1fr_140px_150px_220px] md:items-center"
                   >
 
                     {/* News */}
@@ -367,6 +398,20 @@ export default function AdminNewsPage() {
                           ? "Published"
                           : "Draft"}
                       </span>
+
+                      {!item.is_published && (
+                        <input
+                          type="datetime-local"
+                          value={toLocalInputValue(
+                            item.scheduled_publish_at
+                          )}
+                          onChange={(e) =>
+                            updateSchedule(item.id, e.target.value)
+                          }
+                          title="Schedule this article to publish automatically at this time"
+                          className="rounded-lg border border-zinc-200 px-2 py-1 text-xs text-zinc-700 outline-none focus:border-brand"
+                        />
+                      )}
 
                       <Link
                         href={`/admin/news/${item.id}`}
