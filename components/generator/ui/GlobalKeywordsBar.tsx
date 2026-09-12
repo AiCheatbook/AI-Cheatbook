@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase/client";
 import { findOrCreateKeyword } from "@/lib/cms/keywordLibrary";
+import TaxonomyBrowser from "./TaxonomyBrowser";
 
 type GlobalKeywordRow = {
   id: string;
@@ -219,6 +220,11 @@ export default function GlobalKeywordsBar({
             </div>
           )}
         </div>
+
+        <TaxonomyBrowser
+          placements={["global", "both"]}
+          onInsertMultiple={(labels) => labels.forEach(onAdd)}
+        />
       </div>
     </div>
   );

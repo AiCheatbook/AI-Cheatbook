@@ -175,9 +175,9 @@ export default function PromptComposer({
     },
   });
 
-  function handleTaxonomyInsert(label: string) {
-    if (editor) {
-      editor.chain().focus().insertContent(`${label} `).run();
+  function handleTaxonomyInsert(labels: string[]) {
+    if (editor && labels.length > 0) {
+      editor.chain().focus().insertContent(`${labels.join(", ")} `).run();
     }
   }
 
@@ -464,7 +464,7 @@ export default function PromptComposer({
               isLoggedIn={isLoggedIn}
             />
 
-            <TaxonomyBrowser onInsert={handleTaxonomyInsert} />
+            <TaxonomyBrowser onInsertMultiple={handleTaxonomyInsert} />
 
             {availableModels.length > 0 && (
               <select

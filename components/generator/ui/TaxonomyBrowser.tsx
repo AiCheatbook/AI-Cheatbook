@@ -11,10 +11,14 @@ type Keyword = { id: string; label: string; concept_id: string };
 type StagedItem = { id: string; label: string };
 
 type TaxonomyBrowserProps = {
-  onInsert: (label: string) => void;
+  onInsertMultiple: (labels: string[]) => void;
+  placements?: ("inline" | "global" | "both")[];
 };
 
-export default function TaxonomyBrowser({ onInsert }: TaxonomyBrowserProps) {
+export default function TaxonomyBrowser({
+  onInsertMultiple,
+  placements = ["inline", "both"],
+}: TaxonomyBrowserProps) {
   const [open, setOpen] = useState(false);
 
   const [categories, setCategories] = useState<Category[]>([]);
@@ -51,7 +55,7 @@ export default function TaxonomyBrowser({ onInsert }: TaxonomyBrowserProps) {
           supabase
             .from("library_keywords")
             .select("id, label, concept_id")
-            .in("placement", ["inline", "both"])
+            .in("placement", placements)
             .not("concept_id", "is", null)
             .order("label", { ascending: true }),
         ]);
@@ -65,6 +69,7 @@ export default function TaxonomyBrowser({ onInsert }: TaxonomyBrowserProps) {
     }
 
     load();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, loaded]);
 
   function isStaged(id: string) {
@@ -81,7 +86,7 @@ export default function TaxonomyBrowser({ onInsert }: TaxonomyBrowserProps) {
 
   function insertStaged() {
     if (staged.length === 0) return;
-    onInsert(staged.map((k) => k.label).join(", "));
+    onInsertMultiple(staged.map((k) => k.label));
     setStaged([]);
   }
 
