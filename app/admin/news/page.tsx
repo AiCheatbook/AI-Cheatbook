@@ -385,19 +385,28 @@ export default function AdminNewsPage() {
 
                     {/* Status */}
 
-                    <div className="flex items-center gap-3">
+                    <div className="flex flex-col gap-2">
 
-                      <span
-                        className={`rounded-full px-2.5 py-1 text-xs font-medium ${
-                          item.is_published
-                            ? "bg-green-500/10 text-green-600"
-                            : "bg-zinc-100 text-zinc-600"
-                        }`}
-                      >
-                        {item.is_published
-                          ? "Published"
-                          : "Draft"}
-                      </span>
+                      <div className="flex items-center gap-3">
+                        <span
+                          className={`rounded-full px-2.5 py-1 text-xs font-medium ${
+                            item.is_published
+                              ? "bg-green-500/10 text-green-600"
+                              : "bg-zinc-100 text-zinc-600"
+                          }`}
+                        >
+                          {item.is_published
+                            ? "Published"
+                            : "Draft"}
+                        </span>
+
+                        <Link
+                          href={`/admin/news/${item.id}`}
+                          className="text-sm font-medium text-brand-text transition hover:text-brand-text"
+                        >
+                          Edit
+                        </Link>
+                      </div>
 
                       {!item.is_published && (
                         <input
@@ -409,16 +418,9 @@ export default function AdminNewsPage() {
                             updateSchedule(item.id, e.target.value)
                           }
                           title="Schedule this article to publish automatically at this time"
-                          className="rounded-lg border border-zinc-200 px-2 py-1 text-xs text-zinc-700 outline-none focus:border-brand"
+                          className="w-fit rounded-lg border border-zinc-200 px-2 py-1 text-xs text-zinc-700 outline-none focus:border-brand"
                         />
                       )}
-
-                      <Link
-                        href={`/admin/news/${item.id}`}
-                        className="text-sm font-medium text-brand-text transition hover:text-brand-text"
-                      >
-                        Edit
-                      </Link>
 
                     </div>
 
