@@ -144,7 +144,7 @@ export default function PromptComposer({
       KeywordChip,
       Placeholder.configure({
         placeholder:
-          "generate a girl standing...",
+          "Describe your scene or idea (e.g. \"a girl standing at a bus stop at night\") — keywords add detail, but this box needs your own description too.",
       }),
     ],
     editorProps: {
@@ -263,6 +263,14 @@ export default function PromptComposer({
   async function handleGenerate() {
     if (!taskText.trim() || !editor) {
       return;
+    }
+
+    const wordCount = taskText.trim().split(/\s+/).length;
+    if (wordCount < 3) {
+      const proceed = confirm(
+        "Your description is very short. With little to go on, the AI will invent its own scene, subject, and setting — which may not be what you want. Continue anyway?"
+      );
+      if (!proceed) return;
     }
 
     // The daily cap is a Real AI limit only — the built-in
