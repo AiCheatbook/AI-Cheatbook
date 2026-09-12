@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { Plus, Check } from "lucide-react";
 import { supabase } from "@/lib/supabase/client";
 
 type Category = { id: string; name: string };
@@ -26,6 +27,7 @@ export default function TaxonomyBrowser({ onInsert }: TaxonomyBrowserProps) {
 
   const [keywords, setKeywords] = useState<Keyword[]>([]);
   const [loadingKeywords, setLoadingKeywords] = useState(false);
+  const [staged, setStaged] = useState<Keyword[]>([]);
 
   useEffect(() => {
     if (!open || loaded) return;
@@ -79,6 +81,24 @@ export default function TaxonomyBrowser({ onInsert }: TaxonomyBrowserProps) {
 
     load();
   }, [conceptId]);
+
+  function isStaged(id: string) {
+    return staged.some((k) => k.id === id);
+  }
+
+  function toggleStaged(keyword: Keyword) {
+    setStaged((prev) =>
+      isStaged(keyword.id)
+        ? prev.filter((k) => k.id !== keyword.id)
+        : [...prev, keyword]
+    );
+  }
+
+  function insertStaged() {
+    if (staged.length === 0) return;
+    onInsert(staged.map((k) => k.label).join(", "));
+    setStaged([]);
+  }
 
   const visibleSubcategories = categoryId
     ? subcategories.filter((s) => s.category_id === categoryId)
@@ -169,20 +189,64 @@ export default function TaxonomyBrowser({ onInsert }: TaxonomyBrowserProps) {
                   ? "Loading keywords..."
                   : keywords.length === 0
                     ? "No keywords under this Concept yet."
-                    : "Click a keyword to insert it:"}
+                    : "Click the + to select — you can pick more after switching Category/Subcategory/Concept."}
               </p>
               <div className="mt-2 flex flex-wrap gap-1.5">
-                {keywords.map((k) => (
-                  <button
+                {keywords.map((k) => {
+                  const selected = isStaged(k.id);
+                  return (
+                    <button
+                      key={k.id}
+                      type="button"
+                      onClick={() => toggleStaged(k)}
+                      className={`flex items-center gap-1 rounded-full border px-3 py-1 text-xs transition ${
+                        selected
+                          ? "border-brand bg-brand/10 text-brand-text"
+                          : "border-zinc-200 text-zinc-700 hover:border-brand/50 hover:bg-brand/5"
+                      }`}
+                    >
+                      {k.label}
+                      {selected ? (
+                        <Check className="h-3 w-3" strokeWidth={2.5} />
+                      ) : (
+                        <Plus className="h-3 w-3" strokeWidth={2.5} />
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {staged.length > 0 && (
+            <div className="mt-3 border-t border-zinc-100 pt-3">
+              <p className="text-xs font-semibold text-zinc-700">
+                Selected ({staged.length})
+              </p>
+              <div className="mt-1.5 flex flex-wrap gap-1.5">
+                {staged.map((k) => (
+                  <span
                     key={k.id}
-                    type="button"
-                    onClick={() => onInsert(k.label)}
-                    className="rounded-full border border-zinc-200 px-3 py-1 text-xs text-zinc-700 hover:border-brand/50 hover:bg-brand/5"
+                    className="flex items-center gap-1 rounded-full bg-zinc-100 px-2.5 py-1 text-xs text-zinc-700"
                   >
                     {k.label}
-                  </button>
+                    <button
+                      type="button"
+                      onClick={() => toggleStaged(k)}
+                      className="text-zinc-400 hover:text-red-500"
+                    >
+                      ×
+                    </button>
+                  </span>
                 ))}
               </div>
+              <button
+                type="button"
+                onClick={insertStaged}
+                className="mt-2 w-full rounded-lg bg-brand px-3 py-2 text-xs font-semibold text-zinc-900 hover:bg-brand-dark"
+              >
+                Insert {staged.length} Selected
+              </button>
             </div>
           )}
         </div>
