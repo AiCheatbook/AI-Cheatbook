@@ -203,7 +203,7 @@ export default function ComposerKeywordSearch({
 
   if (matches.length === 0) {
     return (
-      <div className="absolute z-30 mt-2 w-full overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-xl">
+      <div className="w-full overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-sm">
         <button
           type="button"
           disabled={creating}
@@ -226,7 +226,7 @@ export default function ComposerKeywordSearch({
   }
 
   return (
-    <div className="absolute z-30 mt-2 w-full overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-xl">
+    <div className="w-full overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-sm">
       <p className="bg-white px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-brand-text">
         Inline Keywords
       </p>

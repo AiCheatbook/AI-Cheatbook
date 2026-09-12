@@ -418,15 +418,6 @@ export default function PromptComposer({
       <div className="mt-4 rounded-3xl border border-zinc-200 bg-white p-5 shadow-lg">
         <div className="relative">
           <EditorContent editor={editor} />
-
-          {searchOpen && (
-            <ComposerKeywordSearch
-              query={searchQuery}
-              onSelect={
-                handleInlineKeywordSelect
-              }
-            />
-          )}
         </div>
 
         <div className="mt-4 flex items-center justify-between border-t border-zinc-200 pt-3">
@@ -536,6 +527,17 @@ export default function PromptComposer({
               : "↑"}
           </button>
         </div>
+
+        {searchOpen && (
+          <div className="mt-3 border-t border-zinc-200 pt-3">
+            <ComposerKeywordSearch
+              query={searchQuery}
+              onSelect={
+                handleInlineKeywordSelect
+              }
+            />
+          </div>
+        )}
         </div>
       </div>
 
