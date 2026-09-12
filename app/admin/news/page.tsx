@@ -168,12 +168,28 @@ export default function AdminNewsPage() {
             </p>
           </div>
 
-          <Link
-            href="/admin/news/new"
-            className="inline-flex h-11 items-center justify-center rounded-xl bg-brand px-5 text-sm font-semibold text-zinc-900 transition hover:bg-brand-dark"
-          >
-            + Create News
-          </Link>
+          <div className="flex items-center gap-3">
+            <Link
+              href="/admin/news/bulk-import"
+              className="inline-flex h-11 items-center justify-center rounded-xl border border-zinc-300 px-5 text-sm font-semibold text-zinc-700 transition hover:border-brand/50"
+            >
+              Bulk Import
+            </Link>
+
+            <Link
+              href="/admin/news/bulk-metadata"
+              className="inline-flex h-11 items-center justify-center rounded-xl border border-zinc-300 px-5 text-sm font-semibold text-zinc-700 transition hover:border-brand/50"
+            >
+              Bulk Metadata
+            </Link>
+
+            <Link
+              href="/admin/news/new"
+              className="inline-flex h-11 items-center justify-center rounded-xl bg-brand px-5 text-sm font-semibold text-zinc-900 transition hover:bg-brand-dark"
+            >
+              + Create News
+            </Link>
+          </div>
 
         </div>
 

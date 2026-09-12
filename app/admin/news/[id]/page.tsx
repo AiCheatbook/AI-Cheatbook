@@ -56,6 +56,7 @@ type NewsItem = {
   cover_image_url: string | null;
   thumbnail_url?: string | null;
   is_published: boolean;
+  scheduled_publish_at?: string | null;
   content_html?: string | null;
   published_at: string | null;
 };
@@ -260,6 +261,7 @@ export default function EditNewsPage() {
 
   const [isPublished, setIsPublished] =
     useState(false);
+  const [scheduledPublishAt, setScheduledPublishAt] = useState("");
   const wasPublishedRef = useRef(false);
   const [indexNowBanner, setIndexNowBanner] = useState<
     "ok" | "fail" | null
@@ -314,6 +316,7 @@ export default function EditNewsPage() {
               cover_image_url,
               is_published,
               published_at,
+              scheduled_publish_at,
               meta_title,
               meta_description,
               meta_keywords,
@@ -389,6 +392,13 @@ export default function EditNewsPage() {
         );
         setIsPublished(
           Boolean(newsData.is_published)
+        );
+        setScheduledPublishAt(
+          newsData.scheduled_publish_at
+            ? new Date(newsData.scheduled_publish_at)
+                .toISOString()
+                .slice(0, 16)
+            : ""
         );
         wasPublishedRef.current = Boolean(
           newsData.is_published
@@ -882,6 +892,10 @@ export default function EditNewsPage() {
           finalPublished,
         published_at:
           finalPublishedAt,
+        scheduled_publish_at:
+          !finalPublished && scheduledPublishAt
+            ? new Date(scheduledPublishAt).toISOString()
+            : null,
         ...seoFieldsToRow(seo),
         ...mediaFieldsToRow(media),
         thumbnail_url:
@@ -1301,6 +1315,21 @@ export default function EditNewsPage() {
               Published
 
             </label>
+
+            {!isPublished && (
+              <div className="flex items-center gap-2">
+                <label className="text-sm text-zinc-600">
+                  Schedule for later:
+                </label>
+                <input
+                  type="datetime-local"
+                  value={scheduledPublishAt}
+                  onChange={(e) => setScheduledPublishAt(e.target.value)}
+                  disabled={saving}
+                  className="rounded-lg border border-zinc-200 px-2.5 py-1.5 text-sm text-zinc-900 outline-none focus:border-brand"
+                />
+              </div>
+            )}
 
             <div className="flex flex-wrap gap-3">
 

@@ -148,6 +148,7 @@ export default function CreateNewsPage() {
   );
 
   const [isPublished, setIsPublished] = useState(false);
+  const [scheduledPublishAt, setScheduledPublishAt] = useState("");
 
   const [blocks, setBlocks] = useState<NewsBlock[]>([]);
   const [contentHtml, setContentHtml] = useState("");
@@ -400,6 +401,10 @@ export default function CreateNewsPage() {
             published_at: publish
               ? new Date().toISOString()
               : null,
+            scheduled_publish_at:
+              !publish && scheduledPublishAt
+                ? new Date(scheduledPublishAt).toISOString()
+                : null,
             ...seoFieldsToRow(seo),
             ...mediaFieldsToRow(media),
             thumbnail_url:
@@ -777,6 +782,24 @@ export default function CreateNewsPage() {
             </span>
 
           </label>
+
+          {!isPublished && (
+            <div className="mt-4">
+              <label className="text-sm font-medium text-zinc-700">
+                Schedule for later (optional)
+              </label>
+              <input
+                type="datetime-local"
+                value={scheduledPublishAt}
+                onChange={(e) => setScheduledPublishAt(e.target.value)}
+                className="mt-1.5 w-full max-w-xs rounded-xl border border-zinc-200 px-3 py-2 text-sm text-zinc-900 outline-none focus:border-brand"
+              />
+              <p className="mt-1 text-xs text-zinc-500">
+                Leave blank to save as a draft with no publish date. If set,
+                this article publishes itself automatically at that time.
+              </p>
+            </div>
+          )}
 
           <div className="mt-5 flex flex-wrap gap-3">
 

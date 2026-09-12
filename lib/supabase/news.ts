@@ -1,6 +1,17 @@
 import { supabase } from "./client";
 
 export async function getNewsItems() {
+  // No persistent cron on this deployment — this checks and
+  // publishes any due-scheduled articles right before every
+  // listing fetch instead. Best-effort: if it fails for any
+  // reason, the listing itself should still load normally.
+  try {
+    await supabase.rpc("publish_due_news");
+  } catch {
+    // Ignore — scheduled publishing is a nice-to-have, not
+    // something that should ever block the news list itself.
+  }
+
   const { data, error } = await supabase
     .from("news")
     .select(`
