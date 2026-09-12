@@ -498,13 +498,14 @@ export default function HomePage() {
           // Manually-pinned posts always resurface at the top of
           // the main feed (this is the "admin overrides the
           // algorithm" part, replacing the old separate Trending
-          // tab) — then whatever's left is ranked by the
-          // algorithmic recency+engagement score from
-          // lib/community/trending.ts.
+          // tab) — everything else, pinned or not, is newest-first.
           const aPinned = a.isTrending ? 1 : 0;
           const bPinned = b.isTrending ? 1 : 0;
           if (aPinned !== bPinned) return bPinned - aPinned;
-          return (b.score || 0) - (a.score || 0);
+          return (
+            new Date(b.createdAt).getTime() -
+            new Date(a.createdAt).getTime()
+          );
         })
       : [...filtered].sort(
           (a, b) =>
