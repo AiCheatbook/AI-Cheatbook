@@ -23,6 +23,7 @@ import AttachmentPopover, {
   type AttachmentMode,
 } from "./ui/AttachmentPopover";
 import StructurePopover from "./ui/StructurePopover";
+import TaxonomyBrowser from "./ui/TaxonomyBrowser";
 import GenerationResult from "./ui/GenerationResult";
 import type { PromptStructureSpec } from "./aiProvider";
 import { getAvailableModels } from "./modelSelector";
@@ -173,6 +174,12 @@ export default function PromptComposer({
       }
     },
   });
+
+  function handleTaxonomyInsert(label: string) {
+    if (editor) {
+      editor.chain().focus().insertContent(`${label} `).run();
+    }
+  }
 
   function handleInlineKeywordSelect(
     match: ComposerKeywordMatch
@@ -456,6 +463,8 @@ export default function PromptComposer({
               onChange={setStructure}
               isLoggedIn={isLoggedIn}
             />
+
+            <TaxonomyBrowser onInsert={handleTaxonomyInsert} />
 
             {availableModels.length > 0 && (
               <select

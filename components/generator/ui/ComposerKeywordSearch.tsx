@@ -10,7 +10,12 @@ type KeywordRow = {
   category: string | null;
   parent_id: string | null;
   placement: "inline" | "global" | "both";
+  concept_id: string | null;
 };
+
+type TaxonomyConcept = { id: string; name: string; subcategory_id: string };
+type TaxonomySubcategory = { id: string; name: string; category_id: string };
+type TaxonomyCategory = { id: string; name: string };
 
 export type ComposerKeywordMatch = {
   label: string;
@@ -54,22 +59,27 @@ export default function ComposerKeywordSearch({
     useState(false);
   const [creating, setCreating] = useState(false);
   const [createError, setCreateError] = useState("");
+  const [categories, setCategories] = useState<TaxonomyCategory[]>([]);
+  const [subcategories, setSubcategories] = useState<TaxonomySubcategory[]>([]);
+  const [concepts, setConcepts] = useState<TaxonomyConcept[]>([]);
 
   useEffect(() => {
     async function load() {
-      const { data } = await supabase
-        .from("library_keywords")
-        .select(
-          "id, label, category, parent_id, placement"
-        )
-        .in("placement", [
-          "inline",
-          "both",
+      const [keywordsRes, categoriesRes, subcategoriesRes, conceptsRes] =
+        await Promise.all([
+          supabase
+            .from("library_keywords")
+            .select("id, label, category, parent_id, placement, concept_id")
+            .in("placement", ["inline", "both"]),
+          supabase.from("prompt_categories").select("id, name"),
+          supabase.from("prompt_subcategories").select("id, name, category_id"),
+          supabase.from("prompt_concepts").select("id, name, subcategory_id"),
         ]);
 
-      setAllKeywords(
-        (data || []) as KeywordRow[]
-      );
+      setAllKeywords((keywordsRes.data || []) as KeywordRow[]);
+      setCategories(categoriesRes.data || []);
+      setSubcategories(subcategoriesRes.data || []);
+      setConcepts(conceptsRes.data || []);
       setLoaded(true);
     }
 
@@ -92,6 +102,22 @@ export default function ComposerKeywordSearch({
   function breadcrumbFor(
     keyword: KeywordRow
   ): string {
+    if (keyword.concept_id) {
+      const concept = concepts.find((c) => c.id === keyword.concept_id);
+      const subcategory = concept
+        ? subcategories.find((s) => s.id === concept.subcategory_id)
+        : null;
+      const category = subcategory
+        ? categories.find((c) => c.id === subcategory.category_id)
+        : null;
+
+      if (concept) {
+        return [category?.name, subcategory?.name, concept.name, keyword.label]
+          .filter(Boolean)
+          .join(" → ");
+      }
+    }
+
     const path: string[] = [
       keyword.label,
     ];
@@ -136,6 +162,7 @@ export default function ComposerKeywordSearch({
                 category: null,
                 parent_id: null,
                 placement: "both",
+                concept_id: null,
               },
             ]
       );
