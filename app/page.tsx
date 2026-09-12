@@ -484,7 +484,7 @@ export default function HomePage() {
         // Polls and Questions get their own dedicated tab (see
         // PollsQuestionsPanel) with rotating-answered-status
         // sub-filters — they no longer appear in the live/All feed.
-        if (filter === "all" || filter === "trending") {
+        if (filter === "all") {
           return item.kind !== "poll" && item.kind !== "question";
         }
         return item.kind === filter;
@@ -493,12 +493,14 @@ export default function HomePage() {
   );
 
   const sorted =
-    filter === "trending"
+    filter === "all"
       ? [...filtered].sort((a, b) => {
-          // Manually-pinned posts always come first (this is the
-          // "admin overrides the algorithm" part) — then whatever's
-          // left is ranked by the algorithmic recency+engagement
-          // score from lib/community/trending.ts.
+          // Manually-pinned posts always resurface at the top of
+          // the main feed (this is the "admin overrides the
+          // algorithm" part, replacing the old separate Trending
+          // tab) — then whatever's left is ranked by the
+          // algorithmic recency+engagement score from
+          // lib/community/trending.ts.
           const aPinned = a.isTrending ? 1 : 0;
           const bPinned = b.isTrending ? 1 : 0;
           if (aPinned !== bPinned) return bPinned - aPinned;
@@ -688,12 +690,17 @@ export default function HomePage() {
           />
         </div>
 
-        <Link
-          href="/community/shared-prompts"
-          className="rounded-xl border border-zinc-300 px-4 py-2 text-sm text-zinc-600 hover:bg-zinc-100"
+        <button
+          type="button"
+          onClick={() => setFilter("work")}
+          className={`rounded-xl border px-4 py-2 text-sm transition ${
+            filter === "work"
+              ? "border-brand bg-brand text-zinc-900"
+              : "border-zinc-300 text-zinc-600 hover:bg-zinc-100"
+          }`}
         >
-          Shared Prompts
-        </Link>
+          Shared by Community
+        </button>
       </div>
 
       <PostTypeQuickBar
