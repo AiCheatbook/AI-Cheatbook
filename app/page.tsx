@@ -18,6 +18,7 @@ import LearningFeedCard from "@/components/community/cards/LearningFeedCard";
 import PostComposer from "@/components/community/PostComposer";
 import PostTypeQuickBar from "@/components/community/PostTypeQuickBar";
 import FirstVisitIntro from "@/components/home/FirstVisitIntro";
+import { Handshake } from "lucide-react";
 import { type PostType } from "@/components/community/postTypeOptions";
 import PollsQuestionsPanel from "@/components/community/PollsQuestionsPanel";
 import { trendingScore } from "@/lib/community/trending";
@@ -677,7 +678,23 @@ export default function HomePage() {
       )}
 
       <CommunityLayout>
-      <CommunitySwitcher />
+      <div className="flex flex-wrap items-center justify-between gap-4">
+        <div className="flex flex-wrap items-center gap-4">
+          <CommunitySwitcher />
+
+          <ContentTypeFilter
+            value={filter}
+            onChange={setFilter}
+          />
+        </div>
+
+        <Link
+          href="/community/shared-prompts"
+          className="rounded-xl border border-zinc-300 px-4 py-2 text-sm text-zinc-600 hover:bg-zinc-100"
+        >
+          Shared Prompts
+        </Link>
+      </div>
 
       <PostTypeQuickBar
         onSelect={(type) => {
@@ -685,36 +702,6 @@ export default function HomePage() {
           setComposerOpen(true);
         }}
       />
-
-      <button
-        type="button"
-        onClick={() => {
-          setQuickPostType(undefined);
-          setComposerOpen(true);
-        }}
-        className="mt-4 flex w-full items-center gap-3 rounded-2xl border border-zinc-200 bg-white px-5 py-4 text-left text-zinc-500 transition hover:border-brand/50"
-      >
-        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-brand/10 text-brand-text">
-          ✎
-        </span>
-        Share your AI thoughts?
-      </button>
-
-      <div className="mt-4 flex flex-wrap items-center justify-between gap-4">
-        <ContentTypeFilter
-          value={filter}
-          onChange={setFilter}
-        />
-
-        <div className="flex gap-2">
-          <Link
-            href="/community/shared-prompts"
-            className="rounded-xl border border-zinc-300 px-4 py-2 text-sm text-zinc-600 hover:bg-zinc-100"
-          >
-            Shared Prompts
-          </Link>
-        </div>
-      </div>
 
       {(filter === "poll" || filter === "question") ? (
         <div className="mt-6">
@@ -750,7 +737,8 @@ export default function HomePage() {
                     href={`/groups/${item.groupSlug}`}
                     className="mb-1.5 ml-1 inline-flex items-center gap-1 text-xs text-zinc-500 hover:text-brand-text"
                   >
-                    🤝 Posted in {item.groupName}
+                    <Handshake className="h-3.5 w-3.5" strokeWidth={1.75} />
+                    Posted in {item.groupName}
                   </Link>
                 )}
                 {renderCard(item, index === 0)}
