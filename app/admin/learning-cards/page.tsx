@@ -93,12 +93,21 @@ export default function AdminLearningCardsPage() {
             </p>
           </div>
 
-          <Link
-            href="/admin/learning-cards/new"
-            className="inline-flex h-11 items-center justify-center rounded-xl bg-brand px-5 text-sm font-semibold text-zinc-900 transition hover:bg-brand-dark"
-          >
-            + Create Learning Card
-          </Link>
+          <div className="flex items-center gap-3">
+            <Link
+              href="/admin/learning-cards/from-prompts"
+              className="inline-flex h-11 items-center justify-center rounded-xl border border-zinc-300 px-5 text-sm font-semibold text-zinc-700 transition hover:border-brand/50"
+            >
+              Create from Prompts
+            </Link>
+
+            <Link
+              href="/admin/learning-cards/new"
+              className="inline-flex h-11 items-center justify-center rounded-xl bg-brand px-5 text-sm font-semibold text-zinc-900 transition hover:bg-brand-dark"
+            >
+              + Create Learning Card
+            </Link>
+          </div>
         </div>
 
         {/* ERROR */}

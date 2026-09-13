@@ -15,7 +15,8 @@ export async function getLearningCardItems() {
       tags,
       author,
       published_at,
-      is_published
+      is_published,
+      card_type
     `)
     .eq("is_published", true)
     .order("published_at", {
@@ -57,7 +58,8 @@ export async function getLearningCardItem(
       published_at,
       is_published,
       content_html,
-      related_content
+      related_content,
+      card_type
     `)
     .eq("slug", slug)
     .eq("is_published", true)
@@ -81,6 +83,57 @@ export async function getLearningCardItem(
   }
 
   return data;
+}
+
+/*
+ * Only relevant when card_type === 'prompt_gallery' — the set of
+ * prompts an admin grouped together onto this one card, in the
+ * order they chose, each with just enough of its own data (title,
+ * thumbnail, the actual prompt text) to render a gallery grid.
+ */
+export async function getLearningCardGalleryPrompts(
+  learningCardId: string
+) {
+  const { data, error } = await supabase
+    .from("learning_card_prompts")
+    .select(
+      `
+      sort_order,
+      library_items (
+        id,
+        slug,
+        title,
+        prompt,
+        media_type,
+        media_url,
+        thumbnail_url
+      )
+    `
+    )
+    .eq("learning_card_id", learningCardId)
+    .order("sort_order", { ascending: true });
+
+  if (error) {
+    throw new Error(
+      [
+        "SUPABASE LEARNING CARD GALLERY PROMPTS ERROR",
+        `Learning Card ID: ${learningCardId}`,
+        `Message: ${error.message || "unknown"}`,
+      ].join("\n")
+    );
+  }
+
+  return (data || [])
+    .map((row) => row.library_items)
+    .filter(Boolean) as unknown as {
+    id: string;
+    slug: string;
+    title: string;
+    prompt: string | null;
+    media_type: string | null;
+    media_url: string | null;
+    thumbnail_url: string | null;
+  }[];
 }
 
 export async function getLearningCardBlocks(

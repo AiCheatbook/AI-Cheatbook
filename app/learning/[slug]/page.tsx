@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Newspaper } from "lucide-react";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
@@ -6,6 +7,7 @@ import { supabase } from "@/lib/supabase/client";
 import {
   getLearningCardItem,
   getLearningCardBlocks,
+  getLearningCardGalleryPrompts,
 } from "@/lib/supabase/learningCards";
 import LearningCardBlockRenderer from "@/components/learning-cards/LearningCardBlockRenderer";
 import RichContentRenderer from "@/components/cms/RichContentRenderer";
@@ -74,6 +76,11 @@ export default async function LearningCardDetailPage({
 
   const blocks =
     await getLearningCardBlocks(card.id);
+
+  const galleryPrompts =
+    card.card_type === "prompt_gallery"
+      ? await getLearningCardGalleryPrompts(card.id)
+      : [];
 
   const { data: relatedData } =
     await supabase
@@ -266,7 +273,50 @@ export default async function LearningCardDetailPage({
 
         <div className="mx-auto max-w-3xl px-6 py-12 sm:py-16">
 
-          {card.content_html ? (
+          {card.card_type === "prompt_gallery" ? (
+            galleryPrompts.length > 0 ? (
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {galleryPrompts.map((prompt) => (
+                  <Link
+                    key={prompt.id}
+                    href={`/prompts/${prompt.slug}`}
+                    className="group block overflow-hidden rounded-2xl border border-zinc-200 bg-white transition hover:border-brand/50"
+                  >
+                    {prompt.media_url && (
+                      <div className="relative aspect-square overflow-hidden bg-zinc-100">
+                        <Image
+                          src={
+                            prompt.thumbnail_url ||
+                            prompt.media_url
+                          }
+                          alt={prompt.title}
+                          fill
+                          className="object-cover transition group-hover:scale-105"
+                          unoptimized
+                        />
+                      </div>
+                    )}
+                    <div className="p-4">
+                      <p className="text-sm font-semibold text-zinc-900">
+                        {prompt.title}
+                      </p>
+                      {prompt.prompt && (
+                        <p className="mt-1.5 line-clamp-3 text-xs text-zinc-500">
+                          {prompt.prompt}
+                        </p>
+                      )}
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            ) : (
+              <div className="rounded-2xl border border-zinc-200 bg-white p-8 text-center">
+                <p className="text-zinc-600">
+                  No prompts have been added to this gallery yet.
+                </p>
+              </div>
+            )
+          ) : card.content_html ? (
             <RichContentRenderer
               html={card.content_html}
               showToc
