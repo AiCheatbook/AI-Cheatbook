@@ -640,6 +640,13 @@ export default function GroupManagePage() {
           >
             Events
           </Link>
+
+          <Link
+            href={`/groups/${slug}/manage/message`}
+            className="px-3 py-2.5 text-sm font-medium text-zinc-500 hover:text-zinc-900"
+          >
+            Message Members
+          </Link>
         </div>
 
         {tab === "overview" && (

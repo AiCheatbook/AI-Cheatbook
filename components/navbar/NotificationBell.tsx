@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { Bell, MessageCircle, CheckCircle2, Star, type LucideIcon } from "lucide-react";
+import { Bell, MessageCircle, CheckCircle2, Star, Megaphone, Users, type LucideIcon } from "lucide-react";
 import { supabaseAuthClient } from "@/lib/supabase/auth-client";
 
 type NotificationRow = {
@@ -35,6 +35,8 @@ const TYPE_ICON: Record<string, LucideIcon> = {
   reply: MessageCircle,
   answer_accepted: CheckCircle2,
   featured_in_library: Star,
+  admin_broadcast: Megaphone,
+  community_message: Users,
 };
 
 export default function NotificationBell() {

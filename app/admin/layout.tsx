@@ -82,6 +82,7 @@ export default function AdminLayout({
               pathname={pathname}
               items={[
                 { href: "/admin/users", label: "Users" },
+                { href: "/admin/messages", label: "Messages" },
                 { href: "/admin/audit-log", label: "Audit Log" },
               ]}
             />
