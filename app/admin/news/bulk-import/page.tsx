@@ -11,7 +11,6 @@ const COLUMNS = [
   "Author",
   "Content",
   "Cover Image URL",
-  "Scheduled Publish At",
 ];
 
 const EXAMPLE_ROW = [
@@ -21,7 +20,6 @@ const EXAMPLE_ROW = [
   "AI Cheatbook Team",
   "Full article text goes here. Each paragraph on its own line becomes its own paragraph.",
   "https://example.com/cover.jpg",
-  "2026-09-20 09:00",
 ];
 
 type ParsedRow = {
@@ -32,7 +30,6 @@ type ParsedRow = {
   author: string;
   content: string;
   coverImageUrl: string;
-  scheduledPublishAt: string;
   status: "pending" | "importing" | "done" | "error";
   error?: string;
 };
@@ -64,18 +61,6 @@ function toContentHtml(text: string): string {
     .filter(Boolean)
     .map((line) => `<p>${line}</p>`)
     .join("\n");
-}
-
-/*
- * Accepts common spreadsheet date formats ("2026-09-20 09:00",
- * "09/20/2026 9:00 AM", an Excel serial date number) and returns
- * a valid ISO string, or null if the cell is empty/unparseable.
- */
-function parseScheduledDate(value: string): string | null {
-  if (!value.trim()) return null;
-  const parsed = new Date(value);
-  if (isNaN(parsed.getTime())) return null;
-  return parsed.toISOString();
 }
 
 export default function BulkImportNewsPage() {
@@ -118,7 +103,6 @@ export default function BulkImportNewsPage() {
         author: cell(row, "Author"),
         content: cell(row, "Content"),
         coverImageUrl: cell(row, "Cover Image URL"),
-        scheduledPublishAt: cell(row, "Scheduled Publish At"),
         status: "pending",
       }));
 
@@ -170,13 +154,11 @@ export default function BulkImportNewsPage() {
 
       try {
         const slug = await ensureUniqueSlug(generateSlug(row.title));
-        const scheduledAt = parseScheduledDate(row.scheduledPublishAt);
 
         // Imported articles are NEVER auto-published, regardless
         // of what's in the spreadsheet — they always need an
-        // explicit manual publish, or a scheduled time to publish
-        // themselves later. This is a deliberate safety choice,
-        // not an oversight.
+        // explicit manual publish. Scheduling a publish time is
+        // handled from the News list/editor instead, not here.
         const { error: insertError } = await supabase.from("news").insert({
           title: row.title,
           slug,
@@ -187,7 +169,6 @@ export default function BulkImportNewsPage() {
           content_html: toContentHtml(row.content),
           is_published: false,
           published_at: null,
-          scheduled_publish_at: scheduledAt,
         });
 
         if (insertError) {
@@ -233,12 +214,8 @@ export default function BulkImportNewsPage() {
         <p className="mt-1 text-sm text-zinc-600">
           Upload an Excel file to create many articles at once. Every
           imported article is saved as a draft — none are published
-          automatically. Fill in &quot;Scheduled Publish At&quot; (e.g.{" "}
-          <code className="rounded bg-zinc-100 px-1 py-0.5 text-xs">
-            2026-09-20 09:00
-          </code>
-          ) to have an article publish itself at that exact time, or leave
-          it blank and publish manually whenever you&apos;re ready.
+          automatically. Publish each one manually, or set a schedule for
+          it, from the News list once it&apos;s imported.
         </p>
 
         <div className="mt-6 flex flex-wrap items-center gap-3">
@@ -291,7 +268,6 @@ export default function BulkImportNewsPage() {
                   <tr>
                     <th className="px-3 py-2">Row</th>
                     <th className="px-3 py-2">Title</th>
-                    <th className="px-3 py-2">Scheduled</th>
                     <th className="px-3 py-2">Status</th>
                   </tr>
                 </thead>
@@ -305,9 +281,6 @@ export default function BulkImportNewsPage() {
                         {r.title || (
                           <span className="text-red-500">Missing title</span>
                         )}
-                      </td>
-                      <td className="px-3 py-2 text-zinc-500">
-                        {r.scheduledPublishAt || "—"}
                       </td>
                       <td className="px-3 py-2">
                         {r.status === "pending" && (
