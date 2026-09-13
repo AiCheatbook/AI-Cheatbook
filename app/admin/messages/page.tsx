@@ -4,7 +4,10 @@ import Link from "next/link";
 import { useState } from "react";
 import { supabaseAuthClient as supabase } from "@/lib/supabase/auth-client";
 
-type Audience = "all" | "new";
+type Audience = "all" | "new" | "individual" | "community_owner";
+
+type UserResult = { id: string; display_name: string | null; email: string | null };
+type GroupResult = { id: string; name: string; owner_id: string; slug: string };
 
 const BATCH_SIZE = 500;
 
@@ -18,14 +21,73 @@ export default function AdminMessagesPage() {
   const [error, setError] = useState("");
   const [progress, setProgress] = useState({ done: 0, total: 0 });
 
+  // Individual member picker
+  const [userQuery, setUserQuery] = useState("");
+  const [userResults, setUserResults] = useState<UserResult[]>([]);
+  const [selectedUser, setSelectedUser] = useState<UserResult | null>(null);
+  const [searchingUsers, setSearchingUsers] = useState(false);
+
+  // Community owner picker
+  const [groupQuery, setGroupQuery] = useState("");
+  const [groupResults, setGroupResults] = useState<GroupResult[]>([]);
+  const [selectedGroup, setSelectedGroup] = useState<GroupResult | null>(null);
+  const [searchingGroups, setSearchingGroups] = useState(false);
+
+  async function searchUsers(query: string) {
+    setUserQuery(query);
+    setSelectedUser(null);
+
+    if (!query.trim()) {
+      setUserResults([]);
+      return;
+    }
+
+    setSearchingUsers(true);
+    const { data } = await supabase
+      .from("profiles")
+      .select("id, display_name, email")
+      .or(`display_name.ilike.%${query}%,email.ilike.%${query}%`)
+      .limit(8);
+
+    setUserResults((data || []) as UserResult[]);
+    setSearchingUsers(false);
+  }
+
+  async function searchGroups(query: string) {
+    setGroupQuery(query);
+    setSelectedGroup(null);
+
+    if (!query.trim()) {
+      setGroupResults([]);
+      return;
+    }
+
+    setSearchingGroups(true);
+    const { data } = await supabase
+      .from("groups")
+      .select("id, name, owner_id, slug")
+      .ilike("name", `%${query}%`)
+      .limit(8);
+
+    setGroupResults((data || []) as GroupResult[]);
+    setSearchingGroups(false);
+  }
+
   async function handleSend() {
     if (!message.trim()) return;
+    if (audience === "individual" && !selectedUser) return;
+    if (audience === "community_owner" && !selectedGroup) return;
 
-    const confirmed = confirm(
+    const confirmLabel =
       audience === "all"
         ? "Send this message to every user on the site? This can't be undone."
-        : `Send this message to everyone who joined in the last ${newDays} day(s)? This can't be undone.`
-    );
+        : audience === "new"
+          ? `Send this message to everyone who joined in the last ${newDays} day(s)? This can't be undone.`
+          : audience === "individual"
+            ? `Send this message to ${selectedUser?.display_name || selectedUser?.email}?`
+            : `Send this message to ${selectedGroup?.name}'s owner?`;
+
+    const confirmed = confirm(confirmLabel);
     if (!confirmed) return;
 
     setSending(true);
@@ -34,21 +96,30 @@ export default function AdminMessagesPage() {
     setProgress({ done: 0, total: 0 });
 
     try {
-      let query = supabase.from("profiles").select("id");
+      let ids: string[] = [];
 
-      if (audience === "new") {
-        const cutoff = new Date();
-        cutoff.setDate(cutoff.getDate() - newDays);
-        query = query.gte("created_at", cutoff.toISOString());
+      if (audience === "individual") {
+        ids = selectedUser ? [selectedUser.id] : [];
+      } else if (audience === "community_owner") {
+        ids = selectedGroup ? [selectedGroup.owner_id] : [];
+      } else {
+        let query = supabase.from("profiles").select("id");
+
+        if (audience === "new") {
+          const cutoff = new Date();
+          cutoff.setDate(cutoff.getDate() - newDays);
+          query = query.gte("created_at", cutoff.toISOString());
+        }
+
+        const { data: recipients, error: fetchError } = await query;
+
+        if (fetchError) {
+          throw new Error(fetchError.message);
+        }
+
+        ids = (recipients || []).map((r) => r.id);
       }
 
-      const { data: recipients, error: fetchError } = await query;
-
-      if (fetchError) {
-        throw new Error(fetchError.message);
-      }
-
-      const ids = (recipients || []).map((r) => r.id);
       setProgress({ done: 0, total: ids.length });
 
       if (ids.length === 0) {
@@ -91,6 +162,13 @@ export default function AdminMessagesPage() {
     }
   }
 
+  const canSend =
+    message.trim() &&
+    (audience === "all" ||
+      audience === "new" ||
+      (audience === "individual" && selectedUser) ||
+      (audience === "community_owner" && selectedGroup));
+
   return (
     <main className="min-h-screen bg-white px-6 py-10 text-zinc-900">
       <div className="mx-auto max-w-2xl">
@@ -110,8 +188,8 @@ export default function AdminMessagesPage() {
         <div className="mt-6 space-y-4">
           <div>
             <p className="text-sm font-semibold text-zinc-900">Audience</p>
-            <div className="mt-2 flex flex-wrap items-center gap-3">
-              <label className="flex items-center gap-2 text-sm text-zinc-700">
+            <div className="mt-2 space-y-3">
+              <label className="flex flex-wrap items-center gap-2 text-sm text-zinc-700">
                 <input
                   type="radio"
                   checked={audience === "all"}
@@ -119,28 +197,158 @@ export default function AdminMessagesPage() {
                 />
                 All users
               </label>
-              <label className="flex items-center gap-2 text-sm text-zinc-700">
+
+              <label className="flex flex-wrap items-center gap-2 text-sm text-zinc-700">
                 <input
                   type="radio"
                   checked={audience === "new"}
                   onChange={() => setAudience("new")}
                 />
                 New members who joined in the last
+                {audience === "new" && (
+                  <>
+                    <input
+                      type="number"
+                      min={1}
+                      value={newDays}
+                      onChange={(e) =>
+                        setNewDays(Math.max(1, Number(e.target.value) || 1))
+                      }
+                      className="w-16 rounded-lg border border-zinc-200 px-2 py-1 text-sm outline-none focus:border-brand"
+                    />
+                    <span>day(s)</span>
+                  </>
+                )}
               </label>
-              {audience === "new" && (
-                <>
+
+              <div>
+                <label className="flex items-center gap-2 text-sm text-zinc-700">
                   <input
-                    type="number"
-                    min={1}
-                    value={newDays}
-                    onChange={(e) =>
-                      setNewDays(Math.max(1, Number(e.target.value) || 1))
-                    }
-                    className="w-16 rounded-lg border border-zinc-200 px-2 py-1 text-sm outline-none focus:border-brand"
+                    type="radio"
+                    checked={audience === "individual"}
+                    onChange={() => setAudience("individual")}
                   />
-                  <span className="text-sm text-zinc-700">day(s)</span>
-                </>
-              )}
+                  A specific individual member
+                </label>
+
+                {audience === "individual" && (
+                  <div className="mt-2 ml-6">
+                    <input
+                      value={userQuery}
+                      onChange={(e) => searchUsers(e.target.value)}
+                      placeholder="Search by name or email..."
+                      className="w-full max-w-sm rounded-lg border border-zinc-200 px-3 py-1.5 text-sm outline-none focus:border-brand"
+                    />
+
+                    {selectedUser ? (
+                      <p className="mt-1.5 text-xs text-zinc-600">
+                        Selected:{" "}
+                        <span className="font-medium text-zinc-900">
+                          {selectedUser.display_name || selectedUser.email}
+                        </span>{" "}
+                        <button
+                          type="button"
+                          onClick={() => setSelectedUser(null)}
+                          className="text-red-500 hover:underline"
+                        >
+                          change
+                        </button>
+                      </p>
+                    ) : (
+                      <>
+                        {searchingUsers && (
+                          <p className="mt-1.5 text-xs text-zinc-400">
+                            Searching...
+                          </p>
+                        )}
+                        {userResults.length > 0 && (
+                          <div className="mt-1.5 max-w-sm overflow-hidden rounded-lg border border-zinc-200">
+                            {userResults.map((u) => (
+                              <button
+                                key={u.id}
+                                type="button"
+                                onClick={() => {
+                                  setSelectedUser(u);
+                                  setUserResults([]);
+                                }}
+                                className="block w-full px-3 py-2 text-left text-xs text-zinc-700 hover:bg-zinc-50"
+                              >
+                                {u.display_name || "Unnamed"}{" "}
+                                <span className="text-zinc-400">
+                                  {u.email}
+                                </span>
+                              </button>
+                            ))}
+                          </div>
+                        )}
+                      </>
+                    )}
+                  </div>
+                )}
+              </div>
+
+              <div>
+                <label className="flex items-center gap-2 text-sm text-zinc-700">
+                  <input
+                    type="radio"
+                    checked={audience === "community_owner"}
+                    onChange={() => setAudience("community_owner")}
+                  />
+                  The owner of a specific community
+                </label>
+
+                {audience === "community_owner" && (
+                  <div className="mt-2 ml-6">
+                    <input
+                      value={groupQuery}
+                      onChange={(e) => searchGroups(e.target.value)}
+                      placeholder="Search communities by name..."
+                      className="w-full max-w-sm rounded-lg border border-zinc-200 px-3 py-1.5 text-sm outline-none focus:border-brand"
+                    />
+
+                    {selectedGroup ? (
+                      <p className="mt-1.5 text-xs text-zinc-600">
+                        Selected:{" "}
+                        <span className="font-medium text-zinc-900">
+                          {selectedGroup.name}
+                        </span>{" "}
+                        <button
+                          type="button"
+                          onClick={() => setSelectedGroup(null)}
+                          className="text-red-500 hover:underline"
+                        >
+                          change
+                        </button>
+                      </p>
+                    ) : (
+                      <>
+                        {searchingGroups && (
+                          <p className="mt-1.5 text-xs text-zinc-400">
+                            Searching...
+                          </p>
+                        )}
+                        {groupResults.length > 0 && (
+                          <div className="mt-1.5 max-w-sm overflow-hidden rounded-lg border border-zinc-200">
+                            {groupResults.map((g) => (
+                              <button
+                                key={g.id}
+                                type="button"
+                                onClick={() => {
+                                  setSelectedGroup(g);
+                                  setGroupResults([]);
+                                }}
+                                className="block w-full px-3 py-2 text-left text-xs text-zinc-700 hover:bg-zinc-50"
+                              >
+                                {g.name}
+                              </button>
+                            ))}
+                          </div>
+                        )}
+                      </>
+                    )}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
 
@@ -181,7 +389,7 @@ export default function AdminMessagesPage() {
 
           <button
             type="button"
-            disabled={!message.trim() || sending}
+            disabled={!canSend || sending}
             onClick={handleSend}
             className="rounded-xl bg-brand px-5 py-2.5 text-sm font-semibold text-zinc-900 disabled:opacity-50"
           >
