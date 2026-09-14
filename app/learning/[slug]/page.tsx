@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { Newspaper } from "lucide-react";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
@@ -10,6 +9,7 @@ import {
   getLearningCardGalleryPrompts,
 } from "@/lib/supabase/learningCards";
 import LearningCardBlockRenderer from "@/components/learning-cards/LearningCardBlockRenderer";
+import PromptGalleryView from "@/components/learning-cards/PromptGalleryView";
 import RichContentRenderer from "@/components/cms/RichContentRenderer";
 import RelatedContentSection from "@/components/cms/RelatedContentSection";
 import CommentSection from "@/components/comments/CommentSection";
@@ -274,48 +274,15 @@ export default async function LearningCardDetailPage({
         <div className="mx-auto max-w-3xl px-6 py-12 sm:py-16">
 
           {card.card_type === "prompt_gallery" ? (
-            galleryPrompts.length > 0 ? (
-              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {galleryPrompts.map((prompt) => (
-                  <Link
-                    key={prompt.id}
-                    href={`/prompts/${prompt.slug}`}
-                    className="group block overflow-hidden rounded-2xl border border-zinc-200 bg-white transition hover:border-brand/50"
-                  >
-                    {prompt.media_url && (
-                      <div className="relative aspect-square overflow-hidden bg-zinc-100">
-                        <Image
-                          src={
-                            prompt.thumbnail_url ||
-                            prompt.media_url
-                          }
-                          alt={prompt.title}
-                          fill
-                          className="object-cover transition group-hover:scale-105"
-                          unoptimized
-                        />
-                      </div>
-                    )}
-                    <div className="p-4">
-                      <p className="text-sm font-semibold text-zinc-900">
-                        {prompt.title}
-                      </p>
-                      {prompt.prompt && (
-                        <p className="mt-1.5 line-clamp-3 text-xs text-zinc-500">
-                          {prompt.prompt}
-                        </p>
-                      )}
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            ) : (
-              <div className="rounded-2xl border border-zinc-200 bg-white p-8 text-center">
-                <p className="text-zinc-600">
-                  No prompts have been added to this gallery yet.
-                </p>
-              </div>
-            )
+            <PromptGalleryView
+              eyebrow={card.gallery_eyebrow}
+              title={card.title}
+              summary={card.summary}
+              howToUse={card.gallery_how_to_use}
+              templateUrl={card.gallery_template_url}
+              templateLabel={card.gallery_template_label}
+              items={galleryPrompts}
+            />
           ) : card.content_html ? (
             <RichContentRenderer
               html={card.content_html}

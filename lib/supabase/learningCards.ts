@@ -59,7 +59,11 @@ export async function getLearningCardItem(
       is_published,
       content_html,
       related_content,
-      card_type
+      card_type,
+      gallery_eyebrow,
+      gallery_how_to_use,
+      gallery_template_url,
+      gallery_template_label
     `)
     .eq("slug", slug)
     .eq("is_published", true)
@@ -87,9 +91,12 @@ export async function getLearningCardItem(
 
 /*
  * Only relevant when card_type === 'prompt_gallery' — the set of
- * prompts an admin grouped together onto this one card, in the
- * order they chose, each with just enough of its own data (title,
- * thumbnail, the actual prompt text) to render a gallery grid.
+ * gallery items an admin grouped onto this card, in the order
+ * they chose. Each item is either linked to an existing Prompt
+ * Library entry (uses that item's own title/prompt/media), or a
+ * manual entry written just for this gallery (uses its own
+ * custom_* columns instead) — both are normalized to the same
+ * shape here so the page doesn't need to know which is which.
  */
 export async function getLearningCardGalleryPrompts(
   learningCardId: string
@@ -99,6 +106,13 @@ export async function getLearningCardGalleryPrompts(
     .select(
       `
       sort_order,
+      library_item_id,
+      item_category,
+      extra_media_urls,
+      custom_title,
+      custom_prompt_text,
+      custom_media_type,
+      custom_media_url,
       library_items (
         id,
         slug,
@@ -123,16 +137,67 @@ export async function getLearningCardGalleryPrompts(
     );
   }
 
-  return (data || [])
-    .map((row) => row.library_items)
-    .filter(Boolean) as unknown as {
-    id: string;
-    slug: string;
+  type RawRow = {
+    library_item_id: string | null;
+    item_category: string | null;
+    extra_media_urls: string[] | null;
+    custom_title: string | null;
+    custom_prompt_text: string | null;
+    custom_media_type: string | null;
+    custom_media_url: string | null;
+    library_items: {
+      id: string;
+      slug: string;
+      title: string;
+      prompt: string | null;
+      media_type: string | null;
+      media_url: string | null;
+      thumbnail_url: string | null;
+    } | null;
+  };
+
+  return ((data || []) as unknown as RawRow[])
+    .map((row) => {
+      if (row.library_item_id && row.library_items) {
+        return {
+          key: row.library_items.id,
+          slug: row.library_items.slug as string | null,
+          title: row.library_items.title,
+          promptText: row.library_items.prompt,
+          mediaType: row.library_items.media_type,
+          mediaUrl: row.library_items.media_url,
+          thumbnailUrl: row.library_items.thumbnail_url,
+          category: row.item_category,
+          extraImages: row.extra_media_urls || [],
+        };
+      }
+
+      if (row.custom_title) {
+        return {
+          key: row.custom_title + row.custom_media_url,
+          slug: null,
+          title: row.custom_title,
+          promptText: row.custom_prompt_text,
+          mediaType: row.custom_media_type,
+          mediaUrl: row.custom_media_url,
+          thumbnailUrl: null,
+          category: row.item_category,
+          extraImages: row.extra_media_urls || [],
+        };
+      }
+
+      return null;
+    })
+    .filter(Boolean) as {
+    key: string;
+    slug: string | null;
     title: string;
-    prompt: string | null;
-    media_type: string | null;
-    media_url: string | null;
-    thumbnail_url: string | null;
+    promptText: string | null;
+    mediaType: string | null;
+    mediaUrl: string | null;
+    thumbnailUrl: string | null;
+    category: string | null;
+    extraImages: string[];
   }[];
 }
 
