@@ -42,6 +42,23 @@ function generateSlug(value: string) {
     .replace(/-+/g, "-");
 }
 
+async function ensureUniqueSlug(baseSlug: string): Promise<string> {
+  let candidate = baseSlug;
+  let suffix = 2;
+
+  while (true) {
+    const { data } = await supabase
+      .from("learning_cards")
+      .select("id")
+      .eq("slug", candidate)
+      .maybeSingle();
+
+    if (!data) return candidate;
+    candidate = `${baseSlug}-${suffix}`;
+    suffix += 1;
+  }
+}
+
 async function uploadFile(file: File): Promise<string> {
   const formData = new FormData();
   formData.append("file", file);
@@ -248,7 +265,7 @@ export default function LearningCardFromPromptsPage() {
     setError("");
 
     try {
-      const slug = generateSlug(title);
+      const slug = await ensureUniqueSlug(generateSlug(title));
       const cardId = crypto.randomUUID();
 
       const firstThumb =
