@@ -1,13 +1,765 @@
-import { redirect } from "next/navigation";
+"use client";
 
-/*
- * Community became the site's Home page —
- * its content now lives at app/page.tsx.
- * This redirect keeps old /community links
- * (bookmarks, external links, search engine
- * index) working instead of breaking them.
- */
+import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
+import { supabase } from "@/lib/supabase/client";
+import { supabaseAuthClient } from "@/lib/supabase/auth-client";
+import CommunityLayout from "@/components/community/layout/CommunityLayout";
+import CommunitySwitcher from "@/components/community/CommunitySwitcher";
+import ContentTypeFilter from "@/components/community/ContentTypeFilter";
+import DiscussionCard from "@/components/community/cards/DiscussionCard";
+import QuestionCard from "@/components/community/cards/QuestionCard";
+import PollCard from "@/components/community/cards/PollCard";
+import PromptPostCard from "@/components/community/cards/PromptPostCard";
+import LearningPostCard from "@/components/community/cards/LearningPostCard";
+import ResourcePostCard from "@/components/community/cards/ResourcePostCard";
+import NewsFeedCard from "@/components/community/cards/NewsFeedCard";
+import LearningFeedCard from "@/components/community/cards/LearningFeedCard";
+import PostComposer from "@/components/community/PostComposer";
+import WriteSomethingBox from "@/components/community/WriteSomethingBox";
+import FirstVisitIntro from "@/components/home/FirstVisitIntro";
+import { Handshake, Pin } from "lucide-react";
+import { type PostType } from "@/components/community/postTypeOptions";
+import PollsQuestionsPanel from "@/components/community/PollsQuestionsPanel";
+import { trendingScore } from "@/lib/community/trending";
+import { getUnifiedFeed } from "@/lib/feed/getUnifiedFeed";
 
-export default function CommunityRedirect() {
-  redirect("/");
+type ContentKind =
+  | "question"
+  | "discussion"
+  | "discovery"
+  | "poll"
+  | "prompt"
+  | "learning"
+  | "resource"
+  | "news"
+  | "learning_card";
+
+type FeedItem = {
+  id: string;
+  kind: ContentKind;
+  title: string;
+  preview: string;
+  authorName: string;
+  category: string;
+  voteCount: number;
+  replyCount: number;
+  createdAt: string;
+  isAnswered: boolean;
+  score: number;
+  aiTool: string | null;
+  resourceUrl: string | null;
+  featuredInLibrary: boolean;
+  imageUrl?: string | null;
+  mediaUrls?: string[] | null;
+  videoUrl?: string | null;
+  youtubeUrl?: string | null;
+  groupName?: string | null;
+  groupSlug?: string | null;
+  isTrending?: boolean;
+  href?: string;
+};
+
+const CATEGORY_LABELS: Record<
+  string,
+  string
+> = {
+  general: "General",
+  prompt_help: "Prompt Help",
+  feedback: "Feedback",
+  bug_report: "Bug Report",
+  showcase: "Showcase",
+};
+
+export default function CommunityPage() {
+  const [items, setItems] = useState<
+    FeedItem[]
+  >([]);
+  const [loading, setLoading] =
+    useState(true);
+  const [filter, setFilter] =
+    useState("all");
+  const [isLoggedIn, setIsLoggedIn] =
+    useState(false);
+  const [showIntro, setShowIntro] = useState(false);
+  const [composerOpen, setComposerOpen] =
+    useState(false);
+  const [quickPostType, setQuickPostType] =
+    useState<PostType | undefined>(undefined);
+
+  async function loadFeed(userId: string | null) {
+    setLoading(true);
+
+    /*
+     * Feed model: a user who hasn't joined any community sees
+     * exactly what they always have (group_id IS NULL — today's
+     * general/official content, unchanged). Joining a community
+     * adds that community's posts into the same feed alongside
+     * it, tagged with the community name — this is "My Feed" per
+     * the community spec, not a separate page.
+     */
+    let joinedGroupIds: string[] = [];
+
+    if (userId) {
+      const { data: membershipRows, error: membershipError } =
+        await supabaseAuthClient
+          .from("group_members")
+          .select("group_id")
+          .eq("user_id", userId)
+          .eq("status", "active");
+
+      if (membershipError) {
+        console.error(
+          "Failed to load joined communities:",
+          membershipError.message
+        );
+      } else {
+        joinedGroupIds = (membershipRows || []).map((m) => m.group_id);
+      }
+    }
+
+    /*
+     * Fetch threads/polls without
+     * embedded nested-count syntax —
+     * that pattern failed silently in
+     * production (likely an RLS
+     * interaction on the embedded
+     * sub-select), so counts are now
+     * fetched as flat lists and tallied
+     * client-side instead, matching the
+     * pattern already proven to work on
+     * the thread detail page. Every
+     * query's error is now explicitly
+     * checked and logged instead of
+     * being silently swallowed.
+     */
+
+    const [
+      threadsResponse,
+      pollsResponse,
+      threadVotesResponse,
+      repliesResponse,
+      pollVotesResponse,
+    ] = await Promise.all([
+      supabase
+        .from("community_threads")
+        .select(
+          `
+            id,
+            title,
+            body,
+            category,
+            content_kind,
+            accepted_reply_id,
+            ai_tool,
+            resource_url,
+            media_urls,
+            video_url,
+            youtube_url,
+            featured_in_library,
+            created_at,
+            group_id,
+            is_trending,
+            groups ( name, slug ),
+            profiles ( display_name, email )
+          `
+        )
+        .eq("is_hidden", false)
+        .is("deleted_at", null)
+        .or(
+          joinedGroupIds.length > 0
+            ? `group_id.is.null,group_id.in.(${joinedGroupIds.join(",")})`
+            : "group_id.is.null"
+        )
+        .order("created_at", {
+          ascending: false,
+        }),
+      supabase
+        .from("community_polls")
+        .select(
+          `
+            id,
+            question,
+            description,
+            category,
+            created_at,
+            profiles ( display_name, email )
+          `
+        )
+        .eq("is_hidden", false)
+        .order("created_at", {
+          ascending: false,
+        }),
+      supabase
+        .from("community_thread_votes")
+        .select("thread_id"),
+      supabase
+        .from("community_replies")
+        .select("thread_id"),
+      supabase
+        .from("community_poll_votes")
+        .select("poll_id"),
+    ]);
+
+    if (threadsResponse.error) {
+      console.error(
+        "Failed to load community threads:",
+        threadsResponse.error.message
+      );
+    }
+
+    if (pollsResponse.error) {
+      console.error(
+        "Failed to load community polls:",
+        pollsResponse.error.message
+      );
+    }
+
+    if (threadVotesResponse.error) {
+      console.error(
+        "Failed to load thread votes:",
+        threadVotesResponse.error.message
+      );
+    }
+
+    if (repliesResponse.error) {
+      console.error(
+        "Failed to load replies:",
+        repliesResponse.error.message
+      );
+    }
+
+    if (pollVotesResponse.error) {
+      console.error(
+        "Failed to load poll votes:",
+        pollVotesResponse.error.message
+      );
+    }
+
+    const threadVoteCounts: Record<
+      string,
+      number
+    > = {};
+
+    for (const row of threadVotesResponse.data ||
+      []) {
+      threadVoteCounts[row.thread_id] =
+        (threadVoteCounts[
+          row.thread_id
+        ] || 0) + 1;
+    }
+
+    const replyCounts: Record<
+      string,
+      number
+    > = {};
+
+    for (const row of repliesResponse.data ||
+      []) {
+      replyCounts[row.thread_id] =
+        (replyCounts[row.thread_id] ||
+          0) + 1;
+    }
+
+    const pollVoteCounts: Record<
+      string,
+      number
+    > = {};
+
+    for (const row of pollVotesResponse.data ||
+      []) {
+      pollVoteCounts[row.poll_id] =
+        (pollVoteCounts[row.poll_id] ||
+          0) + 1;
+    }
+
+    const threadItems: FeedItem[] = (
+      (threadsResponse.data ||
+        []) as unknown as Array<{
+        id: string;
+        title: string;
+        body: string;
+        category: string;
+        content_kind: ContentKind;
+        accepted_reply_id: string | null;
+        ai_tool: string | null;
+        resource_url: string | null;
+        media_urls: string[] | null;
+        video_url: string | null;
+        youtube_url: string | null;
+        featured_in_library: boolean;
+        created_at: string;
+        group_id: string | null;
+        is_trending: boolean;
+        groups: { name: string; slug: string } | null;
+        profiles: {
+          display_name: string | null;
+          email: string | null;
+        } | null;
+      }>
+    ).map((t) => {
+      const voteCount =
+        threadVoteCounts[t.id] || 0;
+      const replyCount =
+        replyCounts[t.id] || 0;
+
+      return {
+        id: t.id,
+        kind: t.content_kind,
+        title: t.title,
+        preview: t.body,
+        authorName:
+          t.profiles?.display_name ||
+          t.profiles?.email ||
+          "Community Member",
+        category:
+          CATEGORY_LABELS[t.category] ||
+          t.category,
+        voteCount,
+        replyCount,
+        createdAt: t.created_at,
+        isAnswered: Boolean(
+          t.accepted_reply_id
+        ),
+        aiTool: t.ai_tool,
+        resourceUrl: t.resource_url,
+        mediaUrls: t.media_urls,
+        videoUrl: t.video_url,
+        youtubeUrl: t.youtube_url,
+        groupName: t.groups?.name || null,
+        groupSlug: t.groups?.slug || null,
+        isTrending: t.is_trending,
+        featuredInLibrary:
+          t.featured_in_library,
+        score: trendingScore(
+          voteCount,
+          replyCount,
+          t.created_at
+        ),
+      };
+    });
+
+    const pollItems: FeedItem[] = (
+      (pollsResponse.data ||
+        []) as unknown as Array<{
+        id: string;
+        question: string;
+        description: string | null;
+        category: string;
+        created_at: string;
+        profiles: {
+          display_name: string | null;
+          email: string | null;
+        } | null;
+      }>
+    ).map((p) => {
+      const voteCount =
+        pollVoteCounts[p.id] || 0;
+
+      return {
+        id: p.id,
+        kind: "poll" as const,
+        title: p.question,
+        preview: p.description || "",
+        authorName:
+          p.profiles?.display_name ||
+          p.profiles?.email ||
+          "Community Member",
+        category:
+          CATEGORY_LABELS[p.category] ||
+          p.category,
+        voteCount,
+        replyCount: 0,
+        createdAt: p.created_at,
+        isAnswered: false,
+        aiTool: null,
+        resourceUrl: null,
+        featuredInLibrary: false,
+        score: trendingScore(
+          voteCount,
+          0,
+          p.created_at
+        ),
+      };
+    });
+
+    const [
+      newsFeed,
+      learningFeed,
+    ] = await Promise.all([
+      getUnifiedFeed({
+        type: "news",
+        page: 1,
+      }),
+      getUnifiedFeed({
+        type: "learning_card",
+        page: 1,
+      }),
+    ]);
+
+    const newsItems: FeedItem[] =
+      newsFeed.items.map((item) => ({
+        id: item.id,
+        kind: "news" as const,
+        title: item.title,
+        preview: item.excerpt || "",
+        authorName:
+          item.authorName ||
+          "AI Cheatbook",
+        category: item.category || "",
+        voteCount: 0,
+        replyCount: 0,
+        createdAt: item.publishedAt,
+        isAnswered: false,
+        score: trendingScore(
+          0,
+          0,
+          item.publishedAt
+        ),
+        aiTool: null,
+        resourceUrl: null,
+        featuredInLibrary: false,
+        imageUrl: item.imageUrl,
+        href: item.href,
+      }));
+
+    const learningCardItems: FeedItem[] =
+      learningFeed.items.map((item) => ({
+        id: item.id,
+        kind: "learning_card" as const,
+        title: item.title,
+        preview: item.excerpt || "",
+        authorName:
+          item.authorName ||
+          "AI Cheatbook",
+        category: item.category || "",
+        voteCount: 0,
+        replyCount: 0,
+        createdAt: item.publishedAt,
+        isAnswered: false,
+        score: trendingScore(
+          0,
+          0,
+          item.publishedAt
+        ),
+        aiTool: null,
+        resourceUrl: null,
+        featuredInLibrary: false,
+        imageUrl: item.imageUrl,
+        href: item.href,
+      }));
+
+    setItems([
+      ...threadItems,
+      ...pollItems,
+      ...newsItems,
+      ...learningCardItems,
+    ]);
+
+    setLoading(false);
+  }
+
+  useEffect(() => {
+    async function init() {
+      const {
+        data: { user },
+      } =
+        await supabaseAuthClient.auth.getUser();
+
+      setIsLoggedIn(Boolean(user));
+
+      if (!user && !sessionStorage.getItem("introSeen")) {
+        setShowIntro(true);
+      }
+
+      await loadFeed(user?.id || null);
+    }
+
+    init();
+  }, []);
+
+  const filtered = useMemo(
+    () =>
+      items.filter((item) => {
+        // Polls and Questions get their own dedicated tab (see
+        // PollsQuestionsPanel) with rotating-answered-status
+        // sub-filters — they no longer appear in the live/All feed.
+        if (filter === "all") {
+          return item.kind !== "poll" && item.kind !== "question";
+        }
+        return item.kind === filter;
+      }),
+    [items, filter]
+  );
+
+  const sorted =
+    filter === "all"
+      ? [...filtered].sort((a, b) => {
+          // Manually-pinned posts always resurface at the top of
+          // the main feed (this is the "admin overrides the
+          // algorithm" part, replacing the old separate Trending
+          // tab) — everything else, pinned or not, is newest-first.
+          const aPinned = a.isTrending ? 1 : 0;
+          const bPinned = b.isTrending ? 1 : 0;
+          if (aPinned !== bPinned) return bPinned - aPinned;
+          return (
+            new Date(b.createdAt).getTime() -
+            new Date(a.createdAt).getTime()
+          );
+        })
+      : [...filtered].sort(
+          (a, b) =>
+            new Date(b.createdAt).getTime() -
+            new Date(a.createdAt).getTime()
+        );
+
+  function renderCard(item: FeedItem, isFirst: boolean) {
+    if (item.kind === "news") {
+      return (
+        <NewsFeedCard
+          key={`news-${item.id}`}
+          id={item.id}
+          title={item.title}
+          excerpt={item.preview}
+          authorName={item.authorName}
+          category={item.category}
+          imageUrl={
+            item.imageUrl || null
+          }
+          publishedAt={item.createdAt}
+          href={
+            item.href ||
+            `/news/${item.id}`
+          }
+        />
+      );
+    }
+
+    if (item.kind === "learning_card") {
+      return (
+        <LearningFeedCard
+          key={`learning-card-${item.id}`}
+          id={item.id}
+          title={item.title}
+          excerpt={item.preview}
+          authorName={item.authorName}
+          category={item.category}
+          imageUrl={
+            item.imageUrl || null
+          }
+          publishedAt={item.createdAt}
+          href={
+            item.href ||
+            `/learning/${item.id}`
+          }
+        />
+      );
+    }
+
+    if (item.kind === "poll") {
+      return (
+        <PollCard
+          key={`poll-${item.id}`}
+          id={item.id}
+          question={item.title}
+          authorName={item.authorName}
+          category={item.category}
+          voteCount={item.voteCount}
+          createdAt={item.createdAt}
+        />
+      );
+    }
+
+    if (item.kind === "question") {
+      return (
+        <QuestionCard
+          key={`question-${item.id}`}
+          id={item.id}
+          title={item.title}
+          preview={item.preview}
+          authorName={item.authorName}
+          category={item.category}
+          replyCount={item.replyCount}
+          voteCount={item.voteCount}
+          createdAt={item.createdAt}
+          isAnswered={item.isAnswered}
+          mediaUrls={item.mediaUrls}
+          videoUrl={item.videoUrl}
+          youtubeUrl={item.youtubeUrl}
+          priority={isFirst}
+        />
+      );
+    }
+
+    if (item.kind === "prompt") {
+      return (
+        <PromptPostCard
+          key={`prompt-${item.id}`}
+          id={item.id}
+          title={item.title}
+          promptText={item.preview}
+          authorName={item.authorName}
+          category={item.category}
+          aiTool={item.aiTool}
+          voteCount={item.voteCount}
+          replyCount={item.replyCount}
+          createdAt={item.createdAt}
+          alreadyFeatured={
+            item.featuredInLibrary
+          }
+          mediaUrls={item.mediaUrls}
+          videoUrl={item.videoUrl}
+          youtubeUrl={item.youtubeUrl}
+          priority={isFirst}
+        />
+      );
+    }
+
+    if (item.kind === "learning") {
+      return (
+        <LearningPostCard
+          key={`learning-${item.id}`}
+          id={item.id}
+          title={item.title}
+          preview={item.preview}
+          authorName={item.authorName}
+          category={item.category}
+          replyCount={item.replyCount}
+          voteCount={item.voteCount}
+          createdAt={item.createdAt}
+          mediaUrls={item.mediaUrls}
+          videoUrl={item.videoUrl}
+          youtubeUrl={item.youtubeUrl}
+          priority={isFirst}
+        />
+      );
+    }
+
+    if (item.kind === "resource") {
+      return (
+        <ResourcePostCard
+          key={`resource-${item.id}`}
+          id={item.id}
+          title={item.title}
+          preview={item.preview}
+          authorName={item.authorName}
+          category={item.category}
+          resourceUrl={item.resourceUrl}
+          voteCount={item.voteCount}
+          replyCount={item.replyCount}
+          mediaUrls={item.mediaUrls}
+          videoUrl={item.videoUrl}
+          youtubeUrl={item.youtubeUrl}
+          priority={isFirst}
+        />
+      );
+    }
+
+    return (
+      <DiscussionCard
+        key={`discussion-${item.id}`}
+        id={item.id}
+        title={item.title}
+        preview={item.preview}
+        authorName={item.authorName}
+        category={item.category}
+        replyCount={item.replyCount}
+        voteCount={item.voteCount}
+        createdAt={item.createdAt}
+        mediaUrls={item.mediaUrls}
+        videoUrl={item.videoUrl}
+        youtubeUrl={item.youtubeUrl}
+        priority={isFirst}
+      />
+    );
+  }
+
+  return (
+    <>
+      {showIntro && (
+        <FirstVisitIntro onDismiss={() => setShowIntro(false)} />
+      )}
+
+      <CommunityLayout>
+      <WriteSomethingBox
+        onClick={() => {
+          setQuickPostType(undefined);
+          setComposerOpen(true);
+        }}
+      />
+
+      <div className="mt-5 flex items-start justify-between gap-3 [&>*:first-child]:min-w-0">
+        <ContentTypeFilter
+          value={filter}
+          onChange={setFilter}
+        />
+
+        <div className="shrink-0">
+          <CommunitySwitcher />
+        </div>
+      </div>
+
+      {(filter === "poll" || filter === "question") ? (
+        <div className="mt-5">
+          <PollsQuestionsPanel kind={filter} />
+        </div>
+      ) : (
+        <div className="mt-5 space-y-4">
+          {loading &&
+            Array.from({ length: 4 }).map(
+              (_, i) => (
+                <div
+                  key={i}
+                  className="h-32 animate-pulse rounded-xl border border-zinc-200 bg-white"
+                />
+              )
+            )}
+
+          {!loading &&
+            sorted.length === 0 && (
+              <div className="rounded-xl border border-zinc-200 bg-white p-10 text-center shadow-sm">
+                <p className="text-zinc-600">
+                  Nothing here yet — be the
+                  first to post.
+                </p>
+              </div>
+            )}
+
+          {!loading &&
+            sorted.map((item, index) => (
+              <div key={item.id}>
+                {filter === "all" && item.isTrending && (
+                  <p className="mb-1.5 ml-1 inline-flex items-center gap-1 text-xs font-semibold text-zinc-700">
+                    <Pin className="h-3.5 w-3.5" strokeWidth={2} />
+                    Pinned
+                  </p>
+                )}
+                {item.groupName && item.groupSlug && (
+                  <Link
+                    href={`/groups/${item.groupSlug}`}
+                    className="mb-1.5 ml-1 inline-flex items-center gap-1 text-xs text-zinc-500 hover:text-brand-text"
+                  >
+                    <Handshake className="h-3.5 w-3.5" strokeWidth={1.75} />
+                    Posted in {item.groupName}
+                  </Link>
+                )}
+                {renderCard(item, index === 0)}
+              </div>
+            ))}
+        </div>
+      )}
+
+      {composerOpen && (
+        <PostComposer
+          isLoggedIn={isLoggedIn}
+          initialType={quickPostType}
+          onClose={() => {
+            setComposerOpen(false);
+            setQuickPostType(undefined);
+          }}
+        />
+      )}
+    </CommunityLayout>
+    </>
+  );
 }

@@ -15,12 +15,13 @@ type Profile = {
 };
 
 /*
- * Skool-style navigation: one tab row under the header replaces
+ * Netflix-style dark header: one tab row under the header replaces
  * the old left sidebar, so every section is one click away on
  * every page (and scrolls sideways on small screens).
  */
 const TABS = [
-  { href: "/", label: "Community" },
+  { href: "/", label: "Home" },
+  { href: "/community", label: "Community" },
   { href: "/groups", label: "Communities" },
   { href: "/prompts", label: "Prompt Book" },
   { href: "/generator", label: "Prompt Designer" },
@@ -100,8 +101,8 @@ export default function Navbar() {
     profile?.display_name || profile?.email?.split("@")[0] || "";
 
   return (
-    <header className="sticky top-0 z-50 border-b border-zinc-200 bg-white text-zinc-900">
-      <div className="mx-auto max-w-[1100px] px-4">
+    <header className="sticky top-0 z-50 border-b border-white/10 bg-[#141414] text-white">
+      <div className="mx-auto max-w-[1400px] px-4 sm:px-8">
         <div className="flex h-16 items-center gap-4">
           {/* Logo */}
 
@@ -110,7 +111,7 @@ export default function Navbar() {
             onClick={handleLogoClick}
             className="flex shrink-0 items-center gap-3"
           >
-            <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-900 text-sm font-extrabold text-white">
+            <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-brand text-sm font-extrabold text-zinc-950">
               AI
             </span>
             <span className="hidden text-lg font-bold sm:inline">
@@ -129,7 +130,7 @@ export default function Navbar() {
           <div className="flex shrink-0 items-center gap-2 sm:gap-3">
             <Link
               href="/submit/prompt"
-              className="hidden rounded-lg border border-zinc-300 px-3 py-2 text-sm font-medium text-zinc-700 transition hover:bg-zinc-100 md:inline-block"
+              className="hidden rounded-lg border border-white/25 px-3 py-2 text-sm font-medium text-zinc-200 transition hover:bg-white/10 md:inline-block"
             >
               Submit Prompt
             </Link>
@@ -140,7 +141,7 @@ export default function Navbar() {
               href={loggedIn ? "/account" : "/login"}
               aria-label={loggedIn ? "My account" : "Log in"}
               title={loggedIn ? displayName || "My account" : "Log in"}
-              className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full bg-zinc-100 text-zinc-600 transition hover:ring-2 hover:ring-zinc-300"
+              className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full bg-zinc-800 text-zinc-300 transition hover:ring-2 hover:ring-white/40"
             >
               {profile?.avatar_url ? (
                 // eslint-disable-next-line @next/next/no-img-element
@@ -150,7 +151,7 @@ export default function Navbar() {
                   className="h-full w-full object-cover"
                 />
               ) : loggedIn && displayName ? (
-                <span className="font-bold text-brand-text">
+                <span className="font-bold text-brand">
                   {displayName.charAt(0).toUpperCase()}
                 </span>
               ) : (
@@ -172,8 +173,8 @@ export default function Navbar() {
                 href={tab.href}
                 className={`shrink-0 whitespace-nowrap border-b-4 pb-3 pt-1 transition ${
                   active
-                    ? "border-zinc-900 font-semibold text-zinc-900"
-                    : "border-transparent text-zinc-500 hover:text-zinc-900"
+                    ? "border-brand font-semibold text-white"
+                    : "border-transparent text-zinc-400 hover:text-white"
                 }`}
               >
                 {tab.label}

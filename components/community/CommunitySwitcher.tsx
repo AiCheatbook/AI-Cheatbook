@@ -89,9 +89,9 @@ export default function CommunitySwitcher() {
       </button>
 
       {open && (
-        <div className="absolute left-0 top-[calc(100%+6px)] z-30 w-64 overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-xl">
+        <div className="absolute right-0 top-[calc(100%+6px)] z-30 w-64 overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-xl">
           <Link
-            href="/"
+            href="/community"
             onClick={() => setOpen(false)}
             className="flex items-center gap-2 px-4 py-3 text-sm font-medium text-zinc-900 hover:bg-zinc-50"
           >
