@@ -272,7 +272,7 @@ export default function RichTextEditor({
     <div className="rounded-xl border border-zinc-200">
       {/* Toolbar */}
 
-      <div className="sticky top-16 z-20 flex flex-wrap items-center gap-1 rounded-t-xl border-b border-zinc-200 bg-white p-2 shadow-sm">
+      <div className="sticky top-28 z-20 flex flex-wrap items-center gap-1 rounded-t-xl border-b border-zinc-200 bg-white p-2 shadow-sm">
         <select
           value={
             editor.isActive("heading", { level: 1 })

@@ -122,62 +122,79 @@ export default function CommunityRightSidebar() {
     load();
   }, []);
 
+  const rankStyles = [
+    "bg-amber-400 text-white",
+    "bg-zinc-400 text-white",
+    "bg-orange-400 text-white",
+  ];
+
   return (
-    <aside className="hidden w-72 shrink-0 xl:block">
-      <div className="sticky top-20 space-y-4">
-        <RotatingPollWidget />
-        <RotatingQuestionWidget />
+    <aside className="hidden w-[300px] shrink-0 lg:block">
+      <div className="space-y-5">
+        <div className="overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-sm">
+          <div className="flex h-36 items-center justify-center bg-zinc-900 px-6">
+            <p className="text-center text-3xl font-extrabold leading-tight tracking-tight text-white">
+              AI <span className="text-brand">CHEAT</span>BOOK
+            </p>
+          </div>
 
-        <div className="rounded-2xl border border-zinc-200 bg-white p-4">
-          <h3 className="text-sm font-semibold text-zinc-900">
-            Community Stats
-          </h3>
+          <div className="p-5">
+            <h3 className="text-lg font-semibold text-zinc-900">
+              AI Cheatbook
+            </h3>
+            <p className="text-sm font-medium text-zinc-500">
+              aicheatbook.com
+            </p>
 
-          {loading ? (
-            <div className="mt-3 h-16 animate-pulse rounded-lg bg-zinc-100" />
-          ) : (
-            <dl className="mt-3 grid grid-cols-2 gap-3 text-center">
-              <div>
-                <dt className="text-xs text-zinc-600">
-                  Posts
-                </dt>
-                <dd className="text-lg font-semibold text-zinc-900">
-                  {stats?.posts || 0}
-                </dd>
-              </div>
-              <div>
-                <dt className="text-xs text-zinc-600">
-                  Questions
-                </dt>
-                <dd className="text-lg font-semibold text-zinc-900">
-                  {stats?.questions ||
-                    0}
-                </dd>
-              </div>
-              <div>
-                <dt className="text-xs text-zinc-600">
-                  Members
-                </dt>
-                <dd className="text-lg font-semibold text-zinc-900">
-                  {stats?.members || 0}
-                </dd>
-              </div>
-              <div>
-                <dt className="text-xs text-zinc-600">
-                  Learning Cards
-                </dt>
-                <dd className="text-lg font-semibold text-zinc-900">
-                  {stats?.learningCards ||
-                    0}
-                </dd>
-              </div>
-            </dl>
-          )}
+            <p className="mt-3 text-[15px] leading-relaxed text-zinc-700">
+              Join AI creator communities, discover powerful
+              prompts, and learn AI through practical guides
+              and the latest news.
+            </p>
+
+            {loading ? (
+              <div className="mt-4 h-14 animate-pulse rounded-lg bg-zinc-100" />
+            ) : (
+              <dl className="mt-4 grid grid-cols-3 divide-x divide-zinc-200 border-y border-zinc-200 py-3 text-center">
+                <div>
+                  <dd className="text-lg font-semibold text-zinc-900">
+                    {stats?.members || 0}
+                  </dd>
+                  <dt className="text-xs text-zinc-500">
+                    Members
+                  </dt>
+                </div>
+                <div>
+                  <dd className="text-lg font-semibold text-zinc-900">
+                    {stats?.posts || 0}
+                  </dd>
+                  <dt className="text-xs text-zinc-500">
+                    Posts
+                  </dt>
+                </div>
+                <div>
+                  <dd className="text-lg font-semibold text-zinc-900">
+                    {stats?.learningCards || 0}
+                  </dd>
+                  <dt className="text-xs text-zinc-500">
+                    Learning
+                  </dt>
+                </div>
+              </dl>
+            )}
+
+            <Link
+              href="/groups"
+              className="mt-4 block rounded-lg border border-zinc-300 py-2.5 text-center text-sm font-semibold uppercase tracking-wide text-zinc-700 transition hover:bg-zinc-50"
+            >
+              Explore Communities
+            </Link>
+          </div>
         </div>
 
-        <div className="rounded-2xl border border-zinc-200 bg-white p-4">
-          <h3 className="text-sm font-semibold text-zinc-900">
-            Top Contributors
+        <div className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm">
+          <h3 className="text-base font-semibold text-zinc-900">
+            Leaderboard
           </h3>
 
           {loading && (
@@ -196,7 +213,7 @@ export default function CommunityRightSidebar() {
           {!loading &&
             contributors.length ===
               0 && (
-              <p className="mt-2 text-xs text-zinc-600">
+              <p className="mt-2 text-sm text-zinc-500">
                 Great conversations
                 will surface top
                 contributors here as
@@ -206,30 +223,50 @@ export default function CommunityRightSidebar() {
 
           {!loading &&
             contributors.length > 0 && (
-              <ul className="mt-3 space-y-2.5">
+              <ol className="mt-4 space-y-3">
                 {contributors.map(
-                  (c) => (
-                    <li key={c.id}>
-                      <Link
-                        href={`/community/user/${c.id}`}
-                        className="flex items-center justify-between text-sm hover:text-brand-text"
-                      >
-                        <span className="truncate text-zinc-600">
-                          {c.display_name ||
-                            c.email ||
-                            "Community Member"}
-                        </span>
-                        <span className="shrink-0 text-xs text-zinc-600">
-                          {c.postCount}{" "}
-                          posts
-                        </span>
-                      </Link>
-                    </li>
-                  )
+                  (c, index) => {
+                    const name =
+                      c.display_name ||
+                      c.email ||
+                      "Community Member";
+
+                    return (
+                      <li key={c.id}>
+                        <Link
+                          href={`/community/user/${c.id}`}
+                          className="flex items-center gap-3 text-sm hover:text-brand-text"
+                        >
+                          <span
+                            className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-bold ${
+                              rankStyles[index] ||
+                              "bg-zinc-100 text-zinc-600"
+                            }`}
+                          >
+                            {index + 1}
+                          </span>
+                          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand/20 font-bold text-brand-text">
+                            {name
+                              .charAt(0)
+                              .toUpperCase()}
+                          </span>
+                          <span className="min-w-0 flex-1 truncate text-zinc-800">
+                            {name}
+                          </span>
+                          <span className="shrink-0 font-semibold text-brand-text">
+                            +{c.postCount}
+                          </span>
+                        </Link>
+                      </li>
+                    );
+                  }
                 )}
-              </ul>
+              </ol>
             )}
         </div>
+
+        <RotatingPollWidget />
+        <RotatingQuestionWidget />
       </div>
     </aside>
   );

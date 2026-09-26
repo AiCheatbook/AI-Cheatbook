@@ -41,7 +41,7 @@ export default function PollCard({
   return (
     <Link
       href={`/community/polls/${id}`}
-      className="block rounded-2xl border border-green-500/30 bg-white p-5 transition hover:border-green-500/60"
+      className="block rounded-xl border border-zinc-200 bg-white p-5 shadow-sm transition hover:shadow-md"
     >
       <div className="flex items-center gap-2">
         <span className="inline-flex items-center gap-1 rounded-full bg-green-500/10 px-2.5 py-1 text-xs font-semibold text-green-600">

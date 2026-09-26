@@ -2,41 +2,89 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+import { UserRound } from "lucide-react";
 import { supabaseAuthClient } from "@/lib/supabase/auth-client";
 import NavbarSearch from "./NavbarSearch";
 import NotificationBell from "./NotificationBell";
 
+type Profile = {
+  display_name: string | null;
+  email: string | null;
+  avatar_url: string | null;
+};
+
+/*
+ * Skool-style navigation: one tab row under the header replaces
+ * the old left sidebar, so every section is one click away on
+ * every page (and scrolls sideways on small screens).
+ */
+const TABS = [
+  { href: "/", label: "Community" },
+  { href: "/groups", label: "Communities" },
+  { href: "/prompts", label: "Prompt Book" },
+  { href: "/generator", label: "Prompt Designer" },
+  { href: "/learning", label: "Learning" },
+  { href: "/news", label: "AI News" },
+  { href: "/notebook", label: "Notebook" },
+];
+
+function isActive(pathname: string, href: string) {
+  if (href === "/") {
+    return pathname === "/";
+  }
+
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
+
 export default function Navbar() {
-  const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
+  const [profile, setProfile] = useState<Profile | null>(null);
   const [loggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
+    async function loadProfile(userId: string | null) {
+      setLoggedIn(Boolean(userId));
+
+      if (!userId) {
+        setProfile(null);
+        return;
+      }
+
+      const { data, error } = await supabaseAuthClient
+        .from("profiles")
+        .select("display_name, email, avatar_url")
+        .eq("id", userId)
+        .single();
+
+      if (error) {
+        console.error(
+          "Navbar: failed to load profile:",
+          error.message
+        );
+      }
+
+      setProfile((data as Profile) || null);
+    }
+
     supabaseAuthClient.auth
       .getUser()
-      .then(({ data }) =>
-        setLoggedIn(Boolean(data.user))
-      );
+      .then(({ data }) => loadProfile(data.user?.id || null));
 
     const {
       data: { subscription },
     } = supabaseAuthClient.auth.onAuthStateChange(
       (_event, session) => {
-        setLoggedIn(Boolean(session?.user));
+        loadProfile(session?.user?.id || null);
       }
     );
 
     return () => subscription.unsubscribe();
   }, []);
 
-  function closeMenu() {
-    setMenuOpen(false);
-  }
-
   function handleLogoClick(
     event: React.MouseEvent<HTMLAnchorElement>
   ) {
-    closeMenu();
-
     // If already on homepage, scroll smoothly to the top
     if (window.location.pathname === "/") {
       event.preventDefault();
@@ -48,130 +96,92 @@ export default function Navbar() {
     }
   }
 
+  const displayName =
+    profile?.display_name || profile?.email?.split("@")[0] || "";
+
   return (
-    <header className="sticky top-0 z-50 border-b border-zinc-800 bg-black/95 text-white backdrop-blur">
-      <div className="mx-auto flex h-16 max-w-7xl items-center gap-4 px-6">
-
-        {/* Logo */}
-
-        <Link
-          href="/"
-          onClick={handleLogoClick}
-          className="shrink-0 text-xl font-bold text-white transition hover:text-brand-text"
-        >
-          AI Cheatbook
-        </Link>
-
-        {/* Search — now the primary center element. AI Library
-            and Prompt Generator no longer live here since they're
-            covered by the persistent left nav sidebar (desktop);
-            they're kept in the mobile menu below since the
-            sidebar is desktop-only. */}
-
-        <div className="hidden flex-1 md:block md:max-w-md lg:max-w-lg">
-          <NavbarSearch />
-        </div>
-
-        {/* Desktop Actions */}
-
-        <div className="hidden shrink-0 items-center gap-4 md:flex">
-
-          <NotificationBell />
+    <header className="sticky top-0 z-50 border-b border-zinc-200 bg-white text-zinc-900">
+      <div className="mx-auto max-w-[1100px] px-4">
+        <div className="flex h-16 items-center gap-4">
+          {/* Logo */}
 
           <Link
-            href={loggedIn ? "/account" : "/login"}
-            className="text-sm text-zinc-300 transition hover:text-white"
+            href="/"
+            onClick={handleLogoClick}
+            className="flex shrink-0 items-center gap-3"
           >
-            {loggedIn ? "My Account" : "Login"}
+            <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-900 text-sm font-extrabold text-white">
+              AI
+            </span>
+            <span className="hidden text-lg font-bold sm:inline">
+              AI Cheatbook
+            </span>
           </Link>
 
-          <Link
-            href="/submit/prompt"
-            className="rounded-xl bg-brand px-5 py-2 text-sm font-medium text-zinc-900 transition hover:bg-brand-dark"
-          >
-            Submit Prompt
-          </Link>
+          {/* Search */}
 
-        </div>
-
-        {/* Mobile Menu Button */}
-
-        <button
-          type="button"
-          onClick={() =>
-            setMenuOpen((current) => !current)
-          }
-          className="ml-auto flex h-10 w-10 items-center justify-center rounded-xl border border-zinc-700 text-zinc-300 transition hover:border-brand hover:text-white md:hidden"
-          aria-label={
-            menuOpen
-              ? "Close navigation menu"
-              : "Open navigation menu"
-          }
-          aria-expanded={menuOpen}
-        >
-          {menuOpen ? "✕" : "☰"}
-        </button>
-
-      </div>
-
-      {/* Mobile Navigation — keeps AI Library and Generator
-          links, since the left nav sidebar is desktop-only
-          (hidden below the lg breakpoint) and mobile users
-          need another way to reach those pages. */}
-
-      {menuOpen && (
-        <div className="border-t border-zinc-800 bg-black px-6 py-4 text-white md:hidden">
-
-          <div className="mb-3">
+          <div className="min-w-0 flex-1">
             <NavbarSearch />
           </div>
 
-          <nav className="flex flex-col gap-2">
+          {/* Actions */}
 
-            <Link
-              href="/"
-              onClick={closeMenu}
-              className="rounded-xl px-4 py-3 font-medium text-white transition hover:bg-zinc-900 hover:text-brand-text"
-            >
-              Home
-            </Link>
-
-            <Link
-              href="/search"
-              onClick={closeMenu}
-              className="rounded-xl px-4 py-3 text-zinc-300 transition hover:bg-zinc-900 hover:text-brand-text"
-            >              AI Cheatbook Library
-            </Link>
-
-            <Link
-              href="/generator"
-              onClick={closeMenu}
-              className="rounded-xl px-4 py-3 text-zinc-300 transition hover:bg-zinc-900 hover:text-brand-text"
-            >
-              Generator
-            </Link>
-
-            <Link
-              href={loggedIn ? "/account" : "/login"}
-              onClick={closeMenu}
-              className="rounded-xl px-4 py-3 text-zinc-300 transition hover:bg-zinc-900 hover:text-brand-text"
-            >
-              {loggedIn ? "My Account" : "Login"}
-            </Link>
-
+          <div className="flex shrink-0 items-center gap-2 sm:gap-3">
             <Link
               href="/submit/prompt"
-              onClick={closeMenu}
-              className="mt-2 rounded-xl bg-brand px-4 py-3 text-center text-sm font-semibold text-zinc-900 transition hover:bg-brand-dark"
+              className="hidden rounded-lg border border-zinc-300 px-3 py-2 text-sm font-medium text-zinc-700 transition hover:bg-zinc-100 md:inline-block"
             >
               Submit Prompt
             </Link>
 
-          </nav>
+            <NotificationBell />
 
+            <Link
+              href={loggedIn ? "/account" : "/login"}
+              aria-label={loggedIn ? "My account" : "Log in"}
+              title={loggedIn ? displayName || "My account" : "Log in"}
+              className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full bg-zinc-100 text-zinc-600 transition hover:ring-2 hover:ring-zinc-300"
+            >
+              {profile?.avatar_url ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={profile.avatar_url}
+                  alt=""
+                  className="h-full w-full object-cover"
+                />
+              ) : loggedIn && displayName ? (
+                <span className="font-bold text-brand-text">
+                  {displayName.charAt(0).toUpperCase()}
+                </span>
+              ) : (
+                <UserRound className="h-5 w-5" strokeWidth={1.75} />
+              )}
+            </Link>
+          </div>
         </div>
-      )}
 
+        {/* Tabs */}
+
+        <nav className="-mb-px flex gap-6 overflow-x-auto text-[15px] [scrollbar-width:none] sm:gap-8">
+          {TABS.map((tab) => {
+            const active = isActive(pathname, tab.href);
+
+            return (
+              <Link
+                key={tab.href}
+                href={tab.href}
+                className={`shrink-0 whitespace-nowrap border-b-4 pb-3 pt-1 transition ${
+                  active
+                    ? "border-zinc-900 font-semibold text-zinc-900"
+                    : "border-transparent text-zinc-500 hover:text-zinc-900"
+                }`}
+              >
+                {tab.label}
+              </Link>
+            );
+          })}
+        </nav>
+      </div>
     </header>
   );
 }

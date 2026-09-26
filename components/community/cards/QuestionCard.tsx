@@ -58,11 +58,7 @@ export default function QuestionCard({
   return (
     <Link
       href={`/discussions/${id}`}
-      className={`block rounded-2xl border bg-white p-5 transition ${
-        isAnswered
-          ? "border-green-600/40 hover:border-green-500/60"
-          : "border-blue-500/30 hover:border-blue-500/60"
-      }`}
+      className="block rounded-xl border border-zinc-200 bg-white p-5 shadow-sm transition hover:shadow-md"
     >
       <div className="flex items-center gap-2">
         <span className="inline-flex items-center gap-1 rounded-full bg-blue-500/10 px-2.5 py-1 text-xs font-semibold text-blue-600">

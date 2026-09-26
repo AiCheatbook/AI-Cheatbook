@@ -78,7 +78,7 @@ export default function LearningFeedCard({
   }, [id]);
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-cyan-200 bg-white shadow-sm transition hover:border-cyan-400 hover:shadow-md">
+    <div className="overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-sm transition hover:shadow-md">
       <Link href={href} className="block">
         {imageUrl && (
           <div className="aspect-[16/9] w-full overflow-hidden bg-zinc-100">

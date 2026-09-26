@@ -13,6 +13,7 @@ import {
   Lightbulb,
   MessageCircle,
   BarChart3,
+  Search,
   type LucideIcon,
 } from "lucide-react";
 import { supabase } from "@/lib/supabase/client";
@@ -285,7 +286,12 @@ export default function NavbarSearch() {
       className="relative w-full"
     >
       <form onSubmit={handleSubmit}>
-        <div className="flex items-center">
+        <div className="relative flex items-center">
+          <Search
+            className="pointer-events-none absolute left-3 h-5 w-5 text-zinc-400"
+            strokeWidth={1.75}
+          />
+
           <input
             ref={inputRef}
             type="text"
@@ -294,17 +300,10 @@ export default function NavbarSearch() {
               setQuery(e.target.value);
               setShowSuggestions(true);
             }}
-            placeholder="Search AI Cheatbook..."
+            placeholder={loading ? "Searching…" : "Search"}
             aria-label="Search AI Cheatbook"
-            className="h-10 w-full rounded-l-xl border border-r-0 border-zinc-700 bg-white pl-4 pr-2 text-sm text-zinc-900 outline-none placeholder:text-zinc-500 focus:border-brand"
+            className="h-11 w-full rounded-lg border border-transparent bg-zinc-100 pl-11 pr-4 text-[15px] text-zinc-900 outline-none placeholder:text-zinc-500 focus:border-zinc-300 focus:bg-white"
           />
-
-          <button
-            type="submit"
-            className="h-10 shrink-0 rounded-r-xl border border-zinc-700 bg-brand px-4 text-sm font-semibold text-zinc-900 transition hover:bg-brand-dark"
-          >
-            {loading ? "…" : "Search"}
-          </button>
         </div>
       </form>
 

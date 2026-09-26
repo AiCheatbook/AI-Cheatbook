@@ -12,6 +12,7 @@ const TYPES = [
   { value: "question", label: "Questions" },
   { value: "poll", label: "Polls" },
   { value: "prompt", label: "Prompts" },
+  { value: "work", label: "Shared by Community" },
 ];
 
 export default function ContentTypeFilter({
@@ -19,7 +20,7 @@ export default function ContentTypeFilter({
   onChange,
 }: ContentTypeFilterProps) {
   return (
-    <div className="flex flex-wrap gap-2">
+    <div className="flex min-w-0 gap-2 overflow-x-auto [scrollbar-width:none] sm:flex-wrap">
       {TYPES.map((type) => (
         <button
           key={type.value}
@@ -27,10 +28,10 @@ export default function ContentTypeFilter({
           onClick={() =>
             onChange(type.value)
           }
-          className={`rounded-full border px-4 py-1.5 text-sm transition ${
+          className={`shrink-0 rounded-full border px-4 py-2 text-[15px] transition ${
             value === type.value
-              ? "border-brand bg-brand text-zinc-900"
-              : "border-zinc-300 text-zinc-600 hover:border-zinc-500 hover:text-zinc-900"
+              ? "border-zinc-500 bg-zinc-500 text-white"
+              : "border-zinc-200 bg-white text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900"
           }`}
         >
           {type.label}

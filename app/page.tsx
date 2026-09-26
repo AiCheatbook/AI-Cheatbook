@@ -16,9 +16,9 @@ import ResourcePostCard from "@/components/community/cards/ResourcePostCard";
 import NewsFeedCard from "@/components/community/cards/NewsFeedCard";
 import LearningFeedCard from "@/components/community/cards/LearningFeedCard";
 import PostComposer from "@/components/community/PostComposer";
-import PostTypeQuickBar from "@/components/community/PostTypeQuickBar";
+import WriteSomethingBox from "@/components/community/WriteSomethingBox";
 import FirstVisitIntro from "@/components/home/FirstVisitIntro";
-import { Handshake } from "lucide-react";
+import { Handshake, Pin } from "lucide-react";
 import { type PostType } from "@/components/community/postTypeOptions";
 import PollsQuestionsPanel from "@/components/community/PollsQuestionsPanel";
 import { trendingScore } from "@/lib/community/trending";
@@ -681,55 +681,43 @@ export default function HomePage() {
       )}
 
       <CommunityLayout>
-      <div className="flex flex-wrap items-center justify-between gap-4">
-        <div className="flex flex-wrap items-center gap-4">
-          <CommunitySwitcher />
-
-          <ContentTypeFilter
-            value={filter}
-            onChange={setFilter}
-          />
-        </div>
-
-        <button
-          type="button"
-          onClick={() => setFilter("work")}
-          className={`rounded-xl border px-4 py-2 text-sm transition ${
-            filter === "work"
-              ? "border-brand bg-brand text-zinc-900"
-              : "border-zinc-300 text-zinc-600 hover:bg-zinc-100"
-          }`}
-        >
-          Shared by Community
-        </button>
-      </div>
-
-      <PostTypeQuickBar
-        onSelect={(type) => {
-          setQuickPostType(type);
+      <WriteSomethingBox
+        onClick={() => {
+          setQuickPostType(undefined);
           setComposerOpen(true);
         }}
       />
 
+      <div className="mt-5 flex items-start justify-between gap-3 [&>*:first-child]:min-w-0">
+        <ContentTypeFilter
+          value={filter}
+          onChange={setFilter}
+        />
+
+        <div className="shrink-0">
+          <CommunitySwitcher />
+        </div>
+      </div>
+
       {(filter === "poll" || filter === "question") ? (
-        <div className="mt-6">
+        <div className="mt-5">
           <PollsQuestionsPanel kind={filter} />
         </div>
       ) : (
-        <div className="mt-6 space-y-4">
+        <div className="mt-5 space-y-4">
           {loading &&
             Array.from({ length: 4 }).map(
               (_, i) => (
                 <div
                   key={i}
-                  className="h-32 animate-pulse rounded-2xl border border-zinc-200 bg-white"
+                  className="h-32 animate-pulse rounded-xl border border-zinc-200 bg-white"
                 />
               )
             )}
 
           {!loading &&
             sorted.length === 0 && (
-              <div className="rounded-2xl border border-zinc-200 bg-white p-10 text-center">
+              <div className="rounded-xl border border-zinc-200 bg-white p-10 text-center shadow-sm">
                 <p className="text-zinc-600">
                   Nothing here yet — be the
                   first to post.
@@ -740,6 +728,12 @@ export default function HomePage() {
           {!loading &&
             sorted.map((item, index) => (
               <div key={item.id}>
+                {filter === "all" && item.isTrending && (
+                  <p className="mb-1.5 ml-1 inline-flex items-center gap-1 text-xs font-semibold text-zinc-700">
+                    <Pin className="h-3.5 w-3.5" strokeWidth={2} />
+                    Pinned
+                  </p>
+                )}
                 {item.groupName && item.groupSlug && (
                   <Link
                     href={`/groups/${item.groupSlug}`}

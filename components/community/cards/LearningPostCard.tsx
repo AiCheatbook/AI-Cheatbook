@@ -35,7 +35,7 @@ export default function LearningPostCard({
   return (
     <Link
       href={`/discussions/${id}`}
-      className="block rounded-2xl border border-cyan-500/30 bg-white p-5 transition hover:border-cyan-500/60"
+      className="block rounded-xl border border-zinc-200 bg-white p-5 shadow-sm transition hover:shadow-md"
     >
       <span className="inline-flex items-center gap-1 rounded-full bg-cyan-500/10 px-2.5 py-1 text-xs font-semibold text-cyan-600">
         <BookOpen className="h-3.5 w-3.5" strokeWidth={1.75} />

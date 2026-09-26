@@ -4,7 +4,6 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
 import Navbar from "@/components/navbar/Navbar";
-import CommunitySidebar from "@/components/community/layout/CommunitySidebar";
 import PageViewTracker from "@/components/analytics/PageViewTracker";
 import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
 import MiniGenerator from "@/components/generator/MiniGenerator";
@@ -80,10 +79,7 @@ export default function RootLayout({
 
         <Navbar />
 
-        <div className="mx-auto flex max-w-[1600px]">
-          <CommunitySidebar />
-          <div className="min-w-0 flex-1">{children}</div>
-        </div>
+        {children}
 
         <PageViewTracker />
         <GoogleAnalytics />
