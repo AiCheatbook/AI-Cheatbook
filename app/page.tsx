@@ -1,12 +1,17 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { GraduationCap, Newspaper, Users } from "lucide-react";
+import { GraduationCap, Trophy } from "lucide-react";
 import { getUnifiedFeed } from "@/lib/feed/getUnifiedFeed";
 import type { FeedItem } from "@/lib/feed/types";
 import HeroBanner, { type HeroItem } from "@/components/home/ott/HeroBanner";
 import ContentRow, { type RowItem } from "@/components/home/ott/ContentRow";
 import FirstVisitIntro from "@/components/home/FirstVisitIntro";
+import Reveal from "@/components/home/ott/Reveal";
+import TopicMarquee from "@/components/home/ott/TopicMarquee";
+import CommunityBento from "@/components/home/ott/CommunityBento";
+import CommunityCta from "@/components/home/ott/CommunityCta";
+import NewsList from "@/components/home/ott/NewsList";
 
 type CategoryRow = {
   category: string;
@@ -15,6 +20,7 @@ type CategoryRow = {
 
 type HomeData = {
   hero: HeroItem[];
+  topics: string[];
   lessons: RowItem[];
   lessonCategories: CategoryRow[];
   community: RowItem[];
@@ -23,6 +29,7 @@ type HomeData = {
 
 const EMPTY_DATA: HomeData = {
   hero: [],
+  topics: [],
   lessons: [],
   lessonCategories: [],
   community: [],
@@ -118,6 +125,13 @@ export default function HomePage() {
           href: item.href,
           label: item.category || "AI Learning",
         })),
+        topics: Array.from(
+          new Set(
+            learning
+              .map((item) => item.category)
+              .filter((c): c is string => Boolean(c))
+          )
+        ),
         lessons: learning.map((item) => feedToRow(item)),
         lessonCategories: groupByCategory(learning),
         community,
@@ -150,43 +164,59 @@ export default function HomePage() {
 
       <HeroBanner items={data.hero} loading={loading} />
 
-      <div className="mt-8 space-y-8 sm:space-y-10">
-        <ContentRow
-          title="Latest AI Lessons"
-          seeAllHref="/learning"
-          items={data.lessons}
-          loading={loading}
-          variant="feature"
-          icon={learningIcon}
-        />
+      <TopicMarquee topics={data.topics} />
 
-        {data.lessonCategories.map((row) => (
+      <div className="mt-10 space-y-12 sm:space-y-14">
+        <Reveal>
           <ContentRow
-            key={row.category}
-            title={row.category}
+            title="Latest AI Lessons"
+            subtitle="New visual lessons, fresh every week"
             seeAllHref="/learning"
-            items={row.items}
-            loading={false}
-            variant="poster"
+            items={data.lessons}
+            loading={loading}
+            variant="feature"
             icon={learningIcon}
           />
+        </Reveal>
+
+        {data.lessons.length >= 3 && (
+          <Reveal>
+            <ContentRow
+              title="Top 10 to Start With"
+              subtitle="The best first steps into AI"
+              seeAllHref="/learning"
+              items={data.lessons}
+              loading={false}
+              variant="top10"
+              icon={<Trophy className="h-5 w-5 text-amber-500" strokeWidth={2} />}
+            />
+          </Reveal>
+        )}
+
+        {data.lessonCategories.map((row) => (
+          <Reveal key={row.category}>
+            <ContentRow
+              title={row.category}
+              seeAllHref="/learning"
+              items={row.items}
+              loading={false}
+              variant="poster"
+              icon={learningIcon}
+            />
+          </Reveal>
         ))}
 
-        <ContentRow
-          title="From the Community"
-          seeAllHref="/community"
-          items={data.community}
-          loading={loading}
-          icon={<Users className="h-5 w-5 text-brand-text" strokeWidth={2} />}
-        />
+        <Reveal>
+          <CommunityBento items={data.community} loading={loading} />
+        </Reveal>
 
-        <ContentRow
-          title="AI News"
-          seeAllHref="/news"
-          items={data.news}
-          loading={loading}
-          icon={<Newspaper className="h-5 w-5 text-zinc-500" strokeWidth={2} />}
-        />
+        <Reveal>
+          <CommunityCta />
+        </Reveal>
+
+        <Reveal>
+          <NewsList items={data.news} loading={loading} />
+        </Reveal>
       </div>
     </main>
   );
