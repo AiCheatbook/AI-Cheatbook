@@ -9,7 +9,7 @@ import {
   getLearningCardGalleryPrompts,
 } from "@/lib/supabase/learningCards";
 import LearningCardBlockRenderer from "@/components/learning-cards/LearningCardBlockRenderer";
-import PromptGalleryView from "@/components/learning-cards/PromptGalleryView";
+import StyleLibraryPage from "@/components/learning-cards/StyleLibraryPage";
 import RichContentRenderer from "@/components/cms/RichContentRenderer";
 import RelatedContentSection from "@/components/cms/RelatedContentSection";
 import CommentSection from "@/components/comments/CommentSection";
@@ -107,29 +107,77 @@ export default async function LearningCardDetailPage({
   const relatedCards = (relatedData ||
     []) as RelatedLearningCard[];
 
+  const jsonLd = (
+    <JsonLd
+      data={[
+        buildArticleSchema(
+          card as Record<string, unknown>,
+          `/learning/${slug}`,
+          "TechArticle"
+        ),
+        buildBreadcrumbSchema([
+          { name: "Home", path: "/" },
+          {
+            name: "Learning Cards",
+            path: "/learning",
+          },
+          {
+            name: card.title,
+            path: `/learning/${slug}`,
+          },
+        ]),
+      ]}
+    />
+  );
+
+  // Prompt Style Pages get their own full-width layout instead
+  // of the article column.
+  if (card.card_type === "prompt_gallery") {
+    return (
+      <main className="min-h-screen bg-[#F6F3EC]">
+        {jsonLd}
+
+        <div className="mx-auto max-w-[1400px] px-5 pt-6 sm:px-10">
+          <Link
+            href="/learning"
+            className="inline-flex items-center gap-2 text-sm font-medium text-[#5B6470] transition hover:text-[#14263A]"
+          >
+            <span>←</span>
+            <span>Back to Learning Cards</span>
+          </Link>
+        </div>
+
+        <StyleLibraryPage
+          eyebrow={card.gallery_eyebrow}
+          title={card.title}
+          summary={card.summary}
+          howToUse={card.gallery_how_to_use}
+          templateUrl={card.gallery_template_url}
+          templateLabel={card.gallery_template_label}
+          settings={card.gallerySettings}
+          items={galleryPrompts}
+        />
+
+        <div className="bg-[#FAF8F3]">
+          <div className="mx-auto max-w-3xl px-6 pb-16">
+            <RelatedContentSection
+              items={card.related_content || []}
+            />
+
+            <CommentSection
+              contentType="learning_card"
+              contentId={card.id}
+            />
+          </div>
+        </div>
+      </main>
+    );
+  }
+
   return (
     <main className="min-h-screen bg-white text-zinc-900">
 
-      <JsonLd
-        data={[
-          buildArticleSchema(
-            card as Record<string, unknown>,
-            `/learning/${slug}`,
-            "TechArticle"
-          ),
-          buildBreadcrumbSchema([
-            { name: "Home", path: "/" },
-            {
-              name: "Learning Cards",
-              path: "/learning",
-            },
-            {
-              name: card.title,
-              path: `/learning/${slug}`,
-            },
-          ]),
-        ]}
-      />
+      {jsonLd}
 
       {/* =================================
           ARTICLE HEADER
@@ -273,17 +321,7 @@ export default async function LearningCardDetailPage({
 
         <div className="mx-auto max-w-3xl px-6 py-12 sm:py-16">
 
-          {card.card_type === "prompt_gallery" ? (
-            <PromptGalleryView
-              eyebrow={card.gallery_eyebrow}
-              title={card.title}
-              summary={card.summary}
-              howToUse={card.gallery_how_to_use}
-              templateUrl={card.gallery_template_url}
-              templateLabel={card.gallery_template_label}
-              items={galleryPrompts}
-            />
-          ) : card.content_html ? (
+          {card.content_html ? (
             <RichContentRenderer
               html={card.content_html}
               showToc

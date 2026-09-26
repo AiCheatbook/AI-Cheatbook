@@ -330,7 +330,8 @@ export default function EditLearningCardPage() {
               media_aspect_ratio,
               thumbnail_url,
               content_html,
-              related_content
+              related_content,
+              card_type
             `)
             .eq("id", cardId)
             .single(),
@@ -361,6 +362,15 @@ export default function EditLearningCardPage() {
           throw new Error(
             "Learning card not found."
           );
+        }
+
+        // Prompt Style Pages have their own editor.
+        if (
+          (cardResponse.data as { card_type?: string | null })
+            .card_type === "prompt_gallery"
+        ) {
+          router.replace(`/admin/learning-cards/gallery/${cardId}`);
+          return;
         }
 
         if (blocksResponse.error) {

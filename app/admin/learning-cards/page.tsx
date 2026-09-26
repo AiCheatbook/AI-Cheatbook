@@ -13,6 +13,7 @@ type LearningCardItem = {
   cover_image_url: string | null;
   is_published: boolean;
   is_featured: boolean;
+  card_type: string | null;
 };
 
 export default function AdminLearningCardsPage() {
@@ -38,7 +39,8 @@ export default function AdminLearningCardsPage() {
           thumbnail_url,
           cover_image_url,
           is_published,
-          is_featured
+          is_featured,
+          card_type
         `)
         .order("created_at", {
           ascending: false,
@@ -95,10 +97,10 @@ export default function AdminLearningCardsPage() {
 
           <div className="flex items-center gap-3">
             <Link
-              href="/admin/learning-cards/from-prompts"
+              href="/admin/learning-cards/gallery/new"
               className="inline-flex h-11 items-center justify-center rounded-xl border border-zinc-300 px-5 text-sm font-semibold text-zinc-700 transition hover:border-brand/50"
             >
-              Create from Prompts
+              + Prompt Style Page
             </Link>
 
             <Link
@@ -244,7 +246,11 @@ export default function AdminLearningCardsPage() {
                         </span>
 
                         <Link
-                          href={`/admin/learning-cards/${item.id}`}
+                          href={
+                            item.card_type === "prompt_gallery"
+                              ? `/admin/learning-cards/gallery/${item.id}`
+                              : `/admin/learning-cards/${item.id}`
+                          }
                           className="text-sm font-medium text-brand-text transition hover:text-brand-text"
                         >
                           Edit
