@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import { UserRound } from "lucide-react";
+import { Plus, UserRound } from "lucide-react";
 import { supabaseAuthClient } from "@/lib/supabase/auth-client";
 import NavbarSearch from "./NavbarSearch";
 import NotificationBell from "./NotificationBell";
@@ -19,10 +19,16 @@ type Profile = {
  * the old left sidebar, so every section is one click away on
  * every page (and scrolls sideways on small screens).
  */
-const TABS = [
+// "match" lists extra path prefixes that highlight the tab: the
+// Communities tab covers the Skool-style feed (/community) and the
+// individual community pages (/groups/...).
+const TABS: { href: string; label: string; match?: string[] }[] = [
   { href: "/", label: "Home" },
-  { href: "/community", label: "Community" },
-  { href: "/groups", label: "Communities" },
+  {
+    href: "/community",
+    label: "Communities",
+    match: ["/groups"],
+  },
   { href: "/prompts", label: "Prompt Book" },
   { href: "/generator", label: "Prompt Designer" },
   { href: "/learning", label: "Learning" },
@@ -30,12 +36,15 @@ const TABS = [
   { href: "/notebook", label: "Notebook" },
 ];
 
-function isActive(pathname: string, href: string) {
-  if (href === "/") {
+function isActive(pathname: string, tab: (typeof TABS)[number]) {
+  if (tab.href === "/") {
     return pathname === "/";
   }
 
-  return pathname === href || pathname.startsWith(`${href}/`);
+  return [tab.href, ...(tab.match || [])].some(
+    (prefix) =>
+      pathname === prefix || pathname.startsWith(`${prefix}/`)
+  );
 }
 
 export default function Navbar() {
@@ -129,10 +138,17 @@ export default function Navbar() {
 
           <div className="flex shrink-0 items-center gap-2 sm:gap-3">
             <Link
-              href="/submit/prompt"
-              className="hidden rounded-lg border border-zinc-300 px-3 py-2 text-sm font-medium text-zinc-700 transition hover:bg-zinc-100 md:inline-block"
+              href="/groups/new"
+              aria-label="Create your own AI community"
+              className="inline-flex items-center gap-1.5 rounded-lg bg-brand px-3 py-2 text-sm font-semibold text-white transition hover:bg-brand-dark"
             >
-              Submit Prompt
+              <Plus className="h-4 w-4" strokeWidth={2.5} />
+              <span className="hidden lg:inline">
+                Create your Own AI Community
+              </span>
+              <span className="hidden md:inline lg:hidden">
+                Create Community
+              </span>
             </Link>
 
             <NotificationBell />
@@ -165,7 +181,7 @@ export default function Navbar() {
 
         <nav className="-mb-px flex gap-6 overflow-x-auto text-[15px] [scrollbar-width:none] sm:gap-8">
           {TABS.map((tab) => {
-            const active = isActive(pathname, tab.href);
+            const active = isActive(pathname, tab);
 
             return (
               <Link
