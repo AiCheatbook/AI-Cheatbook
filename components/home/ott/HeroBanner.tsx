@@ -1,7 +1,11 @@
+"use client";
+
 import Link from "next/link";
-import { Play, Info } from "lucide-react";
+import { useEffect, useState } from "react";
+import { ChevronLeft, ChevronRight, GraduationCap, Play } from "lucide-react";
 
 export type HeroItem = {
+  id: string;
   title: string;
   excerpt: string | null;
   imageUrl: string | null;
@@ -10,73 +14,127 @@ export type HeroItem = {
 };
 
 type HeroBannerProps = {
-  item: HeroItem | null;
+  items: HeroItem[];
   loading: boolean;
 };
 
+const ROTATE_MS = 7000;
+
 /*
- * Full-width featured banner at the top of the Netflix-style
- * homepage: backdrop image faded into the page background, with
- * the title, a short excerpt and two call-to-action buttons.
+ * Streaming-app style featured banner: a large rounded slide with
+ * the lesson image, title and actions, rotating through the newest
+ * Learning Cards. Dots and arrows let visitors switch slides.
  */
-export default function HeroBanner({ item, loading }: HeroBannerProps) {
+export default function HeroBanner({ items, loading }: HeroBannerProps) {
+  const [index, setIndex] = useState(0);
+  const count = items.length;
+
+  useEffect(() => {
+    if (count < 2) return;
+    const timer = setInterval(
+      () => setIndex((i) => (i + 1) % count),
+      ROTATE_MS
+    );
+    return () => clearInterval(timer);
+  }, [count]);
+
   if (loading) {
     return (
-      <section className="h-[56vh] min-h-[360px] animate-pulse bg-zinc-900" />
+      <section className="mx-auto max-w-[1400px] px-4 pt-6 sm:px-8">
+        <div className="h-[340px] animate-pulse rounded-2xl bg-zinc-200 sm:h-[440px]" />
+      </section>
     );
   }
 
-  const title = item?.title || "Learn, Create & Grow with AI";
-  const excerpt =
-    item?.excerpt ||
-    "Powerful prompts, practical AI lessons and the latest AI news, all in one place.";
+  const item = items[index % Math.max(count, 1)] || null;
 
   return (
-    <section className="relative h-[62vh] min-h-[420px] max-h-[640px] overflow-hidden">
-      {item?.imageUrl ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src={item.imageUrl}
-          alt=""
-          className="absolute inset-0 h-full w-full object-cover"
-        />
-      ) : (
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_#00ABE4_0%,_#0b3a4f_35%,_#141414_75%)]" />
-      )}
+    <section className="mx-auto max-w-[1400px] px-4 pt-6 sm:px-8">
+      <div className="relative h-[380px] overflow-hidden rounded-2xl bg-zinc-900 shadow-lg sm:h-[440px]">
+        {item?.imageUrl ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            key={item.id}
+            src={item.imageUrl}
+            alt=""
+            className="absolute inset-0 h-full w-full animate-[fadeIn_600ms_ease] object-cover"
+          />
+        ) : (
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_#00ABE4_0%,_#0077A3_40%,_#0b1f2a_85%)]" />
+        )}
 
-      <div className="absolute inset-0 bg-gradient-to-r from-[#141414] via-[#141414]/70 to-transparent" />
-      <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#141414] to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-zinc-950/90 via-zinc-950/55 to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-zinc-950/60 to-transparent" />
 
-      <div className="relative mx-auto flex h-full max-w-[1400px] flex-col justify-end px-4 pb-16 sm:px-8">
-        <p className="text-xs font-bold uppercase tracking-[0.25em] text-brand">
-          {item?.label || "AI Cheatbook"}
-        </p>
+        <div className="relative flex h-full max-w-2xl flex-col justify-end p-6 sm:p-10">
+          <p className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-brand">
+            <GraduationCap className="h-4 w-4" strokeWidth={2} />
+            {item?.label || "AI Learning"}
+          </p>
 
-        <h1 className="mt-3 max-w-2xl text-3xl font-extrabold leading-tight text-white drop-shadow sm:text-5xl">
-          {title}
-        </h1>
+          <h1 className="mt-3 line-clamp-2 text-3xl font-extrabold leading-tight text-white sm:text-5xl">
+            {item?.title || "Learn AI, one card at a time"}
+          </h1>
 
-        <p className="mt-4 line-clamp-3 max-w-xl text-base text-zinc-200 sm:text-lg">
-          {excerpt}
-        </p>
+          <p className="mt-3 line-clamp-2 text-base text-zinc-200 sm:text-lg">
+            {item?.excerpt ||
+              "Short, practical lessons that explain AI concepts in plain language."}
+          </p>
 
-        <div className="mt-6 flex flex-wrap gap-3">
-          <Link
-            href={item?.href || "/prompts"}
-            className="inline-flex items-center gap-2 rounded-md bg-white px-6 py-2.5 text-base font-bold text-black transition hover:bg-white/80"
-          >
-            <Play className="h-5 w-5 fill-black" strokeWidth={2} />
-            {item ? "Open" : "Browse Prompts"}
-          </Link>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <Link
+              href={item?.href || "/learning"}
+              className="inline-flex items-center gap-2 rounded-lg bg-brand px-6 py-2.5 text-base font-bold text-white shadow transition hover:bg-brand-dark"
+            >
+              <Play className="h-5 w-5 fill-white" strokeWidth={2} />
+              Start Learning
+            </Link>
 
-          <Link
-            href="/community"
-            className="inline-flex items-center gap-2 rounded-md bg-zinc-500/60 px-6 py-2.5 text-base font-bold text-white transition hover:bg-zinc-500/40"
-          >
-            <Info className="h-5 w-5" strokeWidth={2} />
-            Join the Community
-          </Link>
+            <Link
+              href="/learning"
+              className="inline-flex items-center gap-2 rounded-lg bg-white/20 px-6 py-2.5 text-base font-bold text-white backdrop-blur transition hover:bg-white/30"
+            >
+              All Lessons
+            </Link>
+          </div>
         </div>
+
+        {count > 1 && (
+          <>
+            <button
+              type="button"
+              aria-label="Previous"
+              onClick={() => setIndex((i) => (i - 1 + count) % count)}
+              className="absolute right-16 top-5 hidden h-9 w-9 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur transition hover:bg-white/35 sm:flex"
+            >
+              <ChevronLeft className="h-5 w-5" />
+            </button>
+            <button
+              type="button"
+              aria-label="Next"
+              onClick={() => setIndex((i) => (i + 1) % count)}
+              className="absolute right-5 top-5 hidden h-9 w-9 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur transition hover:bg-white/35 sm:flex"
+            >
+              <ChevronRight className="h-5 w-5" />
+            </button>
+
+            <div className="absolute bottom-5 right-6 flex gap-2">
+              {items.map((slide, i) => (
+                <button
+                  key={slide.id}
+                  type="button"
+                  aria-label={`Show slide ${i + 1}`}
+                  onClick={() => setIndex(i)}
+                  className={`h-1.5 rounded-full transition-all ${
+                    i === index % count
+                      ? "w-8 bg-white"
+                      : "w-3 bg-white/50 hover:bg-white/80"
+                  }`}
+                />
+              ))}
+            </div>
+          </>
+        )}
       </div>
     </section>
   );

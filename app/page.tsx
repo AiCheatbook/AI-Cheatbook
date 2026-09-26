@@ -1,40 +1,37 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabase/client";
+import { GraduationCap, Newspaper, Users } from "lucide-react";
 import { getUnifiedFeed } from "@/lib/feed/getUnifiedFeed";
-import { resolveThumbnailUrl } from "@/lib/cms/mediaDisplay";
 import type { FeedItem } from "@/lib/feed/types";
 import HeroBanner, { type HeroItem } from "@/components/home/ott/HeroBanner";
 import ContentRow, { type RowItem } from "@/components/home/ott/ContentRow";
 import FirstVisitIntro from "@/components/home/FirstVisitIntro";
 
-type LibraryRow = {
-  id: string;
-  title: string;
-  slug: string;
-  ai_tools: string[] | null;
-  thumbnail_url: string | null;
-  media_url: string | null;
-  media_source: string | null;
-  is_trending: boolean | null;
+type CategoryRow = {
+  category: string;
+  items: RowItem[];
 };
 
-type Rows = {
-  prompts: RowItem[];
-  trendingPrompts: RowItem[];
-  news: RowItem[];
-  learning: RowItem[];
+type HomeData = {
+  hero: HeroItem[];
+  lessons: RowItem[];
+  lessonCategories: CategoryRow[];
   community: RowItem[];
+  news: RowItem[];
 };
 
-const EMPTY_ROWS: Rows = {
-  prompts: [],
-  trendingPrompts: [],
-  news: [],
-  learning: [],
+const EMPTY_DATA: HomeData = {
+  hero: [],
+  lessons: [],
+  lessonCategories: [],
   community: [],
+  news: [],
 };
+
+const HERO_SLIDES = 5;
+const MAX_CATEGORY_ROWS = 4;
+const MIN_ITEMS_PER_CATEGORY_ROW = 3;
 
 function feedToRow(item: FeedItem, badge?: string): RowItem {
   return {
@@ -47,60 +44,59 @@ function feedToRow(item: FeedItem, badge?: string): RowItem {
   };
 }
 
-async function loadLibrary(): Promise<LibraryRow[]> {
-  const { data, error } = await supabase
-    .from("library_items")
-    .select(
-      "id, title, slug, ai_tools, thumbnail_url, media_url, media_source, is_trending"
-    )
-    .eq("is_published", true)
-    .is("deleted_at", null)
-    .order("created_at", { ascending: false })
-    .limit(40);
+// Learning rows by category, most-populated categories first.
+function groupByCategory(items: FeedItem[]): CategoryRow[] {
+  const groups = new Map<string, FeedItem[]>();
 
-  if (error) {
-    console.error("Home: failed to load prompts:", error.message);
-    return [];
+  for (const item of items) {
+    if (!item.category) continue;
+    const list = groups.get(item.category) || [];
+    list.push(item);
+    groups.set(item.category, list);
   }
 
-  return (data || []) as LibraryRow[];
+  return Array.from(groups.entries())
+    .filter(([, list]) => list.length >= MIN_ITEMS_PER_CATEGORY_ROW)
+    .sort((a, b) => b[1].length - a[1].length)
+    .slice(0, MAX_CATEGORY_ROWS)
+    .map(([category, list]) => ({
+      category,
+      items: list.map((item) => feedToRow(item)),
+    }));
 }
 
 /*
- * Netflix-style homepage: a featured banner followed by
- * sideways-scrolling rows of prompts, news, learning cards and
- * community posts. The community feed itself lives at /community.
+ * Streaming-app style homepage in the site's light theme. AI
+ * Learning is the primary content (rotating banner, then lesson
+ * rows); community posts follow and AI News sits last as a
+ * secondary row. The full community feed lives at /community.
  */
 export default function HomePage() {
-  const [hero, setHero] = useState<HeroItem | null>(null);
-  const [rows, setRows] = useState<Rows>(EMPTY_ROWS);
+  const [data, setData] = useState<HomeData>(EMPTY_DATA);
   const [loading, setLoading] = useState(true);
   const [showIntro, setShowIntro] = useState(false);
 
   useEffect(() => {
     async function load() {
-      const [library, news, learning, discussions, promptPosts] =
+      const [learningPage1, learningPage2, news, discussions, promptPosts] =
         await Promise.all([
-          loadLibrary(),
-          getUnifiedFeed({ type: "news", page: 1 }),
           getUnifiedFeed({ type: "learning_card", page: 1 }),
+          getUnifiedFeed({ type: "learning_card", page: 2 }),
+          getUnifiedFeed({ type: "news", page: 1 }),
           getUnifiedFeed({ type: "discussion", page: 1 }),
           getUnifiedFeed({ type: "prompt", page: 1 }),
         ]);
 
-      const promptItems: RowItem[] = library.map((p) => ({
-        id: p.id,
-        title: p.title,
-        subtitle: p.ai_tools?.join(" · ") || null,
-        imageUrl:
-          resolveThumbnailUrl(
-            p.thumbnail_url,
-            p.media_url,
-            p.media_source
-          ) || null,
-        href: `/prompts/${p.slug}`,
-        badge: p.is_trending ? "Trending" : null,
-      }));
+      const learning = [
+        ...learningPage1.items,
+        ...(learningPage1.hasMore ? learningPage2.items : []),
+      ];
+
+      // Prefer lessons with an image for the banner.
+      const heroSource = [
+        ...learning.filter((i) => i.imageUrl),
+        ...learning.filter((i) => !i.imageUrl),
+      ].slice(0, HERO_SLIDES);
 
       const community = [...discussions.items, ...promptPosts.items]
         .sort(
@@ -113,36 +109,19 @@ export default function HomePage() {
           subtitle: item.authorName,
         }));
 
-      // Feature the newest news story or learning card that has
-      // an image; fall back to the newest item of either kind.
-      const heroSource =
-        news.items.find((i) => i.imageUrl) ||
-        learning.items.find((i) => i.imageUrl) ||
-        news.items[0] ||
-        learning.items[0] ||
-        null;
-
-      setHero(
-        heroSource
-          ? {
-              title: heroSource.title,
-              excerpt: heroSource.excerpt,
-              imageUrl: heroSource.imageUrl,
-              href: heroSource.href,
-              label:
-                heroSource.type === "news"
-                  ? "Featured AI News"
-                  : "Featured Lesson",
-            }
-          : null
-      );
-
-      setRows({
-        trendingPrompts: promptItems.filter((p) => p.badge),
-        prompts: promptItems.map((p) => ({ ...p, badge: null })),
-        news: news.items.map((i) => feedToRow(i)),
-        learning: learning.items.map((i) => feedToRow(i)),
+      setData({
+        hero: heroSource.map((item) => ({
+          id: item.id,
+          title: item.title,
+          excerpt: item.excerpt,
+          imageUrl: item.imageUrl,
+          href: item.href,
+          label: item.category || "AI Learning",
+        })),
+        lessons: learning.map((item) => feedToRow(item)),
+        lessonCategories: groupByCategory(learning),
         community,
+        news: news.items.map((item) => feedToRow(item)),
       });
 
       setLoading(false);
@@ -159,51 +138,54 @@ export default function HomePage() {
     load();
   }, []);
 
+  const learningIcon = (
+    <GraduationCap className="h-5 w-5 text-brand-text" strokeWidth={2} />
+  );
+
   return (
-    <main className="min-h-screen bg-[#141414] pb-16 text-white">
+    <main className="min-h-screen bg-white pb-16 text-zinc-900">
       {showIntro && (
         <FirstVisitIntro onDismiss={() => setShowIntro(false)} />
       )}
 
-      <HeroBanner item={hero} loading={loading} />
+      <HeroBanner items={data.hero} loading={loading} />
 
-      <div className="relative -mt-10 space-y-8 sm:space-y-10">
+      <div className="mt-8 space-y-8 sm:space-y-10">
         <ContentRow
-          title="Trending Prompts"
-          seeAllHref="/prompts"
-          items={rows.trendingPrompts}
-          loading={loading}
-          variant="poster"
-        />
-
-        <ContentRow
-          title="New in the Prompt Book"
-          seeAllHref="/prompts"
-          items={rows.prompts}
-          loading={loading}
-          variant="poster"
-        />
-
-        <ContentRow
-          title="Latest AI News"
-          seeAllHref="/news"
-          items={rows.news}
-          loading={loading}
-        />
-
-        <ContentRow
-          title="Learn AI"
+          title="Latest AI Lessons"
           seeAllHref="/learning"
-          items={rows.learning}
+          items={data.lessons}
           loading={loading}
-          variant="poster"
+          variant="feature"
+          icon={learningIcon}
         />
+
+        {data.lessonCategories.map((row) => (
+          <ContentRow
+            key={row.category}
+            title={row.category}
+            seeAllHref="/learning"
+            items={row.items}
+            loading={false}
+            variant="poster"
+            icon={learningIcon}
+          />
+        ))}
 
         <ContentRow
           title="From the Community"
           seeAllHref="/community"
-          items={rows.community}
+          items={data.community}
           loading={loading}
+          icon={<Users className="h-5 w-5 text-brand-text" strokeWidth={2} />}
+        />
+
+        <ContentRow
+          title="AI News"
+          seeAllHref="/news"
+          items={data.news}
+          loading={loading}
+          icon={<Newspaper className="h-5 w-5 text-zinc-500" strokeWidth={2} />}
         />
       </div>
     </main>

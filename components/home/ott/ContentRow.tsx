@@ -18,7 +18,8 @@ type ContentRowProps = {
   seeAllHref?: string;
   items: RowItem[];
   loading: boolean;
-  variant?: "poster" | "landscape";
+  variant?: "feature" | "poster" | "landscape";
+  icon?: React.ReactNode;
 };
 
 // Placeholder backgrounds for items without an image, picked
@@ -42,6 +43,7 @@ export default function ContentRow({
   items,
   loading,
   variant = "landscape",
+  icon,
 }: ContentRowProps) {
   const scrollerRef = useRef<HTMLDivElement>(null);
 
@@ -59,20 +61,23 @@ export default function ContentRow({
   }
 
   const cardSize =
-    variant === "poster"
-      ? "w-[38vw] sm:w-[200px] aspect-[4/5]"
-      : "w-[70vw] sm:w-[300px] aspect-video";
+    variant === "feature"
+      ? "w-[46vw] sm:w-[250px] aspect-[4/5]"
+      : variant === "poster"
+        ? "w-[38vw] sm:w-[190px] aspect-[4/5]"
+        : "w-[62vw] sm:w-[260px] aspect-video";
 
   return (
     <section className="group/row relative">
       <div className="mx-auto flex max-w-[1400px] items-baseline gap-3 px-4 sm:px-8">
-        <h2 className="text-lg font-bold text-white sm:text-xl">
+        <h2 className="flex items-center gap-2 text-lg font-bold text-zinc-900 sm:text-xl">
+          {icon}
           {title}
         </h2>
         {seeAllHref && (
           <Link
             href={seeAllHref}
-            className="text-sm font-semibold text-brand opacity-80 transition hover:opacity-100"
+            className="text-sm font-semibold text-brand-text transition hover:text-brand-text-hover"
           >
             See all ›
           </Link>
@@ -84,27 +89,27 @@ export default function ContentRow({
           type="button"
           aria-label={`Scroll ${title} left`}
           onClick={() => scrollBy(-1)}
-          className="absolute inset-y-0 left-0 z-10 hidden w-10 items-center justify-center bg-black/50 text-white opacity-0 transition group-hover/row:opacity-100 sm:flex"
+          className="absolute left-2 top-1/2 z-20 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white text-zinc-800 opacity-0 shadow-lg ring-1 ring-zinc-200 transition hover:bg-zinc-50 group-hover/row:opacity-100 sm:flex"
         >
-          <ChevronLeft className="h-8 w-8" />
+          <ChevronLeft className="h-6 w-6" />
         </button>
 
         <div
           ref={scrollerRef}
-          className="flex snap-x gap-2 overflow-x-auto scroll-px-4 px-4 py-3 [scrollbar-width:none] sm:scroll-px-8 sm:gap-3 sm:px-8"
+          className="flex snap-x gap-3 overflow-x-auto scroll-px-4 px-4 py-3 [scrollbar-width:none] sm:scroll-px-8 sm:gap-4 sm:px-8"
         >
           {loading
             ? Array.from({ length: 6 }).map((_, i) => (
                 <div
                   key={i}
-                  className={`${cardSize} shrink-0 animate-pulse rounded-md bg-zinc-800`}
+                  className={`${cardSize} shrink-0 animate-pulse rounded-xl bg-zinc-200`}
                 />
               ))
             : items.map((item, index) => (
                 <Link
                   key={item.id}
                   href={item.href}
-                  className={`${cardSize} group/card relative shrink-0 snap-start overflow-hidden rounded-md bg-zinc-800 ring-white/80 transition duration-200 hover:z-10 hover:scale-105 hover:ring-2 focus-visible:ring-2`}
+                  className={`${cardSize} group/card relative shrink-0 snap-start overflow-hidden rounded-xl bg-zinc-200 shadow-sm ring-brand transition duration-200 hover:z-10 hover:scale-[1.04] hover:shadow-lg hover:ring-2 focus-visible:ring-2`}
                 >
                   {item.imageUrl ? (
                     // eslint-disable-next-line @next/next/no-img-element
@@ -125,7 +130,7 @@ export default function ContentRow({
                   <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
 
                   {item.badge && (
-                    <span className="absolute left-2 top-2 rounded bg-brand px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-zinc-950">
+                    <span className="absolute left-2 top-2 rounded bg-brand px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-white">
                       {item.badge}
                     </span>
                   )}
@@ -148,9 +153,9 @@ export default function ContentRow({
           type="button"
           aria-label={`Scroll ${title} right`}
           onClick={() => scrollBy(1)}
-          className="absolute inset-y-0 right-0 z-10 hidden w-10 items-center justify-center bg-black/50 text-white opacity-0 transition group-hover/row:opacity-100 sm:flex"
+          className="absolute right-2 top-1/2 z-20 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white text-zinc-800 opacity-0 shadow-lg ring-1 ring-zinc-200 transition hover:bg-zinc-50 group-hover/row:opacity-100 sm:flex"
         >
-          <ChevronRight className="h-8 w-8" />
+          <ChevronRight className="h-6 w-6" />
         </button>
       </div>
     </section>

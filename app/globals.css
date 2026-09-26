@@ -146,3 +146,12 @@ figure[data-align] figcaption {
   margin-top: 0.5rem;
   text-align: center;
 }
+/* Homepage banner slide transition */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

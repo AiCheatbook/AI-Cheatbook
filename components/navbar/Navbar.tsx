@@ -15,7 +15,7 @@ type Profile = {
 };
 
 /*
- * Netflix-style dark header: one tab row under the header replaces
+ * Light header with one tab row under it, which replaces
  * the old left sidebar, so every section is one click away on
  * every page (and scrolls sideways on small screens).
  */
@@ -101,7 +101,7 @@ export default function Navbar() {
     profile?.display_name || profile?.email?.split("@")[0] || "";
 
   return (
-    <header className="sticky top-0 z-50 border-b border-white/10 bg-[#141414] text-white">
+    <header className="sticky top-0 z-50 border-b border-zinc-200 bg-white/95 text-zinc-900 backdrop-blur">
       <div className="mx-auto max-w-[1400px] px-4 sm:px-8">
         <div className="flex h-16 items-center gap-4">
           {/* Logo */}
@@ -111,7 +111,7 @@ export default function Navbar() {
             onClick={handleLogoClick}
             className="flex shrink-0 items-center gap-3"
           >
-            <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-brand text-sm font-extrabold text-zinc-950">
+            <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-brand text-sm font-extrabold text-white">
               AI
             </span>
             <span className="hidden text-lg font-bold sm:inline">
@@ -130,7 +130,7 @@ export default function Navbar() {
           <div className="flex shrink-0 items-center gap-2 sm:gap-3">
             <Link
               href="/submit/prompt"
-              className="hidden rounded-lg border border-white/25 px-3 py-2 text-sm font-medium text-zinc-200 transition hover:bg-white/10 md:inline-block"
+              className="hidden rounded-lg border border-zinc-300 px-3 py-2 text-sm font-medium text-zinc-700 transition hover:bg-zinc-100 md:inline-block"
             >
               Submit Prompt
             </Link>
@@ -141,7 +141,7 @@ export default function Navbar() {
               href={loggedIn ? "/account" : "/login"}
               aria-label={loggedIn ? "My account" : "Log in"}
               title={loggedIn ? displayName || "My account" : "Log in"}
-              className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full bg-zinc-800 text-zinc-300 transition hover:ring-2 hover:ring-white/40"
+              className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full bg-zinc-100 text-zinc-600 transition hover:ring-2 hover:ring-brand/40"
             >
               {profile?.avatar_url ? (
                 // eslint-disable-next-line @next/next/no-img-element
@@ -151,7 +151,7 @@ export default function Navbar() {
                   className="h-full w-full object-cover"
                 />
               ) : loggedIn && displayName ? (
-                <span className="font-bold text-brand">
+                <span className="font-bold text-brand-text">
                   {displayName.charAt(0).toUpperCase()}
                 </span>
               ) : (
@@ -173,8 +173,8 @@ export default function Navbar() {
                 href={tab.href}
                 className={`shrink-0 whitespace-nowrap border-b-4 pb-3 pt-1 transition ${
                   active
-                    ? "border-brand font-semibold text-white"
-                    : "border-transparent text-zinc-400 hover:text-white"
+                    ? "border-brand font-semibold text-zinc-900"
+                    : "border-transparent text-zinc-500 hover:text-zinc-900"
                 }`}
               >
                 {tab.label}
