@@ -45,8 +45,8 @@ export default function Navbar({
   settings = DEFAULT_SITE_SETTINGS,
 }: NavbarProps) {
   const pathname = usePathname();
-  // The header follows the dark homepage theme on the homepage only.
-  const dark = settings.homeTheme === "dark" && pathname === "/";
+  // Dark header when the website theme is dark.
+  const dark = settings.homeTheme === "dark";
   const tabs = NAV_ITEMS.filter(
     (item) => item.locked || !settings.hiddenNav.includes(item.key)
   );

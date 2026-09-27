@@ -1,7 +1,7 @@
 import { supabase } from "@/lib/supabase/client";
 
 /*
- * Site-wide settings edited at /admin/settings (homepage theme, icon,
+ * Site-wide settings edited at /admin/settings (website theme, icon,
  * logo, menu switches) and stored in the site_settings table (see
  * database/061_site_settings.sql).
  */
@@ -37,6 +37,7 @@ export const NAV_ITEMS: {
 export type HomeTheme = "light" | "dark";
 
 export type SiteSettings = {
+  // Light or dark colour theme for the whole website.
   homeTheme: HomeTheme;
   faviconUrl: string;
   logoUrl: string;

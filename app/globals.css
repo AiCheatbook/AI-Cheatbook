@@ -279,3 +279,147 @@ figure[data-align] figcaption {
     transition: none;
   }
 }
+
+/* ============================================
+   Site-wide dark theme
+   ============================================
+   Site Settings → Website theme → Dark puts .site-dark (and
+   .home-dark) on <html>. Pages use light utility classes directly,
+   so the common ones are re-coloured here instead of in every
+   component. These rules are outside Tailwind's layers, so they
+   win over the utilities they replace. */
+
+.site-dark {
+  color-scheme: dark;
+  --site-bg: #0b0f17;
+  --site-surface: #131a26;
+  --site-surface-2: #1b2331;
+  --site-surface-3: #252f40;
+  --site-line: #263041;
+  --site-line-strong: #334155;
+}
+
+.site-dark body {
+  background-color: var(--site-bg);
+  color: #e4e4e7;
+}
+
+/* Backgrounds */
+.site-dark .bg-white,
+.site-dark .hover\:bg-white:hover,
+.site-dark .focus\:bg-white:focus {
+  background-color: var(--site-surface);
+}
+.site-dark .bg-white\/95,
+.site-dark .bg-white\/90 {
+  background-color: rgb(11 15 23 / 0.92);
+}
+.site-dark .bg-zinc-50,
+.site-dark .hover\:bg-zinc-50:hover {
+  background-color: #0f1520;
+}
+.site-dark .bg-zinc-100,
+.site-dark .hover\:bg-zinc-100:hover {
+  background-color: var(--site-surface-2);
+}
+.site-dark .bg-zinc-200,
+.site-dark .hover\:bg-zinc-200:hover {
+  background-color: var(--site-surface-3);
+}
+.site-dark .bg-zinc-300 {
+  background-color: var(--site-line-strong);
+}
+.site-dark .bg-brand-light {
+  background-color: #10263a;
+}
+
+/* Text */
+.site-dark .text-black,
+.site-dark .text-zinc-950,
+.site-dark .text-zinc-900,
+.site-dark .text-zinc-800,
+.site-dark .hover\:text-zinc-900:hover {
+  color: #f4f4f5;
+}
+.site-dark .text-zinc-700,
+.site-dark .hover\:text-zinc-700:hover,
+.site-dark .hover\:text-zinc-600:hover {
+  color: #d4d4d8;
+}
+.site-dark .text-zinc-600 {
+  color: #a1a1aa;
+}
+.site-dark .text-zinc-500 {
+  color: #8b8b94;
+}
+.site-dark .text-zinc-400 {
+  color: #71717a;
+}
+.site-dark .text-brand-text,
+.site-dark .hover\:text-brand-text:hover {
+  color: #38bdf8;
+}
+.site-dark .text-brand-dark {
+  color: #7dd3fc;
+}
+
+/* Borders, dividers, rings */
+.site-dark .border-zinc-100 {
+  border-color: var(--site-surface-2);
+}
+.site-dark .border-zinc-200,
+.site-dark .divide-zinc-100 > :not(:last-child),
+.site-dark .divide-zinc-200 > :not(:last-child) {
+  border-color: var(--site-line);
+}
+.site-dark .border-zinc-300,
+.site-dark .hover\:border-zinc-300:hover {
+  border-color: var(--site-line-strong);
+}
+.site-dark .hover\:border-zinc-400:hover,
+.site-dark .hover\:border-zinc-500:hover,
+.site-dark .hover\:border-zinc-600:hover {
+  border-color: #475569;
+}
+.site-dark .ring-zinc-200 {
+  --tw-ring-color: var(--site-line);
+}
+
+/* Form fields */
+.site-dark input,
+.site-dark textarea,
+.site-dark select {
+  color: #f4f4f5;
+}
+.site-dark ::placeholder {
+  color: #71717a;
+}
+
+/* Rich text (articles) */
+.site-dark .prose {
+  --tw-prose-body: #d4d4d8;
+  --tw-prose-headings: #f4f4f5;
+  --tw-prose-lead: #a1a1aa;
+  --tw-prose-links: #38bdf8;
+  --tw-prose-bold: #f4f4f5;
+  --tw-prose-counters: #a1a1aa;
+  --tw-prose-bullets: #52525b;
+  --tw-prose-hr: var(--site-line);
+  --tw-prose-quotes: #e4e4e7;
+  --tw-prose-quote-borders: var(--site-line-strong);
+  --tw-prose-captions: #a1a1aa;
+  --tw-prose-code: #f4f4f5;
+  --tw-prose-pre-code: #e4e4e7;
+  --tw-prose-pre-bg: #0f1520;
+  --tw-prose-th-borders: var(--site-line-strong);
+  --tw-prose-td-borders: var(--site-line);
+}
+.site-dark .prose :where(h1, h2, h3, h4, h5, h6) {
+  color: #f4f4f5;
+}
+.site-dark .hover\:bg-brand-light:hover {
+  background-color: #10263a;
+}
+.site-dark .hover\:text-brand-text-hover:hover {
+  color: #7dd3fc;
+}

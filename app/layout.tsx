@@ -89,7 +89,9 @@ export default async function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased ${
+        siteSettings.homeTheme === "dark" ? "site-dark home-dark" : ""
+      }`}
     >
       <body className="min-h-full bg-white font-sans">
         <JsonLd

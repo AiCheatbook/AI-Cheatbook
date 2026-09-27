@@ -285,8 +285,7 @@ export default function SiteSettingsPage() {
       <div className="mx-auto max-w-3xl px-4 py-8 sm:px-6">
         <h1 className="text-2xl font-bold">Site Settings</h1>
         <p className="mt-1 text-sm text-zinc-600">
-          Homepage theme, website icon, header logo and which menu links are
-          shown.
+          Website theme, icon, header logo and which menu links are shown.
         </p>
 
         {missingTable && (
@@ -302,8 +301,8 @@ export default function SiteSettingsPage() {
 
         <div className="mt-6 space-y-5">
           <Section
-            title="Homepage theme"
-            hint="Light or dark look for the homepage and its header. Other pages keep the light look."
+            title="Website theme"
+            hint="Light or dark colours for the whole website: homepage, every page and the menu."
           >
             <div className="grid gap-3 sm:grid-cols-2">
               {(
@@ -325,25 +324,27 @@ export default function SiteSettingsPage() {
                         : "border-zinc-200 hover:border-zinc-400"
                     }`}
                   >
+                    {/* Fixed colours so the previews look the same in
+                        either theme. */}
                     <span
                       className={`block overflow-hidden rounded-xl border ${
-                        isDark ? "border-white/10 bg-[#0B0F17]" : "border-zinc-200 bg-white"
+                        isDark ? "border-white/10 bg-[#0B0F17]" : "border-[#E4E4E7] bg-[#FFFFFF]"
                       }`}
                     >
                       <span
                         className={`flex items-center gap-1.5 border-b px-2 py-1.5 ${
-                          isDark ? "border-white/10" : "border-zinc-100"
+                          isDark ? "border-white/10" : "border-[#F4F4F5]"
                         }`}
                       >
                         <span className="h-2.5 w-2.5 rounded bg-brand" />
-                        <span className={`h-1.5 w-12 rounded ${isDark ? "bg-white/30" : "bg-zinc-300"}`} />
+                        <span className={`h-1.5 w-12 rounded ${isDark ? "bg-white/30" : "bg-[#D4D4D8]"}`} />
                       </span>
                       <span className="block h-10 bg-gradient-to-r from-violet-700 via-sky-600 to-fuchsia-500 opacity-80" />
                       <span className="flex gap-1.5 p-2">
                         {[0, 1, 2, 3].map((i) => (
                           <span
                             key={i}
-                            className={`h-8 flex-1 rounded ${isDark ? "bg-white/10" : "bg-zinc-200"}`}
+                            className={`h-8 flex-1 rounded ${isDark ? "bg-white/10" : "bg-[#E4E4E7]"}`}
                           />
                         ))}
                       </span>
