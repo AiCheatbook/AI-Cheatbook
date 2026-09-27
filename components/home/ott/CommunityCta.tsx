@@ -9,15 +9,15 @@ export default function CommunityCta() {
   return (
     <section className="mx-auto max-w-[1400px] px-4 sm:px-8">
       <div className="animate-gradient relative overflow-hidden rounded-3xl bg-[linear-gradient(120deg,#0077A3,#00ABE4,#6366f1,#0077A3)] p-8 text-white shadow-[0_30px_60px_-25px_rgba(0,119,163,0.7)] sm:p-12">
-        <div className="animate-float-blob pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full bg-white/20 blur-2xl" />
+        <div className="animate-float-blob pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.35),transparent_65%)]" />
         <div
-          className="animate-float-blob pointer-events-none absolute -bottom-20 left-1/3 h-56 w-56 rounded-full bg-indigo-300/30 blur-2xl"
+          className="animate-float-blob pointer-events-none absolute -bottom-20 left-1/3 h-56 w-56 rounded-full bg-[radial-gradient(circle,rgba(165,180,252,0.45),transparent_65%)]"
           style={{ animationDelay: "-6s" }}
         />
 
         <div className="relative flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
           <div className="max-w-2xl">
-            <p className="inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-xs font-bold uppercase tracking-[0.18em] backdrop-blur">
+            <p className="inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-xs font-bold uppercase tracking-[0.18em]">
               <Sparkles className="h-3.5 w-3.5" strokeWidth={2.5} />
               For creators
             </p>

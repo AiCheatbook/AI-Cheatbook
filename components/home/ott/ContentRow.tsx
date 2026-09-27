@@ -142,6 +142,7 @@ export default function ContentRow({
                       src={item.imageUrl}
                       alt=""
                       loading="lazy"
+                      decoding="async"
                       className="h-full w-full object-cover transition duration-700 ease-out group-hover/card:scale-110"
                     />
                   ) : (

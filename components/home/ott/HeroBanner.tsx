@@ -57,7 +57,15 @@ export default function HeroBanner({ items, loading }: HeroBannerProps) {
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const sceneRef = useRef<HTMLElement>(null);
+  const frameRef = useRef<number | null>(null);
   const count = items.length;
+
+  useEffect(
+    () => () => {
+      if (frameRef.current !== null) cancelAnimationFrame(frameRef.current);
+    },
+    []
+  );
 
   useEffect(() => {
     if (count < 2 || paused) return;
@@ -68,17 +76,23 @@ export default function HeroBanner({ items, loading }: HeroBannerProps) {
     return () => clearTimeout(timer);
   }, [count, paused, index]);
 
-  // Pointer position drives the card-stack tilt via CSS variables.
+  // Pointer position drives the card-stack tilt via CSS variables,
+  // updated at most once per frame.
   function handlePointerMove(e: React.PointerEvent<HTMLElement>) {
     const el = sceneRef.current;
-    if (!el || e.pointerType !== "mouse") return;
-    const rect = el.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width - 0.5;
-    const y = (e.clientY - rect.top) / rect.height - 0.5;
-    el.style.setProperty("--tilt-x", `${(-y * 10).toFixed(2)}deg`);
-    el.style.setProperty("--tilt-y", `${(x * 14).toFixed(2)}deg`);
-    el.style.setProperty("--glow-x", `${((x + 0.5) * 100).toFixed(1)}%`);
-    el.style.setProperty("--glow-y", `${((y + 0.5) * 100).toFixed(1)}%`);
+    if (!el || e.pointerType !== "mouse" || frameRef.current !== null) return;
+    const { clientX, clientY } = e;
+
+    frameRef.current = requestAnimationFrame(() => {
+      frameRef.current = null;
+      const rect = el.getBoundingClientRect();
+      const x = (clientX - rect.left) / rect.width - 0.5;
+      const y = (clientY - rect.top) / rect.height - 0.5;
+      el.style.setProperty("--tilt-x", `${(-y * 10).toFixed(2)}deg`);
+      el.style.setProperty("--tilt-y", `${(x * 14).toFixed(2)}deg`);
+      el.style.setProperty("--glow-x", `${((x + 0.5) * 100).toFixed(1)}%`);
+      el.style.setProperty("--glow-y", `${((y + 0.5) * 100).toFixed(1)}%`);
+    });
   }
 
   function resetPointer() {
@@ -121,6 +135,13 @@ export default function HeroBanner({ items, loading }: HeroBannerProps) {
 
       {(count > 0 ? items : [null]).map((slide, i) => {
         const isActive = i === active;
+        // Keep only the previous, current and next slide images
+        // mounted, so the page doesn't download every slide at once.
+        const nearby =
+          count <= 3 ||
+          isActive ||
+          i === (active + 1) % count ||
+          i === (active - 1 + count) % count;
         return (
           <div
             key={slide?.id || "empty"}
@@ -130,15 +151,19 @@ export default function HeroBanner({ items, loading }: HeroBannerProps) {
             }`}
           >
             {slide?.imageUrl ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                key={isActive ? `${slide.id}-${index}` : slide.id}
-                src={slide.imageUrl}
-                alt=""
-                className={`h-full w-full object-cover ${
-                  isActive ? "animate-ken-burns" : ""
-                }`}
-              />
+              nearby && (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  key={isActive ? `${slide.id}-${index}` : slide.id}
+                  src={slide.imageUrl}
+                  alt=""
+                  decoding="async"
+                  fetchPriority={i === 0 ? "high" : "low"}
+                  className={`h-full w-full object-cover will-change-transform ${
+                    isActive ? "animate-ken-burns" : ""
+                  }`}
+                />
+              )
             ) : (
               <div
                 className={`animate-gradient h-full w-full ${
@@ -153,18 +178,14 @@ export default function HeroBanner({ items, loading }: HeroBannerProps) {
       {/* Atmosphere: aurora, pointer glow, grain, fades */}
 
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-zinc-950/90 via-zinc-950/45 to-zinc-950/10" />
-      <div className="animate-float-blob pointer-events-none absolute -left-32 top-10 h-[28rem] w-[28rem] rounded-full bg-brand/40 mix-blend-screen blur-3xl" />
+      <div className="animate-float-blob pointer-events-none absolute -left-32 top-10 h-[28rem] w-[28rem] rounded-full bg-[radial-gradient(circle,rgba(0,171,228,0.45),transparent_65%)] will-change-transform" />
       <div
-        className="animate-float-blob pointer-events-none absolute right-[-6rem] top-[-6rem] h-[26rem] w-[26rem] rounded-full bg-fuchsia-500/30 mix-blend-screen blur-3xl"
+        className="animate-float-blob pointer-events-none absolute right-[-6rem] top-[-6rem] h-[26rem] w-[26rem] rounded-full bg-[radial-gradient(circle,rgba(217,70,239,0.35),transparent_65%)] will-change-transform"
         style={{ animationDelay: "-5s" }}
-      />
-      <div
-        className="animate-float-blob pointer-events-none absolute bottom-10 left-1/3 h-72 w-72 rounded-full bg-violet-500/25 mix-blend-screen blur-3xl"
-        style={{ animationDelay: "-9s" }}
       />
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(600px_circle_at_var(--glow-x)_var(--glow-y),rgba(0,171,228,0.18),transparent_60%)]" />
       <div
-        className="pointer-events-none absolute inset-0 opacity-[0.12] mix-blend-overlay"
+        className="pointer-events-none absolute inset-0 opacity-[0.06]"
         style={{ backgroundImage: GRAIN }}
       />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[34%] bg-gradient-to-t from-white from-15% via-white/80 to-transparent" />
@@ -178,7 +199,7 @@ export default function HeroBanner({ items, loading }: HeroBannerProps) {
               <Sparkles className="h-3.5 w-3.5 text-fuchsia-500" strokeWidth={2.5} />
               {active === 0 ? "New drop" : "Trending lesson"}
             </span>
-            <span className="rounded-full border border-white/25 bg-white/10 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.18em] text-white backdrop-blur-md">
+            <span className="rounded-full border border-white/25 bg-white/15 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.18em] text-white">
               {current?.label || "AI Learning"}
             </span>
           </div>
@@ -216,7 +237,7 @@ export default function HeroBanner({ items, loading }: HeroBannerProps) {
 
             <Link
               href="/learning"
-              className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-6 py-3.5 text-base font-bold text-white backdrop-blur-md transition hover:bg-white/20"
+              className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/15 px-6 py-3.5 text-base font-bold text-white transition hover:bg-white/20"
             >
               Explore all
             </Link>
@@ -252,6 +273,7 @@ export default function HeroBanner({ items, loading }: HeroBannerProps) {
                     <img
                       src={item.imageUrl}
                       alt=""
+                      decoding="async"
                       className="h-full w-full object-cover transition duration-700 group-hover:scale-110"
                     />
                   ) : (
@@ -319,7 +341,7 @@ export default function HeroBanner({ items, loading }: HeroBannerProps) {
                 type="button"
                 aria-label={paused ? "Play slideshow" : "Pause slideshow"}
                 onClick={() => setPaused((p) => !p)}
-                className="hidden h-10 w-10 items-center justify-center rounded-full border border-zinc-900/10 bg-white/80 text-zinc-900 shadow-sm backdrop-blur transition hover:bg-white sm:flex"
+                className="hidden h-10 w-10 items-center justify-center rounded-full border border-zinc-900/10 bg-white/80 text-zinc-900 shadow-sm transition hover:bg-white sm:flex"
               >
                 {paused ? <Play className="h-4 w-4 fill-zinc-900" /> : <Pause className="h-4 w-4" />}
               </button>
@@ -327,7 +349,7 @@ export default function HeroBanner({ items, loading }: HeroBannerProps) {
                 type="button"
                 aria-label="Previous"
                 onClick={() => setIndex((i) => (i - 1 + count) % count)}
-                className="flex h-10 w-10 items-center justify-center rounded-full border border-zinc-900/10 bg-white/80 text-zinc-900 shadow-sm backdrop-blur transition hover:bg-white"
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-zinc-900/10 bg-white/80 text-zinc-900 shadow-sm transition hover:bg-white"
               >
                 <ChevronLeft className="h-5 w-5" />
               </button>
