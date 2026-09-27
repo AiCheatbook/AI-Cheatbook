@@ -20,7 +20,7 @@ export default function TopicMarquee({ topics }: TopicMarqueeProps) {
       : Array.from({ length: Math.ceil(8 / topics.length) }, () => topics).flat();
 
   return (
-    <div className="group relative mx-auto mt-6 max-w-[1400px] overflow-hidden px-4 sm:px-8">
+    <div className="group relative z-10 mx-auto -mt-2 max-w-[1400px] overflow-hidden px-4 sm:px-8">
       <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-white to-transparent sm:left-8" />
       <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-white to-transparent sm:right-8" />
 

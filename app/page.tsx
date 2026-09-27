@@ -9,7 +9,6 @@ import ContentRow, { type RowItem } from "@/components/home/ott/ContentRow";
 import FirstVisitIntro from "@/components/home/FirstVisitIntro";
 import Reveal from "@/components/home/ott/Reveal";
 import TopicMarquee from "@/components/home/ott/TopicMarquee";
-import CommunityBento from "@/components/home/ott/CommunityBento";
 import CommunityCta from "@/components/home/ott/CommunityCta";
 import NewsList from "@/components/home/ott/NewsList";
 
@@ -23,7 +22,6 @@ type HomeData = {
   topics: string[];
   lessons: RowItem[];
   lessonCategories: CategoryRow[];
-  community: RowItem[];
   news: RowItem[];
 };
 
@@ -32,7 +30,6 @@ const EMPTY_DATA: HomeData = {
   topics: [],
   lessons: [],
   lessonCategories: [],
-  community: [],
   news: [],
 };
 
@@ -75,8 +72,8 @@ function groupByCategory(items: FeedItem[]): CategoryRow[] {
 /*
  * Streaming-app style homepage in the site's light theme. AI
  * Learning is the primary content (rotating banner, then lesson
- * rows); community posts follow and AI News sits last as a
- * secondary row. The full community feed lives at /community.
+ * rows), then a community call-to-action, with AI News last as
+ * a secondary block. The community feed lives at /community.
  */
 export default function HomePage() {
   const [data, setData] = useState<HomeData>(EMPTY_DATA);
@@ -85,14 +82,11 @@ export default function HomePage() {
 
   useEffect(() => {
     async function load() {
-      const [learningPage1, learningPage2, news, discussions, promptPosts] =
-        await Promise.all([
-          getUnifiedFeed({ type: "learning_card", page: 1 }),
-          getUnifiedFeed({ type: "learning_card", page: 2 }),
-          getUnifiedFeed({ type: "news", page: 1 }),
-          getUnifiedFeed({ type: "discussion", page: 1 }),
-          getUnifiedFeed({ type: "prompt", page: 1 }),
-        ]);
+      const [learningPage1, learningPage2, news] = await Promise.all([
+        getUnifiedFeed({ type: "learning_card", page: 1 }),
+        getUnifiedFeed({ type: "learning_card", page: 2 }),
+        getUnifiedFeed({ type: "news", page: 1 }),
+      ]);
 
       const learning = [
         ...learningPage1.items,
@@ -104,17 +98,6 @@ export default function HomePage() {
         ...learning.filter((i) => i.imageUrl),
         ...learning.filter((i) => !i.imageUrl),
       ].slice(0, HERO_SLIDES);
-
-      const community = [...discussions.items, ...promptPosts.items]
-        .sort(
-          (a, b) =>
-            new Date(b.publishedAt).getTime() -
-            new Date(a.publishedAt).getTime()
-        )
-        .map((item) => ({
-          ...feedToRow(item, item.type === "prompt" ? "Prompt" : undefined),
-          subtitle: item.authorName,
-        }));
 
       setData({
         hero: heroSource.map((item) => ({
@@ -134,7 +117,6 @@ export default function HomePage() {
         ),
         lessons: learning.map((item) => feedToRow(item)),
         lessonCategories: groupByCategory(learning),
-        community,
         news: news.items.map((item) => feedToRow(item)),
       });
 
@@ -205,10 +187,6 @@ export default function HomePage() {
             />
           </Reveal>
         ))}
-
-        <Reveal>
-          <CommunityBento items={data.community} loading={loading} />
-        </Reveal>
 
         <Reveal>
           <CommunityCta />

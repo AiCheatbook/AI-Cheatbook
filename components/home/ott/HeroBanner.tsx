@@ -1,13 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
+  ArrowRight,
   ChevronLeft,
   ChevronRight,
-  GraduationCap,
   Pause,
   Play,
+  Sparkles,
 } from "lucide-react";
 
 export type HeroItem = {
@@ -26,21 +27,36 @@ type HeroBannerProps = {
 
 const ROTATE_MS = 7000;
 
+// Film-grain texture layered over the scene.
+const GRAIN =
+  "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E\")";
+
 const FALLBACK_BACKGROUNDS = [
-  "bg-[radial-gradient(ellipse_at_top_right,_#00ABE4_0%,_#0077A3_40%,_#0b1f2a_85%)]",
-  "bg-[radial-gradient(ellipse_at_bottom_left,_#7c3aed_0%,_#312e81_45%,_#0b1020_85%)]",
-  "bg-[radial-gradient(ellipse_at_top_left,_#10b981_0%,_#065f46_45%,_#051b16_85%)]",
+  "bg-[linear-gradient(135deg,#0b1f2a,#0077A3_45%,#6d28d9)]",
+  "bg-[linear-gradient(135deg,#1e1b4b,#7c3aed_45%,#db2777)]",
+  "bg-[linear-gradient(135deg,#052e2b,#0f766e_45%,#0891b2)]",
 ];
 
+// Split a title so its last word can carry the gradient.
+function splitTitle(title: string): [string, string] {
+  const trimmed = title.trim();
+  const cut = trimmed.lastIndexOf(" ");
+  if (cut === -1) return ["", trimmed];
+  return [trimmed.slice(0, cut), trimmed.slice(cut + 1)];
+}
+
 /*
- * Cinematic featured slider for the newest Learning Cards:
- * crossfading slides with a slow Ken Burns zoom, text that rises
- * in per slide, a progress bar per slide, and (on large screens)
- * an "Up next" list. Pauses while hovered.
+ * Full-bleed, immersive hero for the newest Learning Cards. The
+ * active slide fills the whole width (slow Ken Burns zoom) and
+ * melts into the page below; aurora glows and film grain sit on
+ * top. Copy rises in per slide, the last word of the title gets
+ * an animated gradient, and on large screens a tilted 3D stack of
+ * lesson cards follows the pointer. Pauses on hover.
  */
 export default function HeroBanner({ items, loading }: HeroBannerProps) {
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
+  const sceneRef = useRef<HTMLElement>(null);
   const count = items.length;
 
   useEffect(() => {
@@ -52,175 +68,240 @@ export default function HeroBanner({ items, loading }: HeroBannerProps) {
     return () => clearTimeout(timer);
   }, [count, paused, index]);
 
+  // Pointer position drives the card-stack tilt via CSS variables.
+  function handlePointerMove(e: React.PointerEvent<HTMLElement>) {
+    const el = sceneRef.current;
+    if (!el || e.pointerType !== "mouse") return;
+    const rect = el.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    el.style.setProperty("--tilt-x", `${(-y * 10).toFixed(2)}deg`);
+    el.style.setProperty("--tilt-y", `${(x * 14).toFixed(2)}deg`);
+    el.style.setProperty("--glow-x", `${((x + 0.5) * 100).toFixed(1)}%`);
+    el.style.setProperty("--glow-y", `${((y + 0.5) * 100).toFixed(1)}%`);
+  }
+
+  function resetPointer() {
+    const el = sceneRef.current;
+    if (!el) return;
+    el.style.setProperty("--tilt-x", "0deg");
+    el.style.setProperty("--tilt-y", "0deg");
+  }
+
   if (loading) {
     return (
-      <section className="mx-auto max-w-[1400px] px-4 pt-6 sm:px-8">
-        <div className="h-[420px] animate-pulse rounded-3xl bg-zinc-200 sm:h-[520px]" />
-      </section>
+      <section className="relative h-[78vh] min-h-[520px] max-h-[780px] animate-pulse bg-gradient-to-b from-zinc-200 to-white" />
     );
   }
 
-  const current = items[index % Math.max(count, 1)] || null;
-  const upNext = count > 1
-    ? Array.from({ length: Math.min(count - 1, 3) }, (_, i) => {
-        const at = (index + 1 + i) % count;
-        return { item: items[at], at };
+  const active = index % Math.max(count, 1);
+  const current = items[active] || null;
+  const [lead, lastWord] = splitTitle(
+    current?.title || "Learn AI, one card at a time"
+  );
+  const stack = count > 0
+    ? Array.from({ length: Math.min(count, 3) }, (_, i) => {
+        const at = (active + i) % count;
+        return { item: items[at], at, depth: i };
       })
     : [];
 
   return (
-    <section className="mx-auto max-w-[1400px] px-4 pt-6 sm:px-8">
+    <section
+      ref={sceneRef}
+      className="relative h-[82vh] min-h-[560px] max-h-[820px] overflow-hidden bg-zinc-950 [--glow-x:30%] [--glow-y:40%] [--tilt-x:0deg] [--tilt-y:0deg]"
+      onPointerMove={handlePointerMove}
+      onPointerLeave={() => {
+        resetPointer();
+        setPaused(false);
+      }}
+      onPointerEnter={() => setPaused(true)}
+    >
+      {/* Slides */}
+
+      {(count > 0 ? items : [null]).map((slide, i) => {
+        const isActive = i === active;
+        return (
+          <div
+            key={slide?.id || "empty"}
+            aria-hidden={!isActive}
+            className={`absolute inset-0 transition-opacity duration-[1200ms] ease-out ${
+              isActive ? "opacity-100" : "opacity-0"
+            }`}
+          >
+            {slide?.imageUrl ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                key={isActive ? `${slide.id}-${index}` : slide.id}
+                src={slide.imageUrl}
+                alt=""
+                className={`h-full w-full object-cover ${
+                  isActive ? "animate-ken-burns" : ""
+                }`}
+              />
+            ) : (
+              <div
+                className={`animate-gradient h-full w-full ${
+                  FALLBACK_BACKGROUNDS[i % FALLBACK_BACKGROUNDS.length]
+                }`}
+              />
+            )}
+          </div>
+        );
+      })}
+
+      {/* Atmosphere: aurora, pointer glow, grain, fades */}
+
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-zinc-950/90 via-zinc-950/45 to-zinc-950/10" />
+      <div className="animate-float-blob pointer-events-none absolute -left-32 top-10 h-[28rem] w-[28rem] rounded-full bg-brand/40 mix-blend-screen blur-3xl" />
       <div
-        className="relative h-[460px] overflow-hidden rounded-3xl bg-zinc-950 shadow-[0_30px_80px_-30px_rgba(0,119,163,0.55)] sm:h-[540px]"
-        onMouseEnter={() => setPaused(true)}
-        onMouseLeave={() => setPaused(false)}
-      >
-        {/* Slides */}
+        className="animate-float-blob pointer-events-none absolute right-[-6rem] top-[-6rem] h-[26rem] w-[26rem] rounded-full bg-fuchsia-500/30 mix-blend-screen blur-3xl"
+        style={{ animationDelay: "-5s" }}
+      />
+      <div
+        className="animate-float-blob pointer-events-none absolute bottom-10 left-1/3 h-72 w-72 rounded-full bg-violet-500/25 mix-blend-screen blur-3xl"
+        style={{ animationDelay: "-9s" }}
+      />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(600px_circle_at_var(--glow-x)_var(--glow-y),rgba(0,171,228,0.18),transparent_60%)]" />
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.12] mix-blend-overlay"
+        style={{ backgroundImage: GRAIN }}
+      />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[34%] bg-gradient-to-t from-white from-15% via-white/80 to-transparent" />
 
-        {(count > 0 ? items : [null]).map((slide, i) => {
-          const active = i === index % Math.max(count, 1);
-          return (
-            <div
-              key={slide?.id || "empty"}
-              aria-hidden={!active}
-              className={`absolute inset-0 transition-opacity duration-1000 ease-out ${
-                active ? "opacity-100" : "opacity-0"
-              }`}
-            >
-              {slide?.imageUrl ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  key={active ? `${slide.id}-${index}` : slide.id}
-                  src={slide.imageUrl}
-                  alt=""
-                  className={`h-full w-full object-cover ${
-                    active ? "animate-ken-burns" : ""
-                  }`}
-                />
-              ) : (
-                <div
-                  className={`animate-gradient h-full w-full ${
-                    FALLBACK_BACKGROUNDS[i % FALLBACK_BACKGROUNDS.length]
-                  }`}
-                />
-              )}
-            </div>
-          );
-        })}
+      {/* Content */}
 
-        {/* Readability layers */}
-
-        <div className="absolute inset-0 bg-gradient-to-r from-zinc-950/90 via-zinc-950/50 to-transparent" />
-        <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-zinc-950/80 to-transparent" />
-        <div className="animate-float-blob pointer-events-none absolute -left-24 -top-24 h-80 w-80 rounded-full bg-brand/30 blur-3xl" />
-
-        {/* Copy */}
-
-        <div
-          key={current?.id || "empty"}
-          className="relative flex h-full max-w-2xl flex-col justify-end p-6 pb-20 sm:p-12 sm:pb-24"
-        >
-          <p className="animate-fade-up inline-flex w-fit items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.2em] text-white backdrop-blur">
-            <GraduationCap className="h-3.5 w-3.5 text-brand" strokeWidth={2.5} />
-            {current?.label || "AI Learning"}
-          </p>
+      <div className="relative mx-auto grid h-full max-w-[1400px] items-center gap-10 px-5 pb-28 pt-10 sm:px-8 lg:grid-cols-[1.25fr_1fr]">
+        <div key={current?.id || "empty"} className="max-w-2xl">
+          <div className="animate-fade-up flex flex-wrap items-center gap-2">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-white px-3 py-1 text-[11px] font-extrabold uppercase tracking-[0.18em] text-zinc-900 shadow-lg">
+              <Sparkles className="h-3.5 w-3.5 text-fuchsia-500" strokeWidth={2.5} />
+              {active === 0 ? "New drop" : "Trending lesson"}
+            </span>
+            <span className="rounded-full border border-white/25 bg-white/10 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.18em] text-white backdrop-blur-md">
+              {current?.label || "AI Learning"}
+            </span>
+          </div>
 
           <h1
-            className="animate-fade-up mt-4 line-clamp-3 text-4xl font-extrabold leading-[1.05] tracking-tight text-white sm:text-6xl"
+            className="animate-fade-up mt-5 text-[2.6rem] font-black leading-[0.95] tracking-[-0.04em] text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.35)] sm:text-6xl lg:text-7xl"
             style={{ animationDelay: "90ms" }}
           >
-            {current?.title || "Learn AI, one card at a time"}
+            {lead && <>{lead} </>}
+            <span className="animate-gradient bg-[linear-gradient(90deg,#38d6ff,#a78bfa,#f472b6,#38d6ff)] bg-clip-text text-transparent">
+              {lastWord}
+            </span>
           </h1>
 
           <p
-            className="animate-fade-up mt-4 line-clamp-2 max-w-xl text-base text-zinc-200 sm:text-lg"
+            className="animate-fade-up mt-5 line-clamp-2 max-w-xl text-base font-medium text-zinc-100/90 sm:text-lg"
             style={{ animationDelay: "180ms" }}
           >
             {current?.excerpt ||
-              "Short, practical lessons that explain AI concepts in plain language."}
+              "Short, visual lessons that make AI click, in minutes, not hours."}
           </p>
 
           <div
-            className="animate-fade-up mt-7 flex flex-wrap gap-3"
+            className="animate-fade-up mt-8 flex flex-wrap items-center gap-3"
             style={{ animationDelay: "270ms" }}
           >
             <Link
               href={current?.href || "/learning"}
-              className="group inline-flex items-center gap-2 rounded-full bg-brand px-6 py-3 text-base font-bold text-white shadow-[0_10px_30px_-8px_rgba(0,171,228,0.8)] transition hover:-translate-y-0.5 hover:bg-brand-dark"
+              className="group inline-flex items-center gap-2 rounded-full bg-white px-7 py-3.5 text-base font-extrabold text-zinc-950 shadow-[0_12px_40px_-10px_rgba(56,214,255,0.9)] transition hover:-translate-y-0.5 hover:shadow-[0_18px_50px_-10px_rgba(167,139,250,0.95)]"
             >
-              <Play className="h-5 w-5 fill-white transition group-hover:scale-110" strokeWidth={2} />
-              Start Learning
+              <Play className="h-5 w-5 fill-zinc-950" strokeWidth={2} />
+              Start learning
+              <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
             </Link>
 
             <Link
               href="/learning"
-              className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-6 py-3 text-base font-bold text-white backdrop-blur transition hover:bg-white/20"
+              className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-6 py-3.5 text-base font-bold text-white backdrop-blur-md transition hover:bg-white/20"
             >
-              Browse all lessons
+              Explore all
             </Link>
           </div>
         </div>
 
-        {/* Up next (large screens) */}
+        {/* 3D card stack (large screens) */}
 
-        {upNext.length > 0 && (
-          <div className="absolute bottom-20 right-6 top-6 hidden w-72 flex-col justify-end gap-3 lg:flex">
-            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-white/70">
-              Up next
-            </p>
-            {upNext.map(({ item, at }) => (
-              <button
-                key={item.id}
-                type="button"
-                onClick={() => setIndex(at)}
-                className="group flex items-center gap-3 rounded-2xl border border-white/15 bg-white/10 p-2 text-left backdrop-blur-md transition hover:-translate-x-1 hover:bg-white/20"
-              >
-                <span className="h-14 w-20 shrink-0 overflow-hidden rounded-xl bg-white/10">
-                  {item.imageUrl && (
+        {stack.length > 0 && (
+          <div className="relative hidden h-[420px] [perspective:1200px] lg:block">
+            <div
+              className="relative h-full w-full transition-transform duration-300 ease-out [transform-style:preserve-3d]"
+              style={{
+                transform:
+                  "rotateX(var(--tilt-x)) rotateY(calc(var(--tilt-y) - 8deg))",
+              }}
+            >
+              {[...stack].reverse().map(({ item, at, depth }) => (
+                <button
+                  key={`${item.id}-${depth}`}
+                  type="button"
+                  onClick={() => setIndex(at)}
+                  aria-label={`Show ${item.title}`}
+                  className="group absolute left-1/2 top-1/2 aspect-[4/5] w-[250px] overflow-hidden rounded-[28px] border border-white/25 bg-zinc-800 text-left shadow-[0_30px_60px_-15px_rgba(0,0,0,0.6)] transition-all duration-700 ease-out hover:border-white/60"
+                  style={{
+                    transform: `translate(-50%, -50%) translateX(${depth * 70}px) translateZ(${-depth * 90}px) rotateZ(${depth * 5}deg)`,
+                    opacity: 1 - depth * 0.18,
+                    zIndex: 10 - depth,
+                  }}
+                >
+                  {item.imageUrl ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img
                       src={item.imageUrl}
                       alt=""
-                      className="h-full w-full object-cover transition duration-500 group-hover:scale-110"
+                      className="h-full w-full object-cover transition duration-700 group-hover:scale-110"
                     />
+                  ) : (
+                    <div className="h-full w-full bg-gradient-to-br from-sky-500 to-violet-700" />
                   )}
-                </span>
-                <span className="min-w-0">
-                  <span className="block truncate text-[10px] font-bold uppercase tracking-wider text-brand">
-                    {item.label}
-                  </span>
-                  <span className="line-clamp-2 text-sm font-semibold leading-snug text-white">
-                    {item.title}
-                  </span>
-                </span>
-              </button>
-            ))}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-transparent" />
+                  <div className="absolute inset-x-0 bottom-0 p-4">
+                    <p className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-cyan-300">
+                      {depth === 0 ? "Now showing" : "Up next"}
+                    </p>
+                    <p className="mt-1 line-clamp-2 text-sm font-bold leading-snug text-white">
+                      {item.title}
+                    </p>
+                  </div>
+                </button>
+              ))}
+            </div>
           </div>
         )}
+      </div>
 
-        {/* Controls */}
+      {/* Controls */}
 
-        {count > 1 && (
-          <div className="absolute inset-x-6 bottom-6 flex items-center gap-4 sm:inset-x-12">
+      {count > 1 && (
+        <div className="absolute inset-x-0 bottom-8 z-10">
+          <div className="mx-auto flex max-w-[1400px] items-center gap-5 px-5 sm:px-8">
+            <p className="shrink-0 font-black tabular-nums tracking-tight text-zinc-900">
+              <span className="text-3xl">{String(active + 1).padStart(2, "0")}</span>
+              <span className="text-base text-zinc-400"> / {String(count).padStart(2, "0")}</span>
+            </p>
+
             <div className="flex flex-1 gap-2">
               {items.map((slide, i) => {
-                const active = i === index % count;
-                const done = i < index % count;
+                const isActive = i === active;
+                const done = i < active;
                 return (
                   <button
                     key={slide.id}
                     type="button"
                     aria-label={`Show slide ${i + 1}`}
                     onClick={() => setIndex(i)}
-                    className="group relative h-1.5 flex-1 overflow-hidden rounded-full bg-white/25"
+                    className="relative h-1.5 flex-1 overflow-hidden rounded-full bg-zinc-900/15"
                   >
                     <span
-                      key={active ? `run-${index}` : "idle"}
-                      className={`absolute inset-0 origin-left rounded-full bg-white ${
-                        done ? "" : active ? "" : "scale-x-0"
+                      key={isActive ? `run-${index}` : "idle"}
+                      className={`absolute inset-0 origin-left rounded-full bg-gradient-to-r from-brand via-violet-500 to-fuchsia-500 ${
+                        done || isActive ? "" : "scale-x-0"
                       }`}
                       style={
-                        active
+                        isActive
                           ? {
                               animation: `progressFill ${ROTATE_MS}ms linear forwards`,
                               animationPlayState: paused ? "paused" : "running",
@@ -238,15 +319,15 @@ export default function HeroBanner({ items, loading }: HeroBannerProps) {
                 type="button"
                 aria-label={paused ? "Play slideshow" : "Pause slideshow"}
                 onClick={() => setPaused((p) => !p)}
-                className="hidden h-9 w-9 items-center justify-center rounded-full border border-white/20 bg-white/10 text-white backdrop-blur transition hover:bg-white/25 sm:flex"
+                className="hidden h-10 w-10 items-center justify-center rounded-full border border-zinc-900/10 bg-white/80 text-zinc-900 shadow-sm backdrop-blur transition hover:bg-white sm:flex"
               >
-                {paused ? <Play className="h-4 w-4 fill-white" /> : <Pause className="h-4 w-4" />}
+                {paused ? <Play className="h-4 w-4 fill-zinc-900" /> : <Pause className="h-4 w-4" />}
               </button>
               <button
                 type="button"
                 aria-label="Previous"
                 onClick={() => setIndex((i) => (i - 1 + count) % count)}
-                className="flex h-9 w-9 items-center justify-center rounded-full border border-white/20 bg-white/10 text-white backdrop-blur transition hover:bg-white/25"
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-zinc-900/10 bg-white/80 text-zinc-900 shadow-sm backdrop-blur transition hover:bg-white"
               >
                 <ChevronLeft className="h-5 w-5" />
               </button>
@@ -254,14 +335,14 @@ export default function HeroBanner({ items, loading }: HeroBannerProps) {
                 type="button"
                 aria-label="Next"
                 onClick={() => setIndex((i) => (i + 1) % count)}
-                className="flex h-9 w-9 items-center justify-center rounded-full border border-white/20 bg-white/10 text-white backdrop-blur transition hover:bg-white/25"
+                className="flex h-10 w-10 items-center justify-center rounded-full bg-zinc-950 text-white shadow-sm transition hover:bg-zinc-800"
               >
                 <ChevronRight className="h-5 w-5" />
               </button>
             </div>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </section>
   );
 }
