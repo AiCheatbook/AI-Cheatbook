@@ -7,6 +7,11 @@ import { Plus, UserRound } from "lucide-react";
 import { supabaseAuthClient } from "@/lib/supabase/auth-client";
 import NavbarSearch from "./NavbarSearch";
 import NotificationBell from "./NotificationBell";
+import {
+  DEFAULT_SITE_SETTINGS,
+  NAV_ITEMS,
+  type SiteSettings,
+} from "@/lib/siteSettings";
 
 type Profile = {
   display_name: string | null;
@@ -17,26 +22,11 @@ type Profile = {
 /*
  * Light header with one tab row under it, which replaces
  * the old left sidebar, so every section is one click away on
- * every page (and scrolls sideways on small screens).
+ * every page (and scrolls sideways on small screens). Tabs, the
+ * logo and the "Create community" button follow the site settings
+ * edited at /admin/settings.
  */
-// "match" lists extra path prefixes that highlight the tab: the
-// Communities tab covers the Skool-style feed (/community) and the
-// individual community pages (/groups/...).
-const TABS: { href: string; label: string; match?: string[] }[] = [
-  { href: "/", label: "Home" },
-  {
-    href: "/community",
-    label: "Communities",
-    match: ["/groups"],
-  },
-  { href: "/prompts", label: "Prompt Book" },
-  { href: "/generator", label: "Prompt Designer" },
-  { href: "/learning", label: "Learning" },
-  { href: "/news", label: "AI News" },
-  { href: "/notebook", label: "Notebook" },
-];
-
-function isActive(pathname: string, tab: (typeof TABS)[number]) {
+function isActive(pathname: string, tab: (typeof NAV_ITEMS)[number]) {
   if (tab.href === "/") {
     return pathname === "/";
   }
@@ -47,7 +37,17 @@ function isActive(pathname: string, tab: (typeof TABS)[number]) {
   );
 }
 
-export default function Navbar() {
+type NavbarProps = {
+  settings?: SiteSettings;
+};
+
+export default function Navbar({
+  settings = DEFAULT_SITE_SETTINGS,
+}: NavbarProps) {
+  const tabs = NAV_ITEMS.filter(
+    (item) => item.locked || !settings.hiddenNav.includes(item.key)
+  );
+
   const pathname = usePathname();
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loggedIn, setLoggedIn] = useState(false);
@@ -120,9 +120,18 @@ export default function Navbar() {
             onClick={handleLogoClick}
             className="flex shrink-0 items-center gap-3"
           >
-            <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-brand text-sm font-extrabold text-white">
-              AI
-            </span>
+            {settings.logoUrl ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={settings.logoUrl}
+                alt=""
+                className="h-10 w-10 rounded-lg object-contain"
+              />
+            ) : (
+              <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-brand text-sm font-extrabold text-white">
+                AI
+              </span>
+            )}
             <span className="hidden text-lg font-bold sm:inline">
               AI Cheatbook
             </span>
@@ -137,19 +146,21 @@ export default function Navbar() {
           {/* Actions */}
 
           <div className="flex shrink-0 items-center gap-2 sm:gap-3">
-            <Link
-              href="/groups/new"
-              aria-label="Create your own AI community"
-              className="inline-flex items-center gap-1.5 rounded-lg bg-brand px-3 py-2 text-sm font-semibold text-white transition hover:bg-brand-dark"
-            >
-              <Plus className="h-4 w-4" strokeWidth={2.5} />
-              <span className="hidden lg:inline">
-                Create your Own AI Community
-              </span>
-              <span className="hidden md:inline lg:hidden">
-                Create Community
-              </span>
-            </Link>
+            {settings.showCreateCommunity && (
+              <Link
+                href="/groups/new"
+                aria-label="Create your own AI community"
+                className="inline-flex items-center gap-1.5 rounded-lg bg-brand px-3 py-2 text-sm font-semibold text-white transition hover:bg-brand-dark"
+              >
+                <Plus className="h-4 w-4" strokeWidth={2.5} />
+                <span className="hidden lg:inline">
+                  Create your Own AI Community
+                </span>
+                <span className="hidden md:inline lg:hidden">
+                  Create Community
+                </span>
+              </Link>
+            )}
 
             <NotificationBell />
 
@@ -180,7 +191,7 @@ export default function Navbar() {
         {/* Tabs */}
 
         <nav className="-mb-px flex gap-6 overflow-x-auto text-[15px] [scrollbar-width:none] sm:gap-8">
-          {TABS.map((tab) => {
+          {tabs.map((tab) => {
             const active = isActive(pathname, tab);
 
             return (

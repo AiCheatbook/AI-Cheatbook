@@ -8,6 +8,7 @@ import PageViewTracker from "@/components/analytics/PageViewTracker";
 import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
 import MiniGenerator from "@/components/generator/MiniGenerator";
 import { SITE_URL, SITE_NAME } from "@/lib/seo/metadata";
+import { getSiteSettings } from "@/lib/siteSettings";
 import JsonLd from "@/components/seo/JsonLd";
 import {
   buildOrganizationSchema,
@@ -24,7 +25,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
+const baseMetadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
     default:
@@ -59,11 +60,32 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+// Site settings (icon, logo, menu switches) are read when pages are
+// rendered; pages refresh at least every 5 minutes, and saving at
+// /admin/settings refreshes them straight away.
+export const revalidate = 300;
+
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = await getSiteSettings();
+  const icon = settings.faviconUrl || "/favicon.ico";
+
+  return {
+    ...baseMetadata,
+    icons: {
+      icon,
+      shortcut: icon,
+      apple: settings.faviconUrl || undefined,
+    },
+  };
+}
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const siteSettings = await getSiteSettings();
+
   return (
     <html
       lang="en"
@@ -77,7 +99,7 @@ export default function RootLayout({
           ]}
         />
 
-        <Navbar />
+        <Navbar settings={siteSettings} />
 
         {children}
 

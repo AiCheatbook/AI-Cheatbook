@@ -84,6 +84,7 @@ export default function AdminLayout({
                 { href: "/admin/users", label: "Users" },
                 { href: "/admin/messages", label: "Messages" },
                 { href: "/admin/audit-log", label: "Audit Log" },
+                { href: "/admin/settings", label: "Site Settings" },
               ]}
             />
           </nav>
