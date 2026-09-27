@@ -19,11 +19,20 @@ import {
 import { supabaseAuthClient as supabase } from "@/lib/supabase/auth-client";
 import {
   DEFAULT_GALLERY_SETTINGS,
+  STYLE_FONTS,
+  STYLE_THEME_PRESETS,
   isMissingColumnError,
   parseGallerySettings,
   parseItemDetails,
   type GallerySettings,
+  type StyleFontKey,
+  type StyleTheme,
 } from "@/lib/cms/styleLibrary";
+import {
+  STYLE_FONT_VARIABLES,
+  fontStack,
+  themeVariables,
+} from "@/components/learning-cards/styleTheme";
 
 /*
  * Prompt Style Page editor — creates ("/gallery/new") and edits
@@ -212,6 +221,13 @@ export default function PromptStylePageEditor() {
 
   function updateSettings(patch: Partial<GallerySettings>) {
     setSettings((prev) => ({ ...prev, ...patch }));
+  }
+
+  function updateThemeColor(key: keyof Omit<StyleTheme, "preset">, value: string) {
+    setSettings((prev) => ({
+      ...prev,
+      theme: { ...prev.theme, preset: "custom", [key]: value },
+    }));
   }
 
   function updateItem(key: string, patch: Partial<EditorItem>) {
@@ -697,7 +713,196 @@ export default function PromptStylePageEditor() {
 
         <div className="mt-6 space-y-5">
           <Section
-            title="1. Top of the page"
+            title="1. Look & feel"
+            hint="Pick a colour theme and fonts. The preview updates as you choose."
+          >
+            <div>
+              <span className="text-xs font-semibold text-zinc-700">Theme</span>
+              <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-4">
+                {STYLE_THEME_PRESETS.map((preset) => {
+                  const selected = settings.theme.preset === preset.preset;
+                  return (
+                    <button
+                      key={preset.preset}
+                      type="button"
+                      onClick={() =>
+                        updateSettings({
+                          theme: {
+                            preset: preset.preset,
+                            background: preset.background,
+                            surface: preset.surface,
+                            ink: preset.ink,
+                            accent: preset.accent,
+                            accent2: preset.accent2,
+                          },
+                        })
+                      }
+                      className={`rounded-xl border p-2 text-left transition ${
+                        selected
+                          ? "border-brand ring-2 ring-brand/30"
+                          : "border-zinc-200 hover:border-zinc-400"
+                      }`}
+                    >
+                      <span
+                        className="flex h-10 items-center gap-1 rounded-lg px-2"
+                        style={{ backgroundColor: preset.background }}
+                      >
+                        {[preset.ink, preset.accent, preset.accent2].map((c) => (
+                          <span
+                            key={c}
+                            className="h-4 w-4 rounded-full ring-1 ring-black/10"
+                            style={{ backgroundColor: c }}
+                          />
+                        ))}
+                      </span>
+                      <span className="mt-1.5 block text-xs font-semibold text-zinc-700">
+                        {preset.label}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div>
+              <span className="text-xs font-semibold text-zinc-700">
+                Colours{" "}
+                <span className="font-normal text-zinc-400">
+                  — fine-tune any colour{settings.theme.preset === "custom" ? " (custom)" : ""}
+                </span>
+              </span>
+              <div className="mt-2 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+                {(
+                  [
+                    ["background", "Page background"],
+                    ["surface", "Cards & sections"],
+                    ["ink", "Text"],
+                    ["accent", "Highlight (labels, badge)"],
+                    ["accent2", "Accent word & tags"],
+                  ] as const
+                ).map(([key, label]) => (
+                  <label
+                    key={key}
+                    className="flex items-center gap-2 rounded-lg border border-zinc-200 bg-white px-2 py-1.5"
+                  >
+                    <input
+                      type="color"
+                      value={settings.theme[key]}
+                      onChange={(e) => updateThemeColor(key, e.target.value.toUpperCase())}
+                      className="h-8 w-10 shrink-0 cursor-pointer rounded border-0 bg-transparent p-0"
+                    />
+                    <span className="min-w-0 flex-1">
+                      <span className="block truncate text-xs font-medium text-zinc-700">
+                        {label}
+                      </span>
+                      <span className="block font-mono text-[11px] text-zinc-400">
+                        {settings.theme[key]}
+                      </span>
+                    </span>
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <span className="text-xs font-semibold text-zinc-700">Heading font</span>
+              <div className={`mt-2 grid grid-cols-2 gap-2 sm:grid-cols-4 ${STYLE_FONT_VARIABLES}`}>
+                {STYLE_FONTS.map((font) => {
+                  const selected = settings.headingFont === font.key;
+                  return (
+                    <button
+                      key={font.key}
+                      type="button"
+                      title={font.hint}
+                      onClick={() => updateSettings({ headingFont: font.key })}
+                      className={`rounded-xl border px-3 py-2 text-left transition ${
+                        selected
+                          ? "border-brand bg-brand/5 ring-2 ring-brand/30"
+                          : "border-zinc-200 hover:border-zinc-400"
+                      }`}
+                    >
+                      <span
+                        className="block text-xl font-bold leading-tight text-zinc-900"
+                        style={{ fontFamily: fontStack(font.key) }}
+                      >
+                        Aa
+                      </span>
+                      <span className="block text-xs text-zinc-600">{font.label}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            <Field label="Body text font">
+              <select
+                value={settings.bodyFont}
+                onChange={(e) =>
+                  updateSettings({ bodyFont: e.target.value as StyleFontKey })
+                }
+                className={inputClass}
+              >
+                {STYLE_FONTS.map((font) => (
+                  <option key={font.key} value={font.key}>
+                    {font.label} — {font.hint}
+                  </option>
+                ))}
+              </select>
+            </Field>
+
+            <div>
+              <span className="text-xs font-semibold text-zinc-700">Preview</span>
+              <div
+                className={`mt-2 overflow-hidden rounded-2xl border border-zinc-200 ${STYLE_FONT_VARIABLES}`}
+                style={themeVariables(settings.theme, settings)}
+              >
+                <div className="p-5">
+                  <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[var(--sl-accent)]">
+                    {eyebrow || "Small label"}
+                  </p>
+                  <p className="mt-2 text-3xl font-extrabold leading-none tracking-tight [font-family:var(--sl-heading)]">
+                    {title || "Your headline"}{" "}
+                    <span className="font-normal italic text-[var(--sl-accent2)] [font-family:var(--sl-font-editorial),Georgia,serif]">
+                      {settings.headlineAccent || "accent."}
+                    </span>
+                  </p>
+                  <p className="mt-2 max-w-md text-sm text-[var(--sl-muted)]">
+                    {summary || "Your intro text appears here in the body font."}
+                  </p>
+                </div>
+                <div className="grid gap-4 border-t border-[var(--sl-line)] bg-[var(--sl-surface)] p-5 sm:grid-cols-[1fr_1.3fr]">
+                  <div className="flex aspect-video overflow-hidden rounded-xl bg-[var(--sl-panel)]">
+                    {[items[0]?.mediaUrl, ...(items[0]?.extraImages || [])]
+                      .filter(Boolean)
+                      .slice(0, 3)
+                      .map((url, i) => (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img key={i} src={url} alt="" className="h-full min-w-0 flex-1 object-contain" />
+                      ))}
+                  </div>
+                  <div>
+                    <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--sl-accent)]">
+                      01 · {items[0]?.category || "2D"}
+                    </p>
+                    <p className="mt-1 text-lg font-bold [font-family:var(--sl-heading)]">
+                      {items[0]?.title || "Style name"}
+                    </p>
+                    <div className="mt-2 flex items-center justify-between rounded-lg border border-[var(--sl-line)] bg-[var(--sl-soft)] px-2 py-1.5">
+                      <span className="text-[9px] font-bold uppercase tracking-[0.14em] text-[var(--sl-muted)]">
+                        {settings.promptLabel || "Reusable prompt"}
+                      </span>
+                      <span className="rounded-md bg-[var(--sl-ink)] px-2 py-1 text-[10px] font-semibold text-[var(--sl-on-ink)]">
+                        Copy prompt
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Section>
+
+          <Section
+            title="2. Top of the page"
             hint="The big headline area visitors see first."
           >
             <Field label="Small label above the headline" hint="e.g. OPENART CHARACTER STUDY · 2026">
@@ -810,7 +1015,7 @@ export default function PromptStylePageEditor() {
           </Section>
 
           <Section
-            title="2. Library section"
+            title="3. Library section"
             hint="The heading above the grid of styles."
           >
             <div className="grid gap-4 sm:grid-cols-2">
@@ -857,7 +1062,7 @@ export default function PromptStylePageEditor() {
           </Section>
 
           <Section
-            title="3. How to use (optional)"
+            title="4. How to use (optional)"
             hint="A tip bar above the styles, with an optional download."
           >
             <Field label="Instructions">
@@ -902,7 +1107,7 @@ export default function PromptStylePageEditor() {
           </Section>
 
           <Section
-            title={`4. Styles (${items.length})`}
+            title={`5. Styles (${items.length})`}
             hint="Each style shows up to 3 images side by side, a title, a short description and a copyable prompt. Use the star to feature one in the top showcase."
           >
             {items.length === 0 && (

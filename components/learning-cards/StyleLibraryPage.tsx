@@ -12,6 +12,7 @@ import {
   X,
 } from "lucide-react";
 import type { GallerySettings, StyleItem } from "@/lib/cms/styleLibrary";
+import { STYLE_FONT_VARIABLES, themeVariables } from "./styleTheme";
 
 /*
  * Prompt Style Page — the public view of a "prompt_gallery"
@@ -30,10 +31,11 @@ type StyleLibraryPageProps = {
   templateLabel: string | null;
   settings: GallerySettings;
   items: StyleItem[];
+  // Rendered inside the themed background, above and below.
+  header?: React.ReactNode;
+  footer?: React.ReactNode;
 };
 
-// Page palette: warm paper, deep ink, rust and teal accents.
-const INK = "text-[#14263A]";
 
 function panelsOf(item: StyleItem): string[] {
   return [item.mediaUrl, ...item.extraImages].filter(
@@ -87,10 +89,10 @@ function PanelStrip({
 
   const strip = (
     <div
-      className={`flex aspect-[16/9] w-full divide-x divide-[#B9B2A7]/60 overflow-hidden rounded-2xl bg-[#D8D2C9] ${className}`}
+      className={`flex aspect-[16/9] w-full divide-x divide-[var(--sl-line)] overflow-hidden rounded-2xl bg-[var(--sl-panel)] ${className}`}
     >
       {panels.length === 0 ? (
-        <div className="flex flex-1 items-center justify-center text-sm text-[#7A7266]">
+        <div className="flex flex-1 items-center justify-center text-sm text-[var(--sl-muted)]">
           No image yet
         </div>
       ) : (
@@ -117,7 +119,7 @@ function PanelStrip({
       className="group/strip relative block w-full text-left"
     >
       {strip}
-      <span className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-[#14263A] opacity-0 shadow transition group-hover/strip:opacity-100">
+      <span className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-zinc-900 opacity-0 shadow transition group-hover/strip:opacity-100">
         <Expand className="h-4 w-4" strokeWidth={2} />
       </span>
     </button>
@@ -144,15 +146,15 @@ function PromptBox({
   }
 
   return (
-    <div className="mt-4 overflow-hidden rounded-xl border border-[#E2DBCF] bg-[#F4EFE7]">
-      <div className="flex items-center justify-between gap-3 border-b border-[#E2DBCF] px-3 py-2">
-        <p className="text-[10px] font-bold uppercase leading-tight tracking-[0.14em] text-[#5B6470]">
+    <div className="mt-4 overflow-hidden rounded-xl border border-[var(--sl-line)] bg-[var(--sl-soft)]">
+      <div className="flex items-center justify-between gap-3 border-b border-[var(--sl-line)] px-3 py-2">
+        <p className="text-[10px] font-bold uppercase leading-tight tracking-[0.14em] text-[var(--sl-muted)]">
           {label}
         </p>
         <button
           type="button"
           onClick={handleCopy}
-          className="inline-flex shrink-0 items-center gap-1.5 rounded-lg bg-[#14263A] px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-[#233B55]"
+          className="inline-flex shrink-0 items-center gap-1.5 rounded-lg bg-[var(--sl-ink)] px-3 py-1.5 text-xs font-semibold text-[var(--sl-on-ink)] transition hover:opacity-85"
         >
           {copied ? (
             <>
@@ -167,7 +169,7 @@ function PromptBox({
           )}
         </button>
       </div>
-      <pre className="max-h-44 overflow-y-auto whitespace-pre-wrap break-words px-3 py-3 font-mono text-[11.5px] leading-relaxed text-[#2E3A46]">
+      <pre className="max-h-44 overflow-y-auto whitespace-pre-wrap break-words px-3 py-3 font-mono text-[11.5px] leading-relaxed text-[var(--sl-ink)]/85">
         {promptText}
       </pre>
     </div>
@@ -194,23 +196,23 @@ function StyleCard({
       />
 
       <div className="mt-4 flex items-center justify-between gap-3">
-        <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#C2412D]">
+        <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-[var(--sl-accent)]">
           {number(index)}
           {item.category ? ` · ${item.category}` : ""}
         </p>
         {item.featured && (
-          <span className="rounded-full bg-[#DDEBEE] px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.12em] text-[#2F6B7A]">
+          <span className="rounded-full bg-[var(--sl-accent2-soft)] px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.12em] text-[var(--sl-accent2)]">
             Featured
           </span>
         )}
       </div>
 
-      <h3 className={`mt-2 text-2xl font-bold tracking-tight ${INK}`}>
+      <h3 className="[font-family:var(--sl-heading)] mt-2 text-2xl font-bold tracking-tight">
         {item.title}
       </h3>
 
       {item.description && (
-        <p className="mt-1.5 text-[15px] leading-relaxed text-[#5B6470]">
+        <p className="mt-1.5 text-[15px] leading-relaxed text-[var(--sl-muted)]">
           {item.description}
         </p>
       )}
@@ -265,7 +267,7 @@ function Inspector({
     >
       <div className="flex items-center justify-between gap-4 px-4 py-3 sm:px-8">
         <div className="min-w-0">
-          <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#F08A6E]">
+          <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-[var(--sl-accent)]">
             {number(index)}
             {item.category ? ` · ${item.category}` : ""}
           </p>
@@ -337,6 +339,8 @@ export default function StyleLibraryPage({
   templateLabel,
   settings,
   items,
+  header,
+  footer,
 }: StyleLibraryPageProps) {
   const [activeCategory, setActiveCategory] = useState("all");
   const [search, setSearch] = useState("");
@@ -393,28 +397,33 @@ export default function StyleLibraryPage({
   const promptLabel = settings.promptLabel || "Reusable prompt";
 
   return (
-    <div className={`bg-[#F6F3EC] ${INK}`}>
+    <div
+      className={`min-h-screen ${STYLE_FONT_VARIABLES}`}
+      style={themeVariables(settings.theme, settings)}
+    >
+      {header}
+
       {/* HERO */}
 
       <section className="mx-auto grid max-w-[1400px] items-center gap-12 px-5 py-14 sm:px-10 lg:grid-cols-[1.05fr_1fr] lg:py-20">
         <div>
           {eyebrow && (
-            <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#C2412D]">
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--sl-accent)]">
               {eyebrow}
             </p>
           )}
 
-          <h1 className="mt-5 text-5xl font-extrabold leading-[0.95] tracking-[-0.04em] sm:text-7xl">
+          <h1 className="[font-family:var(--sl-heading)] mt-5 text-5xl font-extrabold leading-[0.95] tracking-[-0.04em] sm:text-7xl">
             {title}
             {settings.headlineAccent && (
-              <span className="mt-1 block font-serif font-normal italic tracking-[-0.02em] text-[#3D7C8C]">
+              <span className="mt-1 block font-normal italic tracking-[-0.02em] text-[var(--sl-accent2)] [font-family:var(--sl-font-editorial),Georgia,serif]">
                 {settings.headlineAccent}
               </span>
             )}
           </h1>
 
           {summary && (
-            <p className="mt-7 max-w-xl text-lg leading-relaxed text-[#5B6470]">
+            <p className="mt-7 max-w-xl text-lg leading-relaxed text-[var(--sl-muted)]">
               {summary}
             </p>
           )}
@@ -426,7 +435,7 @@ export default function StyleLibraryPage({
                   <dd className="text-2xl font-extrabold tracking-tight">
                     {stat.value}
                   </dd>
-                  <dt className="mt-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#5B6470]">
+                  <dt className="mt-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--sl-muted)]">
                     {stat.label}
                   </dt>
                 </div>
@@ -437,22 +446,22 @@ export default function StyleLibraryPage({
 
         {featured && (
           <div className="relative mx-auto w-full max-w-xl lg:mr-0">
-            <div className="absolute -right-6 top-1/2 hidden h-72 w-72 -translate-y-1/2 rounded-full border border-[#E7B8A6] lg:block" />
+            <div className="absolute -right-6 top-1/2 hidden h-72 w-72 -translate-y-1/2 rounded-full border border-[var(--sl-accent)]/40 lg:block" />
 
-            <div className="relative rotate-[1.5deg] rounded-3xl bg-white p-3 shadow-[0_30px_60px_-20px_rgba(20,38,58,0.35)] transition duration-500 hover:rotate-0">
+            <div className="relative rotate-[1.5deg] rounded-3xl bg-[var(--sl-surface)] p-3 shadow-[0_30px_60px_-20px_rgba(20,38,58,0.35)] transition duration-500 hover:rotate-0">
               <PanelStrip
                 item={featured}
                 onInspect={() => setInspecting(featuredIndex)}
               />
               <div className="flex items-center justify-between gap-4 px-2 pb-1 pt-3">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#5B6470]">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--sl-muted)]">
                   Featured · {number(featuredIndex)}
                 </p>
                 <p className="truncate text-sm font-bold">{featured.title}</p>
               </div>
             </div>
 
-            <div className="absolute -right-2 bottom-16 rotate-[-4deg] rounded-2xl bg-[#E2603F] px-4 py-3 text-white shadow-xl sm:-right-5">
+            <div className="absolute -right-2 bottom-16 rotate-[-4deg] rounded-2xl bg-[var(--sl-accent)] px-4 py-3 text-[var(--sl-on-accent)] shadow-xl sm:-right-5">
               <p className="text-2xl font-extrabold leading-none">
                 {items.length}
               </p>
@@ -466,19 +475,19 @@ export default function StyleLibraryPage({
 
       {/* LIBRARY */}
 
-      <section className="border-t border-[#E7E1D6] bg-[#FAF8F3]">
+      <section className="border-t border-[var(--sl-line)] bg-[var(--sl-surface)]">
         <div className="mx-auto max-w-[1400px] px-5 py-14 sm:px-10 lg:py-20">
           <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr] lg:items-end">
             <div>
-              <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#C2412D]">
+              <p className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--sl-accent)]">
                 {settings.libraryEyebrow || "The prompt library"}
               </p>
-              <h2 className="mt-4 text-4xl font-extrabold leading-[1] tracking-[-0.035em] sm:text-6xl">
+              <h2 className="[font-family:var(--sl-heading)] mt-4 text-4xl font-extrabold leading-[1] tracking-[-0.035em] sm:text-6xl">
                 {settings.libraryHeading || "Browse, inspect and copy."}
               </h2>
             </div>
             {settings.libraryText && (
-              <p className="text-base leading-relaxed text-[#5B6470] lg:pb-2">
+              <p className="text-base leading-relaxed text-[var(--sl-muted)] lg:pb-2">
                 {settings.libraryText}
               </p>
             )}
@@ -498,16 +507,16 @@ export default function StyleLibraryPage({
                       onClick={() => setActiveCategory(name)}
                       className={`inline-flex shrink-0 items-center gap-2 rounded-xl border px-4 py-2.5 text-sm font-semibold transition ${
                         active
-                          ? "border-[#14263A] bg-[#14263A] text-white"
-                          : "border-[#E2DBCF] bg-white text-[#3A4654] hover:border-[#14263A]/40"
+                          ? "border-[var(--sl-ink)] bg-[var(--sl-ink)] text-[var(--sl-on-ink)]"
+                          : "border-[var(--sl-line)] bg-[var(--sl-surface)] text-[var(--sl-muted)] hover:border-[var(--sl-ink)]/40"
                       }`}
                     >
                       {name === "all" ? "All" : name}
                       <span
                         className={`rounded-full px-1.5 py-0.5 text-[10px] ${
                           active
-                            ? "bg-white/15 text-white"
-                            : "bg-[#EFEAE1] text-[#5B6470]"
+                            ? "bg-[var(--sl-on-ink)]/15 text-[var(--sl-on-ink)]"
+                            : "bg-[var(--sl-soft)] text-[var(--sl-muted)]"
                         }`}
                       >
                         {count}
@@ -522,13 +531,13 @@ export default function StyleLibraryPage({
           {/* Search + size toggle */}
 
           <div
-            className={`flex flex-wrap items-center gap-3 border-y border-[#E7E1D6] py-4 ${
+            className={`flex flex-wrap items-center gap-3 border-y border-[var(--sl-line)] py-4 ${
               categories.length > 1 ? "mt-5" : "mt-10"
             }`}
           >
             <div className="relative min-w-[220px] flex-1 sm:max-w-md">
               <Search
-                className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-[#8A8276]"
+                className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--sl-muted)]"
                 strokeWidth={2}
               />
               <input
@@ -536,11 +545,11 @@ export default function StyleLibraryPage({
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search a style..."
                 aria-label="Search styles"
-                className="h-11 w-full rounded-xl border border-[#E2DBCF] bg-white pl-10 pr-3 text-sm outline-none transition focus:border-[#14263A]/50"
+                className="h-11 w-full rounded-xl border border-[var(--sl-line)] bg-[var(--sl-surface)] pl-10 pr-3 text-sm outline-none transition focus:border-[var(--sl-ink)]/50"
               />
             </div>
 
-            <div className="ml-auto hidden rounded-xl border border-[#E2DBCF] bg-white p-1 sm:flex">
+            <div className="ml-auto hidden rounded-xl border border-[var(--sl-line)] bg-[var(--sl-surface)] p-1 sm:flex">
               {[
                 ["Compact", false],
                 ["Large", true],
@@ -551,8 +560,8 @@ export default function StyleLibraryPage({
                   onClick={() => setLarge(value as boolean)}
                   className={`rounded-lg px-3.5 py-1.5 text-xs font-semibold transition ${
                     large === value
-                      ? "bg-[#14263A] text-white"
-                      : "text-[#5B6470] hover:text-[#14263A]"
+                      ? "bg-[var(--sl-ink)] text-[var(--sl-on-ink)]"
+                      : "text-[var(--sl-muted)] hover:text-[var(--sl-ink)]"
                   }`}
                 >
                   {label as string}
@@ -564,9 +573,9 @@ export default function StyleLibraryPage({
           {/* How to use */}
 
           {howToUse && (
-            <div className="mt-6 flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-[#CFE0E4] bg-[#EEF4F5] px-5 py-4">
-              <p className="max-w-4xl text-sm leading-relaxed text-[#3A4654]">
-                <span className="mr-2 font-bold text-[#14263A]">
+            <div className="mt-6 flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-[var(--sl-accent2-line)] bg-[var(--sl-accent2-soft)] px-5 py-4">
+              <p className="max-w-4xl text-sm leading-relaxed text-[var(--sl-muted)]">
+                <span className="mr-2 font-bold text-[var(--sl-ink)]">
                   How to use
                 </span>
                 {howToUse}
@@ -575,7 +584,7 @@ export default function StyleLibraryPage({
                 <a
                   href={templateUrl}
                   download
-                  className="inline-flex shrink-0 items-center gap-2 rounded-xl border border-[#14263A]/20 bg-white px-4 py-2 text-sm font-semibold text-[#14263A] transition hover:border-[#14263A]/50"
+                  className="inline-flex shrink-0 items-center gap-2 rounded-xl border border-[var(--sl-ink)]/20 bg-[var(--sl-surface)] px-4 py-2 text-sm font-semibold text-[var(--sl-ink)] transition hover:border-[var(--sl-ink)]/50"
                 >
                   <Download className="h-4 w-4" strokeWidth={2} />
                   {templateLabel || "Download template"}
@@ -585,12 +594,12 @@ export default function StyleLibraryPage({
           )}
 
           <div className="mt-6 flex items-center justify-between gap-4 text-sm">
-            <p className="text-[#5B6470]">
-              Showing <span className="font-bold text-[#14263A]">{filtered.length}</span>{" "}
+            <p className="text-[var(--sl-muted)]">
+              Showing <span className="font-bold text-[var(--sl-ink)]">{filtered.length}</span>{" "}
               {activeCategory === "all" ? "" : `${activeCategory} `}
               {filtered.length === 1 ? "style" : "styles"}
             </p>
-            <p className="hidden font-semibold text-[#2F6B7A] sm:block">
+            <p className="hidden font-semibold text-[var(--sl-accent2)] sm:block">
               Select any visual to inspect
             </p>
           </div>
@@ -612,12 +621,16 @@ export default function StyleLibraryPage({
               ))}
             </div>
           ) : (
-            <div className="mt-6 rounded-2xl border border-[#E2DBCF] bg-white p-10 text-center text-[#5B6470]">
+            <div className="mt-6 rounded-2xl border border-[var(--sl-line)] bg-[var(--sl-surface)] p-10 text-center text-[var(--sl-muted)]">
               No styles match your search.
             </div>
           )}
         </div>
       </section>
+
+      {footer && (
+        <div className="bg-[var(--sl-surface)] pb-16">{footer}</div>
+      )}
 
       {inspecting !== null && (
         <Inspector

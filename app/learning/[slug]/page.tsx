@@ -134,18 +134,8 @@ export default async function LearningCardDetailPage({
   // of the article column.
   if (card.card_type === "prompt_gallery") {
     return (
-      <main className="min-h-screen bg-[#F6F3EC]">
+      <main className="min-h-screen">
         {jsonLd}
-
-        <div className="mx-auto max-w-[1400px] px-5 pt-6 sm:px-10">
-          <Link
-            href="/learning"
-            className="inline-flex items-center gap-2 text-sm font-medium text-[#5B6470] transition hover:text-[#14263A]"
-          >
-            <span>←</span>
-            <span>Back to Learning Cards</span>
-          </Link>
-        </div>
 
         <StyleLibraryPage
           eyebrow={card.gallery_eyebrow}
@@ -156,20 +146,33 @@ export default async function LearningCardDetailPage({
           templateLabel={card.gallery_template_label}
           settings={card.gallerySettings}
           items={galleryPrompts}
+          header={
+            <div key="header" className="mx-auto max-w-[1400px] px-5 pt-6 sm:px-10">
+              <Link
+                href="/learning"
+                className="inline-flex items-center gap-2 text-sm font-medium text-[var(--sl-muted)] transition hover:text-[var(--sl-ink)]"
+              >
+                ← Back to Learning Cards
+              </Link>
+            </div>
+          }
+          footer={
+            // Comments keep the site's light styling so they stay
+            // readable on dark themes too.
+            <div key="footer" className="mx-auto max-w-3xl px-6">
+              <div className="rounded-3xl bg-white px-6 pb-6 pt-1 text-zinc-900 shadow-sm">
+                <RelatedContentSection
+                  items={card.related_content || []}
+                />
+
+                <CommentSection
+                  contentType="learning_card"
+                  contentId={card.id}
+                />
+              </div>
+            </div>
+          }
         />
-
-        <div className="bg-[#FAF8F3]">
-          <div className="mx-auto max-w-3xl px-6 pb-16">
-            <RelatedContentSection
-              items={card.related_content || []}
-            />
-
-            <CommentSection
-              contentType="learning_card"
-              contentId={card.id}
-            />
-          </div>
-        </div>
       </main>
     );
   }
