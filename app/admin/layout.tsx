@@ -54,6 +54,7 @@ export default function AdminLayout({
                 { href: "/admin/news", label: "News" },
                 { href: "/admin/learning-cards", label: "Learning Cards" },
                 { href: "/admin/artwork", label: "Artwork" },
+                { href: "/admin/top-ten", label: "Homepage Top 10" },
               ]}
             />
 

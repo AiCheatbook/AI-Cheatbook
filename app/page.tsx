@@ -1,5 +1,6 @@
 import { GraduationCap, Trophy } from "lucide-react";
 import { getUnifiedFeed } from "@/lib/feed/getUnifiedFeed";
+import { getTopTen, TOP_TEN_MAX } from "@/lib/topTen";
 import type { FeedItem } from "@/lib/feed/types";
 import HeroBanner, { type HeroItem } from "@/components/home/ott/HeroBanner";
 import ContentRow, { type RowItem } from "@/components/home/ott/ContentRow";
@@ -16,6 +17,7 @@ type CategoryRow = {
 
 type HomeData = {
   hero: HeroItem[];
+  topTen: RowItem[];
   topics: string[];
   lessons: RowItem[];
   lessonCategories: CategoryRow[];
@@ -65,11 +67,13 @@ function groupByCategory(items: FeedItem[]): CategoryRow[] {
 export const revalidate = 300;
 
 async function loadHomeData(): Promise<HomeData> {
-  const [learningPage1, learningPage2, news] = await Promise.all([
-    getUnifiedFeed({ type: "learning_card", page: 1 }),
-    getUnifiedFeed({ type: "learning_card", page: 2 }),
-    getUnifiedFeed({ type: "news", page: 1 }),
-  ]);
+  const [learningPage1, learningPage2, news, pickedTopTen] =
+    await Promise.all([
+      getUnifiedFeed({ type: "learning_card", page: 1 }),
+      getUnifiedFeed({ type: "learning_card", page: 2 }),
+      getUnifiedFeed({ type: "news", page: 1 }),
+      getTopTen(),
+    ]);
 
   const learning = [
     ...learningPage1.items,
@@ -82,7 +86,24 @@ async function loadHomeData(): Promise<HomeData> {
     ...learning.filter((i) => !i.imageUrl),
   ].slice(0, HERO_SLIDES);
 
+  // The Top 10 picked in the CMS; until one is picked, the newest
+  // lessons followed by the newest news.
+  const topTen: RowItem[] = pickedTopTen.length
+    ? pickedTopTen.map((entry) => ({
+        id: `${entry.type}-${entry.id}`,
+        title: entry.title,
+        subtitle: entry.category,
+        imageUrl: entry.imageUrl,
+        href: entry.href,
+        badge: entry.type === "news" ? "News" : null,
+      }))
+    : [
+        ...learning.map((item) => feedToRow(item)),
+        ...news.items.map((item) => feedToRow(item, "News")),
+      ].slice(0, TOP_TEN_MAX);
+
   return {
+    topTen,
     hero: heroSource.map((item) => ({
       id: item.id,
       title: item.title,
@@ -127,6 +148,16 @@ export default async function HomePage() {
 
       <div className="mt-10 space-y-12 sm:space-y-14">
         <ContentRow
+          title="Top 10 Today"
+          subtitle="Our picks: the lessons and stories everyone's reading"
+          seeAllHref="/learning"
+          items={data.topTen}
+          loading={false}
+          variant="top10"
+          icon={<Trophy className="h-5 w-5 text-amber-500" strokeWidth={2} />}
+        />
+
+        <ContentRow
           title="Latest AI Lessons"
           subtitle="New visual lessons, fresh every week"
           seeAllHref="/learning"
@@ -135,20 +166,6 @@ export default async function HomePage() {
           variant="feature"
           icon={learningIcon}
         />
-
-        {data.lessons.length >= 3 && (
-          <Reveal>
-            <ContentRow
-              title="Top 10 to Start With"
-              subtitle="The best first steps into AI"
-              seeAllHref="/learning"
-              items={data.lessons}
-              loading={false}
-              variant="top10"
-              icon={<Trophy className="h-5 w-5 text-amber-500" strokeWidth={2} />}
-            />
-          </Reveal>
-        )}
 
         {data.lessonCategories.map((row) => (
           <Reveal key={row.category}>

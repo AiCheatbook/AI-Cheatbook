@@ -11,7 +11,8 @@ type TopicMarqueeProps = {
  * on hover.
  */
 export default function TopicMarquee({ topics }: TopicMarqueeProps) {
-  if (topics.length === 0) return null;
+  // With only one or two topics the strip would just repeat them.
+  if (topics.length < 3) return null;
 
   // Repeat short lists so one copy is wider than the screen.
   const base =
