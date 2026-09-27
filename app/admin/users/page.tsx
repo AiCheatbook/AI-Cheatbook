@@ -117,10 +117,18 @@ export default function AdminUsersPage() {
       .from("profiles")
       .update({ role: newRole })
       .eq("id", u.id)
-      .select("id");
+      .select("id, role");
 
-    if (error || !updated?.length) {
-      const reason = error?.message || "the database didn't allow the change";
+    // A database rule (trigger) can quietly keep the old role, so
+    // check what was actually stored.
+    const storedRole = updated?.[0]?.role as Role | undefined;
+
+    if (error || !updated?.length || storedRole !== newRole) {
+      const reason =
+        error?.message ||
+        (updated?.length
+          ? `the database kept the role as "${storedRole}" (a database rule is blocking role changes)`
+          : "the database didn't allow the change");
       console.error("AdminUsersPage: failed to change role:", reason);
       alert(
         `Couldn't change role: ${reason}.\n\nRun database/062_moderator_role.sql in the Supabase SQL Editor once, then try again.`
