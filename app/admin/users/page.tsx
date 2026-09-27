@@ -26,6 +26,9 @@ export default function AdminUsersPage() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [busyId, setBusyId] = useState<string | null>(null);
+  // Role picked in the dropdown but not saved yet, per user.
+  const [pendingRoles, setPendingRoles] = useState<Record<string, Role>>({});
+  const [savedId, setSavedId] = useState<string | null>(null);
 
   async function loadUsers() {
     setLoading(true);
@@ -91,9 +94,18 @@ export default function AdminUsersPage() {
     }
   }
 
+  function clearPending(userId: string) {
+    setPendingRoles((prev) => {
+      const next = { ...prev };
+      delete next[userId];
+      return next;
+    });
+  }
+
   async function changeRole(u: UserRow, newRole: Role) {
     if (u.id === myUserId && newRole !== "admin") {
       alert("You can't remove your own admin role from here.");
+      clearPending(u.id);
       return;
     }
 
@@ -123,6 +135,12 @@ export default function AdminUsersPage() {
         prev.map((row) =>
           row.id === u.id ? { ...row, role: newRole } : row
         )
+      );
+      clearPending(u.id);
+      setSavedId(u.id);
+      setTimeout(
+        () => setSavedId((current) => (current === u.id ? null : current)),
+        2500
       );
     }
 
@@ -251,20 +269,55 @@ export default function AdminUsersPage() {
                   </td>
 
                   <td className="px-4 py-3">
-                    <select
-                      value={u.role}
-                      disabled={busyId === u.id}
-                      onChange={(e) =>
-                        changeRole(u, e.target.value as Role)
-                      }
-                      className="rounded-lg border border-zinc-200 bg-white px-2 py-1 text-sm text-zinc-900 disabled:opacity-50"
-                    >
-                      {ROLES.map((r) => (
-                        <option key={r} value={r}>
-                          {r}
-                        </option>
-                      ))}
-                    </select>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <select
+                        value={pendingRoles[u.id] ?? u.role}
+                        disabled={busyId === u.id}
+                        onChange={(e) => {
+                          const value = e.target.value as Role;
+                          setSavedId(null);
+                          if (value === u.role) {
+                            clearPending(u.id);
+                          } else {
+                            setPendingRoles((prev) => ({ ...prev, [u.id]: value }));
+                          }
+                        }}
+                        className="rounded-lg border border-zinc-200 bg-white px-2 py-1 text-sm text-zinc-900 disabled:opacity-50"
+                      >
+                        {ROLES.map((r) => (
+                          <option key={r} value={r}>
+                            {r}
+                          </option>
+                        ))}
+                      </select>
+
+                      {pendingRoles[u.id] && (
+                        <>
+                          <button
+                            type="button"
+                            disabled={busyId === u.id}
+                            onClick={() => changeRole(u, pendingRoles[u.id])}
+                            className="rounded-lg bg-brand px-3 py-1 text-xs font-semibold text-white hover:bg-brand-dark disabled:opacity-50"
+                          >
+                            {busyId === u.id ? "Saving…" : "Save"}
+                          </button>
+                          <button
+                            type="button"
+                            disabled={busyId === u.id}
+                            onClick={() => clearPending(u.id)}
+                            className="text-xs text-zinc-500 hover:text-zinc-900"
+                          >
+                            Cancel
+                          </button>
+                        </>
+                      )}
+
+                      {savedId === u.id && (
+                        <span className="text-xs font-semibold text-green-600">
+                          Saved ✓
+                        </span>
+                      )}
+                    </div>
                   </td>
 
                   <td className="px-4 py-3">
