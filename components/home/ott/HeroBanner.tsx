@@ -177,7 +177,12 @@ export default function HeroBanner({ items, loading }: HeroBannerProps) {
 
       {/* Atmosphere: aurora, pointer glow, grain, fades */}
 
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-zinc-950/90 via-zinc-950/45 to-zinc-950/10" />
+      {/* Darken the picture so the text stays readable: an overall
+          dim, a stronger shade behind the copy on the left, and a
+          soft top shade under the menu. */}
+      <div className="pointer-events-none absolute inset-0 bg-zinc-950/40" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-zinc-950/95 via-zinc-950/70 to-zinc-950/10" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-zinc-950/50 to-transparent" />
       <div className="animate-float-blob pointer-events-none absolute -left-32 top-10 h-[28rem] w-[28rem] rounded-full bg-[radial-gradient(circle,rgba(0,171,228,0.45),transparent_65%)] will-change-transform" />
       <div
         className="animate-float-blob pointer-events-none absolute right-[-6rem] top-[-6rem] h-[26rem] w-[26rem] rounded-full bg-[radial-gradient(circle,rgba(217,70,239,0.35),transparent_65%)] will-change-transform"
@@ -188,7 +193,7 @@ export default function HeroBanner({ items, loading }: HeroBannerProps) {
         className="pointer-events-none absolute inset-0 opacity-[0.06]"
         style={{ backgroundImage: GRAIN }}
       />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[34%] bg-gradient-to-t from-white from-15% via-white/80 to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[26%] bg-gradient-to-t from-white from-10% via-white/70 to-transparent" />
 
       {/* Content */}
 
@@ -205,7 +210,7 @@ export default function HeroBanner({ items, loading }: HeroBannerProps) {
           </div>
 
           <h1
-            className="animate-fade-up mt-5 text-[2.6rem] font-black leading-[0.95] tracking-[-0.04em] text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.35)] sm:text-6xl lg:text-7xl"
+            className="animate-fade-up mt-5 text-[2.6rem] font-black leading-[0.95] tracking-[-0.04em] text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.6)] sm:text-6xl lg:text-7xl"
             style={{ animationDelay: "90ms" }}
           >
             {lead && <>{lead} </>}
@@ -215,7 +220,7 @@ export default function HeroBanner({ items, loading }: HeroBannerProps) {
           </h1>
 
           <p
-            className="animate-fade-up mt-5 line-clamp-2 max-w-xl text-base font-medium text-zinc-100/90 sm:text-lg"
+            className="animate-fade-up mt-5 line-clamp-2 max-w-xl text-base font-medium text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.7)] sm:text-lg"
             style={{ animationDelay: "180ms" }}
           >
             {current?.excerpt ||
