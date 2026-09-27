@@ -44,11 +44,13 @@ type NavbarProps = {
 export default function Navbar({
   settings = DEFAULT_SITE_SETTINGS,
 }: NavbarProps) {
+  const pathname = usePathname();
+  // The header follows the dark homepage theme on the homepage only.
+  const dark = settings.homeTheme === "dark" && pathname === "/";
   const tabs = NAV_ITEMS.filter(
     (item) => item.locked || !settings.hiddenNav.includes(item.key)
   );
 
-  const pathname = usePathname();
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loggedIn, setLoggedIn] = useState(false);
 
@@ -110,7 +112,11 @@ export default function Navbar({
     profile?.display_name || profile?.email?.split("@")[0] || "";
 
   return (
-    <header className="sticky top-0 z-50 border-b border-zinc-200 bg-white/95 text-zinc-900 backdrop-blur">
+    <header
+      className={`sticky top-0 z-50 border-b border-zinc-200 bg-white/95 text-zinc-900 backdrop-blur home-dark:border-white/10 home-dark:bg-[#0B0F17]/90 home-dark:text-white ${
+        dark ? "home-dark" : ""
+      }`}
+    >
       <div className="mx-auto max-w-[1400px] px-4 sm:px-8">
         <div className="flex h-16 items-center gap-4">
           {/* Logo */}
@@ -168,7 +174,7 @@ export default function Navbar({
               href={loggedIn ? "/account" : "/login"}
               aria-label={loggedIn ? "My account" : "Log in"}
               title={loggedIn ? displayName || "My account" : "Log in"}
-              className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full bg-zinc-100 text-zinc-600 transition hover:ring-2 hover:ring-brand/40"
+              className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full bg-zinc-100 text-zinc-600 transition hover:ring-2 hover:ring-brand/40 home-dark:bg-white/10 home-dark:text-zinc-200"
             >
               {profile?.avatar_url ? (
                 // eslint-disable-next-line @next/next/no-img-element
@@ -200,8 +206,8 @@ export default function Navbar({
                 href={tab.href}
                 className={`shrink-0 whitespace-nowrap border-b-4 pb-3 pt-1 transition ${
                   active
-                    ? "border-brand font-semibold text-zinc-900"
-                    : "border-transparent text-zinc-500 hover:text-zinc-900"
+                    ? "border-brand font-semibold text-zinc-900 home-dark:text-white"
+                    : "border-transparent text-zinc-500 hover:text-zinc-900 home-dark:text-zinc-400 home-dark:hover:text-white"
                 }`}
               >
                 {tab.label}

@@ -22,8 +22,8 @@ export default function TopicMarquee({ topics }: TopicMarqueeProps) {
 
   return (
     <div className="group relative z-10 mx-auto -mt-2 max-w-[1400px] overflow-hidden px-4 sm:px-8">
-      <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-white to-transparent sm:left-8" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-white to-transparent sm:right-8" />
+      <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-white to-transparent sm:left-8 home-dark:from-[#0B0F17]" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-white to-transparent sm:right-8 home-dark:from-[#0B0F17]" />
 
       <div className="animate-marquee flex w-max gap-3 group-hover:[animation-play-state:paused]">
         {[...base, ...base].map((topic, i) => (
@@ -32,7 +32,7 @@ export default function TopicMarquee({ topics }: TopicMarqueeProps) {
             href="/learning"
             aria-hidden={i >= base.length}
             tabIndex={i >= base.length ? -1 : undefined}
-            className="inline-flex shrink-0 items-center gap-2 rounded-full border border-zinc-200 bg-white px-4 py-2 text-sm font-semibold text-zinc-700 shadow-sm transition hover:border-brand hover:text-brand-text"
+            className="inline-flex shrink-0 items-center gap-2 rounded-full border border-zinc-200 bg-white px-4 py-2 text-sm font-semibold text-zinc-700 shadow-sm transition hover:border-brand hover:text-brand-text home-dark:border-white/10 home-dark:bg-white/5 home-dark:text-zinc-200 home-dark:hover:text-brand"
           >
             <Sparkles className="h-3.5 w-3.5 text-brand" strokeWidth={2.5} />
             {topic}

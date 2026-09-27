@@ -1,8 +1,9 @@
 import { supabase } from "@/lib/supabase/client";
 
 /*
- * Site-wide settings edited at /admin/settings and stored in the
- * site_settings table (see database/061_site_settings.sql).
+ * Site-wide settings edited at /admin/settings (homepage theme, icon,
+ * logo, menu switches) and stored in the site_settings table (see
+ * database/061_site_settings.sql).
  */
 
 export type NavKey =
@@ -33,7 +34,10 @@ export const NAV_ITEMS: {
   { key: "notebook", href: "/notebook", label: "Notebook" },
 ];
 
+export type HomeTheme = "light" | "dark";
+
 export type SiteSettings = {
+  homeTheme: HomeTheme;
   faviconUrl: string;
   logoUrl: string;
   hiddenNav: NavKey[];
@@ -41,6 +45,7 @@ export type SiteSettings = {
 };
 
 export const DEFAULT_SITE_SETTINGS: SiteSettings = {
+  homeTheme: "light",
   faviconUrl: "",
   logoUrl: "",
   hiddenNav: [],
@@ -60,6 +65,7 @@ export function parseSiteSettings(raw: unknown): SiteSettings {
     : [];
 
   return {
+    homeTheme: obj.homeTheme === "dark" ? "dark" : "light",
     faviconUrl: typeof obj.faviconUrl === "string" ? obj.faviconUrl : "",
     logoUrl: typeof obj.logoUrl === "string" ? obj.logoUrl : "",
     hiddenNav,

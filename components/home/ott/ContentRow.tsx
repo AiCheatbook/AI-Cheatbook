@@ -77,18 +77,18 @@ export default function ContentRow({
     <section className="group/row relative">
       <div className="mx-auto flex max-w-[1400px] items-end gap-3 px-4 sm:px-8">
         <div>
-          <h2 className="flex items-center gap-2 text-xl font-extrabold tracking-tight text-zinc-900 sm:text-2xl">
+          <h2 className="flex items-center gap-2 text-xl font-extrabold tracking-tight text-zinc-900 sm:text-2xl home-dark:text-white">
             {icon}
             {title}
           </h2>
           {subtitle && (
-            <p className="mt-0.5 text-sm text-zinc-500">{subtitle}</p>
+            <p className="mt-0.5 text-sm text-zinc-500 home-dark:text-zinc-400">{subtitle}</p>
           )}
         </div>
         {seeAllHref && (
           <Link
             href={seeAllHref}
-            className="ml-auto inline-flex shrink-0 items-center gap-1 rounded-full border border-zinc-200 px-3 py-1 text-sm font-semibold text-brand-text transition hover:border-brand/50 hover:bg-brand/5"
+            className="ml-auto inline-flex shrink-0 items-center gap-1 rounded-full border border-zinc-200 px-3 py-1 text-sm font-semibold text-brand-text transition hover:border-brand/50 hover:bg-brand/5 home-dark:border-white/15 home-dark:text-brand"
           >
             See all <ChevronRight className="h-4 w-4" />
           </Link>
@@ -100,7 +100,7 @@ export default function ContentRow({
           type="button"
           aria-label={`Scroll ${title} left`}
           onClick={() => scrollBy(-1)}
-          className="absolute left-2 top-1/2 z-20 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white text-zinc-800 opacity-0 shadow-lg ring-1 ring-zinc-200 transition hover:bg-zinc-50 group-hover/row:opacity-100 sm:flex"
+          className="absolute left-2 top-1/2 z-20 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white text-zinc-800 opacity-0 shadow-lg ring-1 ring-zinc-200 transition hover:bg-zinc-50 home-dark:bg-zinc-800 home-dark:text-white home-dark:ring-white/10 home-dark:hover:bg-zinc-700 group-hover/row:opacity-100 sm:flex"
         >
           <ChevronLeft className="h-6 w-6" />
         </button>
@@ -115,7 +115,7 @@ export default function ContentRow({
             ? Array.from({ length: 6 }).map((_, i) => (
                 <div
                   key={i}
-                  className={`${cardSize} shrink-0 animate-pulse rounded-2xl bg-zinc-200`}
+                  className={`${cardSize} shrink-0 animate-pulse rounded-2xl bg-zinc-200 home-dark:bg-zinc-800`}
                 />
               ))
             : shownItems.map((item, index) => (
@@ -126,15 +126,15 @@ export default function ContentRow({
                 {variant === "top10" && (
                   <span
                     aria-hidden
-                    className="-mr-4 select-none text-[110px] font-black leading-[0.8] tracking-tighter text-white sm:-mr-6 sm:text-[150px]"
-                    style={{ WebkitTextStroke: "3px #0077A3" }}
+                    className="-mr-4 select-none text-[110px] font-black leading-[0.8] tracking-tighter text-white [-webkit-text-stroke-color:#0077A3] home-dark:text-[#0B0F17] home-dark:[-webkit-text-stroke-color:#38BDF8] sm:-mr-6 sm:text-[150px]"
+                    style={{ WebkitTextStrokeWidth: "3px" }}
                   >
                     {index + 1}
                   </span>
                 )}
                 <Link
                   href={item.href}
-                  className={`${cardSize} group/card relative shrink-0 overflow-hidden rounded-2xl bg-zinc-200 shadow-md transition duration-300 ease-out hover:z-10 hover:-translate-y-1.5 hover:shadow-[0_18px_40px_-12px_rgba(0,119,163,0.55)] hover:ring-2 hover:ring-brand focus-visible:ring-2 focus-visible:ring-brand`}
+                  className={`${cardSize} group/card relative shrink-0 overflow-hidden rounded-2xl bg-zinc-200 shadow-md home-dark:bg-zinc-800 home-dark:shadow-black/40 transition duration-300 ease-out hover:z-10 hover:-translate-y-1.5 hover:shadow-[0_18px_40px_-12px_rgba(0,119,163,0.55)] hover:ring-2 hover:ring-brand focus-visible:ring-2 focus-visible:ring-brand`}
                 >
                   {item.imageUrl ? (
                     // eslint-disable-next-line @next/next/no-img-element
@@ -181,7 +181,7 @@ export default function ContentRow({
           type="button"
           aria-label={`Scroll ${title} right`}
           onClick={() => scrollBy(1)}
-          className="absolute right-2 top-1/2 z-20 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white text-zinc-800 opacity-0 shadow-lg ring-1 ring-zinc-200 transition hover:bg-zinc-50 group-hover/row:opacity-100 sm:flex"
+          className="absolute right-2 top-1/2 z-20 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white text-zinc-800 opacity-0 shadow-lg ring-1 ring-zinc-200 transition hover:bg-zinc-50 home-dark:bg-zinc-800 home-dark:text-white home-dark:ring-white/10 home-dark:hover:bg-zinc-700 group-hover/row:opacity-100 sm:flex"
         >
           <ChevronRight className="h-6 w-6" />
         </button>

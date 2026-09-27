@@ -104,7 +104,7 @@ export default function HeroBanner({ items, loading }: HeroBannerProps) {
 
   if (loading) {
     return (
-      <section className="relative h-[78vh] min-h-[520px] max-h-[780px] animate-pulse bg-gradient-to-b from-zinc-200 to-white" />
+      <section className="relative h-[78vh] min-h-[520px] max-h-[780px] animate-pulse bg-gradient-to-b from-zinc-200 to-white home-dark:from-zinc-800 home-dark:to-[#0B0F17]" />
     );
   }
 
@@ -193,7 +193,7 @@ export default function HeroBanner({ items, loading }: HeroBannerProps) {
         className="pointer-events-none absolute inset-0 opacity-[0.06]"
         style={{ backgroundImage: GRAIN }}
       />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[26%] bg-gradient-to-t from-white from-10% via-white/70 to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[26%] bg-gradient-to-t from-white from-10% via-white/70 to-transparent home-dark:from-[#0B0F17] home-dark:via-[#0B0F17]/70" />
 
       {/* Content */}
 
@@ -305,9 +305,9 @@ export default function HeroBanner({ items, loading }: HeroBannerProps) {
       {count > 1 && (
         <div className="absolute inset-x-0 bottom-8 z-10">
           <div className="mx-auto flex max-w-[1400px] items-center gap-5 px-5 sm:px-8">
-            <p className="shrink-0 font-black tabular-nums tracking-tight text-zinc-900">
+            <p className="shrink-0 font-black tabular-nums tracking-tight text-zinc-900 home-dark:text-white">
               <span className="text-3xl">{String(active + 1).padStart(2, "0")}</span>
-              <span className="text-base text-zinc-400"> / {String(count).padStart(2, "0")}</span>
+              <span className="text-base text-zinc-400 home-dark:text-zinc-500"> / {String(count).padStart(2, "0")}</span>
             </p>
 
             <div className="flex flex-1 gap-2">
@@ -320,7 +320,7 @@ export default function HeroBanner({ items, loading }: HeroBannerProps) {
                     type="button"
                     aria-label={`Show slide ${i + 1}`}
                     onClick={() => setIndex(i)}
-                    className="relative h-1.5 flex-1 overflow-hidden rounded-full bg-zinc-900/15"
+                    className="relative h-1.5 flex-1 overflow-hidden rounded-full bg-zinc-900/15 home-dark:bg-white/20"
                   >
                     <span
                       key={isActive ? `run-${index}` : "idle"}
@@ -346,15 +346,15 @@ export default function HeroBanner({ items, loading }: HeroBannerProps) {
                 type="button"
                 aria-label={paused ? "Play slideshow" : "Pause slideshow"}
                 onClick={() => setPaused((p) => !p)}
-                className="hidden h-10 w-10 items-center justify-center rounded-full border border-zinc-900/10 bg-white/80 text-zinc-900 shadow-sm transition hover:bg-white sm:flex"
+                className="hidden h-10 w-10 items-center justify-center rounded-full border border-zinc-900/10 bg-white/80 text-zinc-900 shadow-sm transition hover:bg-white home-dark:border-white/15 home-dark:bg-white/10 home-dark:text-white home-dark:hover:bg-white/20 sm:flex"
               >
-                {paused ? <Play className="h-4 w-4 fill-zinc-900" /> : <Pause className="h-4 w-4" />}
+                {paused ? <Play className="h-4 w-4 fill-current" /> : <Pause className="h-4 w-4" />}
               </button>
               <button
                 type="button"
                 aria-label="Previous"
                 onClick={() => setIndex((i) => (i - 1 + count) % count)}
-                className="flex h-10 w-10 items-center justify-center rounded-full border border-zinc-900/10 bg-white/80 text-zinc-900 shadow-sm transition hover:bg-white"
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-zinc-900/10 bg-white/80 text-zinc-900 shadow-sm transition hover:bg-white home-dark:border-white/15 home-dark:bg-white/10 home-dark:text-white home-dark:hover:bg-white/20"
               >
                 <ChevronLeft className="h-5 w-5" />
               </button>
@@ -362,7 +362,7 @@ export default function HeroBanner({ items, loading }: HeroBannerProps) {
                 type="button"
                 aria-label="Next"
                 onClick={() => setIndex((i) => (i + 1) % count)}
-                className="flex h-10 w-10 items-center justify-center rounded-full bg-zinc-950 text-white shadow-sm transition hover:bg-zinc-800"
+                className="flex h-10 w-10 items-center justify-center rounded-full bg-zinc-950 text-white shadow-sm transition hover:bg-zinc-800 home-dark:bg-white home-dark:text-zinc-950 home-dark:hover:bg-zinc-200"
               >
                 <ChevronRight className="h-5 w-5" />
               </button>

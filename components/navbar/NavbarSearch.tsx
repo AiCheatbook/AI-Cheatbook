@@ -302,7 +302,7 @@ export default function NavbarSearch() {
             }}
             placeholder={loading ? "Searching…" : "Search"}
             aria-label="Search AI Cheatbook"
-            className="h-11 w-full rounded-lg border border-transparent bg-zinc-100 pl-11 pr-4 text-[15px] text-zinc-900 outline-none placeholder:text-zinc-500 focus:border-brand/50 focus:bg-white"
+            className="h-11 w-full rounded-lg border border-transparent bg-zinc-100 pl-11 pr-4 text-[15px] text-zinc-900 outline-none placeholder:text-zinc-500 focus:border-brand/50 focus:bg-white home-dark:bg-white/10 home-dark:text-white home-dark:placeholder:text-zinc-400 home-dark:focus:bg-white/15"
           />
         </div>
       </form>

@@ -20,15 +20,15 @@ export default function NewsList({ items, loading }: NewsListProps) {
     <section className="mx-auto max-w-[1400px] px-4 sm:px-8">
       <div className="flex items-end gap-3">
         <div>
-          <h2 className="flex items-center gap-2 text-lg font-bold tracking-tight text-zinc-900 sm:text-xl">
+          <h2 className="flex items-center gap-2 text-lg font-bold tracking-tight text-zinc-900 sm:text-xl home-dark:text-white">
             <Newspaper className="h-5 w-5 text-zinc-500" strokeWidth={2} />
             AI News
           </h2>
-          <p className="mt-0.5 text-sm text-zinc-500">Quick updates from the AI world</p>
+          <p className="mt-0.5 text-sm text-zinc-500 home-dark:text-zinc-400">Quick updates from the AI world</p>
         </div>
         <Link
           href="/news"
-          className="ml-auto inline-flex shrink-0 items-center gap-1 rounded-full border border-zinc-200 px-3 py-1 text-sm font-semibold text-zinc-600 transition hover:border-zinc-400"
+          className="ml-auto inline-flex shrink-0 items-center gap-1 rounded-full border border-zinc-200 px-3 py-1 text-sm font-semibold text-zinc-600 transition hover:border-zinc-400 home-dark:border-white/15 home-dark:text-zinc-300"
         >
           All news <ChevronRight className="h-4 w-4" />
         </Link>
@@ -37,15 +37,15 @@ export default function NewsList({ items, loading }: NewsListProps) {
       <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {loading
           ? Array.from({ length: 3 }).map((_, i) => (
-              <div key={i} className="h-24 animate-pulse rounded-2xl bg-zinc-100" />
+              <div key={i} className="h-24 animate-pulse rounded-2xl bg-zinc-100 home-dark:bg-zinc-800" />
             ))
           : shown.map((item) => (
               <Link
                 key={item.id}
                 href={item.href}
-                className="group flex items-center gap-3 rounded-2xl border border-zinc-200 bg-white p-2.5 transition hover:-translate-y-0.5 hover:border-zinc-300 hover:shadow-md"
+                className="group flex items-center gap-3 rounded-2xl border border-zinc-200 bg-white p-2.5 transition hover:-translate-y-0.5 hover:border-zinc-300 hover:shadow-md home-dark:border-white/10 home-dark:bg-white/5 home-dark:hover:border-white/25"
               >
-                <span className="h-20 w-28 shrink-0 overflow-hidden rounded-xl bg-zinc-100">
+                <span className="h-20 w-28 shrink-0 overflow-hidden rounded-xl bg-zinc-100 home-dark:bg-zinc-800">
                   {item.imageUrl && (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img
@@ -57,7 +57,7 @@ export default function NewsList({ items, loading }: NewsListProps) {
                   )}
                 </span>
                 <span className="min-w-0">
-                  <span className="line-clamp-2 text-sm font-semibold leading-snug text-zinc-900 group-hover:text-brand-text">
+                  <span className="line-clamp-2 text-sm font-semibold leading-snug text-zinc-900 group-hover:text-brand-text home-dark:text-zinc-100 home-dark:group-hover:text-brand">
                     {item.title}
                   </span>
                   {item.subtitle && (

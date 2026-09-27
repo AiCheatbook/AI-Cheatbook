@@ -285,7 +285,8 @@ export default function SiteSettingsPage() {
       <div className="mx-auto max-w-3xl px-4 py-8 sm:px-6">
         <h1 className="text-2xl font-bold">Site Settings</h1>
         <p className="mt-1 text-sm text-zinc-600">
-          Your website icon, header logo and which menu links are shown.
+          Homepage theme, website icon, header logo and which menu links are
+          shown.
         </p>
 
         {missingTable && (
@@ -300,6 +301,63 @@ export default function SiteSettingsPage() {
         )}
 
         <div className="mt-6 space-y-5">
+          <Section
+            title="Homepage theme"
+            hint="Light or dark look for the homepage and its header. Other pages keep the light look."
+          >
+            <div className="grid gap-3 sm:grid-cols-2">
+              {(
+                [
+                  ["light", "Light", "White background, dark text"],
+                  ["dark", "Dark", "Deep night background, glowing cards"],
+                ] as const
+              ).map(([value, label, description]) => {
+                const selected = settings.homeTheme === value;
+                const isDark = value === "dark";
+                return (
+                  <button
+                    key={value}
+                    type="button"
+                    onClick={() => update({ homeTheme: value })}
+                    className={`rounded-2xl border p-3 text-left transition ${
+                      selected
+                        ? "border-brand ring-2 ring-brand/30"
+                        : "border-zinc-200 hover:border-zinc-400"
+                    }`}
+                  >
+                    <span
+                      className={`block overflow-hidden rounded-xl border ${
+                        isDark ? "border-white/10 bg-[#0B0F17]" : "border-zinc-200 bg-white"
+                      }`}
+                    >
+                      <span
+                        className={`flex items-center gap-1.5 border-b px-2 py-1.5 ${
+                          isDark ? "border-white/10" : "border-zinc-100"
+                        }`}
+                      >
+                        <span className="h-2.5 w-2.5 rounded bg-brand" />
+                        <span className={`h-1.5 w-12 rounded ${isDark ? "bg-white/30" : "bg-zinc-300"}`} />
+                      </span>
+                      <span className="block h-10 bg-gradient-to-r from-violet-700 via-sky-600 to-fuchsia-500 opacity-80" />
+                      <span className="flex gap-1.5 p-2">
+                        {[0, 1, 2, 3].map((i) => (
+                          <span
+                            key={i}
+                            className={`h-8 flex-1 rounded ${isDark ? "bg-white/10" : "bg-zinc-200"}`}
+                          />
+                        ))}
+                      </span>
+                    </span>
+                    <span className="mt-2 block text-sm font-semibold text-zinc-900">
+                      {label}
+                    </span>
+                    <span className="block text-xs text-zinc-500">{description}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </Section>
+
           <Section
             title="Website icon"
             hint="The small picture on browser tabs and bookmarks. Use a square image, ideally 512 × 512 PNG."

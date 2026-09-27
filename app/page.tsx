@@ -1,6 +1,7 @@
 import { GraduationCap, Trophy } from "lucide-react";
 import { getUnifiedFeed } from "@/lib/feed/getUnifiedFeed";
 import { getTopTen, TOP_TEN_MAX } from "@/lib/topTen";
+import { getSiteSettings } from "@/lib/siteSettings";
 import type { FeedItem } from "@/lib/feed/types";
 import HeroBanner, { type HeroItem } from "@/components/home/ott/HeroBanner";
 import ContentRow, { type RowItem } from "@/components/home/ott/ContentRow";
@@ -132,14 +133,22 @@ async function loadHomeData(): Promise<HomeData> {
  * a secondary block. The community feed lives at /community.
  */
 export default async function HomePage() {
-  const data = await loadHomeData();
+  const [data, siteSettings] = await Promise.all([
+    loadHomeData(),
+    getSiteSettings(),
+  ]);
+  const dark = siteSettings.homeTheme === "dark";
 
   const learningIcon = (
     <GraduationCap className="h-5 w-5 text-brand-text" strokeWidth={2} />
   );
 
   return (
-    <main className="min-h-screen bg-white pb-16 text-zinc-900">
+    <main
+      className={`min-h-screen bg-white pb-16 text-zinc-900 home-dark:bg-[#0B0F17] home-dark:text-zinc-100 ${
+        dark ? "home-dark" : ""
+      }`}
+    >
       <HomeIntro />
 
       <HeroBanner items={data.hero} loading={false} />
