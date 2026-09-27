@@ -90,13 +90,18 @@ export function parseItemDetails(raw: unknown): ItemDetails {
   };
 }
 
-// Postgres "undefined column" — the 060 migration hasn't been run.
+// The 060 migration hasn't been run (or Supabase hasn't reloaded
+// its schema yet): Postgres reports "undefined column" (42703) on
+// reads, and the Supabase API reports PGRST204 ("Could not find
+// the '…' column … in the schema cache") on inserts and updates.
 export function isMissingColumnError(
   error: { code?: string; message?: string } | null
 ): boolean {
   return Boolean(
     error &&
       (error.code === "42703" ||
-        /column .* does not exist/i.test(error.message || ""))
+        error.code === "PGRST204" ||
+        /column .* does not exist/i.test(error.message || "") ||
+        /could not find the .* column/i.test(error.message || ""))
   );
 }
