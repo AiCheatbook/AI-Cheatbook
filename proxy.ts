@@ -1,4 +1,5 @@
 import { createServerClient } from "@supabase/ssr";
+import { canOpenAdminPath, isStaffRole } from "@/lib/auth/roles";
 import {
   NextResponse,
   type NextRequest,
@@ -65,7 +66,7 @@ export async function proxy(
     data: { user },
   } = await supabase.auth.getUser();
 
-  let isAdmin = false;
+  let role: string | null = null;
 
   if (user) {
     const { data: profile } = await supabase
@@ -74,8 +75,12 @@ export async function proxy(
       .eq("id", user.id)
       .single();
 
-    isAdmin = profile?.role === "admin";
+    role = profile?.role ?? null;
   }
+
+  // Admins and moderators may use the admin area; moderators are
+  // kept out of the admin-only pages (see lib/auth/roles.ts).
+  const isStaff = isStaffRole(role);
 
   const isLoginPage =
     request.nextUrl.pathname ===
@@ -87,7 +92,7 @@ export async function proxy(
     );
 
   /*
-   * Not an admin (either not logged in at
+   * Not staff (either not logged in at
    * all, or logged in as a regular
    * registered user) → send to login.
    */
@@ -95,14 +100,24 @@ export async function proxy(
   if (
     isAdminRoute &&
     !isLoginPage &&
-    !isAdmin
+    !isStaff
   ) {
     return NextResponse.redirect(
       new URL("/admin/login", request.url)
     );
   }
 
-  if (isLoginPage && isAdmin) {
+  if (
+    isAdminRoute &&
+    !isLoginPage &&
+    !canOpenAdminPath(role, request.nextUrl.pathname)
+  ) {
+    return NextResponse.redirect(
+      new URL("/admin", request.url)
+    );
+  }
+
+  if (isLoginPage && isStaff) {
     return NextResponse.redirect(
       new URL("/admin/news", request.url)
     );

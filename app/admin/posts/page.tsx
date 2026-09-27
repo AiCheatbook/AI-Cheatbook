@@ -4,6 +4,8 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabaseAuthClient } from "@/lib/supabase/auth-client";
+import { isStaffRole } from "@/lib/auth/roles";
+import { useStaffRole } from "@/components/admin/useStaffRole";
 
 type PostRow = {
   id: string;
@@ -29,6 +31,8 @@ const TYPE_FILTERS = [
 ];
 
 export default function AdminPostsPage() {
+  // Only admins can delete; moderators create and edit.
+  const { canDelete: staffCanDelete } = useStaffRole();
   const router = useRouter();
 
   const [checking, setChecking] = useState(true);
@@ -153,7 +157,8 @@ export default function AdminPostsPage() {
         .eq("id", user.id)
         .single();
 
-      if (profile?.role !== "admin") {
+      // Admins and moderators.
+      if (!isStaffRole(profile?.role)) {
         router.push("/");
         return;
       }
@@ -385,7 +390,7 @@ export default function AdminPostsPage() {
                         {p.isHidden ? "Unhide" : "Hide"}
                       </button>
 
-                      {p.canDelete && (
+                      {p.canDelete && staffCanDelete && (
                         <button
                           type="button"
                           disabled={busyId === p.id}

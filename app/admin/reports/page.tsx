@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { supabaseAuthClient } from "@/lib/supabase/auth-client";
+import { isStaffRole } from "@/lib/auth/roles";
+import { useStaffRole } from "@/components/admin/useStaffRole";
 
 type ReportRow = {
   id: string;
@@ -41,6 +43,8 @@ const CONTENT_TYPE_LABEL: Record<
 };
 
 export default function AdminReportsPage() {
+  // Only admins can delete; moderators create and edit.
+  const { canDelete: staffCanDelete } = useStaffRole();
   const router = useRouter();
 
   const [checking, setChecking] =
@@ -105,7 +109,8 @@ export default function AdminReportsPage() {
           .eq("id", user.id)
           .single();
 
-      if (profile?.role !== "admin") {
+      // Admins and moderators.
+      if (!isStaffRole(profile?.role)) {
         router.push("/");
         return;
       }
@@ -352,17 +357,19 @@ export default function AdminReportsPage() {
                           Hide
                         </button>
 
-                        <button
-                          type="button"
-                          onClick={() =>
-                            handleDelete(
-                              report
-                            )
-                          }
-                          className="rounded-lg border border-red-700/50 px-3 py-1.5 text-xs text-red-600 hover:bg-red-500/10"
-                        >
-                          Delete
-                        </button>
+                        {staffCanDelete && (
+                          <button
+                            type="button"
+                            onClick={() =>
+                              handleDelete(
+                                report
+                              )
+                            }
+                            className="rounded-lg border border-red-700/50 px-3 py-1.5 text-xs text-red-600 hover:bg-red-500/10"
+                          >
+                            Delete
+                          </button>
+                        )}
 
                         <button
                           type="button"

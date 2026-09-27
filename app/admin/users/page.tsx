@@ -99,14 +99,20 @@ export default function AdminUsersPage() {
 
     setBusyId(u.id);
 
-    const { error } = await supabaseAuthClient
+    // .select() returns the updated rows, so a change the database
+    // silently refused (no permission) shows up as zero rows.
+    const { data: updated, error } = await supabaseAuthClient
       .from("profiles")
       .update({ role: newRole })
-      .eq("id", u.id);
+      .eq("id", u.id)
+      .select("id");
 
-    if (error) {
-      console.error("AdminUsersPage: failed to change role:", error.message);
-      alert(`Couldn't change role: ${error.message}`);
+    if (error || !updated?.length) {
+      const reason = error?.message || "the database didn't allow the change";
+      console.error("AdminUsersPage: failed to change role:", reason);
+      alert(
+        `Couldn't change role: ${reason}.\n\nRun database/062_moderator_role.sql in the Supabase SQL Editor once, then try again.`
+      );
     } else {
       await logAction("user_role_changed", u.id, {
         from: u.role,
@@ -133,14 +139,18 @@ export default function AdminUsersPage() {
 
     const nextValue = !u.is_disabled;
 
-    const { error } = await supabaseAuthClient
+    const { data: updated, error } = await supabaseAuthClient
       .from("profiles")
       .update({ is_disabled: nextValue })
-      .eq("id", u.id);
+      .eq("id", u.id)
+      .select("id");
 
-    if (error) {
-      console.error("AdminUsersPage: failed to update status:", error.message);
-      alert(`Couldn't update status: ${error.message}`);
+    if (error || !updated?.length) {
+      const reason = error?.message || "the database didn't allow the change";
+      console.error("AdminUsersPage: failed to update status:", reason);
+      alert(
+        `Couldn't update status: ${reason}.\n\nRun database/062_moderator_role.sql in the Supabase SQL Editor once, then try again.`
+      );
     } else {
       await logAction(
         nextValue ? "user_disabled" : "user_enabled",
@@ -179,6 +189,13 @@ export default function AdminUsersPage() {
           <h1 className="text-xl font-semibold text-zinc-900">User Management</h1>
           <p className="mt-1 text-sm text-zinc-500">
             {users.length} registered {users.length === 1 ? "user" : "users"}
+          </p>
+          <p className="mt-2 max-w-2xl text-xs leading-relaxed text-zinc-500">
+            <strong className="text-zinc-700">User</strong>: uses the site.{" "}
+            <strong className="text-zinc-700">Moderator</strong>: logs in at
+            /admin/login and creates or edits content like an admin, but can&apos;t
+            delete anything or open Site Settings, Top 10, Users or the Audit
+            Log. <strong className="text-zinc-700">Admin</strong>: everything.
           </p>
         </div>
 

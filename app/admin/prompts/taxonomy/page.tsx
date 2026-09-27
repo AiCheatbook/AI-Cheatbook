@@ -4,6 +4,8 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabaseAuthClient as supabase } from "@/lib/supabase/auth-client";
+import { isStaffRole } from "@/lib/auth/roles";
+import { useStaffRole } from "@/components/admin/useStaffRole";
 
 type Category = {
   id: string;
@@ -35,6 +37,8 @@ function generateSlug(value: string) {
 }
 
 export default function AdminPromptTaxonomyPage() {
+  // Only admins can delete; moderators create and edit.
+  const { canDelete: staffCanDelete } = useStaffRole();
   const router = useRouter();
 
   const [checking, setChecking] = useState(true);
@@ -118,7 +122,8 @@ export default function AdminPromptTaxonomyPage() {
         .eq("id", user.id)
         .single();
 
-      if (profile?.role !== "admin") {
+      // Admins and moderators.
+      if (!isStaffRole(profile?.role)) {
         router.push("/");
         return;
       }
@@ -357,14 +362,16 @@ export default function AdminPromptTaxonomyPage() {
                   >
                     {c.name}
                   </button>
-                  <button
-                    type="button"
-                    disabled={busyId === c.id}
-                    onClick={() => deleteCategory(c.id)}
-                    className="shrink-0 text-xs text-zinc-400 hover:text-red-500 disabled:opacity-40"
-                  >
-                    Delete
-                  </button>
+                  {staffCanDelete && (
+                    <button
+                      type="button"
+                      disabled={busyId === c.id}
+                      onClick={() => deleteCategory(c.id)}
+                      className="shrink-0 text-xs text-zinc-400 hover:text-red-500 disabled:opacity-40"
+                    >
+                      Delete
+                    </button>
+                  )}
                 </div>
               ))}
             </div>
@@ -420,14 +427,16 @@ export default function AdminPromptTaxonomyPage() {
                       >
                         {s.name}
                       </button>
-                      <button
-                        type="button"
-                        disabled={busyId === s.id}
-                        onClick={() => deleteSubcategory(s.id)}
-                        className="shrink-0 text-xs text-zinc-400 hover:text-red-500 disabled:opacity-40"
-                      >
-                        Delete
-                      </button>
+                      {staffCanDelete && (
+                        <button
+                          type="button"
+                          disabled={busyId === s.id}
+                          onClick={() => deleteSubcategory(s.id)}
+                          className="shrink-0 text-xs text-zinc-400 hover:text-red-500 disabled:opacity-40"
+                        >
+                          Delete
+                        </button>
+                      )}
                     </div>
                   ))}
                 </div>
@@ -473,14 +482,16 @@ export default function AdminPromptTaxonomyPage() {
                       <span className="min-w-0 flex-1 truncate">
                         {c.name}
                       </span>
-                      <button
-                        type="button"
-                        disabled={busyId === c.id}
-                        onClick={() => deleteConcept(c.id)}
-                        className="shrink-0 text-xs text-zinc-400 hover:text-red-500 disabled:opacity-40"
-                      >
-                        Delete
-                      </button>
+                      {staffCanDelete && (
+                        <button
+                          type="button"
+                          disabled={busyId === c.id}
+                          onClick={() => deleteConcept(c.id)}
+                          className="shrink-0 text-xs text-zinc-400 hover:text-red-500 disabled:opacity-40"
+                        >
+                          Delete
+                        </button>
+                      )}
                     </div>
                   ))}
                 </div>

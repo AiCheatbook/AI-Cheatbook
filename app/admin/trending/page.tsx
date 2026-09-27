@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabaseAuthClient } from "@/lib/supabase/auth-client";
 import { trendingScore } from "@/lib/community/trending";
+import { isStaffRole } from "@/lib/auth/roles";
 
 type ThreadRow = {
   id: string;
@@ -136,7 +137,8 @@ export default function AdminTrendingPage() {
         .eq("id", user.id)
         .single();
 
-      if (profile?.role !== "admin") {
+      // Admins and moderators.
+      if (!isStaffRole(profile?.role)) {
         router.push("/");
         return;
       }

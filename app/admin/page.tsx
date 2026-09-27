@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabaseAuthClient } from "@/lib/supabase/auth-client";
 import { pingIndexNow, buildLiveUrl } from "@/lib/seo/indexNow";
+import { isStaffRole } from "@/lib/auth/roles";
 
 type Counts = {
   users: number;
@@ -55,7 +56,8 @@ export default function AdminDashboardPage() {
         .eq("id", user.id)
         .single();
 
-      if (profile?.role !== "admin") {
+      // Admins and moderators.
+      if (!isStaffRole(profile?.role)) {
         router.push("/");
         return;
       }

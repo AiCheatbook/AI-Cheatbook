@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { supabaseAuthClient } from "@/lib/supabase/auth-client";
 import { createNotification } from "@/lib/notifications/createNotification";
+import { isStaffRole } from "@/lib/auth/roles";
 
 type FeatureInLibraryButtonProps = {
   threadId: string;
@@ -60,9 +61,8 @@ export default function FeatureInLibraryButton({
           .eq("id", user.id)
           .single();
 
-      setIsAdmin(
-        profile?.role === "admin"
-      );
+      // Featuring isn't a delete, so moderators can do it too.
+      setIsAdmin(isStaffRole(profile?.role));
       setChecking(false);
     }
 

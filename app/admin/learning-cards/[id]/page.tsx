@@ -27,6 +27,7 @@ import {
 } from "@/lib/cms/mediaFields";
 
 import { supabaseAuthClient as supabase } from "@/lib/supabase/auth-client";
+import { useStaffRole } from "@/components/admin/useStaffRole";
 
 type BlockType =
   | "heading"
@@ -231,6 +232,8 @@ function getErrorMessage(err: unknown): string {
 }
 
 export default function EditLearningCardPage() {
+  // Only admins can delete; moderators create and edit.
+  const { canDelete: staffCanDelete } = useStaffRole();
   const params = useParams();
   const router = useRouter();
 
@@ -1364,18 +1367,20 @@ export default function EditLearningCardPage() {
 
               {/* DELETE */}
 
-              <button
-                type="button"
-                disabled={saving}
-                onClick={
-                  handleDeleteCard
-                }
-                className="rounded-xl border border-red-900/60 bg-red-950/10 px-5 py-3 text-sm font-semibold text-red-400 transition hover:border-red-500 hover:bg-red-500/10 disabled:cursor-not-allowed disabled:opacity-50"
-              >
-                {saving
-                  ? "Deleting..."
-                  : "Delete"}
-              </button>
+              {staffCanDelete && (
+                <button
+                  type="button"
+                  disabled={saving}
+                  onClick={
+                    handleDeleteCard
+                  }
+                  className="rounded-xl border border-red-900/60 bg-red-950/10 px-5 py-3 text-sm font-semibold text-red-400 transition hover:border-red-500 hover:bg-red-500/10 disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  {saving
+                    ? "Deleting..."
+                    : "Delete"}
+                </button>
+              )}
 
               {/* PUBLISH */}
 

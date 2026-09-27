@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { supabaseAuthClient as supabase } from "@/lib/supabase/auth-client";
 import { findOrCreateKeyword } from "@/lib/cms/keywordLibrary";
+import { useStaffRole } from "@/components/admin/useStaffRole";
 
 type Keyword = {
   id: string;
@@ -19,6 +20,8 @@ type Concept = { id: string; subcategory_id: string; name: string };
 type UsagePrompt = { title: string; slug: string };
 
 export default function AdminKeywordsPage() {
+  // Only admins can delete; moderators create and edit.
+  const { canDelete: staffCanDelete } = useStaffRole();
   const [keywords, setKeywords] = useState<Keyword[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [subcategories, setSubcategories] = useState<Subcategory[]>([]);
@@ -361,14 +364,16 @@ export default function AdminKeywordsPage() {
                 : "Both"}
           </button>
 
-          <button
-            type="button"
-            disabled={savingId === keyword.id}
-            onClick={() => handleDelete(keyword)}
-            className="shrink-0 text-xs text-zinc-400 hover:text-red-500 disabled:opacity-40"
-          >
-            Delete
-          </button>
+          {staffCanDelete && (
+            <button
+              type="button"
+              disabled={savingId === keyword.id}
+              onClick={() => handleDelete(keyword)}
+              className="shrink-0 text-xs text-zinc-400 hover:text-red-500 disabled:opacity-40"
+            >
+              Delete
+            </button>
+          )}
         </div>
 
         <div className="flex items-center gap-2 pb-2 pl-1">

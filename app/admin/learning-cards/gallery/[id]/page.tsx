@@ -33,6 +33,7 @@ import {
   fontStack,
   themeVariables,
 } from "@/components/learning-cards/styleTheme";
+import { isStaffRole } from "@/lib/auth/roles";
 
 /*
  * Prompt Style Page editor — creates ("/gallery/new") and edits
@@ -259,7 +260,8 @@ export default function PromptStylePageEditor() {
         .eq("id", user.id)
         .single();
 
-      if (profile?.role !== "admin") {
+      // Admins and moderators.
+      if (!isStaffRole(profile?.role)) {
         router.push("/");
         return;
       }

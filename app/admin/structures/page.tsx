@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { supabaseAuthClient as supabase } from "@/lib/supabase/auth-client";
+import { useStaffRole } from "@/components/admin/useStaffRole";
 
 type Structure = {
   id: string;
@@ -12,6 +13,8 @@ type Structure = {
 };
 
 export default function AdminStructuresPage() {
+  // Only admins can delete; moderators create and edit.
+  const { canDelete: staffCanDelete } = useStaffRole();
   const [structures, setStructures] =
     useState<Structure[]>([]);
   const [loading, setLoading] =
@@ -261,17 +264,19 @@ export default function AdminStructuresPage() {
                         </p>
                       </div>
 
-                      <button
-                        type="button"
-                        onClick={() =>
-                          handleDelete(
-                            structure.id
-                          )
-                        }
-                        className="shrink-0 text-xs text-zinc-600 hover:text-red-400"
-                      >
-                        Delete
-                      </button>
+                      {staffCanDelete && (
+                        <button
+                          type="button"
+                          onClick={() =>
+                            handleDelete(
+                              structure.id
+                            )
+                          }
+                          className="shrink-0 text-xs text-zinc-600 hover:text-red-400"
+                        >
+                          Delete
+                        </button>
+                      )}
                     </div>
                   </div>
                 )

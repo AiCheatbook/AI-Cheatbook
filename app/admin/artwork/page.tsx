@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabaseAuthClient } from "@/lib/supabase/auth-client";
+import { isStaffRole } from "@/lib/auth/roles";
 
 type ArtworkRow = {
   id: string;
@@ -103,8 +104,7 @@ export default function AdminArtworkPage() {
           .single();
 
       if (
-        profile?.role !== "admin" &&
-        profile?.role !== "moderator"
+        !isStaffRole(profile?.role)
       ) {
         router.push("/");
         return;

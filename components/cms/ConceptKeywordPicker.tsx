@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { supabaseAuthClient as supabase } from "@/lib/supabase/auth-client";
 import { findOrCreateKeywords, type KeywordRow } from "@/lib/cms/keywordLibrary";
+import { useStaffRole } from "@/components/admin/useStaffRole";
 
 type ConceptKeywordPickerProps = {
   conceptId: string | null;
@@ -29,6 +30,8 @@ export default function ConceptKeywordPicker({
   value,
   onChange,
 }: ConceptKeywordPickerProps) {
+  // Only admins can delete; moderators create and edit.
+  const { canDelete: staffCanDelete } = useStaffRole();
   const [conceptKeywords, setConceptKeywords] = useState<KeywordRow[]>([]);
   const [loading, setLoading] = useState(false);
   const [newKeywordLabel, setNewKeywordLabel] = useState("");
@@ -178,14 +181,16 @@ export default function ConceptKeywordPicker({
                 />
                 {k.label}
               </label>
-              <button
-                type="button"
-                onClick={() => deleteKeyword(k)}
-                title="Delete this keyword everywhere"
-                className="text-zinc-400 hover:text-red-500"
-              >
-                ×
-              </button>
+              {staffCanDelete && (
+                <button
+                  type="button"
+                  onClick={() => deleteKeyword(k)}
+                  title="Delete this keyword everywhere"
+                  className="text-zinc-400 hover:text-red-500"
+                >
+                  ×
+                </button>
+              )}
             </div>
           ))}
         </div>

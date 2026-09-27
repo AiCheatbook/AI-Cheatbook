@@ -37,6 +37,7 @@ import {
   mediaFieldsToRow,
   rowToMediaFields,
 } from "@/lib/cms/mediaFields";
+import { useStaffRole } from "@/components/admin/useStaffRole";
 
 const PROMPT_TYPES = [
   "prompt",
@@ -107,6 +108,8 @@ type KeywordLinkRow = {
 };
 
 export default function EditPromptPage() {
+  // Only admins can delete; moderators create and edit.
+  const { canDelete: staffCanDelete } = useStaffRole();
   const router = useRouter();
   const params = useParams();
   const promptId = params.id as string;
@@ -811,14 +814,16 @@ export default function EditPromptPage() {
             </button>
           </div>
 
-          <button
-            type="button"
-            disabled={deleting}
-            onClick={handleDelete}
-            className="rounded-xl border border-red-900/50 px-5 py-3 text-sm font-semibold text-red-400 transition hover:bg-red-950/40 disabled:opacity-50"
-          >
-            {deleting ? "Deleting..." : "Delete Prompt"}
-          </button>
+          {staffCanDelete && (
+            <button
+              type="button"
+              disabled={deleting}
+              onClick={handleDelete}
+              className="rounded-xl border border-red-900/50 px-5 py-3 text-sm font-semibold text-red-400 transition hover:bg-red-950/40 disabled:opacity-50"
+            >
+              {deleting ? "Deleting..." : "Delete Prompt"}
+            </button>
+          )}
         </div>
 
         <div className="mt-6">
