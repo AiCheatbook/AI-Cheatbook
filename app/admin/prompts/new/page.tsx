@@ -10,6 +10,13 @@ import TaxonomyPicker from "@/components/cms/TaxonomyPicker";
 import ConceptKeywordPicker from "@/components/cms/ConceptKeywordPicker";
 import CustomFieldsDndContext from "@/components/cms/CustomFieldsDndContext";
 import CustomFieldsZoneView from "@/components/cms/CustomFieldsZoneView";
+import ToggleableField from "@/components/cms/ToggleableField";
+import FieldVisibilityBar from "@/components/cms/FieldVisibilityBar";
+import {
+  toggleField,
+  isFieldDisabled,
+  type ToggleableFieldKey,
+} from "@/lib/cms/fieldVisibility";
 import {
   ZONES,
   newCustomField,
@@ -127,6 +134,11 @@ export default function NewPromptPage() {
   >([]);
   const [conceptId, setConceptId] = useState<string | null>(null);
   const [customFields, setCustomFields] = useState<CustomField[]>([]);
+  const [disabledFields, setDisabledFields] = useState<string[]>([]);
+
+  function handleToggleField(key: ToggleableFieldKey) {
+    setDisabledFields((prev) => toggleField(prev, key));
+  }
 
   const [isFeatured, setIsFeatured] =
     useState(false);
@@ -226,6 +238,7 @@ export default function NewPromptPage() {
               thumbnailUrl.trim() || null,
             concept_id: conceptId,
             custom_fields: customFields,
+            disabled_fields: disabledFields,
           });
 
       if (insertError) {
@@ -346,6 +359,14 @@ export default function NewPromptPage() {
             Details
           </h2>
 
+          <div className="mt-4">
+            <FieldVisibilityBar
+              disabledFields={disabledFields}
+              onToggle={handleToggleField}
+              onSetAll={setDisabledFields}
+            />
+          </div>
+
           <div className="mt-4 grid gap-5">
             <CustomFieldsZoneView
               zone="above_title"
@@ -402,7 +423,11 @@ export default function NewPromptPage() {
             </div>
 
             <div className="grid gap-5 sm:grid-cols-2">
-              <div>
+              <ToggleableField
+                id="type"
+                disabled={isFieldDisabled(disabledFields, "type")}
+                onToggle={handleToggleField}
+              >
                 <label className="text-sm font-medium text-zinc-600">
                   Type
                 </label>
@@ -424,9 +449,13 @@ export default function NewPromptPage() {
                     )
                   )}
                 </select>
-              </div>
+              </ToggleableField>
 
-              <div>
+              <ToggleableField
+                id="category"
+                disabled={isFieldDisabled(disabledFields, "category")}
+                onToggle={handleToggleField}
+              >
                 <label className="text-sm font-medium text-zinc-600">
                   Category
                 </label>
@@ -450,10 +479,14 @@ export default function NewPromptPage() {
                     )
                   )}
                 </select>
-              </div>
+              </ToggleableField>
             </div>
 
-            <div>
+            <ToggleableField
+              id="description"
+              disabled={isFieldDisabled(disabledFields, "description")}
+              onToggle={handleToggleField}
+            >
               <label className="text-sm font-medium text-zinc-600">
                 Description
               </label>
@@ -468,7 +501,7 @@ export default function NewPromptPage() {
                 placeholder="Short description shown on the prompt card..."
                 className={textareaClass}
               />
-            </div>
+            </ToggleableField>
 
             <CustomFieldsZoneView
               zone="below_description"
@@ -478,12 +511,16 @@ export default function NewPromptPage() {
               onDelete={deleteCustomField}
             />
 
-            <div>
+            <ToggleableField
+              id="descriptionHtml"
+              disabled={isFieldDisabled(disabledFields, "descriptionHtml")}
+              onToggle={handleToggleField}
+            >
               <label className="text-sm font-medium text-zinc-600">
                 Full Details{" "}
                 <span className="text-zinc-600">
                   (optional, shown on the
-                  prompt's own page)
+                  prompt&apos;s own page)
                 </span>
               </label>
 
@@ -494,16 +531,24 @@ export default function NewPromptPage() {
                   placeholder="Add a longer explanation, examples, or tips for this prompt..."
                 />
               </div>
-            </div>
+            </ToggleableField>
 
-            <div>
+            <ToggleableField
+              id="relatedContent"
+              disabled={isFieldDisabled(disabledFields, "relatedContent")}
+              onToggle={handleToggleField}
+            >
               <RelatedContentPicker
                 value={relatedContent}
                 onChange={setRelatedContent}
               />
-            </div>
+            </ToggleableField>
 
-            <div>
+            <ToggleableField
+              id="promptText"
+              disabled={isFieldDisabled(disabledFields, "promptText")}
+              onToggle={handleToggleField}
+            >
               <label className="text-sm font-medium text-zinc-600">
                 Prompt Content
               </label>
@@ -518,7 +563,7 @@ export default function NewPromptPage() {
                 placeholder="The actual prompt text users will copy..."
                 className={textareaClass}
               />
-            </div>
+            </ToggleableField>
 
             <CustomFieldsZoneView
               zone="below_prompt"
@@ -528,7 +573,11 @@ export default function NewPromptPage() {
               onDelete={deleteCustomField}
             />
 
-            <div>
+            <ToggleableField
+              id="media"
+              disabled={isFieldDisabled(disabledFields, "media")}
+              onToggle={handleToggleField}
+            >
               <MediaPicker
                 label="Preview Media"
                 media={media}
@@ -536,16 +585,24 @@ export default function NewPromptPage() {
                 url={mediaUrl}
                 onUrlChange={setMediaUrl}
               />
-            </div>
+            </ToggleableField>
 
-            <div>
+            <ToggleableField
+              id="thumbnail"
+              disabled={isFieldDisabled(disabledFields, "thumbnail")}
+              onToggle={handleToggleField}
+            >
               <ThumbnailPicker
                 url={thumbnailUrl}
                 onUrlChange={setThumbnailUrl}
               />
-            </div>
+            </ToggleableField>
 
-            <div>
+            <ToggleableField
+              id="authorName"
+              disabled={isFieldDisabled(disabledFields, "authorName")}
+              onToggle={handleToggleField}
+            >
               <label className="text-sm font-medium text-zinc-600">
                 Author Name{" "}
                 <span className="text-zinc-600">
@@ -561,13 +618,19 @@ export default function NewPromptPage() {
                 }
                 className={inputClass}
               />
-            </div>
+            </ToggleableField>
           </div>
         </section>
 
         {/* AI TOOLS */}
 
-        <section className="mt-8">
+        <ToggleableField
+          id="aiTools"
+          disabled={isFieldDisabled(disabledFields, "aiTools")}
+          onToggle={handleToggleField}
+          className="mt-8"
+        >
+        <section>
           <h2 className="text-xl font-semibold">
             AI Tools
           </h2>
@@ -601,10 +664,17 @@ export default function NewPromptPage() {
             })}
           </div>
         </section>
+        </ToggleableField>
 
         {/* KEYWORDS */}
 
-        <section className="mt-8">
+        <ToggleableField
+          id="taxonomyKeywords"
+          disabled={isFieldDisabled(disabledFields, "taxonomyKeywords")}
+          onToggle={handleToggleField}
+          className="mt-8"
+        >
+        <section>
           <TaxonomyPicker
             value={conceptId}
             onChange={setConceptId}
@@ -627,10 +697,17 @@ export default function NewPromptPage() {
             />
           </div>
         </section>
+        </ToggleableField>
 
         {/* FLAGS */}
 
-        <section className="mt-8">
+        <ToggleableField
+          id="visibility"
+          disabled={isFieldDisabled(disabledFields, "visibility")}
+          onToggle={handleToggleField}
+          className="mt-8"
+        >
+        <section>
           <h2 className="text-xl font-semibold">
             Visibility
           </h2>
@@ -665,10 +742,17 @@ export default function NewPromptPage() {
             </label>
           </div>
         </section>
+        </ToggleableField>
 
         {/* SEO */}
 
-        <section className="mt-8">
+        <ToggleableField
+          id="seo"
+          disabled={isFieldDisabled(disabledFields, "seo")}
+          onToggle={handleToggleField}
+          className="mt-8"
+        >
+        <section>
           <SeoPanel
             seo={seo}
             onChange={setSeo}
@@ -679,6 +763,7 @@ export default function NewPromptPage() {
             suggestedImageUrl={mediaUrl}
           />
         </section>
+        </ToggleableField>
 
         {/* ACTIONS */}
 

@@ -10,6 +10,13 @@ import TaxonomyPicker from "@/components/cms/TaxonomyPicker";
 import ConceptKeywordPicker from "@/components/cms/ConceptKeywordPicker";
 import CustomFieldsDndContext from "@/components/cms/CustomFieldsDndContext";
 import CustomFieldsZoneView from "@/components/cms/CustomFieldsZoneView";
+import ToggleableField from "@/components/cms/ToggleableField";
+import FieldVisibilityBar from "@/components/cms/FieldVisibilityBar";
+import {
+  toggleField,
+  isFieldDisabled,
+  type ToggleableFieldKey,
+} from "@/lib/cms/fieldVisibility";
 import {
   ZONES,
   newCustomField,
@@ -129,6 +136,11 @@ export default function EditPromptPage() {
   const [keywords, setKeywords] = useState<SelectedKeyword[]>([]);
   const [conceptId, setConceptId] = useState<string | null>(null);
   const [customFields, setCustomFields] = useState<CustomField[]>([]);
+  const [disabledFields, setDisabledFields] = useState<string[]>([]);
+
+  function handleToggleField(key: ToggleableFieldKey) {
+    setDisabledFields((prev) => toggleField(prev, key));
+  }
 
   const [isFeatured, setIsFeatured] = useState(false);
   const [isTrending, setIsTrending] = useState(false);
@@ -187,7 +199,8 @@ export default function EditPromptPage() {
                 media_aspect_ratio,
                 thumbnail_url,
                 concept_id,
-                custom_fields
+                custom_fields,
+                disabled_fields
               `)
               .eq("id", promptId)
               .single(),
@@ -264,6 +277,10 @@ export default function EditPromptPage() {
         setCustomFields(
           (data as { custom_fields?: CustomField[] | null })
             .custom_fields || []
+        );
+        setDisabledFields(
+          (data as { disabled_fields?: string[] | null })
+            .disabled_fields || []
         );
 
         const keywordRows =
@@ -360,6 +377,7 @@ export default function EditPromptPage() {
           thumbnail_url: thumbnailUrl.trim() || null,
           concept_id: conceptId,
           custom_fields: customFields,
+          disabled_fields: disabledFields,
         })
         .eq("id", promptId);
 
@@ -534,6 +552,14 @@ export default function EditPromptPage() {
         <section className="mt-8">
           <h2 className="text-xl font-semibold">Details</h2>
 
+          <div className="mt-4">
+            <FieldVisibilityBar
+              disabledFields={disabledFields}
+              onToggle={handleToggleField}
+              onSetAll={setDisabledFields}
+            />
+          </div>
+
           <div className="mt-4 grid gap-5">
             <CustomFieldsZoneView
               zone="above_title"
@@ -579,7 +605,11 @@ export default function EditPromptPage() {
             </div>
 
             <div className="grid gap-5 sm:grid-cols-2">
-              <div>
+              <ToggleableField
+                id="type"
+                disabled={isFieldDisabled(disabledFields, "type")}
+                onToggle={handleToggleField}
+              >
                 <label className="text-sm font-medium text-zinc-600">
                   Type
                 </label>
@@ -594,9 +624,13 @@ export default function EditPromptPage() {
                     </option>
                   ))}
                 </select>
-              </div>
+              </ToggleableField>
 
-              <div>
+              <ToggleableField
+                id="category"
+                disabled={isFieldDisabled(disabledFields, "category")}
+                onToggle={handleToggleField}
+              >
                 <label className="text-sm font-medium text-zinc-600">
                   Category
                 </label>
@@ -611,10 +645,14 @@ export default function EditPromptPage() {
                     </option>
                   ))}
                 </select>
-              </div>
+              </ToggleableField>
             </div>
 
-            <div>
+            <ToggleableField
+              id="description"
+              disabled={isFieldDisabled(disabledFields, "description")}
+              onToggle={handleToggleField}
+            >
               <label className="text-sm font-medium text-zinc-600">
                 Description
               </label>
@@ -624,7 +662,7 @@ export default function EditPromptPage() {
                 rows={3}
                 className={textareaClass}
               />
-            </div>
+            </ToggleableField>
 
             <CustomFieldsZoneView
               zone="below_description"
@@ -634,11 +672,15 @@ export default function EditPromptPage() {
               onDelete={deleteCustomField}
             />
 
-            <div>
+            <ToggleableField
+              id="descriptionHtml"
+              disabled={isFieldDisabled(disabledFields, "descriptionHtml")}
+              onToggle={handleToggleField}
+            >
               <label className="text-sm font-medium text-zinc-600">
                 Full Details{" "}
                 <span className="text-zinc-600">
-                  (optional, shown on the prompt's own page)
+                  (optional, shown on the prompt&apos;s own page)
                 </span>
               </label>
 
@@ -649,17 +691,25 @@ export default function EditPromptPage() {
                   placeholder="Add a longer explanation, examples, or tips for this prompt..."
                 />
               </div>
-            </div>
+            </ToggleableField>
 
-            <div>
+            <ToggleableField
+              id="relatedContent"
+              disabled={isFieldDisabled(disabledFields, "relatedContent")}
+              onToggle={handleToggleField}
+            >
               <RelatedContentPicker
                 value={relatedContent}
                 onChange={setRelatedContent}
                 excludeId={promptId}
               />
-            </div>
+            </ToggleableField>
 
-            <div>
+            <ToggleableField
+              id="promptText"
+              disabled={isFieldDisabled(disabledFields, "promptText")}
+              onToggle={handleToggleField}
+            >
               <label className="text-sm font-medium text-zinc-600">
                 Prompt Content
               </label>
@@ -669,7 +719,7 @@ export default function EditPromptPage() {
                 rows={6}
                 className={textareaClass}
               />
-            </div>
+            </ToggleableField>
 
             <CustomFieldsZoneView
               zone="below_prompt"
@@ -679,7 +729,11 @@ export default function EditPromptPage() {
               onDelete={deleteCustomField}
             />
 
-            <div>
+            <ToggleableField
+              id="media"
+              disabled={isFieldDisabled(disabledFields, "media")}
+              onToggle={handleToggleField}
+            >
               <MediaPicker
                 label="Preview Media"
                 media={media}
@@ -687,16 +741,24 @@ export default function EditPromptPage() {
                 url={mediaUrl}
                 onUrlChange={setMediaUrl}
               />
-            </div>
+            </ToggleableField>
 
-            <div>
+            <ToggleableField
+              id="thumbnail"
+              disabled={isFieldDisabled(disabledFields, "thumbnail")}
+              onToggle={handleToggleField}
+            >
               <ThumbnailPicker
                 url={thumbnailUrl}
                 onUrlChange={setThumbnailUrl}
               />
-            </div>
+            </ToggleableField>
 
-            <div>
+            <ToggleableField
+              id="authorName"
+              disabled={isFieldDisabled(disabledFields, "authorName")}
+              onToggle={handleToggleField}
+            >
               <label className="text-sm font-medium text-zinc-600">
                 Author Name{" "}
                 <span className="text-zinc-600">(optional)</span>
@@ -706,11 +768,17 @@ export default function EditPromptPage() {
                 onChange={(e) => setAuthorName(e.target.value)}
                 className={inputClass}
               />
-            </div>
+            </ToggleableField>
           </div>
         </section>
 
-        <section className="mt-8">
+        <ToggleableField
+          id="aiTools"
+          disabled={isFieldDisabled(disabledFields, "aiTools")}
+          onToggle={handleToggleField}
+          className="mt-8"
+        >
+        <section>
           <h2 className="text-xl font-semibold">AI Tools</h2>
 
           <div className="mt-4 flex flex-wrap gap-2">
@@ -734,8 +802,15 @@ export default function EditPromptPage() {
             })}
           </div>
         </section>
+        </ToggleableField>
 
-        <section className="mt-8">
+        <ToggleableField
+          id="taxonomyKeywords"
+          disabled={isFieldDisabled(disabledFields, "taxonomyKeywords")}
+          onToggle={handleToggleField}
+          className="mt-8"
+        >
+        <section>
           <TaxonomyPicker value={conceptId} onChange={setConceptId} />
 
           <h2 className="mt-8 text-xl font-semibold">Keywords</h2>
@@ -753,8 +828,15 @@ export default function EditPromptPage() {
             />
           </div>
         </section>
+        </ToggleableField>
 
-        <section className="mt-8">
+        <ToggleableField
+          id="visibility"
+          disabled={isFieldDisabled(disabledFields, "visibility")}
+          onToggle={handleToggleField}
+          className="mt-8"
+        >
+        <section>
           <h2 className="text-xl font-semibold">Visibility</h2>
 
           <div className="mt-4 flex flex-wrap gap-6">
@@ -779,8 +861,15 @@ export default function EditPromptPage() {
             </label>
           </div>
         </section>
+        </ToggleableField>
 
-        <section className="mt-8">
+        <ToggleableField
+          id="seo"
+          disabled={isFieldDisabled(disabledFields, "seo")}
+          onToggle={handleToggleField}
+          className="mt-8"
+        >
+        <section>
           <SeoPanel
             seo={seo}
             onChange={setSeo}
@@ -789,6 +878,7 @@ export default function EditPromptPage() {
             suggestedImageUrl={mediaUrl}
           />
         </section>
+        </ToggleableField>
 
         <div className="mt-10 flex items-center justify-between border-t border-zinc-200 pt-6">
           <div className="flex gap-3">
